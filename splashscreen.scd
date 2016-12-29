@@ -1,9 +1,9 @@
-//Update splash with Dr. Schutz's image email
+//Update splash with Dr. Schutz's image email =
 
 (
 s.waitForBoot({ //Ensures it only opens once the server is working completely, and automatically opens server
 	(
-    i = Image.new("/Users/max/Documents/SuperCollider/mapleICON.png"); //make sure this can work when not on my computer
+    i = Image.new("/Users/max/Documents/GitHub-Auditory-Exploration-Suite/splash.png"); //make sure this can work when not on my computer
     t = Window.new("MAPLE Lab Auditory Exploration Suite", Rect(
 	Window.screenBounds.width/2-350,
 	Window.screenBounds.height/2-50,
