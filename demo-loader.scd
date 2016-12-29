@@ -6,7 +6,6 @@
 //Check with Christine at the SOTA office about the 5hr/week about financials in the new year (Winter term)
 //Put on Class Wiki
 
-
 ///Relative path for future proofing?
 File.getcwd
 "http://stackoverflow.com/questions/18937063/how-do-i-provide-a-relative-path-to-buffer-read"
