@@ -3,6 +3,7 @@
 "/Users/max/Documents/GitHub-Auditory-Exploration-Suite/splashscreen.scd".loadPaths;
 
 
+
 //Check with Christine at the SOTA office about the 5hr/week about financials in the new year (Winter term)
 //Put on Class Wiki
 
