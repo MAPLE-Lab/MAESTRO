@@ -1,15 +1,11 @@
 //To open the MAPLE Lab application, highlight the code below (line 3) and press the keys Command and Return at the same on your keyboard.
 
-"/Users/max/Documents/SuperCollider/splashscreen.scd".loadPaths;
+"/Users/max/Documents/GitHub-Auditory-Exploration-Suite/splashscreen.scd".loadPaths;
 
 
 //Check with Christine at the SOTA office about the 5hr/week about financials in the new year (Winter term)
 //Put on Class Wiki
 
-
-
-
-File.exists("/Users/max/Documents/SuperCollider/splashscreen.scd")
 
 ///Relative path for future proofing?
 File.getcwd

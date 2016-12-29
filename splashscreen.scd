@@ -32,7 +32,7 @@ b = Button.new(t, Rect((350-110), 80, 100, 40))
 	.states_([["Tuning", Color.white, Color(0.7569,0.1373,0.1725,1)]])
 	.font_(Font("nil", 18))
 	.mouseDownAction_({
-			"/Users/max/Documents/SuperCollider/MAPLE_Tuning_Demonstration.scd".loadPaths;
+			"/Users/max/Documents/GitHub-Auditory-Exploration-Suite/MAPLE_Tuning_Demonstration.scd".loadPaths;
 			t.close;
 		});
 
@@ -40,7 +40,7 @@ u = Button.new(t, Rect((350+10), 80, 100, 40))
 	.states_([["Spectra", Color.white, Color(0.7569,0.1373,0.1725,1)]])
 	.font_(Font("nil", 18))
 	.mouseDownAction_({
-			"/Users/max/Documents/SuperCollider/MAPLE_Spectra_Demonstration.scd".loadPaths;
+			"/Users/max/Documents/GitHub-Auditory-Exploration-Suite/MAPLE_Spectra_Demonstration.scd".loadPaths;
 			t.close;
 		});
 

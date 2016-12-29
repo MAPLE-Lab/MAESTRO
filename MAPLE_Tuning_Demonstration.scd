@@ -290,7 +290,7 @@ SynthDef.new("sound", {
 	.states_([["Go Back", Color.white, Color(0.2510,0.2510,0.2510,1)]])
 	.font_(Font("nil", 12))
 	.mouseDownAction_({w.close;
-		"/Users/max/Documents/SuperCollider/splashscreen.scd".loadPaths;
+		"/Users/max/Documents/GitHub-Auditory-Exploration-Suite/splashscreen.scd".loadPaths;
 		});
 
 

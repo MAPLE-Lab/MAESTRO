@@ -1346,7 +1346,7 @@ SynthDef.new("sound", {
 		~w2.close;
 		w.close;
 
-		"/Users/max/Documents/SuperCollider/splashscreen.scd".loadPaths;
+		"/Users/max/Documents/GitHub-Auditory-Exploration-Suite/splashscreen.scd".loadPaths;
 		});
 
 	//Open Stethoscope
