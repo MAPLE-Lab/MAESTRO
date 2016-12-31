@@ -70,6 +70,7 @@ i = Image.new("/Users/max/Documents/GitHub-Auditory-Exploration-Suite/mapleICON-
 	.thumbSize_(0)
 	.knobColor_(Color(1,1,1,0))
 	.orientation_(\horizontal)
+	.focusColor_(Color.black)
 	.action_({
 	arg obj;
 	var cf;
@@ -101,15 +102,21 @@ i = Image.new("/Users/max/Documents/GitHub-Auditory-Exploration-Suite/mapleICON-
 	});
 
 
-	StaticText(w,Rect(54,640,2,20))
-	.background_(Color.white);
-
 StaticText(w,Rect(0,620,500,2))
 	.background_(Color.white);
 
+	StaticText(w,Rect(10,637,500,33))
+	.string_("Freq.
+(Hz)")
+	.stringColor_(Color.white)
+	.align_(\topLeft)
+	.background_(Color(0,0,0,0));
 
-	StaticText(w,Rect(10,622,500,33))
-	.string_("Frequency")
+
+	StaticText(w,Rect(54,640,2,15))
+	.background_(Color.white);
+	StaticText(w,Rect(42,645,500,33))
+	.string_("100")
 	.stringColor_(Color.white)
 	.background_(Color(0,0,0,0));
 
