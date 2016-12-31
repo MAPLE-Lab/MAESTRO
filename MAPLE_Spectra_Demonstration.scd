@@ -27,7 +27,7 @@ s.waitForBoot({ //Ensures it only opens once the server is working completely, a
 	w = Window.new("MAPLE Lab Spectra Demonstration", Rect.new(
 	Window.screenBounds.width/2-400,
 	Window.screenBounds.height/2-50,
-		800,530),false).background_(Color.white).userCanClose_(false).front; //Creates the new window with title
+		800,530),false).background_(Color.white).userCanClose_(true).front;//Creates the new window with title
 	// w.view.background = Color(0.9,0.9,0.9,1);
 
 //Spectra viewer
@@ -56,6 +56,64 @@ StaticText(w,Rect(790,105,410,300))
 	//Harmonics cheap box
 StaticText(w,Rect(10,105,380,25))
 .background_(Color(0,0,0,0.0));
+
+
+
+//Axes
+
+	//Harmonic positions marker
+
+	~fsliderharm3 = Slider(w, Rect(0,50,500,20))
+	.background_(Color(0,0,0,0))
+	.value_(0.56931407052427)
+	.thumbSize_(0)
+	.knobColor_(Color(1,1,1,0))
+	.orientation_(\horizontal)
+	.action_({
+	arg obj;
+	var cf;
+		// cf = obj.value.linlin(0,1,0,1).postln;
+	});
+
+		~fsliderharm2 = Slider(w, Rect(0,50,500,20))
+	.background_(Color(0,0,0,0))
+	.value_(0.47531407052427)
+	.thumbSize_(0)
+	.knobColor_(Color(1,1,1,0)) //QGUI does not handle transparent sliders yet http://new-supercollider-mailing-lists-forums-use-these.2681727.n2.nabble.com/QSlider-background-alpha-0-0-not-transparent-td7590743.html
+	.orientation_(\horizontal)
+	.action_({
+	arg obj;
+	var cf;
+		// cf = obj.value.linlin(0,1,0,1).postln;
+	});
+
+	~fsliderharm1 = Slider(w, Rect(0,50,500,20))
+	.background_(Color(0,0,0,0))
+	.value_(0.31531407052427)
+	.thumbSize_(0)
+	.knobColor_(Color(1,1,1,0))
+	.orientation_(\horizontal)
+	.action_({
+	arg obj;
+	var cf;
+		// cf = obj.value.linlin(0,1,0,1).postln;
+	});
+
+
+	StaticText(w,Rect(54,50,2,20))
+	.background_(Color.white);
+
+StaticText(w,Rect(0,50,500,2))
+	.background_(Color.white);
+
+	// StaticText(w,Rect(0,622,500,33))
+	// .background_(Color(0,0,0,0.8)); //old dark bottom cover
+
+	StaticText(w,Rect(10,50,500,33))
+	.string_("Frequency")
+	.stringColor_(Color.white)
+	.background_(Color(0,0,0,0));
+
 
 //Play Forced sounds button
 ~button = Button(w, Rect(400-(330/2),65,330,30))
@@ -382,6 +440,9 @@ l = Button(w, Rect(370, 417.5, 120, 26))
 		~f14Box.value_(obj.value.linexp(0,1,1400,14000));
 		~f15Box.value_(obj.value.linexp(0,1,1500,15000));
 		~f16Box.value_(obj.value.linexp(0,1,1600,16000));
+		~fsliderharm1.valueAction_(obj.value.linlin(0,1,(55/500),(325/500)));//must be linlin because a slider to slider is using the same exact values (no transformation required)
+		~fsliderharm2.valueAction_(obj.value.linlin(0,1,(55/500+0.16),(325/500+0.16)));
+				~fsliderharm3.valueAction_(obj.value.linlin(0,1,(55/500+0.254),(325/500+0.254)));
 })
 	.orientation_(\horizontal);
 
@@ -1342,10 +1403,10 @@ SynthDef.new("sound", {
 		a.free; //clear buffers to help resolve memory leak
 		b.free;
 		e.free;
-		~d.quit;
+		// ~d.quit; causes issues if ~d doesn't exist before quitting, in any case ~d closes automatically because it is parented to the w window
 		~w2.close;
+		h.kill;
 		w.close;
-
 		"/Users/max/Documents/GitHub-Auditory-Exploration-Suite/splashscreen.scd".loadPaths;
 		});
 
@@ -1390,9 +1451,7 @@ SynthDef.new("sound", {
 	);
 
 
-
-
- ~i = Image.new("/Users/max/Documents/SuperCollider/mapleICON-small.png");
+ ~i = Image.new("/Users/max/Documents/GitHub-Auditory-Exploration-Suite/mapleICON-small.png");
 
 //Aesthetic lines
 	w.drawFunc = {

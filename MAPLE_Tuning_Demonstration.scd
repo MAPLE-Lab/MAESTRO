@@ -2,15 +2,16 @@
 //splashscreen = COMPLETED
 //tonic frequency = COMPLETED
 
-//Spectra - can the frequency axis be on the vertical axis (option to go back and forth)?
-//Add axis if not possible
+//Spectra - can the frequency axis be on the vertical axis (option to go back and forth)? = possibility using Pen, but requires different data collection: http://sccode.org/1-1HR
+//Add axis if not possible =
 //Dropdown menu for Focus tone (third/fourth/fifth/etc.)
 ///Number of harmonics active -> control the loops of harmonics
 //Add an IF statement so that the harmonic desired to manipulate cannot be manipulated/added by the LOOP
 //Variable: fade in rate
+
 ///2D slider for rate and delay (window of tolerance? thresholds?)
 ///Tone that moves come through a different - for science
-///Move Slides OUT of Dropbox once all received
+///Move Slides OUT of Dropbox once all received = COMPLETE
 
 (
 s.waitForBoot({ //Ensures it only opens once the server is working completely, and automatically opens server
@@ -18,8 +19,8 @@ s.waitForBoot({ //Ensures it only opens once the server is working completely, a
 w = Window.new("MAPLE Lab Tuning Demonstration", Rect.new(
 	Window.screenBounds.width/2-250,
 	Window.screenBounds.height/2-50,
-		500,655),false
-	).background_(Color.white).userCanClose_(false).front; //Creates the new window with title
+		500,670),false
+	).background_(Color.white).userCanClose_(true).front; //Creates the new window with title
 
 //Spectra viewer
 f = FreqScopeView(w, Rect.new(-120,355,800,300)); //Prepares frequency scope (a.k.a. spectra)
@@ -41,19 +42,80 @@ f.active_(true).freqMode_(1).dbRange_(70);
 .background_(Color(0,0,0,0))
 .stringColor_(Color.black);
 
-i = Image.new("/Users/max/Documents/SuperCollider/mapleICON-small.png");
+i = Image.new("/Users/max/Documents/GitHub-Auditory-Exploration-Suite/mapleICON-small.png");
 
 //Aesthetic lines
 	w.drawFunc = {
 		i.drawInRect(Rect(465,95,30,30), Rect(0,0,30,30), 2, 1.0); // only a section
+
+		Pen.use{
 		Pen.line(10@325,490@325); //Third line
 		Pen.line(10@130,490@130); //Bottom line
-	Pen.strokeColor = Color(0,0,0,0.5); //Top line, written differently in code
-                Pen.width = 2;
-                Pen.moveTo(10@90);
-                Pen.lineTo(490@90);
-                Pen.stroke;
+		Pen.line(10@90,490@90);
+		Pen.strokeColor = Color(0,0,0,0.5);
+			    Pen.width = 2;
+                Pen.stroke};//Top line, written differently in code
         };
+
+	//Axes
+
+	//Harmonic positions marker
+
+	StaticText(w,Rect(0,622,500,48))
+	.background_(Color(0,0,0,1)); //dark bottom cover
+
+	~fsliderharm3 = Slider(w, Rect(0,620,500,20))
+	.background_(Color(0,0,0,0))
+	.value_(0.56931407052427)
+	.thumbSize_(0)
+	.knobColor_(Color(1,1,1,0))
+	.orientation_(\horizontal)
+	.action_({
+	arg obj;
+	var cf;
+		// cf = obj.value.linlin(0,1,0,1).postln;
+	});
+
+		~fsliderharm2 = Slider(w, Rect(0,620,500,20))
+	.background_(Color(0,0,0,0))
+	.value_(0.47531407052427)
+	.thumbSize_(0)
+	.knobColor_(Color(1,1,1,0)) //QGUI does not handle transparent sliders yet http://new-supercollider-mailing-lists-forums-use-these.2681727.n2.nabble.com/QSlider-background-alpha-0-0-not-transparent-td7590743.html
+	.orientation_(\horizontal)
+	.action_({
+	arg obj;
+	var cf;
+		// cf = obj.value.linlin(0,1,0,1).postln;
+	});
+
+	~fsliderharm1 = Slider(w, Rect(0,620,500,20))
+	.background_(Color(0,0,0,0))
+	.value_(0.31531407052427)
+	.thumbSize_(0)
+	.knobColor_(Color(1,1,1,0))
+	.orientation_(\horizontal)
+	.action_({
+	arg obj;
+	var cf;
+		// cf = obj.value.linlin(0,1,0,1).postln;
+	});
+
+
+	StaticText(w,Rect(54,640,2,20))
+	.background_(Color.white);
+
+StaticText(w,Rect(0,620,500,2))
+	.background_(Color.white);
+
+
+	StaticText(w,Rect(10,622,500,33))
+	.string_("Frequency")
+	.stringColor_(Color.white)
+	.background_(Color(0,0,0,0));
+
+
+
+
 
 //Play sounds button
 ~button = Button(w, Rect(250-(200/2),95,200,30))
@@ -101,6 +163,9 @@ i = Image.new("/Users/max/Documents/SuperCollider/mapleICON-small.png");
 		x.isPlaying,
 		{x.set(\freq,cf)});
 	~numberfBox.value_(obj.value.linexp(0,1,100,1000));
+		~fsliderharm1.valueAction_(obj.value.linlin(0,1,(55/500),(325/500)));//must be linlin because a slider to slider is using the same exact values (no transformation required)
+		~fsliderharm2.valueAction_(obj.value.linlin(0,1,(55/500+0.16),(325/500+0.16)));
+				~fsliderharm3.valueAction_(obj.value.linlin(0,1,(55/500+0.254),(325/500+0.254)));
 })
 	.orientation_(\horizontal);
 
@@ -117,6 +182,7 @@ i = Image.new("/Users/max/Documents/SuperCollider/mapleICON-small.png");
 	arg obj;
 	~fslider.valueAction_(obj.value.explin(100,1000,0,1))
 });
+
 
 
 //Label for Focus tone
@@ -146,30 +212,30 @@ i = Image.new("/Users/max/Documents/SuperCollider/mapleICON-small.png");
 //Define the sound to be played
 (
 SynthDef.new("sound", {
-	arg freq = 240, outoftune = 3, intensity = 1, other = 1;
+	arg freq = 240, outoftune = 3, intensity = 1, other = 1, vol = 1;
 	var mul, mul2, signal;
 
 	mul = XLine.kr(0.01,1,0.2,0.1); //Ramps sound onset so not so harsh
-			mul2 = XLine.kr(0.01,1,1,0.1); //Ramps sound onset so not so harsh
+			mul2 = XLine.kr(0.01,1,0.2,0.1); //Ramps sound onset so not so harsh
 
 
 	signal =
 	SinOsc.ar(freq, 0, mul*other) +
 	SinOsc.ar(freq*2, 0, mul*other) +
 	SinOsc.ar(freq*outoftune, 0, mul2*intensity) + //the third harmonic can be varied 720-778, using Dr. Steven Brown's 2MP3 2015-2016 class; while estimation that critical bandwidth at this frequency is approximately 150, so 150/4 = 37.5, and 720+37.5 =757.5 and derivation of the two-tone dissonance formula from Plomp 1965 gives g_max = 1.01931f + 17.4672 = 751.3704, this does not necessarily mean it gives the most 'unfused' effect for students
-	SinOsc.ar(freq*4, 0, mul*other) +
-	SinOsc.ar(freq*5, 0, mul*other) +
-	SinOsc.ar(freq*6, 0, mul*other) +
-	SinOsc.ar(freq*7, 0, mul*other) +
-	SinOsc.ar(freq*8, 0, mul*other) +
-	SinOsc.ar(freq*9, 0, mul*other) +
-	SinOsc.ar(freq*10, 0, mul*other) +
-	SinOsc.ar(freq*11, 0, mul*other) +
-	SinOsc.ar(freq*12, 0, mul*other) +
-	SinOsc.ar(freq*13, 0, mul*other) +
-	SinOsc.ar(freq*14, 0, mul*other) +
-	SinOsc.ar(freq*15, 0, mul*other) +
-	SinOsc.ar(freq*16, 0, mul*other)
+	SinOsc.ar(freq*4, 0, mul*other*vol) +
+	SinOsc.ar(freq*5, 0, mul*other*vol) +
+	SinOsc.ar(freq*6, 0, mul*other*vol) +
+	SinOsc.ar(freq*7, 0, mul*other*vol) +
+	SinOsc.ar(freq*8, 0, mul*other*vol) +
+	SinOsc.ar(freq*9, 0, mul*other*vol) +
+	SinOsc.ar(freq*10, 0, mul*other*vol) +
+	SinOsc.ar(freq*11, 0, mul*other*vol) +
+	SinOsc.ar(freq*12, 0, mul*other*vol) +
+	SinOsc.ar(freq*13, 0, mul*other*vol) +
+	SinOsc.ar(freq*14, 0, mul*other*vol) +
+	SinOsc.ar(freq*15, 0, mul*other*vol) +
+	SinOsc.ar(freq*16, 0, mul*other*vol)
 	;
 
 	Out.ar([0,1], signal); //sends to busses 1 & 2 (stereo), and plays the var "signal"
@@ -286,10 +352,12 @@ SynthDef.new("sound", {
 	~otherslider.valueAction_(obj.value.linlin(0.0,2,0,1))
 });
 
+
+
 	~quit = Button.new(w, Rect((400), 100, 60, 20))
 	.states_([["Go Back", Color.white, Color(0.2510,0.2510,0.2510,1)]])
 	.font_(Font("nil", 12))
-	.mouseDownAction_({w.close;
+	.mouseDownAction_({w.close; f.kill; //shuts down window and scope
 		"/Users/max/Documents/GitHub-Auditory-Exploration-Suite/splashscreen.scd".loadPaths;
 		});
 
