@@ -8,12 +8,12 @@
 //Fix memory spectra allocation = COMPLETE(?)
 ////From error messages it is clear it is a Node tree allocation problem - just later add proper allocations at the start of the program
 //Remove artifact --> have it free at end.. doneAction? or cheap box // BOXED TRIM = COMPLETE
-////But still issue present in Oscilloscope - so needs a true solution (because additively negative)
+////But still issue present in Oscilloscope - so needs a true solution (because additively negative) = COMPLETE, the audio must go to 0 at end or else artifact
 //Add OSC Delay for x.free for preset activations = if necessary?
 //Add oscilloscope button = COMPLETE
 
 //For GraphClick, set 0db = 100u, -96=0u
-//Add ticks at the bottom / overtone lines that work with the tonic frequency
+//Add ticks at the bottom / overtone lines that work with the tonic frequency =
 ///See Amadeus (in the lab licenses)
 ///See DropBox files with videos - use GraphClick to take from those
 //Tuning fork, Trumpet, Flute, Horn
@@ -63,9 +63,9 @@ StaticText(w,Rect(10,105,380,25))
 
 	//Harmonic positions marker
 
-	~fsliderharm3 = Slider(w, Rect(0,50,500,20))
+	~fsliderharm3 = Slider(w, Rect(410,360,380,20))
 	.background_(Color(0,0,0,0))
-	.value_(0.56931407052427)
+	.value_(0.43121693121693)
 	.thumbSize_(0)
 	.knobColor_(Color(1,1,1,0))
 	.orientation_(\horizontal)
@@ -75,9 +75,9 @@ StaticText(w,Rect(10,105,380,25))
 		// cf = obj.value.linlin(0,1,0,1).postln;
 	});
 
-		~fsliderharm2 = Slider(w, Rect(0,50,500,20))
+		~fsliderharm2 = Slider(w, Rect(410,360,380,20))
 	.background_(Color(0,0,0,0))
-	.value_(0.47531407052427)
+	.value_(0.35185185185185)
 	.thumbSize_(0)
 	.knobColor_(Color(1,1,1,0)) //QGUI does not handle transparent sliders yet http://new-supercollider-mailing-lists-forums-use-these.2681727.n2.nabble.com/QSlider-background-alpha-0-0-not-transparent-td7590743.html
 	.orientation_(\horizontal)
@@ -87,9 +87,9 @@ StaticText(w,Rect(10,105,380,25))
 		// cf = obj.value.linlin(0,1,0,1).postln;
 	});
 
-	~fsliderharm1 = Slider(w, Rect(0,50,500,20))
+	~fsliderharm1 = Slider(w, Rect(410,360,380,20))
 	.background_(Color(0,0,0,0))
-	.value_(0.31531407052427)
+	.value_(0.22222222222222)
 	.thumbSize_(0)
 	.knobColor_(Color(1,1,1,0))
 	.orientation_(\horizontal)
@@ -100,17 +100,18 @@ StaticText(w,Rect(10,105,380,25))
 	});
 
 
-	StaticText(w,Rect(54,50,2,20))
+	StaticText(w,Rect(430,380,2,20))
 	.background_(Color.white);
 
-StaticText(w,Rect(0,50,500,2))
+StaticText(w,Rect(410,360,500,2))
 	.background_(Color.white);
 
 	// StaticText(w,Rect(0,622,500,33))
 	// .background_(Color(0,0,0,0.8)); //old dark bottom cover
 
-	StaticText(w,Rect(10,50,500,33))
+	StaticText(w,Rect(420,380,500,33))
 	.string_("Frequency")
+	.align_(\topLeft)
 	.stringColor_(Color.white)
 	.background_(Color(0,0,0,0));
 
@@ -290,11 +291,10 @@ menu = PopUpMenu(w, Rect(632.5, 500, 50, 20));
 	);
 
 
-
 //FORCED tuning fork preset
-j = Button(w, Rect(240, 417.5, 120, 26))
+j = Button(w, Rect(240, 417.5, 80, 26))
 	.states_([["Tuning Fork", Color.white, Color(0,0,0,0.5)]])
-	.font_(Font("nil", 18))
+	.font_(Font("nil", 12))
 	.mouseDownAction_({
 		var variable;
 		variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
@@ -316,14 +316,44 @@ j = Button(w, Rect(240, 417.5, 120, 26))
 		~f14slider.valueAction_(0.value.linlin(0.0,2,0,1));
 		~f15slider.valueAction_(0.value.linlin(0.0,2,0,1));
 		~f16slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		x.free; ///NEED TO ADD OSC DELAY
+		x.free; ///requires OSC delay?
 		~button.valueAction_(1);
 	});
 
-//FORCED flute preset
-k = Button(w, Rect(500, 417.5, 120, 26))
+	//FORCED flute preset
+l = Button(w, Rect(330, 417.5, 80, 26))
+	.states_([["Trumpet", Color.white, Color(0,0,0,0.5)]])
+	.font_(Font("nil", 12))
+	.mouseDownAction_({
+		var variable;
+		variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
+		~freqslider.valueAction_(440.value.explin(100,1000,0,1)); //only need to affect slider to affect the number box and true sound value
+				~volslider.valueAction_(1.value.linlin(0,1,0,1));
+		~f1slider.valueAction_(1.value.linlin(0.0,2,0,1));
+		~f2slider.valueAction_(0.01.value.linlin(0.0,2,0,1));
+		~f3slider.valueAction_(0.221.value.linlin(0.0,2,0,1));
+		~f4slider.valueAction_(0.125.value.linlin(0.0,2,0,1));
+		~f5slider.valueAction_(0.202.value.linlin(0.0,2,0,1));
+		~f6slider.valueAction_(0.048.value.linlin(0.0,2,0,1));
+		~f7slider.valueAction_(0.077.value.linlin(0.0,2,0,1));
+		~f8slider.valueAction_(0.231.value.linlin(0.0,2,0,1));
+		~f9slider.valueAction_(0.077.value.linlin(0.0,2,0,1));
+		~f10slider.valueAction_(0.154.value.linlin(0.0,2,0,1));
+		~f11slider.valueAction_(0.value.linlin(0.0,2,0,1));
+		~f12slider.valueAction_(0.value.linlin(0.0,2,0,1));
+		~f13slider.valueAction_(0.value.linlin(0.0,2,0,1));
+		~f14slider.valueAction_(0.value.linlin(0.0,2,0,1));
+		~f15slider.valueAction_(0.value.linlin(0.0,2,0,1));
+		~f16slider.valueAction_(0.value.linlin(0.0,2,0,1));
+		x.free;
+		~button.valueAction_(1);
+	});
+
+
+//FORCED trumpet preset
+k = Button(w, Rect(420, 417.5, 80, 26))
 	.states_([["Flute", Color.white, Color(0,0,0,0.5)]])
-	.font_(Font("nil", 18))
+	.font_(Font("nil", 12))
 	.mouseDownAction_({
 		var variable;
 		variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
@@ -349,35 +379,35 @@ k = Button(w, Rect(500, 417.5, 120, 26))
 	~button.valueAction_(1);
 	});
 
-
-	//FORCED violin preset
-l = Button(w, Rect(370, 417.5, 120, 26))
-	.states_([["Violin", Color.white, Color(0,0,0,0.5)]])
-	.font_(Font("nil", 18))
+	//FORCED trumpet preset
+r = Button(w, Rect(510, 417.5, 90, 26))
+	.states_([["Horn", Color.white, Color(0,0,0,0.5)]])
+	.font_(Font("nil", 14))
 	.mouseDownAction_({
 		var variable;
 		variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
 		~freqslider.valueAction_(440.value.explin(100,1000,0,1)); //only need to affect slider to affect the number box and true sound value
 				~volslider.valueAction_(1.value.linlin(0,1,0,1));
 		~f1slider.valueAction_(1.value.linlin(0.0,2,0,1));
-		~f2slider.valueAction_(0.01.value.linlin(0.0,2,0,1));
-		~f3slider.valueAction_(0.221.value.linlin(0.0,2,0,1));
-		~f4slider.valueAction_(0.125.value.linlin(0.0,2,0,1));
-		~f5slider.valueAction_(0.202.value.linlin(0.0,2,0,1));
-		~f6slider.valueAction_(0.048.value.linlin(0.0,2,0,1));
-		~f7slider.valueAction_(0.077.value.linlin(0.0,2,0,1));
-		~f8slider.valueAction_(0.231.value.linlin(0.0,2,0,1));
-		~f9slider.valueAction_(0.077.value.linlin(0.0,2,0,1));
-		~f10slider.valueAction_(0.154.value.linlin(0.0,2,0,1));
-		~f11slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f12slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f13slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f14slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f15slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f16slider.valueAction_(0.value.linlin(0.0,2,0,1));
+		~f2slider.valueAction_(1.24.value.linlin(0.0,2,0,1));
+		~f3slider.valueAction_(0.74.value.linlin(0.0,2,0,1));
+		~f4slider.valueAction_(0.163.value.linlin(0.0,2,0,1));
+		~f5slider.valueAction_(0.231.value.linlin(0.0,2,0,1));
+		~f6slider.valueAction_(0.106.value.linlin(0.0,2,0,1));
+		~f7slider.valueAction_(0.058.value.linlin(0.0,2,0,1));
+		~f8slider.valueAction_(0.077.value.linlin(0.0,2,0,1));
+		~f9slider.valueAction_(0.096.value.linlin(0.0,2,0,1));
+		~f10slider.valueAction_(0.019.value.linlin(0.0,2,0,1));
+		~f11slider.valueAction_(0.019.value.linlin(0.0,2,0,1));
+		~f12slider.valueAction_(0.019.value.linlin(0.0,2,0,1));
+		~f13slider.valueAction_(0.019.value.linlin(0.0,2,0,1));
+		~f14slider.valueAction_(0.019.value.linlin(0.0,2,0,1));
+		~f15slider.valueAction_(0.019.value.linlin(0.0,2,0,1));
+		~f16slider.valueAction_(0.019.value.linlin(0.0,2,0,1));
 		x.free;
-		~button.valueAction_(1);
+	~button.valueAction_(1);
 	});
+
 
 	//Label for Moving
 ~para = StaticText(w,Rect(10,460,380,30))
@@ -419,7 +449,9 @@ l = Button(w, Rect(370, 417.5, 120, 26))
 	.action_({
 	arg obj;
 	var cf;
-	cf = obj.value.linexp(0,1,100,1000).postln;
+		cf = obj.value.linexp(0,1,100,1000)
+		// .postln
+		;
 		if(
 		x.isPlaying,
 		{x.set(\freq,cf)});
@@ -440,9 +472,10 @@ l = Button(w, Rect(370, 417.5, 120, 26))
 		~f14Box.value_(obj.value.linexp(0,1,1400,14000));
 		~f15Box.value_(obj.value.linexp(0,1,1500,15000));
 		~f16Box.value_(obj.value.linexp(0,1,1600,16000));
-		~fsliderharm1.valueAction_(obj.value.linlin(0,1,(55/500),(325/500)));//must be linlin because a slider to slider is using the same exact values (no transformation required)
-		~fsliderharm2.valueAction_(obj.value.linlin(0,1,(55/500+0.16),(325/500+0.16)));
-				~fsliderharm3.valueAction_(obj.value.linlin(0,1,(55/500+0.254),(325/500+0.254)));
+		 ~fsliderharm1.valueAction_(obj.value.linlin(0,1,0.065,0.495));//must be linlin because a slider to slider is using the same exact values (no transformation required)
+		 ~fsliderharm2.valueAction_(obj.value.linlin(0,1,0.19047619047619,0.63));
+				~fsliderharm3.valueAction_(obj.value.linlin(0,1,0.26190476190476
+,0.705));
 })
 	.orientation_(\horizontal);
 
