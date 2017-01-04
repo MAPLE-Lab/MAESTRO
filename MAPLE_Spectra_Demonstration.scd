@@ -558,7 +558,7 @@ r = Button(w, Rect(525, 417.5, 90, 26))
 
 ///add sound to a buffer as an import - tuning fork
 (
-a = Buffer.read(s, thisProcess.nowExecutingPath.asString.dirname +/+ "tuning_fork_fadeout.wav");
+a = Buffer.read(s, thisProcess.nowExecutingPath.asString.dirname +/+ "tuning_fork_fadeout.wav"); //helpful notes for troubleshooting: http://new-supercollider-mailing-lists-forums-use-these.2681727.n2.nabble.com/Generalizing-a-files-path-td7616651.html
 
 SynthDef("import1",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1;
 	var rate;
@@ -1472,7 +1472,7 @@ SynthDef.new("sound", {
 
 ~scope2button = Button(w, Rect((690-27.5), 132.5, 120, 20))
 .states_([
-	["Set Osc. to 440Hz", Color.white,Color(0.7569,0.1373,0.1725,1)]
+	["Set Osc. to ~440Hz", Color.white,Color(0.7569,0.1373,0.1725,1)]
 ])
 .font_(Font("nil", 12))
 	.action_({
