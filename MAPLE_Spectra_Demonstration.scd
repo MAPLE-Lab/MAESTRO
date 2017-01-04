@@ -176,7 +176,7 @@ s.waitForBoot({
  var menu, snd, funcs2, b;
 
 
- ~vinbutton = Button(w, Rect(630, 417.5, 160, 25))
+ ~vinbutton = Button(w, Rect(620, 417.5, 170, 25))
   .states_([["            Click to Play", Color.white, Color.gray]])
   .mouseDownAction_({
     snd = funcs2.at(menu.value).play;
@@ -185,9 +185,9 @@ s.waitForBoot({
     snd.release;
    });
 
-menu = PopUpMenu(w, Rect(632.5, 420, 50, 20));
+menu = PopUpMenu(w, Rect(622.5, 420, 60, 20));
   menu.items_(["Sine", "Saw"]);
-			menu.font_(Font(\size, 10));
+			menu.font_(Font(\size, 12));
 
 
  funcs2 = [
@@ -556,10 +556,9 @@ r = Button(w, Rect(525, 417.5, 90, 26))
 .stringColor_(Color.black);
 
 
-
 ///add sound to a buffer as an import - tuning fork
 (
-a = Buffer.read(s, "/Users/max/Dropbox/Ng, Maxwell/SuperCollider-realistic-audio/tuning_fork_A4 (fadeout).wav");
+a = Buffer.read(s, thisProcess.nowExecutingPath.asString.dirname +/+ "tuning_fork_fadeout.wav");
 
 SynthDef("import1",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1;
 	var rate;
@@ -1437,7 +1436,7 @@ SynthDef.new("sound", {
 		b.free;
 		e.free;
 		// ~d.quit; causes issues if ~d doesn't exist before quitting, in any case ~d closes automatically because it is parented to the w window
-		~w2.close;
+		~w2.close; //similar issue, but this does leave the oscilloscope open - sometimes?
 		h.kill;
 		w.close;
 		"/Users/max/Documents/GitHub-Auditory-Exploration-Suite/splashscreen.scd".loadPaths;
@@ -1464,7 +1463,8 @@ SynthDef.new("sound", {
 				// .cycle_(50) //same problem as xZoom: workaround, use a button for 440Hz
 				.yZoom_(4);
 			},
-		{~w2.close;
+		{
+				~w2.close;
 				~d.quit}
 	);
 });
