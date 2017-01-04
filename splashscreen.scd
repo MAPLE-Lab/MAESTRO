@@ -1,5 +1,3 @@
-//Update splash with Dr. Schutz's image email = COMPLETE
-
 (
 s.waitForBoot({ //Ensures it only opens once the server is working completely, and automatically opens server
 	(
