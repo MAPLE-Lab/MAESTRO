@@ -292,9 +292,9 @@ menu = PopUpMenu(w, Rect(632.5, 500, 50, 20));
 
 
 //FORCED tuning fork preset
-j = Button(w, Rect(240, 417.5, 80, 26))
+j = Button(w, Rect(240, 417.5, 90, 26))
 	.states_([["Tuning Fork", Color.white, Color(0,0,0,0.5)]])
-	.font_(Font("nil", 12))
+	.font_(Font("nil", 14))
 	.mouseDownAction_({
 		var variable;
 		variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
@@ -321,9 +321,9 @@ j = Button(w, Rect(240, 417.5, 80, 26))
 	});
 
 	//FORCED flute preset
-l = Button(w, Rect(330, 417.5, 80, 26))
+l = Button(w, Rect(335, 417.5, 90, 26))
 	.states_([["Trumpet", Color.white, Color(0,0,0,0.5)]])
-	.font_(Font("nil", 12))
+	.font_(Font("nil", 14))
 	.mouseDownAction_({
 		var variable;
 		variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
@@ -351,9 +351,9 @@ l = Button(w, Rect(330, 417.5, 80, 26))
 
 
 //FORCED trumpet preset
-k = Button(w, Rect(420, 417.5, 80, 26))
+k = Button(w, Rect(430, 417.5, 90, 26))
 	.states_([["Flute", Color.white, Color(0,0,0,0.5)]])
-	.font_(Font("nil", 12))
+	.font_(Font("nil", 14))
 	.mouseDownAction_({
 		var variable;
 		variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
@@ -380,7 +380,7 @@ k = Button(w, Rect(420, 417.5, 80, 26))
 	});
 
 	//FORCED trumpet preset
-r = Button(w, Rect(510, 417.5, 90, 26))
+r = Button(w, Rect(525, 417.5, 90, 26))
 	.states_([["Horn", Color.white, Color(0,0,0,0.5)]])
 	.font_(Font("nil", 14))
 	.mouseDownAction_({
