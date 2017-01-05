@@ -1543,8 +1543,9 @@ SynthDef.new("sound", {
 				.yZoom_(4);
 			},
 		{
-				~w2.close;
-				~d.quit}
+				// ~w2.close;
+				// ~d.quit //had to comment these two to make it not error as can't interpret - maybe these should open as default?
+			}
 	);
 });
 
