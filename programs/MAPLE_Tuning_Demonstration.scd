@@ -1,5 +1,4 @@
-// "2MC3 Tuning Demonstration"
-
+// "Tuning Demonstration"
 (var basePath = thisProcess.nowExecutingPath.asString.dirname;
 s.waitForBoot({ //Ensures it only opens once the server is working completely, and automatically opens server
 
@@ -206,7 +205,7 @@ StaticText(w,Rect(0,620,500,2))
 //Define the sound to be played
 (
 SynthDef.new("sound", {
-	arg freq = 240, outoftune = 3, intensity = 1, other = 1, vol = 1;
+	arg freq = 240, outoftune = 3, intensity = 1, other = 1, vol = 0.3;
 	var mul, mul2, signal;
 
 	mul = XLine.kr(0.01,1,0.2,0.1); //Ramps sound onset so not so harsh
@@ -214,9 +213,9 @@ SynthDef.new("sound", {
 
 
 	signal =
-	SinOsc.ar(freq, 0, mul*other) +
-	SinOsc.ar(freq*2, 0, mul*other) +
-	SinOsc.ar(freq*outoftune, 0, mul2*intensity) + //the third harmonic can be varied 720-778, using Dr. Steven Brown's 2MP3 2015-2016 class; while estimation that critical bandwidth at this frequency is approximately 150, so 150/4 = 37.5, and 720+37.5 =757.5 and derivation of the two-tone dissonance formula from Plomp 1965 gives g_max = 1.01931f + 17.4672 = 751.3704, this does not necessarily mean it gives the most 'unfused' effect for students
+	SinOsc.ar(freq, 0, mul*other*vol) +
+	SinOsc.ar(freq*2, 0, mul*other*vol) +
+	SinOsc.ar(freq*outoftune, 0, mul2*intensity*vol) + //the third harmonic can be varied 720-778, using Dr. Steven Brown's 2MP3 2015-2016 class; while estimation that critical bandwidth at this frequency is approximately 150, so 150/4 = 37.5, and 720+37.5 =757.5 and derivation of the two-tone dissonance formula from Plomp 1965 gives g_max = 1.01931f + 17.4672 = 751.3704, this does not necessarily mean it gives the most 'unfused' effect for students
 	SinOsc.ar(freq*4, 0, mul*other*vol) +
 	SinOsc.ar(freq*5, 0, mul*other*vol) +
 	SinOsc.ar(freq*6, 0, mul*other*vol) +

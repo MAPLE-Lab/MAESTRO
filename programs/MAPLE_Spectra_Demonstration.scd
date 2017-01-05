@@ -1,5 +1,4 @@
-// "2MC3 Spectra Demonstration"
-
+// "Spectra Demonstration"
 (var basePath = thisProcess.nowExecutingPath.asString.dirname;
 Window.closeAll;
 a.free; //clear buffers to help resolve memory leak
@@ -241,7 +240,7 @@ s.waitForBoot({
  var menu, snd, funcs, b;
 
 
- ~playbutton = Button(w, Rect(630, 497.5, 160, 25))
+ ~playbutton = Button(w, Rect(620, 497.5, 170, 25))
   .states_([["            Hold to Play", Color.white, Color.gray]])
   .mouseDownAction_({
     snd = funcs.at(menu.value).play;
@@ -252,9 +251,9 @@ s.waitForBoot({
     snd.release;
    });
 
-menu = PopUpMenu(w, Rect(632.5, 500, 50, 20));
+menu = PopUpMenu(w, Rect(622.5, 500, 60, 20));
   menu.items_(["Sine", "Saw"]);
-			menu.font_(Font(\size, 10));
+			menu.font_(Font(\size, 12));
 
 
  funcs = [
@@ -302,7 +301,7 @@ j = Button(w, Rect(240, 417.5, 90, 26))
 		~button.valueAction_(1);
 	});
 
-	//FORCED flute preset
+	//FORCED trumpet preset
 l = Button(w, Rect(335, 417.5, 90, 26))
 	.states_([["Trumpet", Color.white, Color(0,0,0,0.5)]])
 	.font_(Font("nil", 14))
@@ -332,7 +331,7 @@ l = Button(w, Rect(335, 417.5, 90, 26))
 	});
 
 
-//FORCED trumpet preset
+//FORCED flute preset
 k = Button(w, Rect(430, 417.5, 90, 26))
 	.states_([["Flute", Color.white, Color(0,0,0,0.5)]])
 	.font_(Font("nil", 14))
@@ -368,24 +367,35 @@ r = Button(w, Rect(525, 417.5, 90, 26))
 	.mouseDownAction_({
 		var variable;
 		variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
-		~freqslider.valueAction_(440.value.explin(100,1000,0,1)); //only need to affect slider to affect the number box and true sound value
-				~volslider.valueAction_(1.value.linlin(0,1,0,1));
-		~f1slider.valueAction_(1.value.linlin(0.0,2,0,1));
-		~f2slider.valueAction_(1.24.value.linlin(0.0,2,0,1));
-		~f3slider.valueAction_(0.74.value.linlin(0.0,2,0,1));
-		~f4slider.valueAction_(0.163.value.linlin(0.0,2,0,1));
-		~f5slider.valueAction_(0.231.value.linlin(0.0,2,0,1));
-		~f6slider.valueAction_(0.106.value.linlin(0.0,2,0,1));
-		~f7slider.valueAction_(0.058.value.linlin(0.0,2,0,1));
-		~f8slider.valueAction_(0.077.value.linlin(0.0,2,0,1));
-		~f9slider.valueAction_(0.096.value.linlin(0.0,2,0,1));
-		~f10slider.valueAction_(0.019.value.linlin(0.0,2,0,1));
-		~f11slider.valueAction_(0.019.value.linlin(0.0,2,0,1));
-		~f12slider.valueAction_(0.019.value.linlin(0.0,2,0,1));
-		~f13slider.valueAction_(0.019.value.linlin(0.0,2,0,1));
-		~f14slider.valueAction_(0.019.value.linlin(0.0,2,0,1));
-		~f15slider.valueAction_(0.019.value.linlin(0.0,2,0,1));
-		~f16slider.valueAction_(0.019.value.linlin(0.0,2,0,1));
+		~freqslider.valueAction_(261.6.value.explin(100,1000,0,1)); //only need to affect slider to affect the number box and true sound value
+				~volslider.valueAction_(0.4.value.linlin(0,1,0,1));
+		~f1slider.valueAction_(1.4134615384615
+
+.value.linlin(0.0,2,0,1));
+		~f2slider.valueAction_(1.6634615384615
+.value.linlin(0.0,2,0,1));
+		~f3slider.valueAction_(0.77884615384615
+
+.value.linlin(0.0,2,0,1));
+		~f4slider.valueAction_(0.41346153846154
+
+.value.linlin(0.0,2,0,1));
+		~f5slider.valueAction_(0.20192307692308
+
+.value.linlin(0.0,2,0,1));
+		~f6slider.valueAction_(0.076923076923077
+.value.linlin(0.0,2,0,1));
+		~f7slider.valueAction_(0.038461538461538
+.value.linlin(0.0,2,0,1));
+		~f8slider.valueAction_(0.value.linlin(0.0,2,0,1));
+		~f9slider.valueAction_(0.value.linlin(0.0,2,0,1));
+		~f10slider.valueAction_(0.value.linlin(0.0,2,0,1));
+		~f11slider.valueAction_(0.value.linlin(0.0,2,0,1));
+		~f12slider.valueAction_(0.value.linlin(0.0,2,0,1));
+		~f13slider.valueAction_(0.value.linlin(0.0,2,0,1));
+		~f14slider.valueAction_(0.value.linlin(0.0,2,0,1));
+		~f15slider.valueAction_(0.value.linlin(0.0,2,0,1));
+		~f16slider.valueAction_(0.value.linlin(0.0,2,0,1));
 		x.free;
 	~button.valueAction_(1);
 	});
@@ -553,20 +563,49 @@ SynthDef("import1",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1;
 
 
 //Play a sound... tuning fork preset
-q = Button(w, Rect(240, 497.5, 120, 26))
+q = Button(w, Rect(240, 497.5, 90, 26))
 	.states_([["Tuning Fork", Color.white, Color(0,0,0,0.5)]])
-	.font_(Font("nil", 18))
+	.font_(Font("nil", 14))
 	.action_({
 			y = Synth.new(\import1, [\out, 0, \bufnum, a.bufnum]);
 		x.free;
 		z.free;
 		v.free;
+		t.free;
+		~button.valueAction_(0);
+		});
+
+
+///add sound to a buffer as an import - trumpet
+(
+c = Buffer.read(s, basePath +/+ "audio/trumpet.aif");
+
+SynthDef("import3",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1;
+	var rate;
+			rate = 1.00; //using rate because it was slightly out of tune (too high pitched)
+	Out.ar(out,
+		Pan2.ar(PlayBuf.ar(1,bufnum, BufRateScale.kr(bufnum)*rate, trigger, BufFrames.ir(bufnum)*startPos, loop=0),0.0)
+	);
+}).add;
+);
+
+
+//Play a sound... trumpet preset
+e = Button(w, Rect(335, 497.5, 90, 26))
+	.states_([["Trumpet", Color.white, Color(0,0,0,0.5)]])
+	.font_(Font("nil", 14))
+	.action_({
+			v = Synth.new(\import3, [\out, 0, \bufnum, c.bufnum]);
+		x.free;
+		y.free;
+		z.free;
+		t.free;
 		~button.valueAction_(0);
 		});
 
 ///add sound to a buffer as an import - flute
 (
-b = Buffer.read(s, "/Users/max/Dropbox/Ng, Maxwell/SuperCollider-realistic-audio/flute_A4 (fadeout).wav");
+b = Buffer.read(s, basePath +/+ "audio/flute.aif");
 
 SynthDef("import2",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1;
 	var rate;
@@ -579,24 +618,26 @@ SynthDef("import2",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1;
 
 
 //Play a sound... flute preset
-r = Button(w, Rect(500, 497.5, 120, 26))
+r = Button(w, Rect(430, 497.5, 90, 26))
 	.states_([["Flute", Color.white, Color(0,0,0,0.5)]])
-	.font_(Font("nil", 18))
+	.font_(Font("nil", 14))
 	.action_({
 			z = Synth.new(\import2, [\out, 0, \bufnum, b.bufnum]);
 		x.free;
 		y.free;
 		v.free;
+		t.free;
 		~button.valueAction_(0);
 		});
 
-///add sound to a buffer as an import - violin
-(
-c = Buffer.read(s, "/Users/max/Dropbox/Ng, Maxwell/SuperCollider-realistic-audio/violin_A4 (fadeout).wav");
 
-SynthDef("import3",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1;
+///add sound to a buffer as an import - horn
+(
+q = Buffer.read(s, basePath +/+ "audio/horn.aif");
+
+SynthDef("import5",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1;
 	var rate;
-			rate = 0.98; //using rate because it was slightly out of tune (too high pitched)
+			rate = 1.0; //using rate because it was slightly out of tune (too high pitched)
 	Out.ar(out,
 		Pan2.ar(PlayBuf.ar(1,bufnum, BufRateScale.kr(bufnum)*rate, trigger, BufFrames.ir(bufnum)*startPos, loop=0),0.0)
 	);
@@ -604,17 +645,71 @@ SynthDef("import3",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1;
 );
 
 
-//Play a sound... violin preset
-e = Button(w, Rect(370, 497.5, 120, 26))
-	.states_([["Violin", Color.white, Color(0,0,0,0.5)]])
-	.font_(Font("nil", 18))
+//Play a sound... horn preset
+f = Button(w, Rect(525, 497.5, 90, 26))
+	.states_([["Horn", Color.white, Color(0,0,0,0.5)]])
+	.font_(Font("nil", 14))
 	.action_({
-			v = Synth.new(\import3, [\out, 0, \bufnum, c.bufnum]);
+
+			t = Synth.new(\import5, [\out, 0, \bufnum, q.bufnum]);
 		x.free;
 		y.free;
 		z.free;
 		~button.valueAction_(0);
 		});
+
+
+///////SYNTHS
+///add sound to a buffer as an import - horn
+(
+o = Buffer.read(s, basePath +/+ "audio/horn_synth.aiff");
+
+SynthDef("importhorn_synth",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1;
+	var rate;
+			rate = 1.0; //using rate because it was slightly out of tune (too high pitched)
+	Out.ar(out,
+		Pan2.ar(PlayBuf.ar(1,bufnum, BufRateScale.kr(bufnum)*rate, trigger, BufFrames.ir(bufnum)*startPos, loop=0),0.0)
+	);
+}).add;
+);
+
+
+//Play a sound... horn preset
+u = Button(w, Rect(525, 457.5, 90, 26))
+	.states_([["Horn", Color.white, Color(0,0,0,0.5)]])
+	.font_(Font("nil", 14))
+	.action_({
+
+			l = Synth.new(\importhorn_synth, [\out, 0, \bufnum, o.bufnum]);
+		x.free;
+		y.free;
+		z.free;
+		~button.valueAction_(0);
+		});
+
+r = Button(w, Rect(430, 457.5, 90, 26))
+	.states_([["Flute", Color.white, Color(0,0,0,0.5)]])
+	.font_(Font("nil", 14))
+	.action_({});
+
+	r = Button(w, Rect(335, 457.5, 90, 26))
+	.states_([["Trumpet", Color.white, Color(0,0,0,0.5)]])
+	.font_(Font("nil", 14))
+	.action_({});
+
+r = Button(w, Rect(240, 457.5, 90, 26))
+	.states_([["Tuning Fork", Color.white, Color(0,0,0,0.5)]])
+	.font_(Font("nil", 14))
+	.action_({});
+
+
+
+
+
+
+
+
+
 
 
 //Define the slider sounds to be played
@@ -1414,11 +1509,13 @@ SynthDef.new("sound", {
 		y.free;
 		z.free;
 		v.free;
+		t.free;
 		a.free; //clear buffers to help resolve memory leak
 		b.free;
 		e.free;
 		// ~d.quit; causes issues if ~d doesn't exist before quitting, in any case ~d closes automatically because it is parented to the w window
 		// ~w2.close; //similar issue, but this does leave the oscilloscope open - workaround on splashscreen command
+		~scopebutton.valueAction_(0); //this works instead of closing the window as now the global variable is always available
 		h.kill;
 		w.close;
 		(basePath +/+ "splashscreen.scd").loadPaths;

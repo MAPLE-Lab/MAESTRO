@@ -15,12 +15,14 @@ s.waitForBoot({ //Ensures it only opens once the server is working completely, a
 			i.drawInRect(Rect(0,0,1160,874), Rect(0,0,1160,874), 2, 1.0); // only a section
     });
 
+		// ~w2 = Window.new();
+
 //Ensures that the oscilloscope closes from Spectra
-~w2.close;
+		// ~w2.close; //still not functioning
 
 
 //Title
-~title = StaticText(t,Rect((400-400),80,800,80))
+~title = StaticText(t,Rect((400-400),65,800,80))
 	.string_("Auditory Exploration Suite")
 .font_(Font("Helvetica", 24, false))
 .align_(\top)
