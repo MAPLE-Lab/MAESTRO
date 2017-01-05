@@ -1,7 +1,8 @@
-(
+(var basePath = thisProcess.nowExecutingPath.asString.dirname; //http://new-supercollider-mailing-lists-forums-use-these.2681727.n2.nabble.com/Generalizing-a-files-path-td7616651.html
 s.waitForBoot({ //Ensures it only opens once the server is working completely, and automatically opens server
 	(
-    i = Image.new("/Users/max/Documents/GitHub-Auditory-Exploration-Suite/splash-small.png"); //make sure this can work when not on my computer
+    i = Image.new(thisProcess.nowExecutingPath.asString.dirname +/+ "images/splash-small.png"); //make sure this can work when not on my computer
+
     t = Window.new("MAPLE Lab Auditory Exploration Suite", Rect(
 	Window.screenBounds.width/2-400,
 	Window.screenBounds.height/2-50,
@@ -14,6 +15,8 @@ s.waitForBoot({ //Ensures it only opens once the server is working completely, a
 			i.drawInRect(Rect(0,0,1160,874), Rect(0,0,1160,874), 2, 1.0); // only a section
     });
 
+//Ensures that the oscilloscope closes from Spectra
+~w2.close;
 
 
 //Title
@@ -29,7 +32,8 @@ b = Button.new(t, Rect((400-220-50), 180, 100, 40))
 	.states_([["Tuning", Color.white, Color(0.7569,0.1373,0.1725,1)]])
 	.font_(Font("nil", 18))
 	.mouseDownAction_({
-			"/Users/max/Documents/GitHub-Auditory-Exploration-Suite/MAPLE_Tuning_Demonstration.scd".loadPaths;
+
+			(basePath +/+  "MAPLE_Tuning_Demonstration.scd").loadPaths;
 			t.close;
 		});
 
@@ -37,7 +41,7 @@ u = Button.new(t, Rect((400+220-50), 180, 100, 40))
 	.states_([["Spectra", Color.white, Color(0.7569,0.1373,0.1725,1)]])
 	.font_(Font("nil", 18))
 	.mouseDownAction_({
-			"/Users/max/Documents/GitHub-Auditory-Exploration-Suite/MAPLE_Spectra_Demonstration.scd".loadPaths;
+			(basePath +/+  "MAPLE_Spectra_Demonstration.scd").loadPaths;
 			t.close;
 		});
 

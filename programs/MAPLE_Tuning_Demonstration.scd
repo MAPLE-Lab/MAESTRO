@@ -1,6 +1,6 @@
 // "2MC3 Tuning Demonstration"
 
-(
+(var basePath = thisProcess.nowExecutingPath.asString.dirname;
 s.waitForBoot({ //Ensures it only opens once the server is working completely, and automatically opens server
 
 w = Window.new("MAPLE Lab Tuning Demonstration", Rect.new(
@@ -29,7 +29,7 @@ f.active_(true).freqMode_(1).dbRange_(70);
 .background_(Color(0,0,0,0))
 .stringColor_(Color.black);
 
-i = Image.new("/Users/max/Documents/GitHub-Auditory-Exploration-Suite/mapleICON-small.png");
+i = Image.new(basePath +/+ "images/mapleICON-small.png");
 
 //Aesthetic lines
 	w.drawFunc = {
@@ -352,7 +352,7 @@ SynthDef.new("sound", {
 	.states_([["Go Back", Color.white, Color(0.2510,0.2510,0.2510,1)]])
 	.font_(Font("nil", 12))
 	.mouseDownAction_({w.close; f.kill; //shuts down window and scope
-		"/Users/max/Documents/GitHub-Auditory-Exploration-Suite/splashscreen.scd".loadPaths;
+		(basePath +/+ "splashscreen.scd").loadPaths;
 		});
 
 

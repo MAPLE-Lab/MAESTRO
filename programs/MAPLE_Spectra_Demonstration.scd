@@ -1,6 +1,6 @@
 // "2MC3 Spectra Demonstration"
 
-(
+(var basePath = thisProcess.nowExecutingPath.asString.dirname;
 Window.closeAll;
 a.free; //clear buffers to help resolve memory leak
 		b.free;
@@ -540,7 +540,7 @@ r = Button(w, Rect(525, 417.5, 90, 26))
 
 ///add sound to a buffer as an import - tuning fork
 (
-a = Buffer.read(s, thisProcess.nowExecutingPath.asString.dirname +/+ "tuning_fork_fadeout.wav"); //helpful notes for troubleshooting: http://new-supercollider-mailing-lists-forums-use-these.2681727.n2.nabble.com/Generalizing-a-files-path-td7616651.html
+a = Buffer.read(s, basePath +/+ "audio/tuning_fork_fadeout.wav"); //helpful notes for troubleshooting: http://new-supercollider-mailing-lists-forums-use-these.2681727.n2.nabble.com/Generalizing-a-files-path-td7616651.html
 
 SynthDef("import1",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1;
 	var rate;
@@ -1418,10 +1418,10 @@ SynthDef.new("sound", {
 		b.free;
 		e.free;
 		// ~d.quit; causes issues if ~d doesn't exist before quitting, in any case ~d closes automatically because it is parented to the w window
-		~w2.close; //similar issue, but this does leave the oscilloscope open - sometimes?
+		// ~w2.close; //similar issue, but this does leave the oscilloscope open - workaround on splashscreen command
 		h.kill;
 		w.close;
-		"/Users/max/Documents/GitHub-Auditory-Exploration-Suite/splashscreen.scd".loadPaths;
+		(basePath +/+ "splashscreen.scd").loadPaths;
 		});
 
 	//Open Stethoscope
@@ -1466,7 +1466,7 @@ SynthDef.new("sound", {
 	);
 
 
- ~i = Image.new("/Users/max/Documents/GitHub-Auditory-Exploration-Suite/mapleICON-small.png");
+	~i = Image.new(basePath +/+ "images/mapleICON-small.png");
 
 //Aesthetic lines
 	w.drawFunc = {
