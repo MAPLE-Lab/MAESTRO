@@ -8,37 +8,36 @@ Get Audacity
 Normalize volumes?
 
 * * *
-**Splashscreen**
+##**Splashscreen**
 
-_TO-DO_
+_TO-DOs_
 
-* Version tags (0.1.)
-* Technical details button on all apps with details and 
-* Rename the Go Back to Home
+* Technical details button on all apps with details
+
 
 _COMPLETED_
 
 * Update splash with Dr. Schutz's image email
+* Rename the Go Back to Home
+* Version tags (0.1.#)
 
 * * *
 
-**Tuning Demonstration**
+##**Tuning Demonstration**
 
-_TO-DO_
+_TO-DOs_
 
-* Overall volume slider
-* Allow 
-* Extend the Freq range of the spectra
-* Spectra - can the frequency axis be on the vertical axis (option to go back and forth)? = possibility using Pen, but requires different data collection: http://sccode.org/1-1HR
-* Add axis if not possible
 * Dropdown menu for Focus tone (third/fourth/fifth/etc.)
 * Number of harmonics active -> control the loops of harmonics
 * Add an IF statement so that the harmonic desired to manipulate cannot be manipulated/added by the LOOP
 * Variable: fade in rate
 * Make freq spectra log and set linlin->linexp
-<p>
+
+</p>
+
 * 2D slider for rate and delay (window of tolerance? thresholds?)
 * Tone that moves come through a different - for science
+
 </p>
 
 * Array? Dropdown - set the values of the 0,0,0,1,0,0,0,0etc.
@@ -47,6 +46,7 @@ _TO-DO_
 * Be careful with 
 * Toggle helps so later in the program 
 * Screen might need to be bigger
+* Extend the Freq range of the spectra
 
 
 _COMPLETED_
@@ -54,12 +54,18 @@ _COMPLETED_
 * splashscreen
 * tonic frequency
 * Move Slides OUT of Dropbox once all received
+* Rename as "Overtone "popout""
+* Add "Reset" button to put it back to correct tuning
+* Overall volume slider
+* Spectra - can the frequency axis be on the vertical axis (option to go back and forth)? = possibility using Pen, but requires different data collection: http://sccode.org/1-1HR
+* Add axis if not possible
+
 
 * * *
 
-**Spectra Demonstration**
+##**Spectra Demonstration**
 
-_TO-DO_
+_TO-DOs_
 
 * Make the sound buttons be 2 switch
 * At the end of the sound the button springs back up
@@ -72,7 +78,9 @@ _TO-DO_
 * Rename to Fixed Spectra and Dynamic Spectra and Audio Recording
 * Add Square and Triangle waves and check that the Saw isn't just a Triangle and find the truth of the Sawtooth --> can check the lab wiki for information on the mathematics - /-Classifying+Sounds
 * Set Buttons as Global variables - funprogramming.org/134-etc....
+
 </p>
+
 * .plot the data of the harmonic spectra, and plots just the spectra - fake it beause of the time axis - more pedagogically valuable 
 * Import and analyze sound? See how that spectrogram did it...
 * Dr. Ballora recommends PVOC (may need extension/quark)
@@ -84,6 +92,8 @@ _TO-DO_
 * See DropBox files with videos - use GraphClick to take from those
 * Tuning fork, Trumpet, Flute, Horn
 * Why doesn't Spectra when Win.closed not shut down the server
+* Open for keyboard usage for picking fundamental (this should be possible) - needs discussion (see MAX/MSP tone generator online at www.maplelab.net/software)
+* Shade/colour keys on piano in proportion to amount of freq in there (intensity?)
 
 
 
@@ -98,20 +108,22 @@ _COMPLETED_
 
 * * *
 
-**Class Wiki**
+##**Class Wiki**
 
-_TO-DO_
+_TO-DOs_
+
+* The video can introduce the app during lecture
+
+_COMPLETED_
 
 * Add friendly image
 * Add details on opening "SuperCollider.app" because that's still confusing
 * And how to work with the new RelativePath version
-* The video can introduce the app
 
-_COMPLETED_
 
 * * *
 
-**Critical Bands**
+##**Critical Bands**
 
 * Lin vs Log freqs
 * Critical bands highlights

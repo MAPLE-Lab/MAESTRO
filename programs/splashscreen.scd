@@ -20,6 +20,16 @@ s.waitForBoot({ //Ensures it only opens once the server is working completely, a
 //Ensures that the oscilloscope closes from Spectra
 		// ~w2.close; //still not functioning
 
+////VERSION:
+~versioncode = StaticText(t,Rect((400-400),420,800,80))
+	.string_("Version 0.1.0")
+.font_(Font("Helvetica", 10, false))
+.align_(\top)
+.background_(Color(0,0,0,0))
+		.stringColor_(Color(0.2510));
+
+
+
 
 //Title
 ~title = StaticText(t,Rect((400-400),65,800,80))

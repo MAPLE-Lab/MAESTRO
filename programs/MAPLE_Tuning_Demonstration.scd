@@ -2,14 +2,17 @@
 (var basePath = thisProcess.nowExecutingPath.asString.dirname;
 s.waitForBoot({ //Ensures it only opens once the server is working completely, and automatically opens server
 
-w = Window.new("MAPLE Lab Tuning Demonstration", Rect.new(
+	w = Window.new("MAPLE Lab Overtone 'Popout' Demonstration", Rect.new(
 	Window.screenBounds.width/2-250,
 	Window.screenBounds.height/2-50,
 		500,670),false
 	).background_(Color.white).userCanClose_(true).front; //Creates the new window with title
 
+
+
+
 //Spectra viewer
-f = FreqScopeView(w, Rect.new(-120,355,800,300)); //Prepares frequency scope (a.k.a. spectra)
+f = FreqScopeView(w, Rect.new(-100,355,600,300)); //Prepares frequency scope (a.k.a. spectra) from (-120,355,800,300) to (-100,355,600,300)) - for harmonic marker transformation maths
 f.active_(true).freqMode_(1).dbRange_(70);
 
 	//Label for spectra (PENDING)
@@ -107,9 +110,6 @@ StaticText(w,Rect(0,620,500,2))
 	.background_(Color(0,0,0,0));
 
 
-
-
-
 //Play sounds button
 ~button = Button(w, Rect(250-(200/2),95,200,30))
 .states_([
@@ -135,18 +135,58 @@ StaticText(w,Rect(0,620,500,2))
 	);
 });
 
+	//VOLUME
+//Properties of the slider
+~volslider = Slider(w, Rect(160,140,330,15))
+	.background_(Color(0.0118,0.0118,0.0118,1))
+	.value_(0.2)
+	.action_({
+	arg obj;
+	var cf;
+	cf = obj.value.linlin(0,1,0,1).postln;
+		if(
+		x.isPlaying,
+		{x.set(\vol,cf)});
+	~numberVBox.value_(obj.value.linlin(0,1,0,1));
+
+})
+	.orientation_(\horizontal);
+
+//Label for Vol.
+~volLabel = StaticText(w,Rect(10,143,70,15))
+.string_("Volume")
+.font_(Font("nil", 8, italic:false))
+.align_(\topRight)
+.background_(Color(0,0,0,0.0))
+.stringColor_(Color.black);
+
+//Number box that can edit slider position
+~numberVBox = NumberBox(w,Rect(85,140,72,15))
+	.normalColor_(Color.white)
+	.background_(Color(0.0118,0.0118,0.0118,1))
+	.value_(0.2)
+.clipLo_(0)
+.clipHi_(1)
+.font_(Font("nil",7))
+.decimals_(1)
+.align_(\center)
+.action_({
+	arg obj;
+	~volslider.valueAction_(obj.value.linlin(0,1,0,1))
+});
+
 	//TONIC FREQUENCY
 
 //Label for Freq.
-~fLabel = StaticText(w,Rect(15,140,65,30))
+~fLabel = StaticText(w,Rect(10,158,70,15))
 .string_("Tonic Frequency")
-.font_(Font("nil", 12))
+.font_(Font("nil", 8))
 .align_(\topRight)
 .background_(Color(0,0,0,0))
 .stringColor_(Color.black);
 
 //Properties of the slider
-~fslider = Slider(w, Rect(160,140,330,30))
+~fslider = Slider(w, Rect(160,155,330,15))
 	.background_(Color(0.8,0.8,0.8,0.75)).value_(0.3802)
 	.action_({
 	arg obj;
@@ -164,11 +204,11 @@ StaticText(w,Rect(0,620,500,2))
 
 
 //Number box that can edit slider position
-~numberfBox = NumberBox(w,Rect(85,140,72,30))
+~numberfBox = NumberBox(w,Rect(85,155,72,15))
 .value_(240)
 .clipLo_(100)
 .clipHi_(2000)
-.font_(Font("nil",16))
+.font_(Font("nil",12))
 .decimals_(1)
 .align_(\center)
 .action_({
@@ -260,17 +300,29 @@ SynthDef.new("sound", {
 .stringColor_(Color.black);
 
 //Number box that can edit slider position
-~numberBox = NumberBox(w,Rect(85,200,72,30))
+~numberBox = NumberBox(w,Rect(85+35,200,72-35,30))
 .value_(3)
 .clipLo_(2)
 .clipHi_(4)
 .font_(Font("nil",16))
-.decimals_(2)
+.decimals_(1)
 .align_(\center)
 .action_({
 	arg obj;
 	~freqslider.valueAction_(obj.value.linlin(2,4,0,1))
 });
+
+//Button to reset 3rd harmonic
+~reset = Button(w, Rect(250-(200/2)-65,200,35,30))
+.states_([
+	["Reset
+to 3", Color.white,Color(0.7569,0.1373,0.1725,1)]
+])
+.font_(Font("nil", 8))
+.action_({
+		~freqslider.valueAction_(3.value.linlin(2,4,0,1));
+});
+
 
 //INTENSITY of 3rd harmonic
 //Properties of the slider
@@ -347,8 +399,11 @@ SynthDef.new("sound", {
 
 
 
+
+
+
 	~quit = Button.new(w, Rect((400), 100, 60, 20))
-	.states_([["Go Back", Color.white, Color(0.2510,0.2510,0.2510,1)]])
+	.states_([["Home", Color.white, Color(0.2510,0.2510,0.2510,1)]])
 	.font_(Font("nil", 12))
 	.mouseDownAction_({w.close; f.kill; //shuts down window and scope
 		(basePath +/+ "splashscreen.scd").loadPaths;

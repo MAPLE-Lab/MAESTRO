@@ -492,7 +492,7 @@ r = Button(w, Rect(525, 417.5, 90, 26))
 	~freqslider.valueAction_(obj.value.explin(100,1000,0,1))
 });
 
-//VOLUME //sometimes this ruins the computer speakers too...
+//VOLUME
 //Properties of the slider
 ~volslider = Slider(w, Rect(50,145,20,230))
 	.background_(Color(0.0118,0.0118,0.0118,1))
@@ -509,7 +509,7 @@ r = Button(w, Rect(525, 417.5, 90, 26))
 })
 	.orientation_(\vertical);
 
-//Label for Freq.
+//Label for Vol.
 ~volLabel = StaticText(w,Rect(50,130,20,15))
 .string_("Vol.")
 .font_(Font("nil", 10, italic:true))
@@ -1502,7 +1502,7 @@ SynthDef.new("sound", {
 
 
 ~quit = Button.new(w, Rect((690), 70, 60, 20))
-	.states_([["Go Back", Color.white, Color(0.2510,0.2510,0.2510,1)]])
+	.states_([["Home", Color.white, Color(0.2510,0.2510,0.2510,1)]])
 	.font_(Font("nil", 12))
 	.mouseDownAction_({
 		x.free;
