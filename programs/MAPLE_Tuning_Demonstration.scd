@@ -139,7 +139,7 @@ StaticText(w,Rect(0,620,500,2))
 //Properties of the slider
 ~volslider = Slider(w, Rect(160,140,330,15))
 	.background_(Color(0.0118,0.0118,0.0118,1))
-	.value_(0.2)
+	.value_(0.3)
 	.action_({
 	arg obj;
 	var cf;
@@ -164,7 +164,7 @@ StaticText(w,Rect(0,620,500,2))
 ~numberVBox = NumberBox(w,Rect(85,140,72,15))
 	.normalColor_(Color.white)
 	.background_(Color(0.0118,0.0118,0.0118,1))
-	.value_(0.2)
+	.value_(0.3)
 .clipLo_(0)
 .clipHi_(1)
 .font_(Font("nil",7))

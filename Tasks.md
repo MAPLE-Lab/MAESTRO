@@ -1,11 +1,13 @@
 # A.E.S. Tasklist
 _Updated 2016/01/04_
+
+##**General**
 Class is 3rd week (Jan 17th - 10:30am; Thursday Jan 19th - 9:30-11:20) - TSH 120
 So need to know by the 16th to play around
 If earlier 
 
-Get Audacity
-Normalize volumes?
+Get Audacity = Done
+
 
 * * *
 ##**Splashscreen**
@@ -40,13 +42,9 @@ _TO-DOs_
 
 </p>
 
-* Array? Dropdown - set the values of the 0,0,0,1,0,0,0,0etc.
-* And the second the
+* Array? Dropdown - set the values of the 0,0,0,1,0,0,0,0etc. - don't use Array for now; currently just use direct approach to arguments of "\toggle" for each individual tone
 * MasterVolume? arg toggle
-* Be careful with 
 * Toggle helps so later in the program 
-* Screen might need to be bigger
-* Extend the Freq range of the spectra
 
 
 _COMPLETED_
@@ -59,6 +57,7 @@ _COMPLETED_
 * Overall volume slider
 * Spectra - can the frequency axis be on the vertical axis (option to go back and forth)? = possibility using Pen, but requires different data collection: http://sccode.org/1-1HR
 * Add axis if not possible
+* Extend the Freq range of the spectra
 
 
 * * *
@@ -67,6 +66,7 @@ _COMPLETED_
 
 _TO-DOs_
 
+* .plot the data of the harmonic spectra, and plots just the spectra - fake it beause of the time axis - more pedagogically valuable 
 * Make the sound buttons be 2 switch
 * At the end of the sound the button springs back up
 * Amadeus slow-mo the .WAV to get better sample rate and check refresh rate
@@ -81,7 +81,7 @@ _TO-DOs_
 
 </p>
 
-* .plot the data of the harmonic spectra, and plots just the spectra - fake it beause of the time axis - more pedagogically valuable 
+* Normalize volumes amongst audio tracks?
 * Import and analyze sound? See how that spectrogram did it...
 * Dr. Ballora recommends PVOC (may need extension/quark)
 * Still need a way to analyze the harmonics for their time-varying values
