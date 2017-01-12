@@ -136,7 +136,7 @@ StaticText(w,Rect(410,360,500,2))
 				z.free;
 				v.free;
 		},
-		{x.free; ~vinbutton.valueAction_(0);}
+		{x.free; ~vinbutton.valueAction_(0); }
 	);
 });
 
