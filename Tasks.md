@@ -72,14 +72,12 @@ _TO-DOs_
 * Make the sound buttons be 2 switch
 * At the end of the sound the button springs back up
 * Amadeus slow-mo the .WAV to get better sample rate and check refresh rate
-* Move it over to the left side where it applies, and rename becasue the Power Spectra won't use it
 * Play button / Silence sounds button
 * Auto-off setting
 * Amadeus/Audacity can cut the .aiff
 * Remove the Hold to Play thing from the InsRec to prove a point of the artificiality
-* Rename to Fixed Spectra and Dynamic Spectra and Audio Recording
-* Add Square and Triangle waves and check that the Saw isn't just a Triangle and find the truth of the Sawtooth --> can check the lab wiki for information on the mathematics - /-Classifying+Sounds
-* Set Buttons as Global variables - funprogramming.org/134-etc....
+* Add Triangle (does not seem to be working so far)
+
 
 </p>
 
@@ -96,6 +94,9 @@ _TO-DOs_
 * Why doesn't Spectra when Win.closed not shut down the server
 * Open for keyboard usage for picking fundamental (this should be possible) - needs discussion (see MAX/MSP tone generator online at www.maplelab.net/software)
 * Shade/colour keys on piano in proportion to amount of freq in there (intensity?)
+* Set Buttons as Global variables - funprogramming.org/134-etc....
+
+
 
 
 
@@ -107,6 +108,10 @@ _COMPLETED_
 * From error messages it is clear it is a Node tree allocation problem - just later add proper allocations at the start of the program//Remove artifact --> have it free at end..doneAction? or cheap box // BOXED TRIM
 * But still issue present in Oscilloscope - so needs a true solution (because additively negative) = COMPLETE, the audio must go to 0 at end or else artifact
 * Add oscilloscope button
+* Move it over to the left side where it applies, and rename becasue the Power Spectra won't use it
+* Rename to Fixed Spectra and Dynamic Spectra and Audio Recording
+* Add Square waves and check that the Saw isn't just a Triangle and find the truth of the Sawtooth --> can check the lab wiki for information on the mathematics - /-Classifying+Sounds
+
 
 * * *
 

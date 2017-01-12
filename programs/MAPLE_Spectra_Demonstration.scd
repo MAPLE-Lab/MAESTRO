@@ -81,8 +81,8 @@ StaticText(w,Rect(10,105,380,25))
 	});
 
 
-	StaticText(w,Rect(430,380,2,20))
-	.background_(Color.white);
+	/*StaticText(w,Rect(430,380,2,20)) ////COMMENTED UNTIL COMPLETE
+	.background_(Color.white);*/
 
 StaticText(w,Rect(410,360,500,2))
 	.background_(Color.white);
@@ -100,8 +100,8 @@ StaticText(w,Rect(410,360,500,2))
 //Play Forced sounds button
 ~button = Button(w, Rect(400-(330/2),65,330,30))
 .states_([
-	["Click to Play Forced Choice Sounds", Color.white,Color(0.7569,0.1373,0.1725,1)],
-	["Click to Mute Forced Choice Sounds", Color.white, Color.grey(0.251)]
+	["Click to Play Power Spectra Sounds", Color.white,Color(0.7569,0.1373,0.1725,1)],
+	["Click to Mute Power Spectra Sounds", Color.white, Color.grey(0.251)]
 ])
 .font_(Font("nil", 18))
 .action_({
@@ -173,7 +173,7 @@ s.waitForBoot({
    });
 
 menu = PopUpMenu(w, Rect(622.5, 420, 60, 20));
-  menu.items_(["Sine", "Saw"]);
+			menu.items_(["Sine", "Sawtooth", "Triangle", "Square"]);
 			menu.font_(Font(\size, 12));
 
 
@@ -229,6 +229,62 @@ menu = PopUpMenu(w, Rect(622.5, 420, 60, 20));
 		~f16slider.valueAction_(0.value.linlin(0.0,2,0,1));
 		x.free; ///NEED TO ADD OSC DELAY
 		~button.valueAction_(1);
+	},
+				{
+		var variable;
+		variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
+		~freqslider.valueAction_(440.value.explin(100,1000,0,1)); //only need to affect slider to affect the number box and true sound value
+		~volslider.valueAction_(1.value.linlin(0,1,0,1));
+		~f1slider.valueAction_(1.00.value.linlin(0.0,2,0,1));
+		~f2slider.valueAction_(0.value.linlin(0.0,2,0,1));
+		~f3slider.valueAction_(0.32.value.linlin(0.0,2,0,1));
+		~f4slider.valueAction_(0.value.linlin(0.0,2,0,1));
+		~f5slider.valueAction_(0.25.value.linlin(0.0,2,0,1));
+		~f6slider.valueAction_(0.value.linlin(0.0,2,0,1));
+		~f7slider.valueAction_(0.125.value.linlin(0.0,2,0,1));
+		~f8slider.valueAction_(0.value.linlin(0.0,2,0,1));
+		~f9slider.valueAction_(0.value.linlin(0.0,2,0,1));
+		~f10slider.valueAction_(0.value.linlin(0.0,2,0,1));
+		~f11slider.valueAction_(0.value.linlin(0.0,2,0,1));
+		~f12slider.valueAction_(0.value.linlin(0.0,2,0,1));
+		~f13slider.valueAction_(0.value.linlin(0.0,2,0,1));
+		~f14slider.valueAction_(0.value.linlin(0.0,2,0,1));
+		~f15slider.valueAction_(0.value.linlin(0.0,2,0,1));
+		~f16slider.valueAction_(0.value.linlin(0.0,2,0,1));
+		x.free; ///NEED TO ADD OSC DELAY
+		~button.valueAction_(1);
+					~l.valueAction_(0);
+				~k.valueAction_(0);
+								~j.valueAction_(0);
+
+	},
+				{
+		var variable;
+		variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
+		~freqslider.valueAction_(440.value.explin(100,1000,0,1)); //only need to affect slider to affect the number box and true sound value
+		~volslider.valueAction_(1.value.linlin(0,1,0,1));
+					~f1slider.valueAction_(1.value.linlin(0.0,2,0,1));
+		~f2slider.valueAction_(0.value.linlin(0.0,2,0,1));
+		~f3slider.valueAction_(0.32.value.linlin(0.0,2,0,1));
+		~f4slider.valueAction_(0.value.linlin(0.0,2,0,1));
+		~f5slider.valueAction_(0.18.value.linlin(0.0,2,0,1));
+		~f6slider.valueAction_(0.value.linlin(0.0,2,0,1));
+		~f7slider.valueAction_(0.13.value.linlin(0.0,2,0,1));
+		~f8slider.valueAction_(0.value.linlin(0.0,2,0,1));
+		~f9slider.valueAction_(0.11.value.linlin(0.0,2,0,1));
+		~f10slider.valueAction_(0.value.linlin(0.0,2,0,1));
+		~f11slider.valueAction_(0.08.value.linlin(0.0,2,0,1));
+		~f12slider.valueAction_(0.value.linlin(0.0,2,0,1));
+		~f13slider.valueAction_(0.06.value.linlin(0.0,2,0,1));
+		~f14slider.valueAction_(0.value.linlin(0.0,2,0,1));
+		~f15slider.valueAction_(0.07.value.linlin(0.0,2,0,1));
+		~f16slider.valueAction_(0.value.linlin(0.0,2,0,1));
+		x.free; ///NEED TO ADD OSC DELAY
+		~button.valueAction_(1);
+					~l.valueAction_(0);
+				~k.valueAction_(0);
+								~j.valueAction_(0);
+
 	}
 
  ];
@@ -332,24 +388,24 @@ menu = PopUpMenu(w, Rect(622.5, 420, 60, 20));
 		{
 		var variable;
 		variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
-		~freqslider.valueAction_(440.value.explin(100,1000,0,1)); //only need to affect slider to affect the number box and true sound value
+		~freqslider.valueAction_(523.2.value.explin(100,1000,0,1)); //only need to affect slider to affect the number box and true sound value
 				~volslider.valueAction_(1.value.linlin(0,1,0,1));
-		~f1slider.valueAction_(1.value.linlin(0.0,2,0,1));
-		~f2slider.valueAction_(1.24.value.linlin(0.0,2,0,1));
-		~f3slider.valueAction_(0.74.value.linlin(0.0,2,0,1));
-		~f4slider.valueAction_(0.163.value.linlin(0.0,2,0,1));
-		~f5slider.valueAction_(0.231.value.linlin(0.0,2,0,1));
-		~f6slider.valueAction_(0.106.value.linlin(0.0,2,0,1));
-		~f7slider.valueAction_(0.058.value.linlin(0.0,2,0,1));
-		~f8slider.valueAction_(0.077.value.linlin(0.0,2,0,1));
-		~f9slider.valueAction_(0.096.value.linlin(0.0,2,0,1));
-		~f10slider.valueAction_(0.019.value.linlin(0.0,2,0,1));
-		~f11slider.valueAction_(0.019.value.linlin(0.0,2,0,1));
-		~f12slider.valueAction_(0.019.value.linlin(0.0,2,0,1));
-		~f13slider.valueAction_(0.019.value.linlin(0.0,2,0,1));
-		~f14slider.valueAction_(0.019.value.linlin(0.0,2,0,1));
-		~f15slider.valueAction_(0.019.value.linlin(0.0,2,0,1));
-		~f16slider.valueAction_(0.019.value.linlin(0.0,2,0,1));
+		~f1slider.valueAction_(0.33.value.linlin(0.0,2,0,1));
+		~f2slider.valueAction_(0.20.value.linlin(0.0,2,0,1));
+		~f3slider.valueAction_(0.17.value.linlin(0.0,2,0,1));
+		~f4slider.valueAction_(0.11.value.linlin(0.0,2,0,1));
+		~f5slider.valueAction_(0.01.value.linlin(0.0,2,0,1));
+		~f6slider.valueAction_(0.01.value.linlin(0.0,2,0,1));
+		~f7slider.valueAction_(0.015.value.linlin(0.0,2,0,1));
+		~f8slider.valueAction_(0.015.value.linlin(0.0,2,0,1));
+		~f9slider.valueAction_(0.value.linlin(0.0,2,0,1));
+		~f10slider.valueAction_(0.value.linlin(0.0,2,0,1));
+		~f11slider.valueAction_(0.value.linlin(0.0,2,0,1));
+		~f12slider.valueAction_(0.value.linlin(0.0,2,0,1));
+		~f13slider.valueAction_(0.value.linlin(0.0,2,0,1));
+		~f14slider.valueAction_(0.value.linlin(0.0,2,0,1));
+		~f15slider.valueAction_(0.value.linlin(0.0,2,0,1));
+		~f16slider.valueAction_(0.value.linlin(0.0,2,0,1));
 		x.free;
 	~button.valueAction_(1);
 				~l.valueAction_(0);
@@ -1550,7 +1606,7 @@ SynthDef.new("sound", {
 				.yZoom_(4);
 			},
 		{
-				// ~w2.close;
+				~w2.close;
 				// ~d.quit //had to comment these two to make it not error as can't interpret - maybe these should open as default?
 			}
 	);

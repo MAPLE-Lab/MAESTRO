@@ -1,4 +1,7 @@
 // "Tuning Demonstration"
+
+// f.freqMode_(0) //sets to linear, but the scaling requires the window to be repositioned
+
 (var basePath = thisProcess.nowExecutingPath.asString.dirname;
 s.waitForBoot({ //Ensures it only opens once the server is working completely, and automatically opens server
 
@@ -14,6 +17,7 @@ s.waitForBoot({ //Ensures it only opens once the server is working completely, a
 //Spectra viewer
 f = FreqScopeView(w, Rect.new(-100,355,600,300)); //Prepares frequency scope (a.k.a. spectra) from (-120,355,800,300) to (-100,355,600,300)) - for harmonic marker transformation maths
 f.active_(true).freqMode_(1).dbRange_(70);
+
 
 	//Label for spectra (PENDING)
 /*~fLabel = StaticText(w,Rect(15,620,80,30))
@@ -53,7 +57,7 @@ i = Image.new(basePath +/+ "images/mapleICON-small.png");
 	StaticText(w,Rect(0,622,500,48))
 	.background_(Color(0,0,0,1)); //dark bottom cover
 
-	~fsliderharm3 = Slider(w, Rect(0,620,500,20))
+	/*~fsliderharm3 = Slider(w, Rect(0,620,500,20)) /////Commented until numbers set properly
 	.background_(Color(0,0,0,0))
 	.value_(0.56931407052427)
 	.thumbSize_(0)
@@ -89,26 +93,26 @@ i = Image.new(basePath +/+ "images/mapleICON-small.png");
 	var cf;
 		// cf = obj.value.linlin(0,1,0,1).postln;
 	});
-
+*/
 
 StaticText(w,Rect(0,620,500,2))
 	.background_(Color.white);
 
 	StaticText(w,Rect(10,637,500,33))
 	.string_("Freq.
-(Hz)")
+")
 	.stringColor_(Color.white)
 	.align_(\topLeft)
 	.background_(Color(0,0,0,0));
 
 
-	StaticText(w,Rect(54,640,2,15))
+	/*StaticText(w,Rect(54,640,2,15))
 	.background_(Color.white);
 	StaticText(w,Rect(42,645,500,33))
 	.string_("100")
 	.stringColor_(Color.white)
 	.background_(Color(0,0,0,0));
-
+*/
 
 	//Play sounds button (DERELICT)
 ~button = Button(w, Rect(250-(200/2),95,200,30))
