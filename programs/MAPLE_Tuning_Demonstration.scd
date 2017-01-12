@@ -110,7 +110,7 @@ StaticText(w,Rect(0,620,500,2))
 	.background_(Color(0,0,0,0));
 
 
-//Play sounds button
+	//Play sounds button (DERELICT)
 ~button = Button(w, Rect(250-(200/2),95,200,30))
 .states_([
 	["Click to Play Sounds", Color.white,Color(0.7569,0.1373,0.1725,1)],
@@ -218,9 +218,13 @@ StaticText(w,Rect(0,620,500,2))
 
 
 
+
+
+
+
 //Label for Focus tone
 ~para = StaticText(w,Rect(10,177,480,80))
-	.string_("Focus tone (third harmonic)")
+	.string_("Focus tone")
 .font_(Font("nil", 18))
 .align_(\topLeft)
 .background_(Color(0,0,0,0))
@@ -245,30 +249,32 @@ StaticText(w,Rect(0,620,500,2))
 //Define the sound to be played
 (
 SynthDef.new("sound", {
-	arg freq = 240, outoftune = 3, intensity = 1, other = 1, vol = 0.3;
+	arg freq = 240, outoftune = 3, intensity = 1, other = 1, vol = 0.3, harmToggle1=1, harmToggle2=1, harmToggle3=1, harmToggle4=1, harmToggle5=1, harmToggle6, harmToggle7, harmToggle8, harmToggle9, harmToggle10, harmToggle11, harmToggle12, harmToggle13, harmToggle14, harmToggle15, harmToggle16;
+
 	var mul, mul2, signal;
 
 	mul = XLine.kr(0.01,1,0.2,0.1); //Ramps sound onset so not so harsh
 			mul2 = XLine.kr(0.01,1,0.2,0.1); //Ramps sound onset so not so harsh
 
 
+
 	signal =
-	SinOsc.ar(freq, 0, mul*other*vol) +
-	SinOsc.ar(freq*2, 0, mul*other*vol) +
-	SinOsc.ar(freq*outoftune, 0, mul2*intensity*vol) + //the third harmonic can be varied 720-778, using Dr. Steven Brown's 2MP3 2015-2016 class; while estimation that critical bandwidth at this frequency is approximately 150, so 150/4 = 37.5, and 720+37.5 =757.5 and derivation of the two-tone dissonance formula from Plomp 1965 gives g_max = 1.01931f + 17.4672 = 751.3704, this does not necessarily mean it gives the most 'unfused' effect for students
-	SinOsc.ar(freq*4, 0, mul*other*vol) +
-	SinOsc.ar(freq*5, 0, mul*other*vol) +
-	SinOsc.ar(freq*6, 0, mul*other*vol) +
-	SinOsc.ar(freq*7, 0, mul*other*vol) +
-	SinOsc.ar(freq*8, 0, mul*other*vol) +
-	SinOsc.ar(freq*9, 0, mul*other*vol) +
-	SinOsc.ar(freq*10, 0, mul*other*vol) +
-	SinOsc.ar(freq*11, 0, mul*other*vol) +
-	SinOsc.ar(freq*12, 0, mul*other*vol) +
-	SinOsc.ar(freq*13, 0, mul*other*vol) +
-	SinOsc.ar(freq*14, 0, mul*other*vol) +
-	SinOsc.ar(freq*15, 0, mul*other*vol) +
-	SinOsc.ar(freq*16, 0, mul*other*vol)
+	SinOsc.ar(freq, 0, mul*other*vol*harmToggle1) +
+	SinOsc.ar(freq*2, 0, mul*other*vol*harmToggle2) +
+	SinOsc.ar(freq*outoftune, 0, mul2*intensity*vol*harmToggle3) + //the third harmonic can be varied 720-778, using Dr. Steven Brown's 2MP3 2015-2016 class; while estimation that critical bandwidth at this frequency is approximately 150, so 150/4 = 37.5, and 720+37.5 =757.5 and derivation of the two-tone dissonance formula from Plomp 1965 gives g_max = 1.01931f + 17.4672 = 751.3704, this does not necessarily mean it gives the most 'unfused' effect for students
+	SinOsc.ar(freq*4, 0, mul*other*vol*harmToggle4) +
+	SinOsc.ar(freq*5, 0, mul*other*vol*harmToggle5) +
+	SinOsc.ar(freq*6, 0, mul*other*vol*harmToggle6) +
+	SinOsc.ar(freq*7, 0, mul*other*vol*harmToggle7) +
+	SinOsc.ar(freq*8, 0, mul*other*vol*harmToggle8) +
+	SinOsc.ar(freq*9, 0, mul*other*vol*harmToggle9) +
+	SinOsc.ar(freq*10, 0, mul*other*vol*harmToggle10) +
+	SinOsc.ar(freq*11, 0, mul*other*vol*harmToggle11) +
+	SinOsc.ar(freq*12, 0, mul*other*vol*harmToggle12) +
+	SinOsc.ar(freq*13, 0, mul*other*vol*harmToggle13) +
+	SinOsc.ar(freq*14, 0, mul*other*vol*harmToggle14) +
+	SinOsc.ar(freq*15, 0, mul*other*vol*harmToggle15) +
+	SinOsc.ar(freq*16, 0, mul*other*vol*harmToggle16)
 	;
 
 	Out.ar([0,1], signal); //sends to busses 1 & 2 (stereo), and plays the var "signal"
@@ -398,6 +404,168 @@ to 3", Color.white,Color(0.7569,0.1373,0.1725,1)]
 });
 
 
+	//Dropdown menus
+//Preset
+	(
+s.waitForBoot({
+
+ var menu, snd, funcs2, b;
+
+
+ ~vinbutton = Button(w, Rect(250-(250/2),95,250,30))
+  .states_([
+				["            Click to Play # of Harmonics", Color.white, Color(0.7569,0.1373,0.1725,1)], ["            Click to Stop Sound", Color.white, Color.grey(0.251)]])
+
+
+
+
+  .mouseDownAction_(
+
+				{
+					arg obj;
+	if(obj.value == 0,
+						{
+    snd = funcs2.at(menu.value).play;
+						},{x.free}
+			)})
+  .action_({ arg mod;
+    snd.release;
+   });
+
+menu = PopUpMenu(w, Rect(250-(250/2)+5,95+5,50,20));
+			menu.items_(["3", "5", "8", "16"]);
+			menu.font_(Font(\size, 12));
+
+ funcs2 = [
+
+				{
+					x.free;
+
+			x = Synth(
+				\sound,
+				[
+						\outoftune, ~freqslider.value.linlin(0,1,2,4),
+						\intensity, ~mulslider.value.linlin(0,1,0.0,2),
+						\other, ~otherslider.value.linlin(0,1,0.0,2),
+						\freq, ~fslider.value.linexp(0,1,100,1000),
+							\harmToggle1, 1,
+							\harmToggle2, 1,
+							\harmToggle3, 1,
+							\harmToggle4, 0,
+							\harmToggle5, 0,
+							\harmToggle6, 0,
+							\harmToggle7, 0,
+							\harmToggle8, 0,
+							\harmToggle9, 0,
+							\harmToggle10, 0,
+							\harmToggle11, 0,
+							\harmToggle12, 0,
+							\harmToggle13, 0,
+							\harmToggle14, 0,
+							\harmToggle15, 0,
+							\harmToggle16, 0,
+				]
+			).register},
+{
+					x.free;
+
+			x = Synth(
+				\sound,
+				[
+						\outoftune, ~freqslider.value.linlin(0,1,2,4),
+						\intensity, ~mulslider.value.linlin(0,1,0.0,2),
+						\other, ~otherslider.value.linlin(0,1,0.0,2),
+						\freq, ~fslider.value.linexp(0,1,100,1000),
+							\harmToggle1, 1,
+							\harmToggle2, 1,
+							\harmToggle3, 1,
+							\harmToggle4, 1,
+							\harmToggle5, 1,
+							\harmToggle6, 0,
+							\harmToggle7, 0,
+							\harmToggle8, 0,
+							\harmToggle9, 0,
+							\harmToggle10, 0,
+							\harmToggle11, 0,
+							\harmToggle12, 0,
+							\harmToggle13, 0,
+							\harmToggle14, 0,
+							\harmToggle15, 0,
+							\harmToggle16, 0,
+				]
+			).register},
+				{
+					x.free;
+
+			x = Synth(
+				\sound,
+				[
+						\outoftune, ~freqslider.value.linlin(0,1,2,4),
+						\intensity, ~mulslider.value.linlin(0,1,0.0,2),
+						\other, ~otherslider.value.linlin(0,1,0.0,2),
+						\freq, ~fslider.value.linexp(0,1,100,1000),
+							\harmToggle1, 1,
+							\harmToggle2, 1,
+							\harmToggle3, 1,
+							\harmToggle4, 1,
+							\harmToggle5, 1,
+							\harmToggle6, 1,
+							\harmToggle7, 1,
+							\harmToggle8, 1,
+							\harmToggle9, 0,
+							\harmToggle10, 0,
+							\harmToggle11, 0,
+							\harmToggle12, 0,
+							\harmToggle13, 0,
+							\harmToggle14, 0,
+							\harmToggle15, 0,
+							\harmToggle16, 0,
+				]
+			).register},
+				{
+					x.free;
+
+			x = Synth(
+				\sound,
+				[
+						\outoftune, ~freqslider.value.linlin(0,1,2,4),
+						\intensity, ~mulslider.value.linlin(0,1,0.0,2),
+						\other, ~otherslider.value.linlin(0,1,0.0,2),
+						\freq, ~fslider.value.linexp(0,1,100,1000),
+							\harmToggle1, 1,
+							\harmToggle2, 1,
+							\harmToggle3, 1,
+							\harmToggle4, 1,
+							\harmToggle5, 1,
+							\harmToggle6, 1,
+							\harmToggle7, 1,
+							\harmToggle8, 1,
+							\harmToggle9, 1,
+							\harmToggle10, 1,
+							\harmToggle11, 1,
+							\harmToggle12, 1,
+							\harmToggle13, 1,
+							\harmToggle14, 1,
+							\harmToggle15, 1,
+							\harmToggle16, 1,
+				]
+			).register}
+
+
+
+
+			];
+
+
+
+ w.front;
+
+ p = CmdPeriod.add({ b.value_(0) }); // set button to 0 on hitting Cmd-period
+ w.onClose_{ snd.release; CmdPeriod.removeAll }; // clean up when window is closed
+
+})
+	);
+
 
 
 
@@ -405,12 +573,12 @@ to 3", Color.white,Color(0.7569,0.1373,0.1725,1)]
 	~quit = Button.new(w, Rect((400), 100, 60, 20))
 	.states_([["Home", Color.white, Color(0.2510,0.2510,0.2510,1)]])
 	.font_(Font("nil", 12))
-	.mouseDownAction_({w.close; f.kill; //shuts down window and scope
+	.mouseDownAction_({w.close; f.kill; x.free; //shuts down window and scope
 		(basePath +/+ "splashscreen.scd").loadPaths;
 		});
 
 
 
-w.onClose_({s.quit}); //ends server when quit
+w.onClose_({s.quit; x.free}); //ends server when quit
 });
 )

@@ -30,7 +30,6 @@ _COMPLETED_
 _TO-DOs_
 
 * Dropdown menu for Focus tone (third/fourth/fifth/etc.)
-* Number of harmonics active -> control the loops of harmonics
 * Add an IF statement so that the harmonic desired to manipulate cannot be manipulated/added by the LOOP
 * Variable: fade in rate
 * Make freq spectra log and set linlin->linexp
@@ -58,6 +57,7 @@ _COMPLETED_
 * Spectra - can the frequency axis be on the vertical axis (option to go back and forth)? = possibility using Pen, but requires different data collection: http://sccode.org/1-1HR
 * Add axis if not possible
 * Extend the Freq range of the spectra
+* Number of harmonics active -> control the loops of harmonics
 
 
 * * *
