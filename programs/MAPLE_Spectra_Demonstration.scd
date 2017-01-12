@@ -201,6 +201,10 @@ menu = PopUpMenu(w, Rect(622.5, 420, 60, 20));
 		~f16slider.valueAction_(0.value.linlin(0.0,2,0,1));
 		x.free; ///NEED TO ADD OSC DELAY
 		~button.valueAction_(1);
+					~l.valueAction_(0);
+				~k.valueAction_(0);
+								~j.valueAction_(0);
+
 	},
 {
 		var variable;
@@ -274,6 +278,8 @@ menu = PopUpMenu(w, Rect(622.5, 420, 60, 20));
 		~button.valueAction_(1);
 					~l.valueAction_(0);
 				~k.valueAction_(0);
+								~vinbutton.valueAction_(0);
+
 	}, {x.free; ~j.valueAction_(1);~button.valueAction_(0)});});
 
 	//FORCED trumpet preset
@@ -310,6 +316,8 @@ menu = PopUpMenu(w, Rect(622.5, 420, 60, 20));
 					~k.valueAction_(0);
 				~j.valueAction_(0);
 				~r.valueAction_(0);
+								~vinbutton.valueAction_(0);
+
 	}, {x.free; ~l.valueAction_(1);~button.valueAction_(0)});});
 
 
@@ -347,6 +355,7 @@ menu = PopUpMenu(w, Rect(622.5, 420, 60, 20));
 				~l.valueAction_(0);
 				~j.valueAction_(0);
 				~r.valueAction_(0);
+				~vinbutton.valueAction_(0);
 	}, {x.free; ~k.valueAction_(1);~button.valueAction_(0)});});
 
 	//FORCED trumpet preset
@@ -394,12 +403,14 @@ menu = PopUpMenu(w, Rect(622.5, 420, 60, 20));
 			~k.valueAction_(0);
 				~j.valueAction_(0);
 		~l.valueAction_(0);
+								~vinbutton.valueAction_(0);
+
 	}, {x.free; ~r.valueAction_(1);~button.valueAction_(0)});});
 
 
 	//Label for Moving
 ~para = StaticText(w,Rect(10,460,380,30))
-	.string_("Synthesized Sounds")
+	.string_("Dynamic Spectra")
 .font_(Font("nil", 18))
 .align_(\topLeft)
 .background_(Color(0,0,0,0))
@@ -407,7 +418,7 @@ menu = PopUpMenu(w, Rect(622.5, 420, 60, 20));
 
 //Label for Realistic
 ~para = StaticText(w,Rect(10,500,380,30))
-	.string_("Instrument Recordings")
+	.string_("Audio Recordings")
 .font_(Font("nil", 18))
 .align_(\topLeft)
 .background_(Color(0,0,0,0))
@@ -658,7 +669,7 @@ f = Button(w, Rect(525, 497.5, 90, 26))
 ///////SYNTHS
 ///add sound to a buffer as an import - horn
 (
-o = Buffer.read(s, basePath +/+ "audio/horn_synth.aiff");
+o = Buffer.read(s, basePath +/+ "audio/horn_synth_cut_new.wav");
 
 SynthDef("importhorn_synth",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1;
 	var rate;
