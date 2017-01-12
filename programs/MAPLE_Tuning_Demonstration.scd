@@ -25,7 +25,7 @@ f.active_(true).freqMode_(1).dbRange_(70);
 
 //Label for paragraph
 ~para = StaticText(w,Rect(10,10,480,80))
-.string_("Welcome to the MAPLE Lab Tuning Demonstration! Using the parameters below, you can examine the fusion effect. Select the sounds you want to play using the buttons below. Use the Play/Mute button to start and stop the sound. To explore how fusion/unfusion occurs, use the slider or numbers-box to change the frequency of the 3rd harmonic.")
+	.string_("Welcome to the MAPLE Lab Overtone 'Popout' Demonstration! Using the parameters below, you can examine the fusion effect. Select the sounds you want to play using the buttons below. Use the Play/Mute button to start and stop the sound. To explore how fusion/unfusion occurs, use the slider or numbers-box to change the frequency of the 3rd harmonic.")
 .font_(Font("nil", 12))
 .align_(\topLeft)
 .background_(Color(0,0,0,0))
@@ -550,12 +550,7 @@ menu = PopUpMenu(w, Rect(250-(250/2)+5,95+5,50,20));
 							\harmToggle16, 1,
 				]
 			).register}
-
-
-
-
 			];
-
 
 
  w.front;

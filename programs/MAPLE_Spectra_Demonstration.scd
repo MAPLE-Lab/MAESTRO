@@ -136,7 +136,7 @@ StaticText(w,Rect(410,360,500,2))
 				z.free;
 				v.free;
 		},
-		{x.free}
+		{x.free; ~vinbutton.valueAction_(0);}
 	);
 });
 
@@ -158,10 +158,16 @@ s.waitForBoot({
 
 
  ~vinbutton = Button(w, Rect(620, 417.5, 170, 25))
-  .states_([["            Click to Play", Color.white, Color.gray]])
-  .mouseDownAction_({
+			.states_([["            Click to Play", Color.white, Color.gray], ["            Click to Stop", Color.white, Color.black]])
+   .mouseDownAction_(
+
+				{
+					arg obj;
+	if(obj.value == 0,
+						{
     snd = funcs2.at(menu.value).play;
-   })
+						},{x.free; ~button.valueAction_(0); ~vinbutton.valueAction_(1);}
+			)})
   .action_({ arg mod;
     snd.release;
    });
@@ -233,50 +239,17 @@ menu = PopUpMenu(w, Rect(622.5, 420, 60, 20));
 	);
 
 
-	//Play synthesized true
-	(
-s.waitForBoot({
-
- var menu, snd, funcs, b;
-
-
- ~playbutton = Button(w, Rect(620, 497.5, 170, 25))
-  .states_([["            Hold to Play", Color.white, Color.gray]])
-  .mouseDownAction_({
-    snd = funcs.at(menu.value).play;
-
-	~button.valueAction_(0);
-			})
-  .action_({ arg mod;
-    snd.release;
-   });
-
-menu = PopUpMenu(w, Rect(622.5, 500, 60, 20));
-  menu.items_(["Sine", "Saw"]);
-			menu.font_(Font(\size, 12));
-
-
- funcs = [
-				{ Pan2.ar(SinOsc.ar(440, 0, 0.3),0);
-				},
-				{ Pan2.ar(Saw.ar(440, 0.3),0);}
- ];
-
-
- w.front;
-
- p = CmdPeriod.add({ b.value_(0) }); // set button to 0 on hitting Cmd-period
- w.onClose_{ snd.release; CmdPeriod.removeAll }; // clean up when window is closed
-
-})
-	);
 
 
 //FORCED tuning fork preset
-j = Button(w, Rect(240, 417.5, 90, 26))
-	.states_([["Tuning Fork", Color.white, Color(0,0,0,0.5)]])
+~j = Button(w, Rect(240, 417.5, 90, 26))
+	.states_([["Tuning Fork", Color.white, Color(0,0,0,0.5)], ["Tuning Fork", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.mouseDownAction_({
+
+		arg obj;
+	if(obj.value == 0,
+		{
 		var variable;
 		variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
 		~freqslider.valueAction_(440.value.explin(100,1000,0,1)); //only need to affect slider to affect the number box and true sound value
@@ -299,13 +272,19 @@ j = Button(w, Rect(240, 417.5, 90, 26))
 		~f16slider.valueAction_(0.value.linlin(0.0,2,0,1));
 		x.free; ///requires OSC delay?
 		~button.valueAction_(1);
-	});
+					~l.valueAction_(0);
+				~k.valueAction_(0);
+	}, {x.free; ~j.valueAction_(1);~button.valueAction_(0)});});
 
 	//FORCED trumpet preset
-l = Button(w, Rect(335, 417.5, 90, 26))
-	.states_([["Trumpet", Color.white, Color(0,0,0,0.5)]])
+~l = Button(w, Rect(335, 417.5, 90, 26))
+	.states_([["Trumpet", Color.white, Color(0,0,0,0.5)],["Trumpet", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.mouseDownAction_({
+
+		arg obj;
+	if(obj.value == 0,
+		{
 		var variable;
 		variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
 		~freqslider.valueAction_(440.value.explin(100,1000,0,1)); //only need to affect slider to affect the number box and true sound value
@@ -328,14 +307,21 @@ l = Button(w, Rect(335, 417.5, 90, 26))
 		~f16slider.valueAction_(0.value.linlin(0.0,2,0,1));
 		x.free;
 		~button.valueAction_(1);
-	});
+					~k.valueAction_(0);
+				~j.valueAction_(0);
+				~r.valueAction_(0);
+	}, {x.free; ~l.valueAction_(1);~button.valueAction_(0)});});
 
 
 //FORCED flute preset
-k = Button(w, Rect(430, 417.5, 90, 26))
-	.states_([["Flute", Color.white, Color(0,0,0,0.5)]])
+~k = Button(w, Rect(430, 417.5, 90, 26))
+	.states_([["Flute", Color.white, Color(0,0,0,0.5)], ["Flute", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.mouseDownAction_({
+
+		arg obj;
+	if(obj.value == 0,
+		{
 		var variable;
 		variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
 		~freqslider.valueAction_(440.value.explin(100,1000,0,1)); //only need to affect slider to affect the number box and true sound value
@@ -358,13 +344,20 @@ k = Button(w, Rect(430, 417.5, 90, 26))
 		~f16slider.valueAction_(0.019.value.linlin(0.0,2,0,1));
 		x.free;
 	~button.valueAction_(1);
-	});
+				~l.valueAction_(0);
+				~j.valueAction_(0);
+				~r.valueAction_(0);
+	}, {x.free; ~k.valueAction_(1);~button.valueAction_(0)});});
 
 	//FORCED trumpet preset
-r = Button(w, Rect(525, 417.5, 90, 26))
-	.states_([["Horn", Color.white, Color(0,0,0,0.5)]])
+~r = Button(w, Rect(525, 417.5, 90, 26))
+	.states_([["Horn", Color.white, Color(0,0,0,0.5)],["Horn", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.mouseDownAction_({
+
+		arg obj;
+	if(obj.value == 0,
+		{
 		var variable;
 		variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
 		~freqslider.valueAction_(261.6.value.explin(100,1000,0,1)); //only need to affect slider to affect the number box and true sound value
@@ -398,7 +391,10 @@ r = Button(w, Rect(525, 417.5, 90, 26))
 		~f16slider.valueAction_(0.value.linlin(0.0,2,0,1));
 		x.free;
 	~button.valueAction_(1);
-	});
+			~k.valueAction_(0);
+				~j.valueAction_(0);
+		~l.valueAction_(0);
+	}, {x.free; ~r.valueAction_(1);~button.valueAction_(0)});});
 
 
 	//Label for Moving

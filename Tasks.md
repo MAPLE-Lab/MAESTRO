@@ -34,16 +34,18 @@ _TO-DOs_
 * Variable: fade in rate
 * Make freq spectra log and set linlin->linexp
 
-</p>
-
-* 2D slider for rate and delay (window of tolerance? thresholds?)
-* Tone that moves come through a different - for science
 
 </p>
 
 * Array? Dropdown - set the values of the 0,0,0,1,0,0,0,0etc. - don't use Array for now; currently just use direct approach to arguments of "\toggle" for each individual tone
 * MasterVolume? arg toggle
 * Toggle helps so later in the program 
+
+</p>
+
+* 2D slider for rate and delay (window of tolerance? thresholds?)
+* Tone that moves come through a different - for science
+
 
 
 _COMPLETED_
@@ -66,7 +68,7 @@ _COMPLETED_
 
 _TO-DOs_
 
-* .plot the data of the harmonic spectra, and plots just the spectra - fake it beause of the time axis - more pedagogically valuable 
+* .plot the data of the harmonic spectra, and plots just the spectra - fake it beause of the time axis - more pedagogically valuable - currently use an image from grapher
 * Make the sound buttons be 2 switch
 * At the end of the sound the button springs back up
 * Amadeus slow-mo the .WAV to get better sample rate and check refresh rate
