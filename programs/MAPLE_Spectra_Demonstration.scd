@@ -641,7 +641,7 @@ q = Button(w, Rect(240, 497.5, 90, 26))
 
 ///add sound to a buffer as an import - trumpet
 (
-c = Buffer.read(s, basePath +/+ "audio/trumpet_fix.wav");
+c = Buffer.read(s, basePath +/+ "audio/trumpet.aif");
 
 SynthDef("import3",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1;
 	var rate;
@@ -696,7 +696,7 @@ r = Button(w, Rect(430, 497.5, 90, 26))
 
 ///add sound to a buffer as an import - horn
 (
-q = Buffer.read(s, basePath +/+ "audio/horn.aif");
+q = Buffer.read(s, basePath +/+ "audio/horn_fix.wav");
 
 SynthDef("import5",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1;
 	var rate;
