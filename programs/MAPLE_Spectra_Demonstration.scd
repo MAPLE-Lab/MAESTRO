@@ -15,6 +15,7 @@ s.waitForBoot({ //Ensures it only opens once the server is working completely, a
 h = FreqScopeView.new(w, Rect.new(320,105,500,300)); //Prepares frequency scope (a.k.a. spectra)
 h.active_(true).freqMode_(1).dbRange_(70);
 
+	// s.onBootAdd({~scopebutton.valueAction_(1);});
 
 
 //Label for paragraph
@@ -211,22 +212,22 @@ menu = PopUpMenu(w, Rect(622.5, 420, 60, 20));
 		variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
 		~freqslider.valueAction_(440.value.explin(100,1000,0,1)); //only need to affect slider to affect the number box and true sound value
 		~volslider.valueAction_(0.8.value.linlin(0,1,0,1));
-		~f1slider.valueAction_(2.value.linlin(0.0,2,0,1));
-		~f2slider.valueAction_(1.value.linlin(0.0,2,0,1));
-		~f3slider.valueAction_(0.5.value.linlin(0.0,2,0,1));
-		~f4slider.valueAction_(0.25.value.linlin(0.0,2,0,1));
-		~f5slider.valueAction_(0.125.value.linlin(0.0,2,0,1));
-		~f6slider.valueAction_(0.07.value.linlin(0.0,2,0,1));
-		~f7slider.valueAction_(0.05.value.linlin(0.0,2,0,1));
-		~f8slider.valueAction_(0.03.value.linlin(0.0,2,0,1));
-		~f9slider.valueAction_(0.02.value.linlin(0.0,2,0,1));
-		~f10slider.valueAction_(0.01.value.linlin(0.0,2,0,1));
-		~f11slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f12slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f13slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f14slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f15slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f16slider.valueAction_(0.value.linlin(0.0,2,0,1));
+		~f1slider.valueAction_(1.value.linlin(0.0,2,0,1));
+					~f2slider.valueAction_((0.5**1).value.linlin(0.0,2,0,1));
+					~f3slider.valueAction_((1/3**1).value.linlin(0.0,2,0,1));
+					~f4slider.valueAction_((1/4**1).value.linlin(0.0,2,0,1));
+					~f5slider.valueAction_((1/5**1).value.linlin(0.0,2,0,1));
+					~f6slider.valueAction_((1/6**1).value.linlin(0.0,2,0,1));
+					~f7slider.valueAction_((1/7**1).value.linlin(0.0,2,0,1));
+					~f8slider.valueAction_((1/8**1).value.linlin(0.0,2,0,1));
+					~f9slider.valueAction_((1/9**1).value.linlin(0.0,2,0,1));
+					~f10slider.valueAction_((1/10**1).value.linlin(0.0,2,0,1));
+					~f11slider.valueAction_((1/11**1).value.linlin(0.0,2,0,1));
+					~f12slider.valueAction_((1/12**1).value.linlin(0.0,2,0,1));
+					~f13slider.valueAction_((1/13**1).value.linlin(0.0,2,0,1));
+					~f14slider.valueAction_((1/14**1).value.linlin(0.0,2,0,1));
+					~f15slider.valueAction_((1/15**1).value.linlin(0.0,2,0,1));
+					~f16slider.valueAction_((1/16**1).value.linlin(0.0,2,0,1));
 		x.free; ///NEED TO ADD OSC DELAY
 		~button.valueAction_(1);
 	},
@@ -1439,7 +1440,7 @@ SynthDef.new("sound", {
 });
 //Label
 ~f14Label = StaticText(w,Rect(330,130,20,15))
-.string_("1")
+.string_("14")
 .font_(Font("nil", 12))
 .align_(\top)
 .background_(Color(0,0,0,0.1))
@@ -1598,7 +1599,7 @@ SynthDef.new("sound", {
 				~w2 = Window.new("Oscilloscope", Rect.new(
 	Window.screenBounds.width/2+420,
 	500,
-		250,250),false).background_(Color.white).userCanClose_(false).front;
+		250,250),false).background_(Color.white).userCanClose_(true).front;
 
 		~d = Stethoscope.new(s, 2,view:~w2)//nil causes it to open in its own window
 				// .xZoom_(5) //is only setting slider, isn't changing view properly
@@ -1606,7 +1607,7 @@ SynthDef.new("sound", {
 				.yZoom_(4);
 			},
 		{
-				~w2.close;
+				// ~w2.close;
 				// ~d.quit //had to comment these two to make it not error as can't interpret - maybe these should open as default?
 			}
 	);

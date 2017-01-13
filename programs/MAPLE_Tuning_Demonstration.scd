@@ -8,7 +8,7 @@ s.waitForBoot({ //Ensures it only opens once the server is working completely, a
 	w = Window.new("MAPLE Lab Overtone 'Popout' Demonstration", Rect.new(
 	Window.screenBounds.width/2-250,
 	Window.screenBounds.height/2-50,
-		500,670),false
+		500,570),false //shortened the
 	).background_(Color.white).userCanClose_(true).front; //Creates the new window with title
 
 
@@ -183,7 +183,7 @@ StaticText(w,Rect(0,620,500,2))
 
 //Label for Freq.
 ~fLabel = StaticText(w,Rect(10,158,70,15))
-.string_("Tonic Frequency")
+.string_("Fundamental Frequency")
 .font_(Font("nil", 8))
 .align_(\topRight)
 .background_(Color(0,0,0,0))
@@ -228,7 +228,7 @@ StaticText(w,Rect(0,620,500,2))
 
 //Label for Focus tone
 ~para = StaticText(w,Rect(10,177,480,80))
-	.string_("Focus tone")
+	.string_("Harmonic")
 .font_(Font("nil", 18))
 .align_(\topLeft)
 .background_(Color(0,0,0,0))
