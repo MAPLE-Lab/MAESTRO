@@ -115,29 +115,29 @@ StaticText(w,Rect(0,620,500,2))
 */
 
 	//Play sounds button (DERELICT)
-~button = Button(w, Rect(250-(200/2),95,200,30))
-.states_([
-	["Click to Play Sounds", Color.white,Color(0.7569,0.1373,0.1725,1)],
-	["Click to Mute Sounds", Color.white, Color.grey(0.251)]
-])
-.font_(Font("nil", 18))
-.action_({
-	arg obj;
-	if(obj.value == 1,
-		{
-			x = Synth.new(
-				\sound,
-				[
-						\outoftune, ~freqslider.value.linlin(0,1,2,4),
-						\intensity, ~mulslider.value.linlin(0,1,0.0,2),
-						\other, ~otherslider.value.linlin(0,1,0.0,2),
-						\freq, ~fslider.value.linexp(0,1,100,1000),
-				]
-			).register;
-		},
-		{x.free}
-	);
-});
+	// ~button = Button(w, Rect(250-(200/2),95,200,30))
+	// .states_([
+	// 	["Click to Play Sounds", Color.white,Color(0.7569,0.1373,0.1725,1)],
+	// 	["Click to Mute Sounds", Color.white, Color.grey(0.251)]
+	// ])
+	// .font_(Font("nil", 18))
+	// .action_({
+	// 	arg obj;
+	// 	if(obj.value == 1,
+	// 		{
+	// 			x = Synth.new(
+	// 				\sound,
+	// 				[
+	// 					\outoftune, ~freqslider.value.linlin(0,1,2,4),
+	// 					\intensity, ~mulslider.value.linlin(0,1,0.0,2),
+	// 					\other, ~otherslider.value.linlin(0,1,0.0,2),
+	// 					\freq, ~fslider.value.linexp(0,1,100,1000),
+	// 				]
+	// 			).register;
+	// 		},
+	// 		{x.free}
+	// 	);
+	// });
 
 	//VOLUME
 //Properties of the slider
@@ -439,19 +439,22 @@ s.waitForBoot({
 menu = PopUpMenu(w, Rect(250-(250/2)+5,95+5,50,20));
 			menu.items_(["3", "5", "8", "16"]);
 			menu.font_(Font(\size, 12));
+			menu.allowsReselection_(true);
 			menu.action = { arg menu;
-				[menu.value, menu.item].postln;
 
-				x.set(\freq, 0.5.value.linexp(0,1,100,1000));
+				// [menu.value, menu.item, menu.action].postln; //These lines allow below allow the menu clicker to auto-set the choice selected (not requiring to click on-off the button to set the dropdown selection)
+~vinbutton.valueAction_(0);
+				x.free;
+				~vinbutton.valueAction_(1);
+snd = funcs2.at(menu.value).play;
+
+				// x.set(menu.action);
 
 			};
-
 
  funcs2 = [
 
 				{
-					x.free;
-
 			x = Synth(
 				\sound,
 				[

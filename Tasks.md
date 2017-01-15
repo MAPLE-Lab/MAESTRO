@@ -2,20 +2,25 @@
 _Updated 2016/01/04_
 
 ##**General**
+
+_TO-DOs_
+
 Class is 3rd week (Jan 17th - 10:30am; Thursday Jan 19th - 9:30-11:20) - TSH 120
 So need to know by the 16th to play around
 If earlier 
 
-Get Audacity = Done
+_COMPLETED_
+
+* All must fit into 800x600 screen for class
+* Get Audacity = Done
+* Put into the Interesting Resources the Wikisinger at end - and post in Acousitc spaces underneath the Media = COMPLETE
 
 Error to fix: input and output sample rates do not match. 48000 != 44100
-
-Find solutions
-
-
-ALl must fit into 800x600 screen for class
-
-Put into the Interesting Resources the Wikisinger at end - and post in Acousitc spaces underneath the Media = COMPLETE
+	Find solutions
+	May have been zombie scsynth (because 2 were open at the same time) http://supercollider.sourceforge.net/wiki/index.php/ERROR:_server_failed_to_start
+	Otherwise: 
+	s.options.sampleRate = 48000; //or the value necessary
+	s.reboot; 
 
 
 * * *
@@ -24,7 +29,6 @@ Put into the Interesting Resources the Wikisinger at end - and post in Acousitc 
 _TO-DOs_
 
 * Technical details button on all apps with details
-
 
 _COMPLETED_
 
@@ -41,7 +45,6 @@ _TO-DOs_
 
 * Set the focus tone to go to ANY number and whatever it chooses ; not in absolute pitch but relative multiples - use the math (# + varSlider)
 * Starts in the middle of the slider
-* When another option is chosen from the Dropdown menu, it automatically restarts
 * Dropdown menu for Focus tone (third/fourth/fifth/etc.)
 * Add an IF statement so that the harmonic desired to manipulate cannot be manipulated/added by the LOOP
 * Variable: fade in rate
@@ -73,7 +76,7 @@ _COMPLETED_
 * Add axis if not possible
 * Extend the Freq range of the spectra
 * Number of harmonics active -> control the loops of harmonics
-
+* When another option is chosen from the Dropdown menu, it automatically restarts
 
 * * *
 
