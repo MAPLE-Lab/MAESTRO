@@ -697,7 +697,7 @@ q = Button(w, Rect(240, 497.5, 90, 26))
 
 ///add sound to a buffer as an import - trumpet
 (
-c = Buffer.read(s, basePath +/+ "audio/trumpet.aif");
+c = Buffer.read(s, basePath +/+ "audio/trumpet.wav");
 
 SynthDef("import3",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1;
 	var rate;
@@ -742,7 +742,7 @@ s.sendBundle(1, ["/n_free", v.free]);//sound ends, at least frees up memory spac
 
 ///add sound to a buffer as an import - flute
 (
-b = Buffer.read(s, basePath +/+ "audio/flute_fix.wav");
+b = Buffer.read(s, basePath +/+ "audio/flute.wav");
 
 SynthDef("import2",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1;
 	var rate;
@@ -777,7 +777,7 @@ r = Button(w, Rect(430, 497.5, 90, 26))
 
 ///add sound to a buffer as an import - horn
 (
-q = Buffer.read(s, basePath +/+ "audio/horn_fix.wav");
+q = Buffer.read(s, basePath +/+ "audio/horn.wav");
 
 SynthDef("import5",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1;
 	var rate;
@@ -830,30 +830,76 @@ u = Button(w, Rect(525, 457.5, 90, 26))
 	.states_([["Horn", Color.white, Color(0,0,0,0.5)]])
 	.font_(Font("nil", 14))
 	.action_({
-
+	l.free;
 			l = Synth.new(\importhorn_synth, [\out, 0, \bufnum, o.bufnum]);
 		x.free;
 		y.free;
 		z.free;
 		~button.valueAction_(0);
+				~l.valueAction_(0);
+				~j.valueAction_(0);
+				~r.valueAction_(0);
+				~k.valueAction_(0);
+				~vinbutton.valueAction_(0);
 		});
+
+
 
 
 
 r = Button(w, Rect(430, 457.5, 90, 26))
 	.states_([["Flute", Color.white, Color(0,0,0,0.5)]])
 	.font_(Font("nil", 14))
-	.action_({});
+	.action_({
+		l.free;
+		l = Synth.new(\importhorn_synth, [\out, 0, \bufnum, o.bufnum]);
+		x.free;
+		y.free;
+		z.free;
+		~button.valueAction_(0);
+				~l.valueAction_(0);
+				~j.valueAction_(0);
+				~r.valueAction_(0);
+				~k.valueAction_(0);
+				~vinbutton.valueAction_(0);
+
+	});
 
 	r = Button(w, Rect(335, 457.5, 90, 26))
 	.states_([["Trumpet", Color.white, Color(0,0,0,0.5)]])
 	.font_(Font("nil", 14))
-	.action_({});
+	.action_({
+			l.free;
+		l = Synth.new(\importhorn_synth, [\out, 0, \bufnum, o.bufnum]);
+		x.free;
+		y.free;
+		z.free;
+		~button.valueAction_(0);
+				~l.valueAction_(0);
+				~j.valueAction_(0);
+				~r.valueAction_(0);
+				~k.valueAction_(0);
+				~vinbutton.valueAction_(0);
+
+	});
 
 r = Button(w, Rect(240, 457.5, 90, 26))
 	.states_([["Cello", Color.white, Color(0,0,0,0.5)]])
 	.font_(Font("nil", 14))
-	.action_({});
+	.action_({
+			l.free;
+		l = Synth.new(\importhorn_synth, [\out, 0, \bufnum, o.bufnum]);
+		x.free;
+		y.free;
+		z.free;
+		~button.valueAction_(0);
+				~l.valueAction_(0);
+				~j.valueAction_(0);
+				~r.valueAction_(0);
+				~k.valueAction_(0);
+				~vinbutton.valueAction_(0);
+
+	});
 
 
 

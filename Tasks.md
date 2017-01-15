@@ -12,7 +12,7 @@ If earlier
 _COMPLETED_
 
 * All must fit into 800x600 screen for class
-* Get Audacity = Done
+* Get Audacity
 * Put into the Interesting Resources the Wikisinger at end - and post in Acousitc spaces underneath the Media = COMPLETE
 
 Error to fix: input and output sample rates do not match. 48000 != 44100
@@ -43,17 +43,13 @@ _COMPLETED_
 _TO-DOs_
 
 
-* Set the focus tone to go to ANY number and whatever it chooses ; not in absolute pitch but relative multiples - use the math (# + varSlider)
-* Starts in the middle of the slider
-* Dropdown menu for Focus tone (third/fourth/fifth/etc.)
-* Add an IF statement so that the harmonic desired to manipulate cannot be manipulated/added by the LOOP
 * Variable: fade in rate
 * Make freq spectra log and set linlin->linexp
 
-
 </p>
 
-* Array? Dropdown - set the values of the 0,0,0,1,0,0,0,0etc. - don't use Array for now; currently just use direct approach to arguments of "\toggle" for each individual tone
+* Array? Dropdown - set the values of the [0,0,0,1,0,0,0,0] etc. - don't use Array for now; look into "x.seti" in future
+*  currently just use direct approach to arguments of "\toggle" for each individual tone
 * MasterVolume? arg toggle
 * Toggle helps so later in the program 
 
@@ -77,6 +73,13 @@ _COMPLETED_
 * Extend the Freq range of the spectra
 * Number of harmonics active -> control the loops of harmonics
 * When another option is chosen from the Dropdown menu, it automatically restarts
+* Set the focus tone to go to ANY number and whatever it chooses ; not in absolute pitch but relative multiples - use the math (# + varSlider)
+* Starts in the middle of the slider
+* Dropdown menu for Focus tone (third/fourth/fifth/etc.)
+* Add an IF statement so that the harmonic desired to manipulate cannot be manipulated/added by the LOOP
+* Figure out how to get the setting of the harmonic to be edited to be automatically called = developped novel solution: "~menu2.value_([menu.value]); //this allows the key to stay and be called at the current one without changing
+					~menu2.valueAction_([menu.value]);},"
+
 
 * * *
 
@@ -86,11 +89,10 @@ _TO-DOs_
 
 * Update the Trumpet
 * Replace Tuning Fork with Cello and if time available then Clarinet
-* But save the Tuning Fork around
 * Use the WAV files for Audio from the new new dropbox
 * Find a better tuning fork sound (less noisy, add credit)
 * Two-switch toggle 
-* Oscilloscope should auto-open at 440
+* Oscilloscope should auto-open at 440 = SuperCollider doesn't seem capable
 * Try to fix drift
 * .plot the data of the harmonic spectra, and plots just the spectra - fake it beause of the time axis - more pedagogically valuable - currently use an image from grapher
 * Make the sound buttons be 2 switch = done for first row (except for Big button sync)
@@ -119,9 +121,7 @@ _TO-DOs_
 * Open for keyboard usage for picking fundamental (this should be possible) - needs discussion (see MAX/MSP tone generator online at www.maplelab.net/software)
 * Shade/colour keys on piano in proportion to amount of freq in there (intensity?)
 * Set Buttons as Global variables - funprogramming.org/134-etc....
-
-
-
+* But save the Tuning Fork around
 
 
 _COMPLETED_
