@@ -182,8 +182,8 @@ StaticText(w,Rect(0,620,500,2))
 	//TONIC FREQUENCY
 
 //Label for Freq.
-~fLabel = StaticText(w,Rect(10,158,70,15))
-.string_("Fundamental Frequency")
+~fLabel = StaticText(w,Rect(0,158,80,25))
+.string_("Fundamental Freq.")
 .font_(Font("nil", 8))
 .align_(\topRight)
 .background_(Color(0,0,0,0))
@@ -228,7 +228,7 @@ StaticText(w,Rect(0,620,500,2))
 
 //Label for Focus tone
 ~para = StaticText(w,Rect(10,177,480,80))
-	.string_("Harmonic")
+	.string_("Select Variant Harmonic:")
 .font_(Font("nil", 18))
 .align_(\topLeft)
 .background_(Color(0,0,0,0))
@@ -253,7 +253,24 @@ StaticText(w,Rect(0,620,500,2))
 //Define the sound to be played
 (
 SynthDef.new("sound", {
-	arg freq = 240, outoftune = 3, intensity = 1, other = 1, vol = 0.3, harmToggle1=1, harmToggle2=1, harmToggle3=1, harmToggle4=1, harmToggle5=1, harmToggle6, harmToggle7, harmToggle8, harmToggle9, harmToggle10, harmToggle11, harmToggle12, harmToggle13, harmToggle14, harmToggle15, harmToggle16;
+	arg freq = 240, outoftune = 0, intensity = 1, other = 1, vol = 0.3, harmToggle1=1, harmToggle2=1, harmToggle3=1, harmToggle4=1, harmToggle5=1, harmToggle6=1, harmToggle7=1, harmToggle8=1, harmToggle9=1, harmToggle10=1, harmToggle11=1, harmToggle12=1, harmToggle13=1, harmToggle14=1, harmToggle15=1, harmToggle16=1,
+			choose1=0,
+			choose2=0,
+			choose3=0,
+			choose4=0,
+			choose5=0,
+			choose6=0,
+			choose7=0,
+			choose8=0,
+			choose9=0,
+			choose10=0,
+			choose11=0,
+			choose12=0,
+			choose13=0,
+			choose14=0,
+			choose15=0,
+			choose16=0
+			;
 
 	var mul, mul2, signal;
 
@@ -263,9 +280,9 @@ SynthDef.new("sound", {
 
 
 	signal =
-	SinOsc.ar(freq, 0, mul*other*vol*harmToggle1) +
+			SinOsc.ar(freq*(1), 0, mul*other*vol*harmToggle1) +
 	SinOsc.ar(freq*2, 0, mul*other*vol*harmToggle2) +
-	SinOsc.ar(freq*outoftune, 0, mul2*intensity*vol*harmToggle3) + //the third harmonic can be varied 720-778, using Dr. Steven Brown's 2MP3 2015-2016 class; while estimation that critical bandwidth at this frequency is approximately 150, so 150/4 = 37.5, and 720+37.5 =757.5 and derivation of the two-tone dissonance formula from Plomp 1965 gives g_max = 1.01931f + 17.4672 = 751.3704, this does not necessarily mean it gives the most 'unfused' effect for students
+			SinOsc.ar(freq*(3+(outoftune*choose3)), 0, ((mul*(1-choose3))+(mul2*choose3))*((other*(1-choose3))+(intensity*(choose3)))*vol*harmToggle3) + //the third harmonic can be varied 720-778, using Dr. Steven Brown's 2MP3 2015-2016 class; while estimation that critical bandwidth at this frequency is approximately 150, so 150/4 = 37.5, and 720+37.5 =757.5 and derivation of the two-tone dissonance formula from Plomp 1965 gives g_max = 1.01931f + 17.4672 = 751.3704, this does not necessarily mean it gives the most 'unfused' effect for students
 	SinOsc.ar(freq*4, 0, mul*other*vol*harmToggle4) +
 	SinOsc.ar(freq*5, 0, mul*other*vol*harmToggle5) +
 	SinOsc.ar(freq*6, 0, mul*other*vol*harmToggle6) +
@@ -294,16 +311,16 @@ SynthDef.new("sound", {
 .action_({
 	arg obj;
 	var cf;
-	cf = obj.value.linlin(0,1,2,4).postln;
+	cf = obj.value.linlin(0,1,-1,1).postln;
 		if(
 		x.isPlaying,
 		{x.set(\outoftune,cf)});
-	~numberBox.value_(obj.value.linlin(0,1,2,4));
+	~numberBox.value_(obj.value.linlin(0,1,-1,1));
 });
 
 //Label for Freq.
 ~freqLabel = StaticText(w,Rect(15,200,65,40))
-.string_("Tonic Multiple")
+.string_("Harmonic Deviation")
 .font_(Font("nil", 12))
 .align_(\topRight)
 .background_(Color(0,0,0,0))
@@ -311,22 +328,22 @@ SynthDef.new("sound", {
 
 //Number box that can edit slider position
 ~numberBox = NumberBox(w,Rect(85+35,200,72-35,30))
-.value_(3)
-.clipLo_(2)
-.clipHi_(4)
-.font_(Font("nil",16))
-.decimals_(1)
+.value_(0)
+.clipLo_(-1)
+.clipHi_(1)
+.font_(Font("nil",12))
+.decimals_(2)
 .align_(\center)
 .action_({
 	arg obj;
-	~freqslider.valueAction_(obj.value.linlin(2,4,0,1))
+	~freqslider.valueAction_(obj.value.linlin(-1,1,0,1))
 });
 
 //Button to reset 3rd harmonic
 ~reset = Button(w, Rect(250-(200/2)-65,200,35,30))
 .states_([
 	["Reset
-to 3", Color.white,Color(0.7569,0.1373,0.1725,1)]
+to 0", Color.white,Color(0.7569,0.1373,0.1725,1)]
 ])
 .font_(Font("nil", 8))
 .action_({
@@ -409,11 +426,18 @@ to 3", Color.white,Color(0.7569,0.1373,0.1725,1)]
 
 
 ////VERSION:
-~versioncode = StaticText(w,Rect(10,555,480,30))
+~versioncode = StaticText(w,Rect(0,559,500,30))
 	.string_("Beta Version 0.1.0")
 .font_(Font("Helvetica", 10, false))
 .align_(\top)
-.background_(Color.clear)
+	.background_(Color.clear)
+	.stringColor_(Color.white);
+
+	~versioncodeBox = StaticText(w,Rect(0,555,500,30))
+	.string_("")
+.font_(Font("Helvetica", 10, false))
+.align_(\top)
+	.background_(Color(1,1,1,0.2))
 	.stringColor_(Color.white);
 
 
@@ -435,18 +459,24 @@ s.waitForBoot({
 				["            Click to Play # of Harmonics", Color.white, Color(0.7569,0.1373,0.1725,1)], ["            Click to Stop Sound", Color.white, Color.grey(0.251)]])
 
 
-
-
   .mouseDownAction_(
 
 				{
+
 					arg obj;
 	if(obj.value == 0,
 						{
-    snd = funcs2.at(menu.value).play;
+
+
+							snd = funcs2.at(menu.value).play /*+ funcs2.at(menu2.value).postln*/;
+
+
 						},{x.free}
 			)})
   .action_({ arg mod;
+/*~menu2.allowsReselection;
+				~menu2.value_(0);
+				~menu2.valueAction_(0);*/
     snd.release;
    });
 
@@ -454,15 +484,16 @@ menu = PopUpMenu(w, Rect(250-(250/2)+5,95+5,50,20));
 			menu.items_(["3", "5", "8", "16"]);
 			menu.font_(Font(\size, 12));
 			menu.allowsReselection_(true);
-			menu.action = { arg menu;
+			menu.action = { arg menu, menu2;
 
 				// [menu.value, menu.item, menu.action].postln; //These lines allow below allow the menu clicker to auto-set the choice selected (not requiring to click on-off the button to set the dropdown selection)
 ~vinbutton.valueAction_(0);
 				x.free;
 				~vinbutton.valueAction_(1);
+
 snd = funcs2.at(menu.value).play;
 
-				// x.set(menu.action);
+
 
 			};
 
@@ -472,7 +503,7 @@ snd = funcs2.at(menu.value).play;
 			x = Synth(
 				\sound,
 				[
-						\outoftune, ~freqslider.value.linlin(0,1,2,4),
+						\outoftune, ~freqslider.value.linlin(0,1,-1,1),
 						\intensity, ~mulslider.value.linlin(0,1,0.0,2),
 						\other, ~otherslider.value.linlin(0,1,0.0,2),
 						\freq, ~fslider.value.linexp(0,1,100,1000),
@@ -493,14 +524,15 @@ snd = funcs2.at(menu.value).play;
 							\harmToggle15, 0,
 							\harmToggle16, 0,
 				]
-			).register},
+					).register; ~menu2.value_([menu.value]); //this allows the key to stay and be called at the current one without changing
+					~menu2.valueAction_([menu.value]);},
 {
 					x.free;
 
 			x = Synth(
 				\sound,
 				[
-						\outoftune, ~freqslider.value.linlin(0,1,2,4),
+						\outoftune, ~freqslider.value.linlin(0,1,-1,1),
 						\intensity, ~mulslider.value.linlin(0,1,0.0,2),
 						\other, ~otherslider.value.linlin(0,1,0.0,2),
 						\freq, ~fslider.value.linexp(0,1,100,1000),
@@ -521,14 +553,15 @@ snd = funcs2.at(menu.value).play;
 							\harmToggle15, 0,
 							\harmToggle16, 0,
 				]
-			).register},
+			).register; ~menu2.value_([menu.value]); //this allows the key to stay and be called at the current one without changing
+					~menu2.valueAction_([menu.value]);},
 				{
 					x.free;
 
 			x = Synth(
 				\sound,
 				[
-						\outoftune, ~freqslider.value.linlin(0,1,2,4),
+						\outoftune, ~freqslider.value.linlin(0,1,-1,1),
 						\intensity, ~mulslider.value.linlin(0,1,0.0,2),
 						\other, ~otherslider.value.linlin(0,1,0.0,2),
 						\freq, ~fslider.value.linexp(0,1,100,1000),
@@ -549,14 +582,15 @@ snd = funcs2.at(menu.value).play;
 							\harmToggle15, 0,
 							\harmToggle16, 0,
 				]
-			).register},
+			).register; ~menu2.value_([menu.value]); //this allows the key to stay and be called at the current one without changing
+					~menu2.valueAction_([menu.value]);},
 				{
 					x.free;
 
 			x = Synth(
 				\sound,
 				[
-						\outoftune, ~freqslider.value.linlin(0,1,2,4),
+						\outoftune, ~freqslider.value.linlin(0,1,-1,1),
 						\intensity, ~mulslider.value.linlin(0,1,0.0,2),
 						\other, ~otherslider.value.linlin(0,1,0.0,2),
 						\freq, ~fslider.value.linexp(0,1,100,1000),
@@ -577,7 +611,108 @@ snd = funcs2.at(menu.value).play;
 							\harmToggle15, 1,
 							\harmToggle16, 1,
 				]
-			).register}
+			).register; ~menu2.value_([menu.value]); //this allows the key to stay and be called at the current one without changing
+					~menu2.valueAction_([menu.value]);}
+			];
+
+
+ w.front;
+
+ p = CmdPeriod.add({ b.value_(0) }); // set button to 0 on hitting Cmd-period
+ w.onClose_{ snd.release; CmdPeriod.removeAll }; // clean up when window is closed
+
+})
+
+
+
+	);
+
+
+	/////////DROPDOWN FOR CHOOSING WHICH TO AFFECT
+
+(
+s.waitForBoot({
+
+ var menu2, snd, funcs2, b;
+
+
+ /*~choosebutton = Button(w, Rect(250-(250/2),95+50,250,30))
+  .states_([
+				["            Click to Play # of Harmonics", Color.white, Color(0.7569,0.1373,0.1725,1)], ["            Click to Stop Sound", Color.white, Color.grey(0.251)]])
+
+
+  .mouseDownAction_(
+
+				{
+					arg obj;
+	if(obj.value == 0,
+						{
+    snd = funcs2.at(menu2.value).play;
+						},{x.free}
+			)})
+  .action_({ arg mod;
+    snd.release;
+   });
+*/
+~menu2 = PopUpMenu(w, Rect(250-(250/2)+100,95+5+80,50,20));
+			~menu2.items_(["None","3"]);
+			~menu2.font_(Font(\size, 12));
+			~menu2.allowsReselection_(true);
+			~menu2.action = { arg menu2;
+
+				// [menu.value, menu.item, menu.action].postln; //These lines allow below allow the menu clicker to auto-set the choice selected (not requiring to click on-off the button to set the dropdown selection)
+/*~choosebutton.valueAction_(0);*/
+/*				x.free;*/
+			/*	~choosebutton.valueAction_(1);*/
+snd = funcs2.at(menu2.value).play;
+
+				// x.set(menu.action);
+
+			};
+
+ funcs2 = [
+
+				{//None
+			x.set(
+						\choose1,0,
+						\choose2,0,
+						\choose3,0,
+						\choose4,0,
+						\choose5,0,
+						\choose6,0,
+						\choose7,0,
+						\choose8,0,
+						\choose9,0,
+						\choose10,0,
+						\choose11,0,
+						\choose12,0,
+						\choose13,0,
+						\choose14,0,
+						\choose15,0,
+						\choose16,0,
+
+				)},
+
+				{//3
+			x.set(
+						\choose1,0,
+						\choose2,0,
+						\choose3,1,
+						\choose4,0,
+						\choose5,0,
+						\choose6,0,
+						\choose7,0,
+						\choose8,0,
+						\choose9,0,
+						\choose10,0,
+						\choose11,0,
+						\choose12,0,
+						\choose13,0,
+						\choose14,0,
+						\choose15,0,
+						\choose16,0,
+
+				)},
 			];
 
 
