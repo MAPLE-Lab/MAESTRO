@@ -84,14 +84,11 @@ _COMPLETED_
 
 _TO-DOs_
 
-* Put BETA on EVERYTHING
-* Mathematically update the Sawtooth
 * Update the Trumpet
 * Replace Tuning Fork with Cello and if time available then Clarinet
-* But save the TUning Fork around
-* Call it Fundamental not Tonic for Frequency
+* But save the Tuning Fork around
 * Use the WAV files for Audio from the new new dropbox
-* Find a better tuning fork sonud (less noisy, add credit)
+* Find a better tuning fork sound (less noisy, add credit)
 * Two-switch toggle 
 * Oscilloscope should auto-open at 440
 * Try to fix drift
@@ -139,7 +136,9 @@ _COMPLETED_
 * Rename to Fixed Spectra and Dynamic Spectra and Audio Recording
 * Add Square waves and check that the Saw isn't just a Triangle and find the truth of the Sawtooth --> can check the lab wiki for information on the mathematics - /-Classifying+Sounds
 * Tuning fork, Trumpet, Flute, Horn
-
+* Put BETA on EVERYTHING
+* Mathematically update the Sawtooth = setting phase as pi
+* Call it Fundamental not Tonic for Frequency
 
 
 * * *

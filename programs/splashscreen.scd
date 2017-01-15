@@ -22,8 +22,8 @@ s.waitForBoot({ //Ensures it only opens once the server is working completely, a
 		// ~w2.close; //still not functioning
 
 ////VERSION:
-~versioncode = StaticText(t,Rect((400-400),420,800,80))
-	.string_("Version 0.1.0")
+~versioncode = StaticText(t,Rect((400-400),430,800,80))
+	.string_("Beta Version 0.1.0")
 .font_(Font("Helvetica", 10, false))
 .align_(\top)
 .background_(Color(0,0,0,0))

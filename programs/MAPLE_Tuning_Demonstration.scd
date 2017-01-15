@@ -29,7 +29,7 @@ f.active_(true).freqMode_(1).dbRange_(70);
 
 //Label for paragraph
 ~para = StaticText(w,Rect(10,10,480,80))
-	.string_("Welcome to the MAPLE Lab Overtone 'Popout' Demonstration! Using the parameters below, you can examine the fusion effect. Select the sounds you want to play using the buttons below. Use the Play/Mute button to start and stop the sound. To explore how fusion/unfusion occurs, use the slider or numbers-box to change the frequency of the 3rd harmonic.")
+	.string_("Welcome to the MAPLE Lab Overtone 'Popout' Demonstration (Beta)! Using the parameters below, you can examine the fusion effect. Select the sounds you want to play using the buttons below. Use the Play/Mute button to start and stop the sound. To explore how fusion/unfusion occurs, use the slider or numbers-box to change the frequency of the 3rd harmonic.")
 .font_(Font("nil", 12))
 .align_(\topLeft)
 .background_(Color(0,0,0,0))
@@ -115,29 +115,29 @@ StaticText(w,Rect(0,620,500,2))
 */
 
 	//Play sounds button (DERELICT)
-~button = Button(w, Rect(250-(200/2),95,200,30))
-.states_([
-	["Click to Play Sounds", Color.white,Color(0.7569,0.1373,0.1725,1)],
-	["Click to Mute Sounds", Color.white, Color.grey(0.251)]
-])
-.font_(Font("nil", 18))
-.action_({
-	arg obj;
-	if(obj.value == 1,
-		{
-			x = Synth.new(
-				\sound,
-				[
-						\outoftune, ~freqslider.value.linlin(0,1,2,4),
-						\intensity, ~mulslider.value.linlin(0,1,0.0,2),
-						\other, ~otherslider.value.linlin(0,1,0.0,2),
-						\freq, ~fslider.value.linexp(0,1,100,1000),
-				]
-			).register;
-		},
-		{x.free}
-	);
-});
+	// ~button = Button(w, Rect(250-(200/2),95,200,30))
+	// .states_([
+	// 	["Click to Play Sounds", Color.white,Color(0.7569,0.1373,0.1725,1)],
+	// 	["Click to Mute Sounds", Color.white, Color.grey(0.251)]
+	// ])
+	// .font_(Font("nil", 18))
+	// .action_({
+	// 	arg obj;
+	// 	if(obj.value == 1,
+	// 		{
+	// 			x = Synth.new(
+	// 				\sound,
+	// 				[
+	// 					\outoftune, ~freqslider.value.linlin(0,1,2,4),
+	// 					\intensity, ~mulslider.value.linlin(0,1,0.0,2),
+	// 					\other, ~otherslider.value.linlin(0,1,0.0,2),
+	// 					\freq, ~fslider.value.linexp(0,1,100,1000),
+	// 				]
+	// 			).register;
+	// 		},
+	// 		{x.free}
+	// 	);
+	// });
 
 	//VOLUME
 //Properties of the slider
@@ -408,6 +408,20 @@ to 3", Color.white,Color(0.7569,0.1373,0.1725,1)]
 });
 
 
+////VERSION:
+~versioncode = StaticText(w,Rect(10,555,480,30))
+	.string_("Beta Version 0.1.0")
+.font_(Font("Helvetica", 10, false))
+.align_(\top)
+.background_(Color.clear)
+	.stringColor_(Color.white);
+
+
+
+
+
+
+
 	//Dropdown menus
 //Preset
 	(
@@ -439,19 +453,22 @@ s.waitForBoot({
 menu = PopUpMenu(w, Rect(250-(250/2)+5,95+5,50,20));
 			menu.items_(["3", "5", "8", "16"]);
 			menu.font_(Font(\size, 12));
+			menu.allowsReselection_(true);
 			menu.action = { arg menu;
-				[menu.value, menu.item].postln;
 
-				x.set(\freq, 0.5.value.linexp(0,1,100,1000));
+				// [menu.value, menu.item, menu.action].postln; //These lines allow below allow the menu clicker to auto-set the choice selected (not requiring to click on-off the button to set the dropdown selection)
+~vinbutton.valueAction_(0);
+				x.free;
+				~vinbutton.valueAction_(1);
+snd = funcs2.at(menu.value).play;
+
+				// x.set(menu.action);
 
 			};
-
 
  funcs2 = [
 
 				{
-					x.free;
-
 			x = Synth(
 				\sound,
 				[
@@ -570,6 +587,9 @@ menu = PopUpMenu(w, Rect(250-(250/2)+5,95+5,50,20));
  w.onClose_{ snd.release; CmdPeriod.removeAll }; // clean up when window is closed
 
 })
+
+
+
 	);
 
 
@@ -584,7 +604,7 @@ menu = PopUpMenu(w, Rect(250-(250/2)+5,95+5,50,20));
 		});
 
 
-
 w.onClose_({s.quit; x.free}); //ends server when quit
 });
+
 )

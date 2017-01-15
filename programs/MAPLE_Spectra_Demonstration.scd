@@ -1,10 +1,13 @@
 // "Spectra Demonstration"
 (var basePath = thisProcess.nowExecutingPath.asString.dirname;
 Window.closeAll;
+
+s.waitForBoot({
 a.free; //clear buffers to help resolve memory leak
 		b.free;
 		e.free;
-s.waitForBoot({ //Ensures it only opens once the server is working completely, and automatically opens server
+	s.freeAll;
+	//Ensures it only opens once the server is working completely, and automatically opens server
 	w = Window.new("MAPLE Lab Spectra Demonstration", Rect.new(
 	Window.screenBounds.width/2-400,
 	Window.screenBounds.height/2-50,
@@ -20,7 +23,7 @@ h.active_(true).freqMode_(1).dbRange_(70);
 
 //Label for paragraph
 ~para = StaticText(w,Rect(10,10,790,80))
-.string_("Welcome to the MAPLE Lab Spectra Demonstration! Using the parameters below, you can examine timbre of sounds. Select the tonic frequency and the intensity of each harmonic. Use the Play/Mute button to start and stop the sound. To explore how forced choice spectra are not representative of real instruments, try playing a moving spectra sound.")
+	.string_("Welcome to the MAPLE Lab Spectra Demonstration (Beta)! Using the parameters below, you can examine timbre of sounds. Select the fundamental frequency and the intensity of each harmonic. Use the Play/Mute button to start and stop the sound. To explore how forced choice spectra are not representative of real instruments, try playing a moving spectra sound.")
 .font_(Font("nil", 12))
 .align_(\topLeft)
 .background_(Color(0,0,0,0))
@@ -97,6 +100,15 @@ StaticText(w,Rect(410,360,500,2))
 	.stringColor_(Color.white)
 	.background_(Color(0,0,0,0));
 
+////VERSION:
+	~versioncode = StaticText(w,Rect(0,515,(800-10),30))
+	.string_("Beta Version 0.1.0")
+.font_(Font("Helvetica", 10, false))
+.align_(\topRight)
+.background_(Color.clear)
+	.stringColor_(Color.black);
+
+
 
 //Play Forced sounds button
 ~button = Button(w, Rect(400-(330/2),65,330,30))
@@ -113,6 +125,7 @@ StaticText(w,Rect(410,360,500,2))
 				\sound,
 				[
 						\freq, ~freqslider.value.linexp(0,1,100,1000),
+						\phase, pi,
 						\vol, ~volslider.value.linlin(0,1,0,1),
 						\f1, ~f1slider.value.linlin(0,1,0.0,2),
 						\f2, ~f2slider.value.linlin(0,1,0.0,2),
@@ -136,8 +149,10 @@ StaticText(w,Rect(410,360,500,2))
 				y.free;
 				z.free;
 				v.free;
+		t.free;
+
 		},
-		{x.free; ~vinbutton.valueAction_(0); }
+		{x.free; ~vinbutton.valueAction_(0);}
 	);
 });
 
@@ -176,10 +191,26 @@ s.waitForBoot({
 menu = PopUpMenu(w, Rect(622.5, 420, 60, 20));
 			menu.items_(["Sine", "Sawtooth", "Triangle", "Square"]);
 			menu.font_(Font(\size, 12));
+			menu.action = { arg menu;
+
+				// [menu.value, menu.item, menu.action].postln; //These lines allow below allow the menu clicker to auto-set the choice selected (not requiring to click on-off the button to set the dropdown selection)
+~vinbutton.valueAction_(0);
+				x.free;
+				~vinbutton.valueAction_(1);
+snd = funcs2.at(menu.value).play;
+
+		z.free;
+		v.free;
+		t.free;
+		y.free;
+
+				// x.set(menu.action);
+
+			};
 
 
  funcs2 = [
-				{
+				{ //sine
 		var variable;
 		variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
 		~freqslider.valueAction_(440.value.explin(100,1000,0,1)); //only need to affect slider to affect the number box and true sound value
@@ -207,7 +238,7 @@ menu = PopUpMenu(w, Rect(622.5, 420, 60, 20));
 								~j.valueAction_(0);
 
 	},
-{
+{ //saw
 		var variable;
 		variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
 		~freqslider.valueAction_(440.value.explin(100,1000,0,1)); //only need to affect slider to affect the number box and true sound value
@@ -304,7 +335,7 @@ menu = PopUpMenu(w, Rect(622.5, 420, 60, 20));
 
 //FORCED tuning fork preset
 ~j = Button(w, Rect(240, 417.5, 90, 26))
-	.states_([["Tuning Fork", Color.white, Color(0,0,0,0.5)], ["Tuning Fork", Color.white, Color(0,0,0,1)]])
+	.states_([["Cello", Color.white, Color(0,0,0,0.5)], ["Cello", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.mouseDownAction_({
 
@@ -332,6 +363,11 @@ menu = PopUpMenu(w, Rect(622.5, 420, 60, 20));
 		~f15slider.valueAction_(0.value.linlin(0.0,2,0,1));
 		~f16slider.valueAction_(0.value.linlin(0.0,2,0,1));
 		x.free; ///requires OSC delay?
+
+		z.free;
+		v.free;
+		t.free;
+		y.free;
 		~button.valueAction_(1);
 					~l.valueAction_(0);
 				~k.valueAction_(0);
@@ -369,6 +405,10 @@ menu = PopUpMenu(w, Rect(622.5, 420, 60, 20));
 		~f15slider.valueAction_(0.value.linlin(0.0,2,0,1));
 		~f16slider.valueAction_(0.value.linlin(0.0,2,0,1));
 		x.free;
+				z.free;
+		v.free;
+		t.free;
+		y.free;
 		~button.valueAction_(1);
 					~k.valueAction_(0);
 				~j.valueAction_(0);
@@ -408,6 +448,10 @@ menu = PopUpMenu(w, Rect(622.5, 420, 60, 20));
 		~f15slider.valueAction_(0.value.linlin(0.0,2,0,1));
 		~f16slider.valueAction_(0.value.linlin(0.0,2,0,1));
 		x.free;
+				z.free;
+		v.free;
+		t.free;
+		y.free;
 	~button.valueAction_(1);
 				~l.valueAction_(0);
 				~j.valueAction_(0);
@@ -415,7 +459,7 @@ menu = PopUpMenu(w, Rect(622.5, 420, 60, 20));
 				~vinbutton.valueAction_(0);
 	}, {x.free; ~k.valueAction_(1);~button.valueAction_(0)});});
 
-	//FORCED trumpet preset
+	//FORCED horn preset
 ~r = Button(w, Rect(525, 417.5, 90, 26))
 	.states_([["Horn", Color.white, Color(0,0,0,0.5)],["Horn", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
@@ -456,6 +500,10 @@ menu = PopUpMenu(w, Rect(622.5, 420, 60, 20));
 		~f15slider.valueAction_(0.value.linlin(0.0,2,0,1));
 		~f16slider.valueAction_(0.value.linlin(0.0,2,0,1));
 		x.free;
+				z.free;
+		v.free;
+		t.free;
+		y.free;
 	~button.valueAction_(1);
 			~k.valueAction_(0);
 				~j.valueAction_(0);
@@ -498,7 +546,7 @@ menu = PopUpMenu(w, Rect(622.5, 420, 60, 20));
 .stringColor_(Color.white);
 
 
-		//TONIC FREQUENCY
+		//FUNDAMENTAL FREQUENCY
 //Properties of the slider
 ~freqslider = Slider(w, Rect(250,110,140,20))
 	.background_(Color(0.8,0.8,0.8,0.75)).value_(0.3802)
@@ -536,10 +584,10 @@ menu = PopUpMenu(w, Rect(622.5, 420, 60, 20));
 	.orientation_(\horizontal);
 
 //Label for Freq.
-~freqLabel = StaticText(w,Rect(115,115,80,20))
-.string_("Tonic Frequency")
-.font_(Font("nil", 10))
-.align_(\topLeft)
+~freqLabel = StaticText(w,Rect(115,110,80,25))
+.string_("Fundamental Frequency")
+.font_(Font("nil", 8))
+.align_(\topRight)
 .background_(Color(0,0,0,0))
 .stringColor_(Color.black);
 
@@ -612,9 +660,9 @@ menu = PopUpMenu(w, Rect(622.5, 420, 60, 20));
 .stringColor_(Color.black);
 
 
-///add sound to a buffer as an import - tuning fork
+///add sound to a buffer as an import - cello
 (
-a = Buffer.read(s, basePath +/+ "audio/tuning_fork_fadeout.wav"); //helpful notes for troubleshooting: http://new-supercollider-mailing-lists-forums-use-these.2681727.n2.nabble.com/Generalizing-a-files-path-td7616651.html
+a = Buffer.read(s, basePath +/+ "audio/cello.wav"); //helpful notes for troubleshooting: http://new-supercollider-mailing-lists-forums-use-these.2681727.n2.nabble.com/Generalizing-a-files-path-td7616651.html
 
 SynthDef("import1",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1;
 	var rate;
@@ -626,17 +674,24 @@ SynthDef("import1",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1;
 );
 
 
-//Play a sound... tuning fork preset
+//Play a sound... cello preset
 q = Button(w, Rect(240, 497.5, 90, 26))
-	.states_([["Tuning Fork", Color.white, Color(0,0,0,0.5)]])
+	.states_([["Cello", Color.white, Color(0,0,0,0.5)]])
 	.font_(Font("nil", 14))
 	.action_({
+		y.free;
 			y = Synth.new(\import1, [\out, 0, \bufnum, a.bufnum]);
 		x.free;
 		z.free;
 		v.free;
 		t.free;
 		~button.valueAction_(0);
+
+				~l.valueAction_(0);
+				~j.valueAction_(0);
+				~r.valueAction_(0);
+				~k.valueAction_(0);
+				~vinbutton.valueAction_(0);
 		});
 
 
@@ -659,13 +714,31 @@ e = Button(w, Rect(335, 497.5, 90, 26))
 	.states_([["Trumpet", Color.white, Color(0,0,0,0.5)]])
 	.font_(Font("nil", 14))
 	.action_({
-			v = Synth.new(\import3, [\out, 0, \bufnum, c.bufnum]);
+		v.free;
+		v = Synth.new(\import3, [\out, 0, \bufnum, c.bufnum]);
 		x.free;
 		y.free;
 		z.free;
 		t.free;
 		~button.valueAction_(0);
-		});
+
+						~l.valueAction_(0);
+				~j.valueAction_(0);
+				~r.valueAction_(0);
+				~k.valueAction_(0);
+				~vinbutton.valueAction_(0);
+
+
+		// s.sendMsg("/s_new", "import3", v = s.nextNodeID, 1, 1);
+	/*
+	(
+s.sendBundle(0.0, //sound delay
+				["/s_new", "import3", v = Synth.new(\import3, [\out, 0, \bufnum, c.bufnum])]); //sound and ID for stacking (if multiple sounds bundled)
+s.sendBundle(1, ["/n_free", v.free]);//sound ends, at least frees up memory space
+);*/
+
+
+	});
 
 ///add sound to a buffer as an import - flute
 (
@@ -686,12 +759,19 @@ r = Button(w, Rect(430, 497.5, 90, 26))
 	.states_([["Flute", Color.white, Color(0,0,0,0.5)]])
 	.font_(Font("nil", 14))
 	.action_({
+		z.free;
 			z = Synth.new(\import2, [\out, 0, \bufnum, b.bufnum]);
 		x.free;
 		y.free;
 		v.free;
 		t.free;
 		~button.valueAction_(0);
+
+						~l.valueAction_(0);
+				~j.valueAction_(0);
+				~r.valueAction_(0);
+				~k.valueAction_(0);
+				~vinbutton.valueAction_(0);
 		});
 
 
@@ -714,12 +794,19 @@ f = Button(w, Rect(525, 497.5, 90, 26))
 	.states_([["Horn", Color.white, Color(0,0,0,0.5)]])
 	.font_(Font("nil", 14))
 	.action_({
-
+t.free;
 			t = Synth.new(\import5, [\out, 0, \bufnum, q.bufnum]);
 		x.free;
 		y.free;
 		z.free;
+		v.free;
 		~button.valueAction_(0);
+
+						~l.valueAction_(0);
+				~j.valueAction_(0);
+				~r.valueAction_(0);
+				~k.valueAction_(0);
+				~vinbutton.valueAction_(0);
 		});
 
 
@@ -751,6 +838,8 @@ u = Button(w, Rect(525, 457.5, 90, 26))
 		~button.valueAction_(0);
 		});
 
+
+
 r = Button(w, Rect(430, 457.5, 90, 26))
 	.states_([["Flute", Color.white, Color(0,0,0,0.5)]])
 	.font_(Font("nil", 14))
@@ -762,7 +851,7 @@ r = Button(w, Rect(430, 457.5, 90, 26))
 	.action_({});
 
 r = Button(w, Rect(240, 457.5, 90, 26))
-	.states_([["Tuning Fork", Color.white, Color(0,0,0,0.5)]])
+	.states_([["Cello", Color.white, Color(0,0,0,0.5)]])
 	.font_(Font("nil", 14))
 	.action_({});
 
@@ -779,28 +868,28 @@ r = Button(w, Rect(240, 457.5, 90, 26))
 //Define the slider sounds to be played
 (
 SynthDef.new("sound", {
-			arg vol = 0.2, freq = 240, outoftune = 720, f1,f2,f3,f4,f5,f6,f7,f8,f9,f10,f11,f12,f13,f14,f15,f16;
+			arg vol = 0.2, freq = 240, outoftune = 720, phase = pi, f1,f2,f3,f4,f5,f6,f7,f8,f9,f10,f11,f12,f13,f14,f15,f16;
 	var mul, signal;
 
 			mul = XLine.kr(0.01,1,0.01,0.1); //Ramps sound onset so not so harsh
 
 	signal =
-	SinOsc.ar(freq, 0, vol*mul*f1) +
-	SinOsc.ar(freq*2, 0, vol*mul*f2) +
-	SinOsc.ar(freq*3, 0, vol*mul*f3) +
-	SinOsc.ar(freq*4, 0, vol*mul*f4) +
-	SinOsc.ar(freq*5, 0, vol*mul*f5) +
-	SinOsc.ar(freq*6, 0, vol*mul*f6)+
-	SinOsc.ar(freq*7, 0, vol*mul*f7)+
-	SinOsc.ar(freq*8, 0, vol*mul*f8)+
-	SinOsc.ar(freq*9, 0, vol*mul*f9)+
-	SinOsc.ar(freq*10, 0, vol*mul*f10)+
-	SinOsc.ar(freq*11, 0, vol*mul*f11)+
-	SinOsc.ar(freq*12, 0, vol*mul*f12)+
-	SinOsc.ar(freq*13, 0, vol*mul*f13)+
-	SinOsc.ar(freq*14, 0, vol*mul*f14)+
-	SinOsc.ar(freq*15, 0, vol*mul*f15)+
-	SinOsc.ar(freq*16, 0, vol*mul*f16)
+	SinOsc.ar(freq, phase, vol*mul*f1) +
+	SinOsc.ar(freq*2, phase, vol*mul*f2) +
+	SinOsc.ar(freq*3, phase, vol*mul*f3) +
+	SinOsc.ar(freq*4, phase, vol*mul*f4) +
+	SinOsc.ar(freq*5, phase, vol*mul*f5) +
+	SinOsc.ar(freq*6, phase, vol*mul*f6)+
+	SinOsc.ar(freq*7, phase, vol*mul*f7)+
+	SinOsc.ar(freq*8, phase, vol*mul*f8)+
+	SinOsc.ar(freq*9, phase, vol*mul*f9)+
+	SinOsc.ar(freq*10, phase, vol*mul*f10)+
+	SinOsc.ar(freq*11, phase, vol*mul*f11)+
+	SinOsc.ar(freq*12, phase, vol*mul*f12)+
+	SinOsc.ar(freq*13, phase, vol*mul*f13)+
+	SinOsc.ar(freq*14, phase, vol*mul*f14)+
+	SinOsc.ar(freq*15, phase, vol*mul*f15)+
+	SinOsc.ar(freq*16, phase, vol*mul*f16)
 	;
 
 	Out.ar([0,1], signal); //sends to busses 1 & 2 (stereo), and plays the var "signal"
@@ -1601,10 +1690,18 @@ SynthDef.new("sound", {
 	500,
 		250,250),false).background_(Color.white).userCanClose_(true).front;
 
-		~d = Stethoscope.new(s, 2,view:~w2)//nil causes it to open in its own window
+		~d = Stethoscope.new(s, 2,view:~w2) //.scope//nil causes it to open in its own window
 				// .xZoom_(5) //is only setting slider, isn't changing view properly
 				// .cycle_(50) //same problem as xZoom: workaround, use a button for 440Hz
 				.yZoom_(4);
+
+				( //still not auto-setting
+s.sendBundle(2, //sound delay
+						["/s_new", "d", x = s.nextNodeID, 1, 1, s.cycle_(501)];
+				););
+
+				// ~d.cycle_((501));
+				// ~d.scope(zoom:4);
 			},
 		{
 				// ~w2.close;
@@ -1622,8 +1719,8 @@ SynthDef.new("sound", {
 	.action_({
 		~d
 		//.xZoom_((438.9105/1024)*1)
-		.cycle_((501))
-		;
+		.cycle_((501));
+		{x}.plot
 	}
 	);
 
