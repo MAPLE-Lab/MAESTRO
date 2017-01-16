@@ -7,5 +7,5 @@
 // If this error message appears:
 "input and output sample rates do not match. 44100 != 48000
 could not initialize audio."
-//Press the keys Command and Return/Enter on the line of code below (line 11-12)
+//Press the keys Command and Return/Enter on the line of code below (line 11)
 (s.options.sampleRate = 48000; s.reboot;)

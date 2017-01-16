@@ -280,24 +280,41 @@ SynthDef.new("sound", {
 
 
 	signal =
-			SinOsc.ar(freq*(1), 0, mul*other*vol*harmToggle1) +
-	SinOsc.ar(freq*2, 0, mul*other*vol*harmToggle2) +
-			SinOsc.ar(freq*(3+(outoftune*choose3)), 0, ((mul*(1-choose3))+(mul2*choose3))*((other*(1-choose3))+(intensity*(choose3)))*vol*harmToggle3) + //the third harmonic can be varied 720-778, using Dr. Steven Brown's 2MP3 2015-2016 class; while estimation that critical bandwidth at this frequency is approximately 150, so 150/4 = 37.5, and 720+37.5 =757.5 and derivation of the two-tone dissonance formula from Plomp 1965 gives g_max = 1.01931f + 17.4672 = 751.3704, this does not necessarily mean it gives the most 'unfused' effect for students
-	SinOsc.ar(freq*4, 0, mul*other*vol*harmToggle4) +
-	SinOsc.ar(freq*5, 0, mul*other*vol*harmToggle5) +
-	SinOsc.ar(freq*6, 0, mul*other*vol*harmToggle6) +
-	SinOsc.ar(freq*7, 0, mul*other*vol*harmToggle7) +
-	SinOsc.ar(freq*8, 0, mul*other*vol*harmToggle8) +
-	SinOsc.ar(freq*9, 0, mul*other*vol*harmToggle9) +
-	SinOsc.ar(freq*10, 0, mul*other*vol*harmToggle10) +
-	SinOsc.ar(freq*11, 0, mul*other*vol*harmToggle11) +
-	SinOsc.ar(freq*12, 0, mul*other*vol*harmToggle12) +
-	SinOsc.ar(freq*13, 0, mul*other*vol*harmToggle13) +
-	SinOsc.ar(freq*14, 0, mul*other*vol*harmToggle14) +
-	SinOsc.ar(freq*15, 0, mul*other*vol*harmToggle15) +
-	SinOsc.ar(freq*16, 0, mul*other*vol*harmToggle16)
-	;
 
+	SinOsc.ar(freq*(1+(outoftune*choose1)),
+				0, ((mul*(1-choose1))+(mul2*choose1))*((other*(1-choose1))+(intensity*(choose1)))*vol*harmToggle1) +
+	SinOsc.ar(freq*(2+(outoftune*choose2)),
+				0, ((mul*(1-choose2))+(mul2*choose2))*((other*(1-choose2))+(intensity*(choose2)))*vol*harmToggle2) +
+	SinOsc.ar(freq*(3+(outoftune*choose3)),
+				0, ((mul*(1-choose3))+(mul2*choose3))*((other*(1-choose3))+(intensity*(choose3)))*vol*harmToggle3) +
+	SinOsc.ar(freq*(4+(outoftune*choose4)),
+				0, ((mul*(1-choose4))+(mul2*choose4))*((other*(1-choose4))+(intensity*(choose4)))*vol*harmToggle4) +
+	SinOsc.ar(freq*(5+(outoftune*choose5)),
+				0, ((mul*(1-choose5))+(mul2*choose5))*((other*(1-choose5))+(intensity*(choose5)))*vol*harmToggle5) +
+	SinOsc.ar(freq*(6+(outoftune*choose6)),
+				0, ((mul*(1-choose6))+(mul2*choose6))*((other*(1-choose6))+(intensity*(choose6)))*vol*harmToggle6) +
+	SinOsc.ar(freq*(7+(outoftune*choose7)),
+				0, ((mul*(1-choose7))+(mul2*choose7))*((other*(1-choose7))+(intensity*(choose7)))*vol*harmToggle7) +
+	SinOsc.ar(freq*(8+(outoftune*choose8)),
+				0, ((mul*(1-choose8))+(mul2*choose8))*((other*(1-choose8))+(intensity*(choose8)))*vol*harmToggle8) +
+	SinOsc.ar(freq*(9+(outoftune*choose9)),
+				0, ((mul*(1-choose9))+(mul2*choose9))*((other*(1-choose9))+(intensity*(choose9)))*vol*harmToggle9) +
+	SinOsc.ar(freq*(10+(outoftune*choose10)),
+				0, ((mul*(1-choose10))+(mul2*choose10))*((other*(1-choose10))+(intensity*(choose10)))*vol*harmToggle10) +
+	SinOsc.ar(freq*(11+(outoftune*choose11)),
+				0, ((mul*(1-choose11))+(mul2*choose11))*((other*(1-choose11))+(intensity*(choose11)))*vol*harmToggle11) +
+	SinOsc.ar(freq*(12+(outoftune*choose12)),
+				0, ((mul*(1-choose12))+(mul2*choose12))*((other*(1-choose12))+(intensity*(choose12)))*vol*harmToggle12) +
+	SinOsc.ar(freq*(13+(outoftune*choose13)),
+				0, ((mul*(1-choose13))+(mul2*choose13))*((other*(1-choose13))+(intensity*(choose13)))*vol*harmToggle13) +
+	SinOsc.ar(freq*(14+(outoftune*choose14)),
+				0, ((mul*(1-choose14))+(mul2*choose14))*((other*(1-choose14))+(intensity*(choose14)))*vol*harmToggle14) +
+	SinOsc.ar(freq*(15+(outoftune*choose15)),
+				0, ((mul*(1-choose15))+(mul2*choose15))*((other*(1-choose15))+(intensity*(choose15)))*vol*harmToggle15) +
+	SinOsc.ar(freq*(16+(outoftune*choose16)),
+				0, ((mul*(1-choose16))+(mul2*choose16))*((other*(1-choose16))+(intensity*(choose16)))*vol*harmToggle16)
+	;
+//ORIGINALLY: the third harmonic can be varied 720-778, using Dr. Steven Brown's 2MP3 2015-2016 class; while estimation that critical bandwidth at this frequency is approximately 150, so 150/4 = 37.5, and 720+37.5 =757.5 and derivation of the two-tone dissonance formula from Plomp 1965 gives g_max = 1.01931f + 17.4672 = 751.3704, this does not necessarily mean it gives the most 'unfused' effect for students
 	Out.ar([0,1], signal); //sends to busses 1 & 2 (stereo), and plays the var "signal"
 }).add;
 );
@@ -655,7 +672,7 @@ s.waitForBoot({
    });
 */
 ~menu2 = PopUpMenu(w, Rect(250-(250/2)+100,95+5+80,50,20));
-			~menu2.items_(["None","3"]);
+			~menu2.items_(["None","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16"]);
 			~menu2.font_(Font(\size, 12));
 			~menu2.allowsReselection_(true);
 			~menu2.action = { arg menu2;
@@ -693,6 +710,48 @@ snd = funcs2.at(menu2.value).play;
 
 				)},
 
+				{//1
+			x.set(
+						\choose1,1,
+						\choose2,0,
+						\choose3,0,
+						\choose4,0,
+						\choose5,0,
+						\choose6,0,
+						\choose7,0,
+						\choose8,0,
+						\choose9,0,
+						\choose10,0,
+						\choose11,0,
+						\choose12,0,
+						\choose13,0,
+						\choose14,0,
+						\choose15,0,
+						\choose16,0,
+
+				)},
+
+				{//2
+			x.set(
+						\choose1,0,
+						\choose2,1,
+						\choose3,0,
+						\choose4,0,
+						\choose5,0,
+						\choose6,0,
+						\choose7,0,
+						\choose8,0,
+						\choose9,0,
+						\choose10,0,
+						\choose11,0,
+						\choose12,0,
+						\choose13,0,
+						\choose14,0,
+						\choose15,0,
+						\choose16,0,
+
+				)},
+
 				{//3
 			x.set(
 						\choose1,0,
@@ -713,6 +772,280 @@ snd = funcs2.at(menu2.value).play;
 						\choose16,0,
 
 				)},
+
+				{//4
+			x.set(
+						\choose1,0,
+						\choose2,0,
+						\choose3,0,
+						\choose4,1,
+						\choose5,0,
+						\choose6,0,
+						\choose7,0,
+						\choose8,0,
+						\choose9,0,
+						\choose10,0,
+						\choose11,0,
+						\choose12,0,
+						\choose13,0,
+						\choose14,0,
+						\choose15,0,
+						\choose16,0,
+
+				)},
+
+				{//5
+			x.set(
+						\choose1,0,
+						\choose2,0,
+						\choose3,0,
+						\choose4,0,
+						\choose5,1,
+						\choose6,0,
+						\choose7,0,
+						\choose8,0,
+						\choose9,0,
+						\choose10,0,
+						\choose11,0,
+						\choose12,0,
+						\choose13,0,
+						\choose14,0,
+						\choose15,0,
+						\choose16,0,
+
+				)},
+
+				{//6
+			x.set(
+						\choose1,0,
+						\choose2,0,
+						\choose3,0,
+						\choose4,0,
+						\choose5,0,
+						\choose6,1,
+						\choose7,0,
+						\choose8,0,
+						\choose9,0,
+						\choose10,0,
+						\choose11,0,
+						\choose12,0,
+						\choose13,0,
+						\choose14,0,
+						\choose15,0,
+						\choose16,0,
+
+				)},
+
+				{//7
+			x.set(
+						\choose1,0,
+						\choose2,0,
+						\choose3,0,
+						\choose4,0,
+						\choose5,0,
+						\choose6,0,
+						\choose7,1,
+						\choose8,0,
+						\choose9,0,
+						\choose10,0,
+						\choose11,0,
+						\choose12,0,
+						\choose13,0,
+						\choose14,0,
+						\choose15,0,
+						\choose16,0,
+
+				)},
+
+				{//8
+			x.set(
+						\choose1,0,
+						\choose2,0,
+						\choose3,0,
+						\choose4,0,
+						\choose5,0,
+						\choose6,0,
+						\choose7,0,
+						\choose8,1,
+						\choose9,0,
+						\choose10,0,
+						\choose11,0,
+						\choose12,0,
+						\choose13,0,
+						\choose14,0,
+						\choose15,0,
+						\choose16,0,
+
+				)},
+
+				{//9
+			x.set(
+						\choose1,0,
+						\choose2,0,
+						\choose3,0,
+						\choose4,0,
+						\choose5,0,
+						\choose6,0,
+						\choose7,0,
+						\choose8,0,
+						\choose9,1,
+						\choose10,0,
+						\choose11,0,
+						\choose12,0,
+						\choose13,0,
+						\choose14,0,
+						\choose15,0,
+						\choose16,0,
+
+				)},
+
+				{//10
+			x.set(
+						\choose1,0,
+						\choose2,0,
+						\choose3,0,
+						\choose4,0,
+						\choose5,0,
+						\choose6,0,
+						\choose7,0,
+						\choose8,0,
+						\choose9,0,
+						\choose10,1,
+						\choose11,0,
+						\choose12,0,
+						\choose13,0,
+						\choose14,0,
+						\choose15,0,
+						\choose16,0,
+
+				)},
+
+				{//11
+			x.set(
+						\choose1,0,
+						\choose2,0,
+						\choose3,0,
+						\choose4,0,
+						\choose5,0,
+						\choose6,0,
+						\choose7,0,
+						\choose8,0,
+						\choose9,0,
+						\choose10,0,
+						\choose11,1,
+						\choose12,0,
+						\choose13,0,
+						\choose14,0,
+						\choose15,0,
+						\choose16,0,
+
+				)},
+
+				{//12
+			x.set(
+						\choose1,0,
+						\choose2,0,
+						\choose3,0,
+						\choose4,0,
+						\choose5,0,
+						\choose6,0,
+						\choose7,0,
+						\choose8,0,
+						\choose9,0,
+						\choose10,0,
+						\choose11,0,
+						\choose12,1,
+						\choose13,0,
+						\choose14,0,
+						\choose15,0,
+						\choose16,0,
+
+				)},
+
+				{//13
+			x.set(
+						\choose1,0,
+						\choose2,0,
+						\choose3,0,
+						\choose4,0,
+						\choose5,0,
+						\choose6,0,
+						\choose7,0,
+						\choose8,0,
+						\choose9,0,
+						\choose10,0,
+						\choose11,0,
+						\choose12,0,
+						\choose13,1,
+						\choose14,0,
+						\choose15,0,
+						\choose16,0,
+
+				)},
+
+				{//14
+			x.set(
+						\choose1,0,
+						\choose2,0,
+						\choose3,0,
+						\choose4,0,
+						\choose5,0,
+						\choose6,0,
+						\choose7,0,
+						\choose8,0,
+						\choose9,0,
+						\choose10,0,
+						\choose11,0,
+						\choose12,0,
+						\choose13,0,
+						\choose14,1,
+						\choose15,0,
+						\choose16,0,
+
+				)},
+
+				{//15
+			x.set(
+						\choose1,0,
+						\choose2,0,
+						\choose3,0,
+						\choose4,0,
+						\choose5,0,
+						\choose6,0,
+						\choose7,0,
+						\choose8,0,
+						\choose9,0,
+						\choose10,0,
+						\choose11,0,
+						\choose12,0,
+						\choose13,0,
+						\choose14,0,
+						\choose15,1,
+						\choose16,0,
+
+				)},
+
+				{//16
+			x.set(
+						\choose1,0,
+						\choose2,0,
+						\choose3,0,
+						\choose4,0,
+						\choose5,0,
+						\choose6,0,
+						\choose7,0,
+						\choose8,0,
+						\choose9,0,
+						\choose10,0,
+						\choose11,0,
+						\choose12,0,
+						\choose13,0,
+						\choose14,0,
+						\choose15,0,
+						\choose16,1,
+
+				)},
+
 			];
 
 
