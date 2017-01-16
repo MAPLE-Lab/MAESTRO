@@ -78,7 +78,7 @@ _COMPLETED_
 * Dropdown menu for Focus tone (third/fourth/fifth/etc.)
 * Add an IF statement so that the harmonic desired to manipulate cannot be manipulated/added by the LOOP
 * Figure out how to get the setting of the harmonic to be edited to be automatically called = developped novel solution: "~menu2.value_([menu.value]); //this allows the key to stay and be called at the current one without changing
-					~menu2.valueAction_([menu.value]);},"
+~menu2.valueAction_([menu.value]);},"
 
 
 * * *

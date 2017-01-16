@@ -333,7 +333,7 @@ snd = funcs2.at(menu.value).play;
 
 
 
-//FORCED tuning fork preset
+//FORCED cello preset
 ~j = Button(w, Rect(240, 417.5, 90, 26))
 	.states_([["Cello", Color.white, Color(0,0,0,0.5)], ["Cello", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
@@ -344,23 +344,23 @@ snd = funcs2.at(menu.value).play;
 		{
 		var variable;
 		variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
-		~freqslider.valueAction_(440.value.explin(100,1000,0,1)); //only need to affect slider to affect the number box and true sound value
-		~volslider.valueAction_(1.value.linlin(0,1,0,1));
-		~f1slider.valueAction_(1.value.linlin(0.0,2,0,1));
-		~f2slider.valueAction_(0.02.value.linlin(0.0,2,0,1));
-		~f3slider.valueAction_(0.02.value.linlin(0.0,2,0,1));
-		~f4slider.valueAction_(0.00.value.linlin(0.0,2,0,1));
-		~f5slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f6slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f7slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f8slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f9slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f10slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f11slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f12slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f13slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f14slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f15slider.valueAction_(0.value.linlin(0.0,2,0,1));
+		~freqslider.valueAction_(261.6.value.explin(100,1000,0,1)); //only need to affect slider to affect the number box and true sound value
+		~volslider.valueAction_(0.5.value.linlin(0,1,0,1));
+		~f1slider.valueAction_(0.09.value.linlin(0.0,2,0,1));
+		~f2slider.valueAction_(0.39.value.linlin(0.0,2,0,1));
+		~f3slider.valueAction_(0.63.value.linlin(0.0,2,0,1));
+		~f4slider.valueAction_(0.53.value.linlin(0.0,2,0,1));
+		~f5slider.valueAction_(0.06.value.linlin(0.0,2,0,1));
+		~f6slider.valueAction_(0.1.value.linlin(0.0,2,0,1));
+		~f7slider.valueAction_(0.19.value.linlin(0.0,2,0,1));
+		~f8slider.valueAction_(0.11.value.linlin(0.0,2,0,1));
+		~f9slider.valueAction_(0.03.value.linlin(0.0,2,0,1));
+		~f10slider.valueAction_(0.05.value.linlin(0.0,2,0,1));
+		~f11slider.valueAction_(0.03.value.linlin(0.0,2,0,1));
+		~f12slider.valueAction_(0.02.value.linlin(0.0,2,0,1));
+		~f13slider.valueAction_(0.01.value.linlin(0.0,2,0,1));
+		~f14slider.valueAction_(0.01.value.linlin(0.0,2,0,1));
+		~f15slider.valueAction_(0.02.value.linlin(0.0,2,0,1));
 		~f16slider.valueAction_(0.value.linlin(0.0,2,0,1));
 		x.free; ///requires OSC delay?
 
@@ -386,24 +386,24 @@ snd = funcs2.at(menu.value).play;
 		{
 		var variable;
 		variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
-		~freqslider.valueAction_(440.value.explin(100,1000,0,1)); //only need to affect slider to affect the number box and true sound value
-				~volslider.valueAction_(1.value.linlin(0,1,0,1));
-		~f1slider.valueAction_(1.value.linlin(0.0,2,0,1));
-		~f2slider.valueAction_(0.01.value.linlin(0.0,2,0,1));
-		~f3slider.valueAction_(0.221.value.linlin(0.0,2,0,1));
-		~f4slider.valueAction_(0.125.value.linlin(0.0,2,0,1));
-		~f5slider.valueAction_(0.202.value.linlin(0.0,2,0,1));
-		~f6slider.valueAction_(0.048.value.linlin(0.0,2,0,1));
-		~f7slider.valueAction_(0.077.value.linlin(0.0,2,0,1));
-		~f8slider.valueAction_(0.231.value.linlin(0.0,2,0,1));
-		~f9slider.valueAction_(0.077.value.linlin(0.0,2,0,1));
-		~f10slider.valueAction_(0.154.value.linlin(0.0,2,0,1));
-		~f11slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f12slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f13slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f14slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f15slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f16slider.valueAction_(0.value.linlin(0.0,2,0,1));
+		~freqslider.valueAction_(261.6.value.explin(100,1000,0,1)); //only need to affect slider to affect the number box and true sound value
+				~volslider.valueAction_(0.7.value.linlin(0,1,0,1));
+		~f1slider.valueAction_(0.05.value.linlin(0.0,2,0,1));
+		~f2slider.valueAction_(0.13.value.linlin(0.0,2,0,1));
+		~f3slider.valueAction_(0.24.value.linlin(0.0,2,0,1));
+		~f4slider.valueAction_(0.36.value.linlin(0.0,2,0,1));
+		~f5slider.valueAction_(0.49.value.linlin(0.0,2,0,1));
+		~f6slider.valueAction_(0.37.value.linlin(0.0,2,0,1));
+		~f7slider.valueAction_(0.29.value.linlin(0.0,2,0,1));
+		~f8slider.valueAction_(0.15.value.linlin(0.0,2,0,1));
+		~f9slider.valueAction_(0.17.value.linlin(0.0,2,0,1));
+		~f10slider.valueAction_(0.12.value.linlin(0.0,2,0,1));
+		~f11slider.valueAction_(0.11.value.linlin(0.0,2,0,1));
+		~f12slider.valueAction_(0.08.value.linlin(0.0,2,0,1));
+		~f13slider.valueAction_(0.05.value.linlin(0.0,2,0,1));
+		~f14slider.valueAction_(0.03.value.linlin(0.0,2,0,1));
+		~f15slider.valueAction_(0.02.value.linlin(0.0,2,0,1));
+		~f16slider.valueAction_(0.01.value.linlin(0.0,2,0,1));
 		x.free;
 				z.free;
 		v.free;
@@ -662,11 +662,11 @@ snd = funcs2.at(menu.value).play;
 
 ///add sound to a buffer as an import - cello
 (
-a = Buffer.read(s, basePath +/+ "audio/cello.wav"); //helpful notes for troubleshooting: http://new-supercollider-mailing-lists-forums-use-these.2681727.n2.nabble.com/Generalizing-a-files-path-td7616651.html
+a = Buffer.read(s, basePath +/+ "audio/cello-2.wav"); //helpful notes for troubleshooting: http://new-supercollider-mailing-lists-forums-use-these.2681727.n2.nabble.com/Generalizing-a-files-path-td7616651.html
 
 SynthDef("import1",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1;
 	var rate;
-			rate = 0.98; //using rate because it was slightly out of tune (too high pitched)
+			rate = 1.0; //using rate because it was slightly out of tune (too high pitched)
 	Out.ar(out,
 		Pan2.ar(PlayBuf.ar(1,bufnum, BufRateScale.kr(bufnum)*rate, trigger, BufFrames.ir(bufnum)*startPos, loop=0),0.0)
 	);
@@ -685,6 +685,7 @@ q = Button(w, Rect(240, 497.5, 90, 26))
 		z.free;
 		v.free;
 		t.free;
+		l.free;
 		~button.valueAction_(0);
 
 				~l.valueAction_(0);
@@ -720,6 +721,7 @@ e = Button(w, Rect(335, 497.5, 90, 26))
 		y.free;
 		z.free;
 		t.free;
+		l.free;
 		~button.valueAction_(0);
 
 						~l.valueAction_(0);
@@ -765,6 +767,7 @@ r = Button(w, Rect(430, 497.5, 90, 26))
 		y.free;
 		v.free;
 		t.free;
+		l.free;
 		~button.valueAction_(0);
 
 						~l.valueAction_(0);
@@ -800,6 +803,7 @@ t.free;
 		y.free;
 		z.free;
 		v.free;
+		l.free;
 		~button.valueAction_(0);
 
 						~l.valueAction_(0);
@@ -835,6 +839,8 @@ u = Button(w, Rect(525, 457.5, 90, 26))
 		x.free;
 		y.free;
 		z.free;
+		t.free;
+		v.free;
 		~button.valueAction_(0);
 				~l.valueAction_(0);
 				~j.valueAction_(0);
@@ -844,7 +850,18 @@ u = Button(w, Rect(525, 457.5, 90, 26))
 		});
 
 
+///add sound to a buffer as an import - flute
+(
+k = Buffer.read(s, basePath +/+ "audio/flute_synth-2.wav");
 
+SynthDef("importflute_synth",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1;
+	var rate;
+			rate = 1.0; //using rate because it was slightly out of tune (too high pitched)
+	Out.ar(out,
+		Pan2.ar(PlayBuf.ar(1,bufnum, BufRateScale.kr(bufnum)*rate, trigger, BufFrames.ir(bufnum)*startPos, loop=0),0.0)
+	);
+}).add;
+);
 
 
 r = Button(w, Rect(430, 457.5, 90, 26))
@@ -852,10 +869,13 @@ r = Button(w, Rect(430, 457.5, 90, 26))
 	.font_(Font("nil", 14))
 	.action_({
 		l.free;
-		l = Synth.new(\importhorn_synth, [\out, 0, \bufnum, o.bufnum]);
+
+		l = Synth.new(\importflute_synth, [\out, 0, \bufnum, k.bufnum]);
 		x.free;
 		y.free;
 		z.free;
+				t.free;
+		v.free;
 		~button.valueAction_(0);
 				~l.valueAction_(0);
 				~j.valueAction_(0);
@@ -864,16 +884,31 @@ r = Button(w, Rect(430, 457.5, 90, 26))
 				~vinbutton.valueAction_(0);
 
 	});
+
+	(
+e = Buffer.read(s, basePath +/+ "audio/trumpet_synth.wav");
+
+SynthDef("importflute_synth",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1;
+	var rate;
+			rate = 1.0; //using rate because it was slightly out of tune (too high pitched)
+	Out.ar(out,
+		Pan2.ar(PlayBuf.ar(1,bufnum, BufRateScale.kr(bufnum)*rate, trigger, BufFrames.ir(bufnum)*startPos, loop=0),0.0)
+	);
+}).add;
+);
 
 	r = Button(w, Rect(335, 457.5, 90, 26))
 	.states_([["Trumpet", Color.white, Color(0,0,0,0.5)]])
 	.font_(Font("nil", 14))
 	.action_({
 			l.free;
-		l = Synth.new(\importhorn_synth, [\out, 0, \bufnum, o.bufnum]);
+
+		l = Synth.new(\importhorn_synth, [\out, 0, \bufnum, e.bufnum]);
 		x.free;
 		y.free;
 		z.free;
+				t.free;
+		v.free;
 		~button.valueAction_(0);
 				~l.valueAction_(0);
 				~j.valueAction_(0);
@@ -883,15 +918,30 @@ r = Button(w, Rect(430, 457.5, 90, 26))
 
 	});
 
+
+(
+f = Buffer.read(s, basePath +/+ "audio/cello_synth.wav");
+
+SynthDef("importflute_synth",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1;
+	var rate;
+			rate = 1.0; //using rate because it was slightly out of tune (too high pitched)
+	Out.ar(out,
+		Pan2.ar(PlayBuf.ar(1,bufnum, BufRateScale.kr(bufnum)*rate, trigger, BufFrames.ir(bufnum)*startPos, loop=0),0.0)
+	);
+}).add;
+);
+
 r = Button(w, Rect(240, 457.5, 90, 26))
 	.states_([["Cello", Color.white, Color(0,0,0,0.5)]])
 	.font_(Font("nil", 14))
 	.action_({
 			l.free;
-		l = Synth.new(\importhorn_synth, [\out, 0, \bufnum, o.bufnum]);
+		l = Synth.new(\importhorn_synth, [\out, 0, \bufnum, f.bufnum]);
 		x.free;
 		y.free;
 		z.free;
+				t.free;
+		v.free;
 		~button.valueAction_(0);
 				~l.valueAction_(0);
 				~j.valueAction_(0);
