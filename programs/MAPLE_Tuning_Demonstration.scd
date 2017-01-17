@@ -5,11 +5,11 @@
 (var basePath = thisProcess.nowExecutingPath.asString.dirname;
 s.waitForBoot({ //Ensures it only opens once the server is working completely, and automatically opens server
 
-	w = Window.new("MAPLE Lab Overtone 'Popout' Demonstration", Rect.new(
+	w = Window.new("MAPLE Lab Overtone 'Popout' Demonstration (Beta)", Rect.new(
 	Window.screenBounds.width/2-250,
 	Window.screenBounds.height/2-50,
 		500,570),false //shortened the
-	).background_(Color.white).userCanClose_(true).front; //Creates the new window with title
+	).background_(Color.white).userCanClose_(false).front; //Creates the new window with title
 
 
 
@@ -29,7 +29,7 @@ f.active_(true).freqMode_(1).dbRange_(70);
 
 //Label for paragraph
 ~para = StaticText(w,Rect(10,10,480,80))
-	.string_("Welcome to the MAPLE Lab Overtone 'Popout' Demonstration (Beta)! Using the parameters below, you can examine the fusion effect. Select the sounds you want to play using the buttons below. Use the Play/Mute button to start and stop the sound. To explore how fusion/unfusion occurs, use the slider or numbers-box to change the frequency of the 3rd harmonic.")
+	.string_("Welcome to the MAPLE Lab Overtone 'Popout' Demonstration (Beta)! Using the parameters below, you can examine the fusion effect. Select the number of harmonics and which harmonic to move out-of-tune using the dropdown menus. Use the Play/Stop button to start and stop the sound. To explore how fusion/unfusion occurs, use the slider to change the deviation of the selected harmonic.")
 .font_(Font("nil", 12))
 .align_(\topLeft)
 .background_(Color(0,0,0,0))
@@ -42,7 +42,9 @@ i = Image.new(basePath +/+ "images/mapleICON-small.png");
 		i.drawInRect(Rect(465,95,30,30), Rect(0,0,30,30), 2, 1.0); // only a section
 
 		Pen.use{
-		Pen.line(10@325,490@325); //Third line
+		Pen.line(10@240,490@240); //New line
+		Pen.line(10@175,490@175); //New line
+		Pen.line(10@330,490@330); //Third line
 		Pen.line(10@130,490@130); //Bottom line
 		Pen.line(10@90,490@90);
 		Pen.strokeColor = Color(0,0,0,0.5);
@@ -227,25 +229,25 @@ StaticText(w,Rect(0,620,500,2))
 
 
 //Label for Focus tone
-~para = StaticText(w,Rect(10,177,480,80))
-	.string_("Select Variant Harmonic:")
-.font_(Font("nil", 18))
+~para = StaticText(w,Rect(10,177+65+2,480,80))
+	.string_("Harmonic (mistuned)")
+.font_(Font("nil", 16))
 .align_(\topLeft)
 .background_(Color(0,0,0,0))
 .stringColor_(Color.black);
 
 //Label for Other tones
-~para = StaticText(w,Rect(10,270,480,80))
-	.string_("Other tones")
-.font_(Font("nil", 18))
+~para = StaticText(w,Rect(10,270-90,480,80))
+	.string_("Harmonics (tuned)")
+.font_(Font("nil", 16))
 .align_(\topLeft)
 .background_(Color(0,0,0,0))
 .stringColor_(Color.black);
 
 //Label for Spectra
-~para = StaticText(w,Rect(10,332,480,80))
+~para = StaticText(w,Rect(10,335,480,80))
 	.string_("Spectra")
-.font_(Font("nil", 18))
+.font_(Font("nil", 16))
 .align_(\topLeft)
 .background_(Color(0,0,0,0))
 .stringColor_(Color.black);
@@ -322,7 +324,7 @@ SynthDef.new("sound", {
 
 //FREQUENCY of 3rd harmonic
 //Properties of the slider
-~freqslider = Slider(w, Rect(160,200,330,30))
+~freqslider = Slider(w, Rect(160,200+65,330,30))
 .background_(Color(0.8,0.8,0.8,0.75))
 .value_(0.5)
 .action_({
@@ -336,15 +338,15 @@ SynthDef.new("sound", {
 });
 
 //Label for Freq.
-~freqLabel = StaticText(w,Rect(15,200,65,40))
-.string_("Harmonic Deviation")
+~freqLabel = StaticText(w,Rect(15,200+7+65,65,40))
+.string_(" Deviation")
 .font_(Font("nil", 12))
 .align_(\topRight)
 .background_(Color(0,0,0,0))
 .stringColor_(Color.black);
 
 //Number box that can edit slider position
-~numberBox = NumberBox(w,Rect(85+35,200,72-35,30))
+~numberBox = NumberBox(w,Rect(85+35,200+65,72-35,30))
 .value_(0)
 .clipLo_(-1)
 .clipHi_(1)
@@ -357,7 +359,7 @@ SynthDef.new("sound", {
 });
 
 //Button to reset 3rd harmonic
-~reset = Button(w, Rect(250-(200/2)-65,200,35,30))
+~reset = Button(w, Rect(250-(200/2)-65,200+65,35,30))
 .states_([
 	["Reset
 to 0", Color.white,Color(0.7569,0.1373,0.1725,1)]
@@ -370,7 +372,7 @@ to 0", Color.white,Color(0.7569,0.1373,0.1725,1)]
 
 //INTENSITY of 3rd harmonic
 //Properties of the slider
-~mulslider = Slider(w, Rect(160,235,330,30))
+~mulslider = Slider(w, Rect(160,235+60,330,30))
 .background_(Color(0.8,0.8,0.8,0.75))
 	.value_(0.5) //is converted to 1
 .action_({
@@ -384,7 +386,7 @@ to 0", Color.white,Color(0.7569,0.1373,0.1725,1)]
 });
 
 //Label for Freq.
-~mulLabel = StaticText(w,Rect(15,240,65,40))
+~mulLabel = StaticText(w,Rect(15,240+60,65,40))
 .string_("Intensity")
 .font_(Font("nil", 12))
 .align_(\topRight)
@@ -392,7 +394,7 @@ to 0", Color.white,Color(0.7569,0.1373,0.1725,1)]
 .stringColor_(Color.black);
 
 //Number box that can edit slider position
-~number2Box = NumberBox(w,Rect(85,235,72,30))
+~number2Box = NumberBox(w,Rect(85,235+60,72,30))
 .value_(1)
 .clipLo_(0.0)
 .clipHi_(2)
@@ -407,7 +409,7 @@ to 0", Color.white,Color(0.7569,0.1373,0.1725,1)]
 
 //OTHER
 //Properties of the slider
-~otherslider = Slider(w, Rect(160,290,330,30))
+~otherslider = Slider(w, Rect(160,290-90,330,30))
 .background_(Color(0.8,0.8,0.8,0.75))
 	.value_(0.5) //is converted to 1
 .action_({
@@ -421,7 +423,7 @@ to 0", Color.white,Color(0.7569,0.1373,0.1725,1)]
 });
 
 //Label for Freq.
-~otherLabel = StaticText(w,Rect(15,300,65,40))
+~otherLabel = StaticText(w,Rect(15,300-90,65,40))
 .string_("Intensity")
 .font_(Font("nil", 12))
 .align_(\topRight)
@@ -429,7 +431,7 @@ to 0", Color.white,Color(0.7569,0.1373,0.1725,1)]
 .stringColor_(Color.black);
 
 //Number box that can edit slider position
-~number3Box = NumberBox(w,Rect(85,290,72,30))
+~number3Box = NumberBox(w,Rect(85,290-90,72,30))
 .value_(1)
 .clipLo_(0.0)
 .clipHi_(2)
@@ -441,7 +443,7 @@ to 0", Color.white,Color(0.7569,0.1373,0.1725,1)]
 	~otherslider.valueAction_(obj.value.linlin(0.0,2,0,1))
 });
 
-
+/*
 ////VERSION:
 ~versioncode = StaticText(w,Rect(0,559,500,30))
 	.string_("Beta Version 0.1.0")
@@ -457,7 +459,7 @@ to 0", Color.white,Color(0.7569,0.1373,0.1725,1)]
 	.background_(Color(1,1,1,0.2))
 	.stringColor_(Color.white);
 
-
+*/
 
 
 
@@ -671,7 +673,7 @@ s.waitForBoot({
     snd.release;
    });
 */
-~menu2 = PopUpMenu(w, Rect(250-(250/2)+100,95+5+80,50,20));
+~menu2 = PopUpMenu(w, Rect(250-(250/2)+50,95+3+80+65+2,50,20));
 			~menu2.items_(["--","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16"]);
 			~menu2.font_(Font(\size, 12));
 			~menu2.allowsReselection_(true);

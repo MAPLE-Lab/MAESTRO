@@ -8,10 +8,10 @@ a.free; //clear buffers to help resolve memory leak
 		e.free;
 	s.freeAll;
 	//Ensures it only opens once the server is working completely, and automatically opens server
-	w = Window.new("MAPLE Lab Spectra Demonstration", Rect.new(
+	w = Window.new("MAPLE Lab Spectra Demonstration (Beta)", Rect.new(
 	Window.screenBounds.width/2-400,
 	Window.screenBounds.height/2-50,
-		800,530),false).background_(Color.white).userCanClose_(true).front;//Creates the new window with title
+		800,530),false).background_(Color.white).userCanClose_(false).front;//Creates the new window with title
 	// w.view.background = Color(0.9,0.9,0.9,1);
 
 //Spectra viewer
@@ -23,7 +23,7 @@ h.active_(true).freqMode_(1).dbRange_(70);
 
 //Label for paragraph
 ~para = StaticText(w,Rect(10,10,790,80))
-	.string_("Welcome to the MAPLE Lab Spectra Demonstration (Beta)! Using the parameters below, you can examine timbre of sounds. Select the fundamental frequency and the intensity of each harmonic. Use the Play/Mute button to start and stop the sound. To explore how forced choice spectra are not representative of real instruments, try playing a moving spectra sound.")
+	.string_("Welcome to the MAPLE Lab Spectra Demonstration (Beta)! Using the parameters below, you can examine timbre of sounds. Select the fundamental frequency and the intensity of each harmonic. Use the Play/Mute button to start and stop the sound. To explore how power spectra are not representative of real instruments, try playing a dynamic spectra sound.")
 .font_(Font("nil", 12))
 .align_(\topLeft)
 .background_(Color(0,0,0,0))
@@ -146,6 +146,7 @@ StaticText(w,Rect(410,360,500,2))
 
 				]
 			).register;
+				l.free;
 				y.free;
 				z.free;
 				v.free;
@@ -189,7 +190,7 @@ s.waitForBoot({
    });
 
 menu = PopUpMenu(w, Rect(622.5, 420, 60, 20));
-			menu.items_(["Sine", "Sawtooth", "Triangle", "Square"]);
+			menu.items_(["Sine", "Sawtooth", /*"Triangle",*/ "Square"]);
 			menu.font_(Font(\size, 12));
 			menu.action = { arg menu;
 
@@ -198,7 +199,7 @@ menu = PopUpMenu(w, Rect(622.5, 420, 60, 20));
 				x.free;
 				~vinbutton.valueAction_(1);
 snd = funcs2.at(menu.value).play;
-
+l.free;
 		z.free;
 		v.free;
 		t.free;
@@ -262,7 +263,7 @@ snd = funcs2.at(menu.value).play;
 		x.free; ///NEED TO ADD OSC DELAY
 		~button.valueAction_(1);
 	},
-				{
+		/*		{//triangle
 		var variable;
 		variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
 		~freqslider.valueAction_(440.value.explin(100,1000,0,1)); //only need to affect slider to affect the number box and true sound value
@@ -289,7 +290,7 @@ snd = funcs2.at(menu.value).play;
 				~k.valueAction_(0);
 								~j.valueAction_(0);
 
-	},
+	},*/
 				{
 		var variable;
 		variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
@@ -363,7 +364,7 @@ snd = funcs2.at(menu.value).play;
 		~f15slider.valueAction_(0.02.value.linlin(0.0,2,0,1));
 		~f16slider.valueAction_(0.value.linlin(0.0,2,0,1));
 		x.free; ///requires OSC delay?
-
+l.free;
 		z.free;
 		v.free;
 		t.free;
@@ -405,6 +406,7 @@ snd = funcs2.at(menu.value).play;
 		~f15slider.valueAction_(0.02.value.linlin(0.0,2,0,1));
 		~f16slider.valueAction_(0.01.value.linlin(0.0,2,0,1));
 		x.free;
+				l.free;
 				z.free;
 		v.free;
 		t.free;
@@ -448,6 +450,7 @@ snd = funcs2.at(menu.value).play;
 		~f15slider.valueAction_(0.value.linlin(0.0,2,0,1));
 		~f16slider.valueAction_(0.value.linlin(0.0,2,0,1));
 		x.free;
+				l.free;
 				z.free;
 		v.free;
 		t.free;
@@ -500,6 +503,7 @@ snd = funcs2.at(menu.value).play;
 		~f15slider.valueAction_(0.value.linlin(0.0,2,0,1));
 		~f16slider.valueAction_(0.value.linlin(0.0,2,0,1));
 		x.free;
+				l.free;
 				z.free;
 		v.free;
 		t.free;
@@ -1762,6 +1766,7 @@ SynthDef.new("sound", {
 		a.free; //clear buffers to help resolve memory leak
 		b.free;
 		e.free;
+		l.free;
 		// ~d.quit; causes issues if ~d doesn't exist before quitting, in any case ~d closes automatically because it is parented to the w window
 		// ~w2.close; //similar issue, but this does leave the oscilloscope open - workaround on splashscreen command
 		~scopebutton.valueAction_(0); //this works instead of closing the window as now the global variable is always available
@@ -1773,14 +1778,14 @@ SynthDef.new("sound", {
 	//Open Stethoscope
 ~scopebutton = Button(w, Rect((690-27.5), 112.5, 120, 20))
 .states_([
-	["Open Oscilloscope", Color.white,Color(0.7569,0.1373,0.1725,1)],
-	["Close Oscilloscope", Color.white, Color.grey(0.251)]
+	["Open Oscilloscope", Color.white,Color(0.7569,0.1373,0.1725,1)]/*,
+	["Close Oscilloscope", Color.white, Color.grey(0.251)]*/
 ])
 .font_(Font("nil", 12))
-.action_({
-	arg obj;
+.mouseDownAction_({
+	/*arg obj;
 	if(obj.value == 1,
-		{
+		{*/
 				~w2 = Window.new("Oscilloscope", Rect.new(
 	Window.screenBounds.width/2+420,
 	500,
@@ -1793,17 +1798,17 @@ SynthDef.new("sound", {
 
 				( //still not auto-setting
 s.sendBundle(2, //sound delay
-						["/s_new", "d", x = s.nextNodeID, 1, 1, s.cycle_(501)];
+				["/s_new", "d", ~nam = s.nextNodeID, 1, 1, s.cycle_(501)]; //nam to ensure it doesn't override any other variables
 				););
 
 				// ~d.cycle_((501));
 				// ~d.scope(zoom:4);
-			},
+		/*	}*//*,
 		{
 				// ~w2.close;
 				// ~d.quit //had to comment these two to make it not error as can't interpret - maybe these should open as default?
-			}
-	);
+			}*/
+	/*);*/
 });
 
 
@@ -1816,7 +1821,7 @@ s.sendBundle(2, //sound delay
 		~d
 		//.xZoom_((438.9105/1024)*1)
 		.cycle_((501));
-		{x}.plot
+	/*	{x}.plot*/
 	}
 	);
 

@@ -32,6 +32,8 @@ s.waitForBoot({ //Ensures it only opens once the server is working completely, a
 
 
 
+
+
 //Title
 ~title = StaticText(t,Rect((400-400),65,800,80))
 	.string_("Auditory Exploration Suite")
@@ -41,7 +43,7 @@ s.waitForBoot({ //Ensures it only opens once the server is working completely, a
 		.stringColor_(Color(0.2510));
 
 		//Buttons
-b = Button.new(t, Rect((400-220-50), 180, 100, 40))
+b = Button.new(t, Rect((400-220-50), 180+30-20, 100, 40))
 	.states_([["Tuning", Color.white, Color(0.7569,0.1373,0.1725,1)]])
 	.font_(Font("nil", 18))
 	.mouseDownAction_({
@@ -50,7 +52,7 @@ b = Button.new(t, Rect((400-220-50), 180, 100, 40))
 			t.close;
 		});
 
-u = Button.new(t, Rect((400+220-50), 180, 100, 40))
+u = Button.new(t, Rect((400-220-50), 180+50+30-20, 100, 40))
 	.states_([["Spectra", Color.white, Color(0.7569,0.1373,0.1725,1)]])
 	.font_(Font("nil", 18))
 	.mouseDownAction_({
@@ -61,8 +63,32 @@ u = Button.new(t, Rect((400+220-50), 180, 100, 40))
 q = Button.new(t, Rect((400-50), 340, 100, 30))
 	.states_([["Quit", Color.white, Color(0.2510,0.2510,0.2510,1)]])
 	.font_(Font("nil", 18))
-	.mouseDownAction_({s.quit; t.close;
+	.mouseDownAction_({s.quit; t.close; Window.closeAll;
 		});
+
+~link1 = Button.new(t, Rect((400-50)+235, 340-50-50+40-60, 100-30, 30))
+	.states_([["Like us on
+Facebook", Color.white, Color(0.2353,0.3529,0.5882,1)]])
+	.font_(Font("nil", 10))
+	.mouseDownAction_({"open https://www.facebook.com/maplelab.mcmaster".unixCmd
+		});
+
+		~link2 = Button.new(t, Rect((400-50)+235, 340-50-50-60, 100-30, 30))
+	.states_([["Visit our
+website", Color.white, Color(0.4824, 0.4863, 0.4863,1)]])
+	.font_(Font("nil", 10))
+	.mouseDownAction_({"open https://maplelab.net".unixCmd
+		});
+
+		~link3 = Button.new(t, Rect((400-50)+235, 340-50+40-50+40-60, 100-30, 30))
+	.states_([["Follow us
+on Twitter", Color.white, Color(0.1647, 0.6392, 0.9373,1)]])
+	.font_(Font("nil", 10))
+	.mouseDownAction_({"open https://twitter.com/maple_lab".unixCmd
+		});
+
+
+
 
 );
 });
