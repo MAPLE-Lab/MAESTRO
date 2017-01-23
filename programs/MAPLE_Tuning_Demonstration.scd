@@ -12,10 +12,10 @@ s.waitForBoot({ //Ensures it only opens once the server is working completely, a
 	).background_(Color.white).userCanClose_(false).front; //Creates the new window with title
 
 
-
+~composite = CompositeView(w, Rect(-100,355,600,300)); //needs to use Spectra bounds to not crop FreqScope
 
 //Spectra viewer
-f = FreqScopeView(w, Rect.new(-100,355,600,300)); //Prepares frequency scope (a.k.a. spectra) from (-120,355,800,300) to (-100,355,600,300)) - for harmonic marker transformation maths
+f = FreqScopeView(~composite, Rect.new(0,0,600,300)); //Prepares frequency scope (a.k.a. spectra) from (-120,355,800,300) to (-100,355,600,300)) - for harmonic marker transformation maths
 f.active_(true).freqMode_(1).dbRange_(70);
 
 
@@ -460,6 +460,41 @@ to 0", Color.white,Color(0.7569,0.1373,0.1725,1)]
 	.stringColor_(Color.white);
 
 */
+
+
+
+	///SPECTRA BUTTON
+	//Add swapables for the pen lines to switch the frequency views
+
+	~spectraButton = Button(w, Rect(250-(200/2)-65,200+135,110,20))
+.states_([
+		["Log View
+(Click to Switch to Linear)", Color.white,Color(0.7569,0.1373,0.1725,1)]
+		,["Linear View
+(Click to Switch to Log)", Color.white,Color(0.7569,0.1373,0.1725,1)]]
+
+)
+.font_(Font("nil", 8))
+.action_(
+
+
+				{
+
+					arg obj;
+	if(obj.value == 1,
+						{
+
+
+					f.freqMode_(0);
+					~composite.bounds_(Rect(0,355,600,300));
+					p.visible = false;
+
+					// f.set(\bounds, Rect.new(100,100,600,300));
+					// f.bounds_(Rect(100, 0, 300, 300);
+
+						},{f.freqMode_(1); ~composite.bounds_(Rect(-100,355,600,300));}
+			)});
+
 
 
 
