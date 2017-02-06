@@ -4,7 +4,7 @@ s.waitForBoot({ //Ensures it only opens once the server is working completely, a
 	(
     i = Image.new(thisProcess.nowExecutingPath.asString.dirname +/+ "images/splash-small.png"); //make sure this can work when not on my computer
 
-    t = Window.new("MAPLE Lab Auditory Exploration Suite", Rect(
+		t = Window.new("MAPLE Lab Auditory Exploration Suite (Beta)", Rect(
 	Window.screenBounds.width/2-400,
 	Window.screenBounds.height/2-50,
 		800,500), false)
@@ -14,7 +14,13 @@ s.waitForBoot({ //Ensures it only opens once the server is working completely, a
     t.onClose_({ i.free }); // free the image when the window is closed
     t.drawFunc_({
 			i.drawInRect(Rect(0,0,1160,874), Rect(0,0,1160,874), 2, 1.0); // only a section
-    });
+
+		    // CIRCLE
+			// Pen.fillOval(Rect(705, 415, 20, 20));
+			//	// Pen.fillAxialGradient(0,10,Color(0.4824, 0.4863, 0.4863), Color(0.2510,0.2510,0.2510))
+			// Pen.fillRadialGradient(10,20, 5, 10, Color(0.4824, 0.4863, 0.4863), Color(0.4824, 0.4863, 0.4863)); // just gray for now
+		});
+
 
 		// ~w2 = Window.new();
 
@@ -22,25 +28,32 @@ s.waitForBoot({ //Ensures it only opens once the server is working completely, a
 		// ~w2.close; //still not functioning
 
 ////VERSION:
-~versioncode = StaticText(t,Rect((400-400),430,800,80))
-	.string_("Beta Version 0.1.0")
+~versioncode = StaticText(t,Rect((400-400),430+10,800,80))
+	.string_("Beta Version 0.1.1") //Updated post-LOVE 2017
 .font_(Font("Helvetica", 10, false))
 .align_(\top)
 .background_(Color(0,0,0,0))
 		.stringColor_(Color(0.2510));
 
+t.view.keyDownAction = { arg view, char, modifiers, unicode, keycode;
+	[char, modifiers, unicode, keycode].postln;
+};
 
 
-
-
+		//Keyboard controls temp holding:
+(
+{ SinOsc.ar([100,100], 0, KeyState.kr(125, 0, 0.1)) }.play;
+{ SinOsc.ar([200, 200], 0, KeyState.kr(126, 0, 0.1)) }.play;
+);
 
 //Title
-~title = StaticText(t,Rect((400-400),65,800,80))
+~title = StaticText(t,Rect((400-400),413,800,80))
 	.string_("Auditory Exploration Suite")
-.font_(Font("Helvetica", 24, false))
+.font_(Font("Helvetica", 22, true))
 .align_(\top)
 .background_(Color(0,0,0,0))
 		.stringColor_(Color(0.2510));
+
 
 		//Buttons
 b = Button.new(t, Rect((400-220-50), 180+30-20, 100, 40))
@@ -90,6 +103,17 @@ on Twitter", Color.white, Color(0.1647, 0.6392, 0.9373,1)]])
 
 
 
+//TECHNICAL DETAILS
+		~tech = Button.new(t, Rect(707, 415, 20, 20))
+	.states_([["?", Color.white, Color.gray]])
+	.font_(Font("nil", 10))
+	.mouseDownAction_({
+(basePath +/+  "data/technical_details.scd").loadPaths; //This line allows all contact buttons to be updated automatically
+
+		});
+
+
+
 );
 });
 )
@@ -98,6 +122,6 @@ on Twitter", Color.white, Color(0.1647, 0.6392, 0.9373,1)]])
 ///MAPLE Colour palette:
 //Red: Color(0.7569,0.1373,0.1725,1)
 //White
-//Black: 0.0118 across RGB
-//Leaf grey: 0.4824, 0.4863, 0.4863
-//Headphone grey: 0.2510 across RGB
+//Black: Color(0.0118,0.0118,0.0118,1) = 0.0118 across RGB
+//Leaf grey: Color(0.4824, 0.4863, 0.4863)
+//Headphone grey: Color(0.2510,0.2510,0.2510)= 0.2510 across RGB

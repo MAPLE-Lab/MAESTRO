@@ -21,6 +21,8 @@ _COMPLETED_
 * Class is 3rd week (Jan 17th - 10:30am; Thursday Jan 19th - 9:30-11:20) - TSH 120
 So need to know by the 16th to play around
 If earlier 
+* Recording buttons
+* Poster at L.O.V.E. Conference 2017 uploaded to lab wiki
 
 
 * * *
@@ -28,7 +30,7 @@ If earlier
 
 _TO-DOs_
 
-* Technical details button on all apps with details
+
 
 _COMPLETED_
 
@@ -36,6 +38,7 @@ _COMPLETED_
 * Rename the Go Back to Home
 * Version tags (0.1.#)
 * Add Find us at the Website and Like us on Facebook
+* Technical details button on all apps with details
 
 * * *
 
@@ -47,7 +50,6 @@ _TO-DOs_
 </p>
 
 * Variable: fade in rate
-* Make freq spectra log and set linlin->linexp
 
 </p>
 
@@ -87,6 +89,8 @@ _COMPLETED_
 * Rename Other tones to Harmonics (tuned)
 * Add a line between Volumes | Deviant | Other sections
 * Reorder so that Deviant is below Others
+* Make freq spectra log and set linlin->linexp
+
 
 * * *
 
@@ -94,9 +98,8 @@ _COMPLETED_
 
 _TO-DOs_
 
-* Reset button for the Harmonic intensities
-* Keyboard control (up/down) for Volume?
-* For now remove the harmonic line indicator sliders (maybe future use window tool)
+* Keyboard control (up/down) for Volume? // see Splashscreen
+
 
 </p>
 
@@ -154,7 +157,8 @@ _COMPLETED_
 * Use the WAV files for Audio from the new new dropbox
 * Two-switch toggle 
 * Oscilloscope should auto-open at 440 = SuperCollider doesn't seem capable
-
+* For now remove the harmonic line indicator sliders (maybe future use window tool)
+* Reset button for the Harmonic intensities
 
 * * *
 
@@ -182,7 +186,22 @@ _COMPLETED_
 * 1-6 button, 10-16 harmonics
 * Button to show critical
 
+* * *
+
+##**Envelopes**
+
+* For research stimuli
+* ADSR method?
+* Custom numbers
+* Have type saved in all versions for on-going research referencing specific coding versions of MAPLE
+
 
 ##Video animation
 
+_TO-DOs_
+
+
+_COMPLETED_
+
 * Combine them in After Effects, different perspective
+* Uploaded to wiki

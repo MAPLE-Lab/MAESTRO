@@ -4,13 +4,44 @@
 
 (var basePath = thisProcess.nowExecutingPath.asString.dirname;
 s.waitForBoot({ //Ensures it only opens once the server is working completely, and automatically opens server
-
+	s.prepareForRecord;
 	w = Window.new("MAPLE Lab Overtone 'Popout' Demonstration (Beta)", Rect.new(
 	Window.screenBounds.width/2-250,
 	Window.screenBounds.height/2-50,
 		500,570),false //shortened the
 	).background_(Color.white).userCanClose_(false).front; //Creates the new window with title
 
+
+	//TECHNICAL DETAILS
+		~tech = Button.new(w, Rect(10, 100, 20, 20))
+	.states_([["?", Color.white, Color.gray]])
+	.font_(Font("nil", 10))
+	.mouseDownAction_({
+(basePath +/+  "data/technical_details.scd").loadPaths; //This line allows all contact buttons to be updated automatically
+
+		});
+
+
+//Record button - sends to Supercollider file
+	~tech = Button.new(w, Rect(35, 100, 85, 20))
+	.states_([
+	["Start Recording", Color.white,Color(0.7569,0.1373,0.1725,1)],
+	["Stop Recording", Color.white, Color.grey(0.251)]
+])
+	.font_(Font("nil", 10))
+	.action_({
+	arg obj;
+	if(obj.value == 1,
+		{
+					s.record;
+				},
+		{
+					s.stopRecording;
+
+				}
+	);
+}
+		);
 
 ~composite = CompositeView(w, Rect(-100,355,600,300)); //needs to use Spectra bounds to not crop FreqScope
 

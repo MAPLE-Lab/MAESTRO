@@ -8,17 +8,60 @@ a.free; //clear buffers to help resolve memory leak
 		e.free;
 	s.freeAll;
 	//Ensures it only opens once the server is working completely, and automatically opens server
+	s.prepareForRecord; //Avoid recording delay
 	w = Window.new("MAPLE Lab Spectra Demonstration (Beta)", Rect.new(
 	Window.screenBounds.width/2-400,
 	Window.screenBounds.height/2-50,
 		800,530),false).background_(Color.white).userCanClose_(false).front;//Creates the new window with title
 	// w.view.background = Color(0.9,0.9,0.9,1);
 
+
+
+	////Spectra
+
+	~composite = CompositeView(w, Rect(320,105,500,300)); //needs to use Spectra bounds to not crop FreqScope
+
 //Spectra viewer
-h = FreqScopeView.new(w, Rect.new(320,105,500,300)); //Prepares frequency scope (a.k.a. spectra)
+h = FreqScopeView.new(~composite, Rect.new(0,0,500,300)); //Prepares frequency scope (a.k.a. spectra)
 h.active_(true).freqMode_(1).dbRange_(70);
 
 	// s.onBootAdd({~scopebutton.valueAction_(1);});
+
+	///SPECTRA BUTTON
+	//Add swapables for the pen lines to switch the frequency views
+
+	~spectraButton = Button(w, Rect(250-(200/2)-65,200+135,110,20))
+.states_([
+		["Log View
+(Click to Switch to Linear)", Color.white,Color(0.7569,0.1373,0.1725,1)]
+		,["Linear View
+(Click to Switch to Log)", Color.white,Color(0.7569,0.1373,0.1725,1)]]
+
+)
+.font_(Font("nil", 8))
+.action_(
+
+
+				{
+
+					arg obj;
+	if(obj.value == 1,
+						{
+
+
+					f.freqMode_(0);
+					~composite.bounds_(Rect(320,355,600,300));
+					p.visible = false;
+
+					// f.set(\bounds, Rect.new(100,100,600,300));
+					// f.bounds_(Rect(100, 0, 300, 300);
+
+						},{f.freqMode_(1); ~composite.bounds_(Rect(320-200,355,600,300));}
+			)});
+
+
+
+
 
 
 //Label for paragraph
@@ -43,7 +86,7 @@ StaticText(w,Rect(10,105,380,25))
 .background_(Color(0,0,0,0.0));
 
 
-
+/*
 //Axes
 
 	//Harmonic positions marker
@@ -88,17 +131,22 @@ StaticText(w,Rect(10,105,380,25))
 	/*StaticText(w,Rect(430,380,2,20)) ////COMMENTED UNTIL COMPLETE
 	.background_(Color.white);*/
 
+
+
 StaticText(w,Rect(410,360,500,2))
 	.background_(Color.white);
 
 	// StaticText(w,Rect(0,622,500,33))
 	// .background_(Color(0,0,0,0.8)); //old dark bottom cover
+	*/
 
 	StaticText(w,Rect(420,380,500,33))
 	.string_("Frequency")
 	.align_(\topLeft)
 	.stringColor_(Color.white)
 	.background_(Color(0,0,0,0));
+
+
 
 ////VERSION:
 	~versioncode = StaticText(w,Rect(0,515,(800-10),30))
@@ -1841,6 +1889,100 @@ s.sendBundle(2, //sound delay
                 Pen.lineTo(790@60);
                 Pen.stroke;
         };
+
+
+			//TECHNICAL DETAILS
+		~tech = Button.new(w, Rect(10, 70, 20, 20))
+	.states_([["?", Color.white, Color.gray]])
+	.font_(Font("nil", 10))
+	.mouseDownAction_({
+(basePath +/+  "data/technical_details.scd").loadPaths; //This line allows all contact buttons to be updated automatically
+
+		});
+
+
+//Record button - sends to Supercollider file
+	~tech = Button.new(w, Rect(35, 70, 85, 20))
+	.states_([
+	["Start Recording", Color.white,Color(0.7569,0.1373,0.1725,1)],
+	["Stop Recording", Color.white, Color.grey(0.251)]
+])
+	.font_(Font("nil", 10))
+	.action_({
+	arg obj;
+	if(obj.value == 1,
+		{
+					s.record;
+				},
+		{
+					s.stopRecording;
+
+				}
+	);
+}
+		);
+
+
+
+
+	///SPECTRA BUTTON
+	//Add swapables for the pen lines to switch the frequency views
+
+	~spectraButton = Button(w, Rect((690-27.5), 112.5+40, 120, 20))
+.states_([
+		["Log View
+(Click to Switch to Linear)", Color.white,Color(0.7569,0.1373,0.1725,1)]
+		,["Linear View
+(Click to Switch to Log)", Color.white,Color(0.7569,0.1373,0.1725,1)]]
+
+)
+.font_(Font("nil", 8))
+.action_(
+
+
+				{
+
+					arg obj;
+	if(obj.value == 1,
+						{
+
+
+					h.freqMode_(0);
+					~composite.bounds_(Rect(320+90,105,500,300));
+					p.visible = false;
+
+						},{h.freqMode_(1); ~composite.bounds_(Rect(320,105,500,300));}
+			)});
+
+
+
+	//Button to reset 3rd harmonic
+~reset = Button(w, Rect(110,112.5,35,20))
+.states_([
+	["Reset
+intensities", Color.white,Color(0.7569,0.1373,0.1725,1)]
+])
+.font_(Font("nil", 6))
+.action_({
+		~volslider.valueAction_(0.2.value.linlin(0,1,0,1));
+		~f1slider.valueAction_(1.value.linlin(0.0,2,0,1));
+		~f2slider.valueAction_(1.value.linlin(0.0,2,0,1));
+		~f3slider.valueAction_(1.value.linlin(0.0,2,0,1));
+		~f4slider.valueAction_(1.value.linlin(0.0,2,0,1));
+		~f5slider.valueAction_(1.value.linlin(0.0,2,0,1));
+		~f6slider.valueAction_(1.value.linlin(0.0,2,0,1));
+		~f7slider.valueAction_(1.value.linlin(0.0,2,0,1));
+		~f8slider.valueAction_(1.value.linlin(0.0,2,0,1));
+		~f9slider.valueAction_(1.value.linlin(0.0,2,0,1));
+		~f10slider.valueAction_(1.value.linlin(0.0,2,0,1));
+		~f11slider.valueAction_(1.value.linlin(0.0,2,0,1));
+		~f12slider.valueAction_(1.value.linlin(0.0,2,0,1));
+		~f13slider.valueAction_(1.value.linlin(0.0,2,0,1));
+		~f14slider.valueAction_(1.value.linlin(0.0,2,0,1));
+		~f15slider.valueAction_(1.value.linlin(0.0,2,0,1));
+		~f16slider.valueAction_(1.value.linlin(0.0,2,0,1));
+
+});
 
 w.onClose_({s.quit}); //not working, rerouted to back button
 })
