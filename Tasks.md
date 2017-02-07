@@ -1,9 +1,21 @@
 # A.E.S. Tasklist
-_Updated 2016/01/04_
+_Updated to version 0.1.1 (Post L.O.V.E. Conference 2017)_
 
 ##**General**
 
 _TO-DOs_
+
+* Add GitHub or online version to MAPLE Lab website
+* Make a nice Screenshot for it
+* Be a separate page than Software Development, currently offline for now
+* Package into MacOS App
+* Techincal: CFI, NSERC, Early Research to Michael Schutz; recordings from UI Electrical Music Studios (Iowa), link in Useful Resources
+* Voice-over the demo videos (will go on Vimeo and embedded on website)
+
+</p>
+
+* Host online onto the MAPLE Lab website, and make Phone-compatiblte (maybe just the ASDR envelopes because scaling difficulties, the full package though will be available for downloads)
+
 
 
 
@@ -30,7 +42,7 @@ If earlier
 
 _TO-DOs_
 
-
+* Low priority: new splashscreen based on website style
 
 _COMPLETED_
 
@@ -47,9 +59,9 @@ _COMPLETED_
 _TO-DOs_
 
 
-</p>
-
+* Flip arrangement of Deviation and Inensity of Harmonic mistuned
 * Variable: fade in rate
+* Scaling bar for x-axis on Spectra (because linear are compressed to left)
 
 </p>
 
@@ -172,7 +184,7 @@ _COMPLETED_
 * Add friendly image
 * Add details on opening "SuperCollider.app" because that's still confusing
 * And how to work with the new RelativePath version
-* The video can introduce the app during lecture
+* The video can introduce the app during lecture (in slides)
 
 
 * * *
@@ -191,10 +203,21 @@ _COMPLETED_
 ##**Envelopes**
 
 * For research stimuli
+* Stock envelopes - piano, cello; apply to the spectra of something
+
+</p>
+
 * ADSR method?
 * Custom numbers
 * Have type saved in all versions for on-going research referencing specific coding versions of MAPLE
 
+* * *
+
+##**Keyboard**
+
+* Keyboard lights up (in red) to show intensity of what notes are playing
+* Visualizer that is the sepctra
+* As another pop-up window, and make the Fundamental Frequency slider have specific steps that only keep it to Keyboard frequencies
 
 ##Video animation
 
