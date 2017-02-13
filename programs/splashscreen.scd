@@ -3,7 +3,7 @@ var basePath = thisProcess.nowExecutingPath.asString.dirname; //http://new-super
 s.waitForBoot({ //Ensures it only opens once the server is working completely, and automatically opens server
 	(
     i = Image.new(thisProcess.nowExecutingPath.asString.dirname +/+ "images/splash-small.png"); //make sure this can work when not on my computer
-
+    j = Image.new(thisProcess.nowExecutingPath.asString.dirname +/+ "images/background_from_website.png");
 		t = Window.new("MAPLE Lab Auditory Exploration Suite (Beta)", Rect(
 	Window.screenBounds.width/2-400,
 	Window.screenBounds.height/2-50,
@@ -13,6 +13,7 @@ s.waitForBoot({ //Ensures it only opens once the server is working completely, a
 		.userCanClose_(false); //To close must use the Quit button - avoids the issue where the window closing breaks the following software opening without a server
     t.onClose_({ i.free }); // free the image when the window is closed
     t.drawFunc_({
+			j.drawInRect(Rect(0,0,1160,874), Rect(200,0,1160,874), 2, 1.0); // only a section
 			i.drawInRect(Rect(0,0,1160,874), Rect(0,0,1160,874), 2, 1.0); // only a section
 
 		    // CIRCLE
@@ -29,7 +30,7 @@ s.waitForBoot({ //Ensures it only opens once the server is working completely, a
 
 ////VERSION:
 ~versioncode = StaticText(t,Rect((400-400),430+10,800,80))
-	.string_("Beta Version 0.1.1") //Updated post-LOVE 2017
+	.string_((basePath +/+  "data/version_code.scd").loadPaths) //Updated post-LOVE 2017
 .font_(Font("Helvetica", 10, false))
 .align_(\top)
 .background_(Color(0,0,0,0))
@@ -61,7 +62,7 @@ b = Button.new(t, Rect((400-220-50), 180+30-20, 100, 40))
 	.font_(Font("nil", 18))
 	.mouseDownAction_({
 
-			(basePath +/+  "MAPLE_Tuning_Demonstration.scd").loadPaths;
+			(basePath +/+  "MAPLE_Tuning_Demonstration-proper_freq_experiment.scd").loadPaths;
 			t.close;
 		});
 

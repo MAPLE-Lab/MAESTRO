@@ -147,7 +147,7 @@ StaticText(w,Rect(410,360,500,2))
 	.background_(Color(0,0,0,0));
 
 
-
+/*
 ////VERSION:
 	~versioncode = StaticText(w,Rect(0,515,(800-10),30))
 	.string_("Beta Version 0.1.0")
@@ -155,7 +155,7 @@ StaticText(w,Rect(410,360,500,2))
 .align_(\topRight)
 .background_(Color.clear)
 	.stringColor_(Color.black);
-
+*/
 
 
 //Play Forced sounds button
@@ -1890,7 +1890,7 @@ s.sendBundle(2, //sound delay
                 Pen.stroke;
         };
 
-
+/*
 			//TECHNICAL DETAILS
 		~tech = Button.new(w, Rect(10, 70, 20, 20))
 	.states_([["?", Color.white, Color.gray]])
@@ -1899,7 +1899,7 @@ s.sendBundle(2, //sound delay
 (basePath +/+  "data/technical_details.scd").loadPaths; //This line allows all contact buttons to be updated automatically
 
 		});
-
+*/
 
 //Record button - sends to Supercollider file
 	~tech = Button.new(w, Rect(35, 70, 85, 20))

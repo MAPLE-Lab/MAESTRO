@@ -11,7 +11,7 @@ s.waitForBoot({ //Ensures it only opens once the server is working completely, a
 		500,570),false //shortened the
 	).background_(Color.white).userCanClose_(false).front; //Creates the new window with title
 
-
+/*
 	//TECHNICAL DETAILS
 		~tech = Button.new(w, Rect(10, 100, 20, 20))
 	.states_([["?", Color.white, Color.gray]])
@@ -20,7 +20,7 @@ s.waitForBoot({ //Ensures it only opens once the server is working completely, a
 (basePath +/+  "data/technical_details.scd").loadPaths; //This line allows all contact buttons to be updated automatically
 
 		});
-
+*/
 
 //Record button - sends to Supercollider file
 	~tech = Button.new(w, Rect(35, 100, 85, 20))
@@ -224,8 +224,8 @@ StaticText(w,Rect(0,620,500,2))
 
 //Properties of the slider
 ~fslider = Slider(w, Rect(160,155,330,15))
-	.background_(Color(0.8,0.8,0.8,0.75)).value_(0.3802)
-	.step_(1/30) //Math of linexp: y=100e^(kx)
+	.background_(Color(0.8,0.8,0.8,0.75)).value_(0)
+	.step_(1/36) //Math of linexp: y=100e^(kx)
 	//y1(1)=1000=y3(1) and y2(0)=100=y3(0) and y3=100e^(kx) what is k?
 	//hence: ln(y3/100)/x = k -->ln(1000/100)/1 = k = 2.3025 (using y2 makes no sense but should...)
 	//--> k = ln(10) EXACTLY
@@ -233,29 +233,29 @@ StaticText(w,Rect(0,620,500,2))
 	.action_({
 	arg obj;
 	var cf;
-	cf = obj.value.linexp(0,1,110,880).postln;
+	cf = obj.value.linlin(0,1,49,85).postln;
 		if(
 		x.isPlaying,
-		{x.set(\freq,cf)});
-	~numberfBox.value_(obj.value.linexp(0,1,100,1000));
-		~fsliderharm1.valueAction_(obj.value.linlin(0,1,(55/500),(325/500)));//must be linlin because a slider to slider is using the same exact values (no transformation required)
+		{x.set(\freqX,cf)});
+	~numberfBox.value_(obj.value.linlin(0,1,49,85));
+	/*	~fsliderharm1.valueAction_(obj.value.linlin(0,1,(55/500),(325/500)));//must be linlin because a slider to slider is using the same exact values (no transformation required)
 		~fsliderharm2.valueAction_(obj.value.linlin(0,1,(55/500+0.16),(325/500+0.16)));
 				~fsliderharm3.valueAction_(obj.value.linlin(0,1,(55/500+0.254),(325/500+0.254)));
+		*/
 })
 	.orientation_(\horizontal);
 
-
 //Number box that can edit slider position
 ~numberfBox = NumberBox(w,Rect(85,155,72,15))
-.value_(240)
-.clipLo_(110)
-.clipHi_(880)
+.value_(49)
+.clipLo_(49)
+.clipHi_(85)
 .font_(Font("nil",12))
-.decimals_(1)
+.decimals_(0)
 .align_(\center)
 .action_({
 	arg obj;
-	~fslider.valueAction_(obj.value.explin(110,880,0,1))
+	~fslider.valueAction_(obj.value.linlin(49,85,0,1))
 });
 
 
@@ -291,7 +291,7 @@ StaticText(w,Rect(0,620,500,2))
 //Define the sound to be played
 (
 SynthDef.new("sound", {
-	arg freq = 240, outoftune = 0, intensity = 1, other = 1, vol = 0.3, harmToggle1=1, harmToggle2=1, harmToggle3=1, harmToggle4=1, harmToggle5=1, harmToggle6=1, harmToggle7=1, harmToggle8=1, harmToggle9=1, harmToggle10=1, harmToggle11=1, harmToggle12=1, harmToggle13=1, harmToggle14=1, harmToggle15=1, harmToggle16=1,
+	arg freqX = 49, outoftune = 0, intensity = 1, other = 1, vol = 0.3, harmToggle1=1, harmToggle2=1, harmToggle3=1, harmToggle4=1, harmToggle5=1, harmToggle6=1, harmToggle7=1, harmToggle8=1, harmToggle9=1, harmToggle10=1, harmToggle11=1, harmToggle12=1, harmToggle13=1, harmToggle14=1, harmToggle15=1, harmToggle16=1,
 			choose1=0,
 			choose2=0,
 			choose3=0,
@@ -310,12 +310,14 @@ SynthDef.new("sound", {
 			choose16=0
 			;
 
-	var mul, mul2, signal;
+	var mul, mul2, signal, freq, freq_ex, freq_u;
 
 	mul = XLine.kr(0.01,1,0.2,0.1); //Ramps sound onset so not so harsh
 			mul2 = XLine.kr(0.01,1,0.2,0.1); //Ramps sound onset so not so harsh
 
-
+			freq_ex = ((-49+freqX)/12); //this section converts the MIDI key note value to the frequency value (where 49 = A4)
+			freq_u =2**(freq_ex);
+			freq = 440*(freq_u);
 
 	signal =
 
@@ -571,7 +573,7 @@ s.waitForBoot({
    });
 
 menu = PopUpMenu(w, Rect(250-(250/2)+5,95+5,50,20));
-			menu.items_(["3", "5", "8", "16"]);
+			menu.items_(["1", "2", "3", "5", "8", "16"]);
 			menu.font_(Font(\size, 12));
 			menu.allowsReselection_(true);
 			menu.action = { arg menu, menu2;
@@ -582,13 +584,64 @@ menu = PopUpMenu(w, Rect(250-(250/2)+5,95+5,50,20));
 				~vinbutton.valueAction_(1);
 
 snd = funcs2.at(menu.value).play;
-
-
-
 			};
 
  funcs2 = [
 
+				{
+			x = Synth(
+				\sound,
+				[
+						\outoftune, ~freqslider.value.linlin(0,1,-1,1),
+						\intensity, ~mulslider.value.linlin(0,1,0.0,2),
+						\other, ~otherslider.value.linlin(0,1,0.0,2),
+						\freq, ~fslider.value.linexp(0,1,100,1000),
+							\harmToggle1, 1,
+							\harmToggle2, 0,
+							\harmToggle3, 0,
+							\harmToggle4, 0,
+							\harmToggle5, 0,
+							\harmToggle6, 0,
+							\harmToggle7, 0,
+							\harmToggle8, 0,
+							\harmToggle9, 0,
+							\harmToggle10, 0,
+							\harmToggle11, 0,
+							\harmToggle12, 0,
+							\harmToggle13, 0,
+							\harmToggle14, 0,
+							\harmToggle15, 0,
+							\harmToggle16, 0,
+				]
+					).register; ~menu2.value_([menu.value]); //this allows the key to stay and be called at the current one without changing
+					~menu2.valueAction_([menu.value]);},
+{
+			x = Synth(
+				\sound,
+				[
+						\outoftune, ~freqslider.value.linlin(0,1,-1,1),
+						\intensity, ~mulslider.value.linlin(0,1,0.0,2),
+						\other, ~otherslider.value.linlin(0,1,0.0,2),
+						\freq, ~fslider.value.linexp(0,1,100,1000),
+							\harmToggle1, 1,
+							\harmToggle2, 1,
+							\harmToggle3, 0,
+							\harmToggle4, 0,
+							\harmToggle5, 0,
+							\harmToggle6, 0,
+							\harmToggle7, 0,
+							\harmToggle8, 0,
+							\harmToggle9, 0,
+							\harmToggle10, 0,
+							\harmToggle11, 0,
+							\harmToggle12, 0,
+							\harmToggle13, 0,
+							\harmToggle14, 0,
+							\harmToggle15, 0,
+							\harmToggle16, 0,
+				]
+					).register; ~menu2.value_([menu.value]); //this allows the key to stay and be called at the current one without changing
+					~menu2.valueAction_([menu.value]);},
 				{
 			x = Synth(
 				\sound,

@@ -6,8 +6,8 @@ d = Window.new("Technical Details", Rect(Window.screenBounds.width/2-150,
 	.string_("Technical Details
 
 Software: SuperCollider (3.8dev)
-Audio recordings from:
-Funded by: ")
+Audio recordings from: University of Iowa Electronic Music Studios (http://theremin.music.uiowa.edu/MIS.html)
+Funded by: Canada Foundation for Innovation, NSERC, and Early Researcher Award to Michael Schutz ")
 .font_(Font("Helvetica", 12, false))
 .align_(\topLeft)
 .background_(Color(1,1,1,0))
