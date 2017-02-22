@@ -109,7 +109,7 @@ on Twitter", Color.white, Color(0.1647, 0.6392, 0.9373,1)]])
 	.states_([["?", Color.white, Color.gray]])
 	.font_(Font("nil", 10))
 	.mouseDownAction_({
-(basePath +/+  "data/technical_details.scd").loadPaths; //This line allows all contact buttons to be updated automatically
+(basePath +/+  "modules/technical_details.scd").loadPaths; //This line allows all contact buttons to be updated automatically
 
 		});
 

@@ -11,19 +11,27 @@ s.waitForBoot({ //Ensures it only opens once the server is working completely, a
 		500,570),false //shortened the
 	).background_(Color.white).userCanClose_(false).front; //Creates the new window with title
 
-/*
-	//TECHNICAL DETAILS
-		~tech = Button.new(w, Rect(10, 100, 20, 20))
+//Keyboard MIDI notation image button
+		~midi_table = Button.new(w, Rect(10, 100, 20, 20))
 	.states_([["?", Color.white, Color.gray]])
 	.font_(Font("nil", 10))
 	.mouseDownAction_({
-(basePath +/+  "data/technical_details.scd").loadPaths; //This line allows all contact buttons to be updated automatically
+(basePath +/+  "modules/keyboard_image.scd").loadPaths; //This line allows all contact buttons to be updated automatically
 
 		});
-*/
+
+
+	//Keyboard visualizer button
+		~key_vis = Button.new(w, Rect(377.5, 100, 20, 20))
+	.states_([["?", Color.white, Color.gray]])
+	.font_(Font("nil", 10))
+	.mouseDownAction_({
+(basePath +/+  "modules/keyboard.scd").loadPaths; //This line allows all contact buttons to be updated automatically
+
+		});
 
 //Record button - sends to Supercollider file
-	~tech = Button.new(w, Rect(35, 100, 85, 20))
+	~record = Button.new(w, Rect(35, 100, 85, 20))
 	.states_([
 	["Start Recording", Color.white,Color(0.7569,0.1373,0.1725,1)],
 	["Stop Recording", Color.white, Color.grey(0.251)]
@@ -216,7 +224,7 @@ StaticText(w,Rect(0,620,500,2))
 
 //Label for Freq.
 ~fLabel = StaticText(w,Rect(0,158,80,25))
-.string_("Fundamental Freq.")
+.string_("Fundamental Note")
 .font_(Font("nil", 8))
 .align_(\topRight)
 .background_(Color(0,0,0,0))
@@ -225,7 +233,7 @@ StaticText(w,Rect(0,620,500,2))
 //Properties of the slider
 ~fslider = Slider(w, Rect(160,155,330,15))
 	.background_(Color(0.8,0.8,0.8,0.75)).value_(0)
-	.step_(1/36) //Math of linexp: y=100e^(kx)
+	.step_(1/35) //Math of linexp: y=100e^(kx)
 	//y1(1)=1000=y3(1) and y2(0)=100=y3(0) and y3=100e^(kx) what is k?
 	//hence: ln(y3/100)/x = k -->ln(1000/100)/1 = k = 2.3025 (using y2 makes no sense but should...)
 	//--> k = ln(10) EXACTLY
@@ -233,11 +241,31 @@ StaticText(w,Rect(0,620,500,2))
 	.action_({
 	arg obj;
 	var cf;
-	cf = obj.value.linlin(0,1,49,85).postln;
+	cf = obj.value.linlin(0,1,40,75).postln;
+
+		//C4
+		(
+		if( //This IF function provides the capability to control the system
+		obj.value.linlin(0,1,40,75) == 40, {a.free; //Needs to be at front because when leaving the slider position calls the first
+				// a = Synth(\SimpleSine);
+			~c4.background_(Color.red);
+	}, {a.free; ~c4.background_(Color.white)});
+	);
+
+//D4
+		(
+		if( //This IF function provides the capability to control the system
+		obj.value.linlin(0,1,40,75) == 42, {a.free; //Needs to be at front because when leaving the slider position calls the first
+				// a = Synth(\SimpleSine);
+			~d4.background_(Color.red);
+	}, {a.free; ~d4.background_(Color.white)});
+	);
+
+
 		if(
 		x.isPlaying,
 		{x.set(\freqX,cf)});
-	~numberfBox.value_(obj.value.linlin(0,1,49,85));
+	~numberfBox.value_(obj.value.linlin(0,1,40,75));
 	/*	~fsliderharm1.valueAction_(obj.value.linlin(0,1,(55/500),(325/500)));//must be linlin because a slider to slider is using the same exact values (no transformation required)
 		~fsliderharm2.valueAction_(obj.value.linlin(0,1,(55/500+0.16),(325/500+0.16)));
 				~fsliderharm3.valueAction_(obj.value.linlin(0,1,(55/500+0.254),(325/500+0.254)));
@@ -247,15 +275,15 @@ StaticText(w,Rect(0,620,500,2))
 
 //Number box that can edit slider position
 ~numberfBox = NumberBox(w,Rect(85,155,72,15))
-.value_(49)
-.clipLo_(49)
-.clipHi_(85)
+.value_(40)
+.clipLo_(40)
+.clipHi_(75)
 .font_(Font("nil",12))
 .decimals_(0)
 .align_(\center)
 .action_({
 	arg obj;
-	~fslider.valueAction_(obj.value.linlin(49,85,0,1))
+	~fslider.valueAction_(obj.value.linlin(40,75,0,1))
 });
 
 
@@ -291,7 +319,7 @@ StaticText(w,Rect(0,620,500,2))
 //Define the sound to be played
 (
 SynthDef.new("sound", {
-	arg freqX = 49, outoftune = 0, intensity = 1, other = 1, vol = 0.3, harmToggle1=1, harmToggle2=1, harmToggle3=1, harmToggle4=1, harmToggle5=1, harmToggle6=1, harmToggle7=1, harmToggle8=1, harmToggle9=1, harmToggle10=1, harmToggle11=1, harmToggle12=1, harmToggle13=1, harmToggle14=1, harmToggle15=1, harmToggle16=1,
+	arg freqX = 40, outoftune = 0, intensity = 1, other = 1, vol = 0.3, harmToggle1=1, harmToggle2=1, harmToggle3=1, harmToggle4=1, harmToggle5=1, harmToggle6=1, harmToggle7=1, harmToggle8=1, harmToggle9=1, harmToggle10=1, harmToggle11=1, harmToggle12=1, harmToggle13=1, harmToggle14=1, harmToggle15=1, harmToggle16=1,
 			choose1=0,
 			choose2=0,
 			choose3=0,
@@ -310,14 +338,14 @@ SynthDef.new("sound", {
 			choose16=0
 			;
 
-	var mul, mul2, signal, freq, freq_ex, freq_u;
+	var mul, mul2, signal, freq/*, freq_ex, freq_u*/;
 
 	mul = XLine.kr(0.01,1,0.2,0.1); //Ramps sound onset so not so harsh
 			mul2 = XLine.kr(0.01,1,0.2,0.1); //Ramps sound onset so not so harsh
 
-			freq_ex = ((-49+freqX)/12); //this section converts the MIDI key note value to the frequency value (where 49 = A4)
-			freq_u =2**(freq_ex);
-			freq = 440*(freq_u);
+/*			freq_ex = ((-49+freqX)/12); //this section converts the MIDI key note value to the frequency value (where 49 = A4)
+			freq_u =2**(freq_ex); */
+			freq = ((2**((-49+freqX)/12))*440);
 
 	signal =
 
@@ -360,7 +388,7 @@ SynthDef.new("sound", {
 );
 
 
-//FREQUENCY of 3rd harmonic
+//FREQUENCY of deviant
 //Properties of the slider
 ~freqslider = Slider(w, Rect(160,200+65+30,330,30))
 .background_(Color(0.8,0.8,0.8,0.75))
@@ -396,7 +424,7 @@ SynthDef.new("sound", {
 	~freqslider.valueAction_(obj.value.linlin(-1,1,0,1))
 });
 
-//Button to reset 3rd harmonic
+//Button to reset deviant
 ~reset = Button(w, Rect(250-(200/2)-65,200+65+30,35,30))
 .states_([
 	["Reset
@@ -408,7 +436,7 @@ to 0", Color.white,Color(0.7569,0.1373,0.1725,1)]
 });
 
 
-//INTENSITY of 3rd harmonic
+//INTENSITY of deviant
 //Properties of the slider
 ~mulslider = Slider(w, Rect(160,235+60-30,330,30))
 .background_(Color(0.8,0.8,0.8,0.75))
@@ -421,6 +449,11 @@ to 0", Color.white,Color(0.7569,0.1373,0.1725,1)]
 		x.isPlaying,
 		{x.set(\intensity,cf)});
 	~number2Box.value_(obj.value.linlin(0,1,0.0,2));
+	/*	if(
+			obj.value == 1, {
+				a = {SinOsc.ar(440)}.play}, {
+				a.free;
+		});*/
 });
 
 //Label for Freq.
@@ -563,7 +596,7 @@ s.waitForBoot({
 							snd = funcs2.at(menu.value).play /*+ funcs2.at(menu2.value).postln*/;
 
 
-						},{x.free}
+						},{x.free; ~fslider.valueAction_(0.value.linlin(40,75,0,1));}
 			)})
   .action_({ arg mod;
 /*~menu2.allowsReselection;

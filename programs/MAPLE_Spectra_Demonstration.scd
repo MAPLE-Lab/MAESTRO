@@ -147,16 +147,6 @@ StaticText(w,Rect(410,360,500,2))
 	.background_(Color(0,0,0,0));
 
 
-/*
-////VERSION:
-	~versioncode = StaticText(w,Rect(0,515,(800-10),30))
-	.string_("Beta Version 0.1.0")
-.font_(Font("Helvetica", 10, false))
-.align_(\topRight)
-.background_(Color.clear)
-	.stringColor_(Color.black);
-*/
-
 
 //Play Forced sounds button
 ~button = Button(w, Rect(400-(330/2),65,330,30))
@@ -1895,7 +1885,7 @@ s.sendBundle(2, //sound delay
 	.states_([["?", Color.white, Color.gray]])
 	.font_(Font("nil", 10))
 	.mouseDownAction_({
-(basePath +/+  "data/technical_details.scd").loadPaths; //This line allows all contact buttons to be updated automatically
+(basePath +/+  "modules/technical_details.scd").loadPaths; //This line allows all contact buttons to be updated automatically
 
 		});
 */
