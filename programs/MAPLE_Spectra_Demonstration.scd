@@ -12,7 +12,7 @@ a.free; //clear buffers to help resolve memory leak
 	w = Window.new("MAPLE Lab Spectra Demonstration (Beta)", Rect.new(
 	Window.screenBounds.width/2-400,
 	Window.screenBounds.height/2-50,
-		800,530),false).background_(Color.white).userCanClose_(false).front;//Creates the new window with title
+		800,530),false).background_(Color.white).userCanClose_(true).front;//Creates the new window with title
 	// w.view.background = Color(0.9,0.9,0.9,1);
 
 
@@ -628,10 +628,9 @@ l.free;
 		~f14Box.value_(obj.value.linexp(0,1,1400,14000));
 		~f15Box.value_(obj.value.linexp(0,1,1500,15000));
 		~f16Box.value_(obj.value.linexp(0,1,1600,16000));
-		 ~fsliderharm1.valueAction_(obj.value.linlin(0,1,0.065,0.495));//must be linlin because a slider to slider is using the same exact values (no transformation required)
+		/* ~fsliderharm1.valueAction_(obj.value.linlin(0,1,0.065,0.495));//must be linlin because a slider to slider is using the same exact values (no transformation required)
 		 ~fsliderharm2.valueAction_(obj.value.linlin(0,1,0.19047619047619,0.63));
-				~fsliderharm3.valueAction_(obj.value.linlin(0,1,0.26190476190476
-,0.705));
+				~fsliderharm3.valueAction_(obj.value.linlin(0,1,0.26190476190476,0.705)); */
 })
 	.orientation_(\horizontal);
 
@@ -1956,7 +1955,7 @@ s.sendBundle(2, //sound delay
 
 
 
-	//Button to reset 3rd harmonic
+	//Button to reset harmonic intensities
 ~reset = Button(w, Rect(110,112.5,35,20))
 .states_([
 	["Reset
@@ -1983,6 +1982,8 @@ intensities", Color.white,Color(0.7569,0.1373,0.1725,1)]
 		~f16slider.valueAction_(1.value.linlin(0.0,2,0,1));
 
 });
+
+
 
 w.onClose_({s.quit}); //not working, rerouted to back button
 })
