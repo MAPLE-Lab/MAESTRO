@@ -40,12 +40,13 @@ t.view.keyDownAction = { arg view, char, modifiers, unicode, keycode;
 	[char, modifiers, unicode, keycode].postln;
 };
 
-
+/*
 		//Keyboard controls temp holding:
 (
 { SinOsc.ar([100,100], 0, KeyState.kr(125, 0, 0.1)) }.play;
 { SinOsc.ar([200, 200], 0, KeyState.kr(126, 0, 0.1)) }.play;
 );
+*/
 
 //Title
 ~title = StaticText(t,Rect((400-400),413,800,80))

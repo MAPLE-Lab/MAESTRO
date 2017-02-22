@@ -12,7 +12,7 @@ a.free; //clear buffers to help resolve memory leak
 	w = Window.new("MAPLE Lab Spectra Demonstration (Beta)", Rect.new(
 	Window.screenBounds.width/2-400,
 	Window.screenBounds.height/2-50,
-		800,530),false).background_(Color.white).userCanClose_(true).front;//Creates the new window with title
+		800,530),false).background_(Color.white).userCanClose_(false).front;//Creates the new window with title
 	// w.view.background = Color(0.9,0.9,0.9,1);
 
 
