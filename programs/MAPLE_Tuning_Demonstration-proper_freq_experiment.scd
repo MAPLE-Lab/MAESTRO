@@ -33,7 +33,7 @@ s.waitForBoot({ //Ensures it only opens once the server is working completely, a
 //Record button - sends to Supercollider file
 	~record = Button.new(w, Rect(35, 100, 85, 20))
 	.states_([
-	["Start Recording", Color.white,Color(0.7569,0.1373,0.1725,1)],
+	["Start Recording", Color.white,Color(0.4824, 0.4863, 0.4863,1)],
 	["Stop Recording", Color.white, Color.grey(0.251)]
 ])
 	.font_(Font("nil", 10))
@@ -457,7 +457,7 @@ SynthDef.new("sound", {
 ~reset = Button(w, Rect(250-(200/2)-65,200+65+30,35,30))
 .states_([
 	["Reset
-to 0", Color.white,Color(0.7569,0.1373,0.1725,1)]
+to 0", Color.white,Color(0.4824, 0.4863, 0.4863,1)]
 ])
 .font_(Font("nil", 8))
 .action_({
@@ -569,9 +569,9 @@ to 0", Color.white,Color(0.7569,0.1373,0.1725,1)]
 	~spectraButton = Button(w, Rect(250-(200/2)-65,200+135,110,20))
 .states_([
 		["Log View
-(Click to Switch to Linear)", Color.white,Color(0.7569,0.1373,0.1725,1)]
+(Click to Switch to Linear)", Color.white,Color(0.4824, 0.4863, 0.4863,1)]
 		,["Linear View
-(Click to Switch to Log)", Color.white,Color(0.7569,0.1373,0.1725,1)]]
+(Click to Switch to Log)", Color.white,Color(0.4824, 0.4863, 0.4863,1)]]
 
 )
 .font_(Font("nil", 8))

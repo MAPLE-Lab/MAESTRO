@@ -213,7 +213,7 @@ s.waitForBoot({
 
 
  ~vinbutton = Button(w, Rect(620, 417.5, 170, 25))
-			.states_([["            Click to Play", Color.white, Color.gray], ["            Click to Stop", Color.white, Color.black]])
+			.states_([["            Click to Play", Color.white, Color(0.7569,0.1373,0.1725,1)], ["            Click to Stop", Color.white, Color.black]])
    .mouseDownAction_(
 
 				{
@@ -374,7 +374,7 @@ l.free;
 
 //FORCED cello preset
 ~j = Button(w, Rect(240, 417.5, 90, 26))
-	.states_([["Cello", Color.white, Color(0,0,0,0.5)], ["Cello", Color.white, Color(0,0,0,1)]])
+	.states_([["Cello", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Cello", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.mouseDownAction_({
 
@@ -416,7 +416,7 @@ l.free;
 
 	//FORCED trumpet preset
 ~l = Button(w, Rect(335, 417.5, 90, 26))
-	.states_([["Trumpet", Color.white, Color(0,0,0,0.5)],["Trumpet", Color.white, Color(0,0,0,1)]])
+	.states_([["Trumpet", Color.white, Color(0.7569,0.1373,0.1725,1)],["Trumpet", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.mouseDownAction_({
 
@@ -460,7 +460,7 @@ l.free;
 
 //FORCED flute preset
 ~k = Button(w, Rect(430, 417.5, 90, 26))
-	.states_([["Flute", Color.white, Color(0,0,0,0.5)], ["Flute", Color.white, Color(0,0,0,1)]])
+	.states_([["Flute", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Flute", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.mouseDownAction_({
 
@@ -502,7 +502,7 @@ l.free;
 
 	//FORCED horn preset
 ~r = Button(w, Rect(525, 417.5, 90, 26))
-	.states_([["Horn", Color.white, Color(0,0,0,0.5)],["Horn", Color.white, Color(0,0,0,1)]])
+	.states_([["Horn", Color.white, Color(0.7569,0.1373,0.1725,1)],["Horn", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.mouseDownAction_({
 
@@ -717,7 +717,7 @@ SynthDef("import1",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1;
 
 //Play a sound... cello preset
 q = Button(w, Rect(240, 497.5, 90, 26))
-	.states_([["Cello", Color.white, Color(0,0,0,0.5)]])
+	.states_([["Cello", Color.white, Color(0.7569,0.1373,0.1725,1)]])
 	.font_(Font("nil", 14))
 	.action_({
 		y.free;
@@ -753,7 +753,7 @@ SynthDef("import3",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1;
 
 //Play a sound... trumpet preset
 e = Button(w, Rect(335, 497.5, 90, 26))
-	.states_([["Trumpet", Color.white, Color(0,0,0,0.5)]])
+	.states_([["Trumpet", Color.white, Color(0.7569,0.1373,0.1725,1)]])
 	.font_(Font("nil", 14))
 	.action_({
 		v.free;
@@ -799,7 +799,7 @@ SynthDef("import2",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1;
 
 //Play a sound... flute preset
 r = Button(w, Rect(430, 497.5, 90, 26))
-	.states_([["Flute", Color.white, Color(0,0,0,0.5)]])
+	.states_([["Flute", Color.white, Color(0.7569,0.1373,0.1725,1)]])
 	.font_(Font("nil", 14))
 	.action_({
 		z.free;
@@ -835,7 +835,7 @@ SynthDef("import5",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1;
 
 //Play a sound... horn preset
 f = Button(w, Rect(525, 497.5, 90, 26))
-	.states_([["Horn", Color.white, Color(0,0,0,0.5)]])
+	.states_([["Horn", Color.white, Color(0.7569,0.1373,0.1725,1)]])
 	.font_(Font("nil", 14))
 	.action_({
 t.free;
@@ -872,7 +872,7 @@ SynthDef("importhorn_synth",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1;
 
 //Play a sound... horn preset
 u = Button(w, Rect(525, 457.5, 90, 26))
-	.states_([["Horn", Color.white, Color(0,0,0,0.5)]])
+	.states_([["Horn", Color.white, Color(0.7569,0.1373,0.1725,1)]])
 	.font_(Font("nil", 14))
 	.action_({
 	l.free;
@@ -906,7 +906,7 @@ SynthDef("importflute_synth",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1
 
 
 r = Button(w, Rect(430, 457.5, 90, 26))
-	.states_([["Flute", Color.white, Color(0,0,0,0.5)]])
+	.states_([["Flute", Color.white, Color(0.7569,0.1373,0.1725,1)]])
 	.font_(Font("nil", 14))
 	.action_({
 		l.free;
@@ -939,7 +939,7 @@ SynthDef("importflute_synth",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1
 );
 
 	r = Button(w, Rect(335, 457.5, 90, 26))
-	.states_([["Trumpet", Color.white, Color(0,0,0,0.5)]])
+	.states_([["Trumpet", Color.white, Color(0.7569,0.1373,0.1725,1)]])
 	.font_(Font("nil", 14))
 	.action_({
 			l.free;
@@ -973,7 +973,7 @@ SynthDef("importflute_synth",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1
 );
 
 r = Button(w, Rect(240, 457.5, 90, 26))
-	.states_([["Cello", Color.white, Color(0,0,0,0.5)]])
+	.states_([["Cello", Color.white, Color(0.7569,0.1373,0.1725,1)]])
 	.font_(Font("nil", 14))
 	.action_({
 			l.free;
@@ -1815,7 +1815,7 @@ SynthDef.new("sound", {
 	//Open Stethoscope
 ~scopebutton = Button(w, Rect((690-27.5), 112.5, 120, 20))
 .states_([
-	["Open Oscilloscope", Color.white,Color(0.7569,0.1373,0.1725,1)]/*,
+	["Open Oscilloscope", Color.white,Color(0.4824, 0.4863, 0.4863,1)]/*,
 	["Close Oscilloscope", Color.white, Color.grey(0.251)]*/
 ])
 .font_(Font("nil", 12))
@@ -1851,7 +1851,7 @@ s.sendBundle(2, //sound delay
 
 ~scope2button = Button(w, Rect((690-27.5), 132.5, 120, 20))
 .states_([
-	["Set Osc. to ~440Hz", Color.white,Color(0.7569,0.1373,0.1725,1)]
+	["Set Osc. to ~440Hz", Color.white,Color(0.4824, 0.4863, 0.4863,1)]
 ])
 .font_(Font("nil", 12))
 	.action_({
@@ -1893,7 +1893,7 @@ s.sendBundle(2, //sound delay
 //Record button - sends to Supercollider file
 	~tech = Button.new(w, Rect(35, 70, 85, 20))
 	.states_([
-	["Start Recording", Color.white,Color(0.7569,0.1373,0.1725,1)],
+	["Start Recording", Color.white,Color(0.4824, 0.4863, 0.4863,1)],
 	["Stop Recording", Color.white, Color.grey(0.251)]
 ])
 	.font_(Font("nil", 10))
@@ -1920,9 +1920,9 @@ s.sendBundle(2, //sound delay
 	~spectraButton = Button(w, Rect((690-27.5), 112.5+40, 120, 20))
 .states_([
 		["Log View
-(Click to Switch to Linear)", Color.white,Color(0.7569,0.1373,0.1725,1)]
+(Click to Switch to Linear)", Color.white,Color(0.4824, 0.4863, 0.4863,1)]
 		,["Linear View
-(Click to Switch to Log)", Color.white,Color(0.7569,0.1373,0.1725,1)]]
+(Click to Switch to Log)", Color.white,Color(0.4824, 0.4863, 0.4863,1)]]
 
 )
 .font_(Font("nil", 8))
@@ -1946,10 +1946,10 @@ s.sendBundle(2, //sound delay
 
 
 	//Button to reset harmonic intensities
-~reset = Button(w, Rect(110,112.5,35,20))
+~reset = Button(w, Rect(110,110,35,20))
 .states_([
 	["Reset
-intensities", Color.white,Color(0.7569,0.1373,0.1725,1)]
+intensities", Color.white,Color(0.4824, 0.4863, 0.4863,1)]
 ])
 .font_(Font("nil", 6))
 .action_({
