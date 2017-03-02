@@ -1,5 +1,5 @@
 (
-~keyboard = Window.new("Keyboard", Rect(50,200,420+20+20,190), false, true).front.background_(Color.white);
+~keyboard = Window.new("Keyboard", Rect(50,200,420+20+20,190), false, true).front.background_(Color.white).userCanClose_(true);
 
 ~title =StaticText(~keyboard,Rect(0,0,420+20+20,300))
 .string_("Keyboard")
@@ -7,28 +7,34 @@
 .font_(Font(["Helvetica"], 15, true));
 
 /* d = SynthDef.new(\SimpleSine, {|freq = 440| Out.ar(0, SinOsc.ar(freq, 0, 0.2)) }); */
-/*
+
 //INTENSITY of deviant
 //Properties of the slider
-~mulslider = Slider(~keyboard, Rect(0,180,420+20+20,20))
+~mulslider = Slider(~keyboard, Rect(0,180-10,420+20+20,20))
 .background_(Color(0.8,0.8,0.8,0.75))
 	.valueAction_(0) //is converted to 1
- .step_(1/35)
+// .step_(1/35)
 .action_({
 	arg obj;
-	var cf;
-	cf = obj.value.linlin(0,1,40,75).postln;
-/*
+	var white, black;
+	white = obj.value.linlin(0,1,1,0).postln;
+	black = obj.value.linlin(0,1,0,1).postln;
+	~c5.background_(Color(white,white,1,1));
+	~cSHARP6.background_(Color(0,0,black,1));
+
+
+/*	cf = obj.value.linlin(0,1,40,75).postln;
+
 	(
 		if( //This IF function provides the capability to control the system
-		obj.value.linlin(0,1,40,76) == 40, {a.free; //Needs to be at front because when leaving the slider position calls the first
+		obj.value.linlin(0,1,40,75) == 40, {a.free; //Needs to be at front because when leaving the slider position calls the first
 				// a = Synth(\SimpleSine);
 			~c4.background_(Color.red);
 	}, {a.free; ~c4.background_(Color.white)});
-	)
-*/
+	)*/
+
 });
-*/
+
 
 //Keyboard visual
 ~outline = StaticText(~keyboard, Rect(20-1,20-1,420+1,150+2));
@@ -114,5 +120,5 @@
 
 
 
-w.onClose_({a.free});
+w.onClose_({a.free; ~keyboard_open = 0;});
 )

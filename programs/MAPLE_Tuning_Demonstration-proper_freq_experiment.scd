@@ -11,24 +11,6 @@ s.waitForBoot({ //Ensures it only opens once the server is working completely, a
 		500,570),false //shortened the
 	).background_(Color.white).userCanClose_(false).front; //Creates the new window with title
 
-//Keyboard MIDI notation image button
-		~midi_table = Button.new(w, Rect(10, 100, 20, 20))
-	.states_([["?", Color.white, Color.gray]])
-	.font_(Font("nil", 10))
-	.mouseDownAction_({
-(basePath +/+  "modules/keyboard_image.scd").loadPaths; //This line allows all contact buttons to be updated automatically
-
-		});
-
-
-	//Keyboard visualizer button
-		~key_vis = Button.new(w, Rect(377.5, 100, 20, 20))
-	.states_([["?", Color.white, Color.gray]])
-	.font_(Font("nil", 10))
-	.mouseDownAction_({
-(basePath +/+  "modules/keyboard.scd").loadPaths; //This line allows all contact buttons to be updated automatically
-
-		});
 
 //Record button - sends to Supercollider file
 	~record = Button.new(w, Rect(35, 100, 85, 20))
@@ -75,10 +57,12 @@ f.active_(true).freqMode_(1).dbRange_(70);
 .stringColor_(Color.black);
 
 i = Image.new(basePath +/+ "images/mapleICON-small.png");
+~keyboard_image = Image.new(basePath +/+ "images/keyboard_small.png");
 
 //Aesthetic lines
 	w.drawFunc = {
 		i.drawInRect(Rect(465,95,30,30), Rect(0,0,30,30), 2, 1.0); // only a section
+		~keyboard_image.drawInRect(Rect(250,330,60,25), Rect(0,0,60,25), 2, 1.0);
 
 		Pen.use{
 		Pen.line(10@240,490@240); //New line
@@ -223,10 +207,10 @@ StaticText(w,Rect(0,620,500,2))
 	//TONIC FREQUENCY
 
 //Label for Freq.
-~fLabel = StaticText(w,Rect(0,158,80,25))
-.string_("Fundamental Note")
+~fLabel = StaticText(w,Rect(10,158,80,25))
+.string_("Fundamental")
 .font_(Font("nil", 8))
-.align_(\topRight)
+.align_(\topLeft)
 .background_(Color(0,0,0,0))
 .stringColor_(Color.black);
 
@@ -242,7 +226,8 @@ StaticText(w,Rect(0,620,500,2))
 	arg obj;
 	var cf;
 	cf = obj.value.linlin(0,1,40,75).postln;
-
+		// (basePath +/+  "data/control_keyboard.scd").loadPaths;
+		//Does not seem to funciton this loadPaths as a function - liekly because cannot pull live like this
 		/*//C4
 		(
 		if( //This IF function provides the capability to control the system
@@ -252,43 +237,43 @@ StaticText(w,Rect(0,620,500,2))
 	}, {a.free; ~c4.background_(Color.white)});
 	);*/
 
-/*	C4	*/	(if(obj.value.linlin(0,1,40,75) == 	40	, {~	c4	.background_(Color.red);}, {~	c4	.background_(Color.white)}););
-/*	D4	*/	(if(obj.value.linlin(0,1,40,75) == 	42	, {~	d4	.background_(Color.red);}, {~	d4	.background_(Color.white)}););
-/*	E4	*/	(if(obj.value.linlin(0,1,40,75) == 	44	, {~	e4	.background_(Color.red);}, {~	e4	.background_(Color.white)}););
-/*	F4	*/	(if(obj.value.linlin(0,1,40,75) == 	45	, {~	f4	.background_(Color.red);}, {~	f4	.background_(Color.white)}););
-/*	G4	*/	(if(obj.value.linlin(0,1,40,75) == 	47	, {~	g4	.background_(Color.red);}, {~	g4	.background_(Color.white)}););
-/*	A4	*/	(if(obj.value.linlin(0,1,40,75) == 	49	, {~	a4	.background_(Color.red);}, {~	a4	.background_(Color.white)}););
-/*	B4	*/	(if(obj.value.linlin(0,1,40,75) == 	51	, {~	b4	.background_(Color.red);}, {~	b4	.background_(Color.white)}););
-/*	C5	*/	(if(obj.value.linlin(0,1,40,75) == 	52	, {~	c5	.background_(Color.red);}, {~	c5	.background_(Color.white)}););
-/*	D5	*/	(if(obj.value.linlin(0,1,40,75) == 	54	, {~	d5	.background_(Color.red);}, {~	d5	.background_(Color.white)}););
-/*	E5	*/	(if(obj.value.linlin(0,1,40,75) == 	56	, {~	e5	.background_(Color.red);}, {~	e5	.background_(Color.white)}););
-/*	F5	*/	(if(obj.value.linlin(0,1,40,75) == 	57	, {~	f5	.background_(Color.red);}, {~	f5	.background_(Color.white)}););
-/*	G5	*/	(if(obj.value.linlin(0,1,40,75) == 	59	, {~	g5	.background_(Color.red);}, {~	g5	.background_(Color.white)}););
-/*	A5	*/	(if(obj.value.linlin(0,1,40,75) == 	61	, {~	a5	.background_(Color.red);}, {~	a5	.background_(Color.white)}););
-/*	B5	*/	(if(obj.value.linlin(0,1,40,75) == 	63	, {~	b5	.background_(Color.red);}, {~	b5	.background_(Color.white)}););
-/*	C6	*/	(if(obj.value.linlin(0,1,40,75) == 	64	, {~	c6	.background_(Color.red);}, {~	c6	.background_(Color.white)}););
-/*	D6	*/	(if(obj.value.linlin(0,1,40,75) == 	66	, {~	d6	.background_(Color.red);}, {~	d6	.background_(Color.white)}););
-/*	E6	*/	(if(obj.value.linlin(0,1,40,75) == 	68	, {~	e6	.background_(Color.red);}, {~	e6	.background_(Color.white)}););
-/*	F6	*/	(if(obj.value.linlin(0,1,40,75) == 	69	, {~	f6	.background_(Color.red);}, {~	f6	.background_(Color.white)}););
-/*	G6	*/	(if(obj.value.linlin(0,1,40,75) == 	71	, {~	g6	.background_(Color.red);}, {~	g6	.background_(Color.white)}););
-/*	A6	*/	(if(obj.value.linlin(0,1,40,75) == 	73	, {~	a6	.background_(Color.red);}, {~	a6	.background_(Color.white)}););
-/*	B6	*/	(if(obj.value.linlin(0,1,40,75) == 	75	, {~	b6	.background_(Color.red);}, {~	b6	.background_(Color.white)}););
+/*	C4	*/	(if(obj.value.linlin(0,1,40,75) == 	40	, {~	c4	.background_(Color.red);	~note_name.string_("C4");	}, {~	c4	.background_(Color.white)}););
+/*	D4	*/	(if(obj.value.linlin(0,1,40,75) == 	42	, {~	d4	.background_(Color.red);	~note_name.string_("D4");	}, {~	d4	.background_(Color.white)}););
+/*	E4	*/	(if(obj.value.linlin(0,1,40,75) == 	44	, {~	e4	.background_(Color.red);	~note_name.string_("E4");	}, {~	e4	.background_(Color.white)}););
+/*	F4	*/	(if(obj.value.linlin(0,1,40,75) == 	45	, {~	f4	.background_(Color.red);	~note_name.string_("F4");	}, {~	f4	.background_(Color.white)}););
+/*	G4	*/	(if(obj.value.linlin(0,1,40,75) == 	47	, {~	g4	.background_(Color.red);	~note_name.string_("G4");	}, {~	g4	.background_(Color.white)}););
+/*	A4	*/	(if(obj.value.linlin(0,1,40,75) == 	49	, {~	a4	.background_(Color.red);	~note_name.string_("A4");	}, {~	a4	.background_(Color.white)}););
+/*	B4	*/	(if(obj.value.linlin(0,1,40,75) == 	51	, {~	b4	.background_(Color.red);	~note_name.string_("B4");	}, {~	b4	.background_(Color.white)}););
+/*	C5	*/	(if(obj.value.linlin(0,1,40,75) == 	52	, {~	c5	.background_(Color.red);	~note_name.string_("C5");	}, {~	c5	.background_(Color.white)}););
+/*	D5	*/	(if(obj.value.linlin(0,1,40,75) == 	54	, {~	d5	.background_(Color.red);	~note_name.string_("D5");	}, {~	d5	.background_(Color.white)}););
+/*	E5	*/	(if(obj.value.linlin(0,1,40,75) == 	56	, {~	e5	.background_(Color.red);	~note_name.string_("E5");	}, {~	e5	.background_(Color.white)}););
+/*	F5	*/	(if(obj.value.linlin(0,1,40,75) == 	57	, {~	f5	.background_(Color.red);	~note_name.string_("F5");	}, {~	f5	.background_(Color.white)}););
+/*	G5	*/	(if(obj.value.linlin(0,1,40,75) == 	59	, {~	g5	.background_(Color.red);	~note_name.string_("G5");	}, {~	g5	.background_(Color.white)}););
+/*	A5	*/	(if(obj.value.linlin(0,1,40,75) == 	61	, {~	a5	.background_(Color.red);	~note_name.string_("A5");	}, {~	a5	.background_(Color.white)}););
+/*	B5	*/	(if(obj.value.linlin(0,1,40,75) == 	63	, {~	b5	.background_(Color.red);	~note_name.string_("B5");	}, {~	b5	.background_(Color.white)}););
+/*	C6	*/	(if(obj.value.linlin(0,1,40,75) == 	64	, {~	c6	.background_(Color.red);	~note_name.string_("C6");	}, {~	c6	.background_(Color.white)}););
+/*	D6	*/	(if(obj.value.linlin(0,1,40,75) == 	66	, {~	d6	.background_(Color.red);	~note_name.string_("D6");	}, {~	d6	.background_(Color.white)}););
+/*	E6	*/	(if(obj.value.linlin(0,1,40,75) == 	68	, {~	e6	.background_(Color.red);	~note_name.string_("E6");	}, {~	e6	.background_(Color.white)}););
+/*	F6	*/	(if(obj.value.linlin(0,1,40,75) == 	69	, {~	f6	.background_(Color.red);	~note_name.string_("F6");	}, {~	f6	.background_(Color.white)}););
+/*	G6	*/	(if(obj.value.linlin(0,1,40,75) == 	71	, {~	g6	.background_(Color.red);	~note_name.string_("G6");	}, {~	g6	.background_(Color.white)}););
+/*	A6	*/	(if(obj.value.linlin(0,1,40,75) == 	73	, {~	a6	.background_(Color.red);	~note_name.string_("A6");	}, {~	a6	.background_(Color.white)}););
+/*	B6	*/	(if(obj.value.linlin(0,1,40,75) == 	75	, {~	b6	.background_(Color.red);	~note_name.string_("B6");	}, {~	b6	.background_(Color.white)}););
 
-/*	CSHARP4	*/	(if(obj.value.linlin(0,1,40,75) == 	41	, {~	cSHARP4	.background_(Color.red);}, {~	cSHARP4	.background_(Color.black)}););
-/*	DSHARP4	*/	(if(obj.value.linlin(0,1,40,75) == 	43	, {~	dSHARP4	.background_(Color.red);}, {~	dSHARP4	.background_(Color.black)}););
-/*	FSHARP4	*/	(if(obj.value.linlin(0,1,40,75) == 	46	, {~	fSHARP4	.background_(Color.red);}, {~	fSHARP4	.background_(Color.black)}););
-/*	GSHARP4	*/	(if(obj.value.linlin(0,1,40,75) == 	48	, {~	gSHARP4	.background_(Color.red);}, {~	gSHARP4	.background_(Color.black)}););
-/*	ASHARP4	*/	(if(obj.value.linlin(0,1,40,75) == 	50	, {~	aSHARP4	.background_(Color.red);}, {~	aSHARP4	.background_(Color.black)}););
-/*	CSHARP5	*/	(if(obj.value.linlin(0,1,40,75) == 	53	, {~	cSHARP5	.background_(Color.red);}, {~	cSHARP5	.background_(Color.black)}););
-/*	DSHARP5	*/	(if(obj.value.linlin(0,1,40,75) == 	55	, {~	dSHARP5	.background_(Color.red);}, {~	dSHARP5	.background_(Color.black)}););
-/*	FSHARP5	*/	(if(obj.value.linlin(0,1,40,75) == 	58	, {~	fSHARP5	.background_(Color.red);}, {~	fSHARP5	.background_(Color.black)}););
-/*	GSHARP5	*/	(if(obj.value.linlin(0,1,40,75) == 	60	, {~	gSHARP5	.background_(Color.red);}, {~	gSHARP5	.background_(Color.black)}););
-/*	ASHARP5	*/	(if(obj.value.linlin(0,1,40,75) == 	62	, {~	aSHARP5	.background_(Color.red);}, {~	aSHARP5	.background_(Color.black)}););
-/*	CSHARP6	*/	(if(obj.value.linlin(0,1,40,75) == 	65	, {~	cSHARP6	.background_(Color.red);}, {~	cSHARP6	.background_(Color.black)}););
-/*	DSHARP6	*/	(if(obj.value.linlin(0,1,40,75) == 	67	, {~	dSHARP6	.background_(Color.red);}, {~	dSHARP6	.background_(Color.black)}););
-/*	FSHARP6	*/	(if(obj.value.linlin(0,1,40,75) == 	70	, {~	fSHARP6	.background_(Color.red);}, {~	fSHARP6	.background_(Color.black)}););
-/*	GSHARP6	*/	(if(obj.value.linlin(0,1,40,75) == 	72	, {~	gSHARP6	.background_(Color.red);}, {~	gSHARP6	.background_(Color.black)}););
-/*	ASHARP6	*/	(if(obj.value.linlin(0,1,40,75) == 	74	, {~	aSHARP6	.background_(Color.red);}, {~	aSHARP6	.background_(Color.black)}););
+/*	CSHARP4	*/	(if(obj.value.linlin(0,1,40,75) == 	41	, {	~cSHARP4.background_(Color.red);		~note_name.string_("C#4");	}, {~	cSHARP4	.background_(Color.black)}););
+/*	DSHARP4	*/	(if(obj.value.linlin(0,1,40,75) == 	43	, {	~dSHARP4.background_(Color.red);		~note_name.string_("D#4");	}, {~	dSHARP4	.background_(Color.black)}););
+/*	FSHARP4	*/	(if(obj.value.linlin(0,1,40,75) == 	46	, {	~fSHARP4.background_(Color.red);		~note_name.string_("F#4");	}, {~	fSHARP4	.background_(Color.black)}););
+/*	GSHARP4	*/	(if(obj.value.linlin(0,1,40,75) == 	48	, {	~gSHARP4.background_(Color.red);		~note_name.string_("G#4");	}, {~	gSHARP4	.background_(Color.black)}););
+/*	ASHARP4	*/	(if(obj.value.linlin(0,1,40,75) == 	50	, {	~aSHARP4.background_(Color.red);		~note_name.string_("A#4");	}, {~	aSHARP4	.background_(Color.black)}););
+/*	CSHARP5	*/	(if(obj.value.linlin(0,1,40,75) == 	53	, {	~cSHARP5.background_(Color.red);		~note_name.string_("C#5");	}, {~	cSHARP5	.background_(Color.black)}););
+/*	DSHARP5	*/	(if(obj.value.linlin(0,1,40,75) == 	55	, {	~dSHARP5.background_(Color.red);		~note_name.string_("D#5");	}, {~	dSHARP5	.background_(Color.black)}););
+/*	FSHARP5	*/	(if(obj.value.linlin(0,1,40,75) == 	58	, {	~fSHARP5.background_(Color.red);		~note_name.string_("F#5");	}, {~	fSHARP5	.background_(Color.black)}););
+/*	GSHARP5	*/	(if(obj.value.linlin(0,1,40,75) == 	60	, {	~gSHARP5.background_(Color.red);		~note_name.string_("G#5");	}, {~	gSHARP5	.background_(Color.black)}););
+/*	ASHARP5	*/	(if(obj.value.linlin(0,1,40,75) == 	62	, {	~aSHARP5.background_(Color.red);		~note_name.string_("A#5");	}, {~	aSHARP5	.background_(Color.black)}););
+/*	CSHARP6	*/	(if(obj.value.linlin(0,1,40,75) == 	65	, {	~cSHARP6.background_(Color.red);		~note_name.string_("C#6");	}, {~	cSHARP6	.background_(Color.black)}););
+/*	DSHARP6	*/	(if(obj.value.linlin(0,1,40,75) == 	67	, {	~dSHARP6.background_(Color.red);		~note_name.string_("D#6");	}, {~	dSHARP6	.background_(Color.black)}););
+/*	FSHARP6	*/	(if(obj.value.linlin(0,1,40,75) == 	70	, {	~fSHARP6.background_(Color.red);		~note_name.string_("F#6");	}, {~	fSHARP6	.background_(Color.black)}););
+/*	GSHARP6	*/	(if(obj.value.linlin(0,1,40,75) == 	72	, {	~gSHARP6.background_(Color.red);		~note_name.string_("G#6");	}, {~	gSHARP6	.background_(Color.black)}););
+/*	ASHARP6	*/	(if(obj.value.linlin(0,1,40,75) == 	74	, {	~aSHARP6.background_(Color.red);		~note_name.string_("A#6");	}, {~	aSHARP6	.background_(Color.black)}););
 
 
 		if(
@@ -315,8 +300,10 @@ StaticText(w,Rect(0,620,500,2))
 	~fslider.valueAction_(obj.value.linlin(40,75,0,1))
 });
 
-
-
+//True note value
+	~note_name = StaticText(w,Rect(85-23,155,72,15))
+	.string_("C4")
+	.font_(Font("nil", 12));
 
 
 
@@ -561,6 +548,37 @@ to 0", Color.white,Color(0.4824, 0.4863, 0.4863,1)]
 
 */
 
+	// ~keyboard_open = 0;
+
+//Keyboard MIDI notation image button
+		~midi_table = Button.new(w, Rect(10, 100, 20, 20))
+	.states_([["#", Color.white, Color.gray]])
+	.font_(Font("nil", 10))
+	.mouseDownAction_({
+
+				(basePath +/+  "modules/keyboard_image.scd").loadPaths; //This line allows all contact buttons to be updated automatically
+	});
+
+
+	//Keyboard visualizer button
+		~key_vis = Button.new(w, Rect(250,330,60,25))
+	.states_([["", Color.black, Color.clear],["CLOSE", Color.white, Color(0,0,0,0.7)]])
+	.font_(Font("nil", 10))
+	.action_({
+
+arg obj;
+		if(obj.value == 1,
+				// ~keyboard_open.value == 1,
+			{
+					// ~keyboard_open = 0;
+	(basePath +/+  "modules/keyboard.scd").loadPaths; //This line allows all contact buttons to be updated automatically
+		},{
+
+~keyboard.close;
+					// ~keyboard_open = 1;
+		};);
+
+		});
 
 
 	///SPECTRA BUTTON
@@ -1249,15 +1267,20 @@ snd = funcs2.at(menu2.value).play;
 	);
 
 
-
-
-
-	~quit = Button.new(w, Rect((400), 100, 60, 20))
-	.states_([["Home", Color.white, Color(0.2510,0.2510,0.2510,1)]])
+~quit = Button.new(w, Rect(465,95,30,30))
+	.states_([["", Color.white, Color.clear]])
 	.font_(Font("nil", 12))
 	.mouseDownAction_({w.close; f.kill; x.free; //shuts down window and scope
 		(basePath +/+ "splashscreen.scd").loadPaths;
 		});
+
+
+	/*~quit = Button.new(w, Rect((400), 100, 60, 20))
+	.states_([["Home", Color.white, Color(0.2510,0.2510,0.2510,1)]])
+	.font_(Font("nil", 12))
+	.mouseDownAction_({w.close; f.kill; x.free; //shuts down window and scope
+		(basePath +/+ "splashscreen.scd").loadPaths;
+		});*/
 
 
 w.onClose_({s.quit; x.free}); //ends server when quit
