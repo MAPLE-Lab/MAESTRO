@@ -217,7 +217,7 @@ StaticText(w,Rect(0,620,500,2))
 //Properties of the slider
 ~fslider = Slider(w, Rect(160,155,330,15))
 	.background_(Color(0.8,0.8,0.8,0.75)).value_(0)
-	.step_(1/35) //Math of linexp: y=100e^(kx)
+	.step_(1/12) //Math of linexp: y=100e^(kx)
 	//y1(1)=1000=y3(1) and y2(0)=100=y3(0) and y3=100e^(kx) what is k?
 	//hence: ln(y3/100)/x = k -->ln(1000/100)/1 = k = 2.3025 (using y2 makes no sense but should...)
 	//--> k = ln(10) EXACTLY
@@ -225,7 +225,7 @@ StaticText(w,Rect(0,620,500,2))
 	.action_({
 	arg obj;
 	var cf;
-	cf = obj.value.linlin(0,1,40,75).postln;
+	cf = obj.value.linlin(0,1,60,72).postln;
 		// (basePath +/+  "data/control_keyboard.scd").loadPaths;
 		//Does not seem to funciton this loadPaths as a function - liekly because cannot pull live like this
 		/*//C4
@@ -237,49 +237,32 @@ StaticText(w,Rect(0,620,500,2))
 	}, {a.free; ~c4.background_(Color.white)});
 	);*/
 
-/*	C4	*/	(if(obj.value.linlin(0,1,40,75) == 	40	, {~	c4	.background_(Color.red);	~note_name.string_("C4");	}, {~	c4	.background_(Color.white)}););
-/*	D4	*/	(if(obj.value.linlin(0,1,40,75) == 	42	, {~	d4	.background_(Color.red);	~note_name.string_("D4");	}, {~	d4	.background_(Color.white)}););
-/*	E4	*/	(if(obj.value.linlin(0,1,40,75) == 	44	, {~	e4	.background_(Color.red);	~note_name.string_("E4");	}, {~	e4	.background_(Color.white)}););
-/*	F4	*/	(if(obj.value.linlin(0,1,40,75) == 	45	, {~	f4	.background_(Color.red);	~note_name.string_("F4");	}, {~	f4	.background_(Color.white)}););
-/*	G4	*/	(if(obj.value.linlin(0,1,40,75) == 	47	, {~	g4	.background_(Color.red);	~note_name.string_("G4");	}, {~	g4	.background_(Color.white)}););
-/*	A4	*/	(if(obj.value.linlin(0,1,40,75) == 	49	, {~	a4	.background_(Color.red);	~note_name.string_("A4");	}, {~	a4	.background_(Color.white)}););
-/*	B4	*/	(if(obj.value.linlin(0,1,40,75) == 	51	, {~	b4	.background_(Color.red);	~note_name.string_("B4");	}, {~	b4	.background_(Color.white)}););
-/*	C5	*/	(if(obj.value.linlin(0,1,40,75) == 	52	, {~	c5	.background_(Color.red);	~note_name.string_("C5");	}, {~	c5	.background_(Color.white)}););
-/*	D5	*/	(if(obj.value.linlin(0,1,40,75) == 	54	, {~	d5	.background_(Color.red);	~note_name.string_("D5");	}, {~	d5	.background_(Color.white)}););
-/*	E5	*/	(if(obj.value.linlin(0,1,40,75) == 	56	, {~	e5	.background_(Color.red);	~note_name.string_("E5");	}, {~	e5	.background_(Color.white)}););
-/*	F5	*/	(if(obj.value.linlin(0,1,40,75) == 	57	, {~	f5	.background_(Color.red);	~note_name.string_("F5");	}, {~	f5	.background_(Color.white)}););
-/*	G5	*/	(if(obj.value.linlin(0,1,40,75) == 	59	, {~	g5	.background_(Color.red);	~note_name.string_("G5");	}, {~	g5	.background_(Color.white)}););
-/*	A5	*/	(if(obj.value.linlin(0,1,40,75) == 	61	, {~	a5	.background_(Color.red);	~note_name.string_("A5");	}, {~	a5	.background_(Color.white)}););
-/*	B5	*/	(if(obj.value.linlin(0,1,40,75) == 	63	, {~	b5	.background_(Color.red);	~note_name.string_("B5");	}, {~	b5	.background_(Color.white)}););
-/*	C6	*/	(if(obj.value.linlin(0,1,40,75) == 	64	, {~	c6	.background_(Color.red);	~note_name.string_("C6");	}, {~	c6	.background_(Color.white)}););
-/*	D6	*/	(if(obj.value.linlin(0,1,40,75) == 	66	, {~	d6	.background_(Color.red);	~note_name.string_("D6");	}, {~	d6	.background_(Color.white)}););
-/*	E6	*/	(if(obj.value.linlin(0,1,40,75) == 	68	, {~	e6	.background_(Color.red);	~note_name.string_("E6");	}, {~	e6	.background_(Color.white)}););
-/*	F6	*/	(if(obj.value.linlin(0,1,40,75) == 	69	, {~	f6	.background_(Color.red);	~note_name.string_("F6");	}, {~	f6	.background_(Color.white)}););
-/*	G6	*/	(if(obj.value.linlin(0,1,40,75) == 	71	, {~	g6	.background_(Color.red);	~note_name.string_("G6");	}, {~	g6	.background_(Color.white)}););
-/*	A6	*/	(if(obj.value.linlin(0,1,40,75) == 	73	, {~	a6	.background_(Color.red);	~note_name.string_("A6");	}, {~	a6	.background_(Color.white)}););
-/*	B6	*/	(if(obj.value.linlin(0,1,40,75) == 	75	, {~	b6	.background_(Color.red);	~note_name.string_("B6");	}, {~	b6	.background_(Color.white)}););
+		/*	C4	*/	(if(obj.value.linlin(0,1,60,72) == 	60	, {~	c4	.background_(Color.red);	~note_name.string_("C4");}, {~	c4	.background_(Color.white)}););
+/*	D4	*/	(if(obj.value.linlin(0,1,60,72) == 	62	, {~	d4	.background_(Color.red);	~note_name.string_("D4");	}, {~	d4	.background_(Color.white)}););
+/*	E4	*/	(if(obj.value.linlin(0,1,60,72) == 	64	, {~	e4	.background_(Color.red);	~note_name.string_("E4");	}, {~	e4	.background_(Color.white)}););
+/*	F4	*/	(if(obj.value.linlin(0,1,60,72) == 	65	, {~	f4	.background_(Color.red);	~note_name.string_("F4");	}, {~	f4	.background_(Color.white)}););
+/*	G4	*/	(if(obj.value.linlin(0,1,60,72) == 	67	, {~	g4	.background_(Color.red);	~note_name.string_("G4");	}, {~	g4	.background_(Color.white)}););
+/*	A4	*/	(if(obj.value.linlin(0,1,60,72) == 	69	, {~	a4	.background_(Color.red);	~note_name.string_("A4");	}, {~	a4	.background_(Color.white)}););
+/*	B4	*/	(if(obj.value.linlin(0,1,60,72) == 	71	, {~	b4	.background_(Color.red);	~note_name.string_("B4");	}, {~	b4	.background_(Color.white)}););
+/*	C5	*/	(if(obj.value.linlin(0,1,60,72) == 	72	, {~	c5	.background_(Color.red);	~note_name.string_("C5");	}, {~	c5	.background_(Color.white)}););
 
-/*	CSHARP4	*/	(if(obj.value.linlin(0,1,40,75) == 	41	, {	~cSHARP4.background_(Color.red);		~note_name.string_("C#4");	}, {~	cSHARP4	.background_(Color.black)}););
-/*	DSHARP4	*/	(if(obj.value.linlin(0,1,40,75) == 	43	, {	~dSHARP4.background_(Color.red);		~note_name.string_("D#4");	}, {~	dSHARP4	.background_(Color.black)}););
-/*	FSHARP4	*/	(if(obj.value.linlin(0,1,40,75) == 	46	, {	~fSHARP4.background_(Color.red);		~note_name.string_("F#4");	}, {~	fSHARP4	.background_(Color.black)}););
-/*	GSHARP4	*/	(if(obj.value.linlin(0,1,40,75) == 	48	, {	~gSHARP4.background_(Color.red);		~note_name.string_("G#4");	}, {~	gSHARP4	.background_(Color.black)}););
-/*	ASHARP4	*/	(if(obj.value.linlin(0,1,40,75) == 	50	, {	~aSHARP4.background_(Color.red);		~note_name.string_("A#4");	}, {~	aSHARP4	.background_(Color.black)}););
-/*	CSHARP5	*/	(if(obj.value.linlin(0,1,40,75) == 	53	, {	~cSHARP5.background_(Color.red);		~note_name.string_("C#5");	}, {~	cSHARP5	.background_(Color.black)}););
-/*	DSHARP5	*/	(if(obj.value.linlin(0,1,40,75) == 	55	, {	~dSHARP5.background_(Color.red);		~note_name.string_("D#5");	}, {~	dSHARP5	.background_(Color.black)}););
-/*	FSHARP5	*/	(if(obj.value.linlin(0,1,40,75) == 	58	, {	~fSHARP5.background_(Color.red);		~note_name.string_("F#5");	}, {~	fSHARP5	.background_(Color.black)}););
-/*	GSHARP5	*/	(if(obj.value.linlin(0,1,40,75) == 	60	, {	~gSHARP5.background_(Color.red);		~note_name.string_("G#5");	}, {~	gSHARP5	.background_(Color.black)}););
-/*	ASHARP5	*/	(if(obj.value.linlin(0,1,40,75) == 	62	, {	~aSHARP5.background_(Color.red);		~note_name.string_("A#5");	}, {~	aSHARP5	.background_(Color.black)}););
-/*	CSHARP6	*/	(if(obj.value.linlin(0,1,40,75) == 	65	, {	~cSHARP6.background_(Color.red);		~note_name.string_("C#6");	}, {~	cSHARP6	.background_(Color.black)}););
-/*	DSHARP6	*/	(if(obj.value.linlin(0,1,40,75) == 	67	, {	~dSHARP6.background_(Color.red);		~note_name.string_("D#6");	}, {~	dSHARP6	.background_(Color.black)}););
-/*	FSHARP6	*/	(if(obj.value.linlin(0,1,40,75) == 	70	, {	~fSHARP6.background_(Color.red);		~note_name.string_("F#6");	}, {~	fSHARP6	.background_(Color.black)}););
-/*	GSHARP6	*/	(if(obj.value.linlin(0,1,40,75) == 	72	, {	~gSHARP6.background_(Color.red);		~note_name.string_("G#6");	}, {~	gSHARP6	.background_(Color.black)}););
-/*	ASHARP6	*/	(if(obj.value.linlin(0,1,40,75) == 	74	, {	~aSHARP6.background_(Color.red);		~note_name.string_("A#6");	}, {~	aSHARP6	.background_(Color.black)}););
+/*	CSHARP4	*/	(if(obj.value.linlin(0,1,60,72) == 	61	, {	~cSHARP4.background_(Color.red);		~note_name.string_("C#4");	}, {~	cSHARP4	.background_(Color.black)}););
+/*	DSHARP4	*/	(if(obj.value.linlin(0,1,60,72) == 	63	, {	~dSHARP4.background_(Color.red);		~note_name.string_("D#4");	}, {~	dSHARP4	.background_(Color.black)}););
+/*	FSHARP4	*/	(if(obj.value.linlin(0,1,60,72) == 	66	, {	~fSHARP4.background_(Color.red);		~note_name.string_("F#4");	}, {~	fSHARP4	.background_(Color.black)}););
+/*	GSHARP4	*/	(if(obj.value.linlin(0,1,60,72) == 	68	, {	~gSHARP4.background_(Color.red);		~note_name.string_("G#4");	}, {~	gSHARP4	.background_(Color.black)}););
+/*	ASHARP4	*/	(if(obj.value.linlin(0,1,60,72) == 	70	, {	~aSHARP4.background_(Color.red);		~note_name.string_("A#4");	}, {~	aSHARP4	.background_(Color.black)}););
+
+		(if(((obj.value.linlin(0,1,60,72) == 	60)) && (~harmonic_count.value >= 2), {~c5.background_(Color.red);}, {~	c5	.background_(Color.white)}););
+(if(((obj.value.linlin(0,1,60,72) == 	60)) && (~harmonic_count.value >= 3), {~g5.background_(Color.red);}, {~	g5	.background_(Color.white)}););
+
+
+
 
 
 		if(
 		x.isPlaying,
 		{x.set(\freqX,cf)});
-	~numberfBox.value_(obj.value.linlin(0,1,40,75));
+	~numberfBox.value_(obj.value.linlin(0,1,60,72));
 	/*	~fsliderharm1.valueAction_(obj.value.linlin(0,1,(55/500),(325/500)));//must be linlin because a slider to slider is using the same exact values (no transformation required)
 		~fsliderharm2.valueAction_(obj.value.linlin(0,1,(55/500+0.16),(325/500+0.16)));
 				~fsliderharm3.valueAction_(obj.value.linlin(0,1,(55/500+0.254),(325/500+0.254)));
@@ -289,15 +272,15 @@ StaticText(w,Rect(0,620,500,2))
 
 //Number box that can edit slider position
 ~numberfBox = NumberBox(w,Rect(85,155,72,15))
-.value_(40)
-.clipLo_(40)
-.clipHi_(75)
+.value_(60)
+.clipLo_(60)
+.clipHi_(72)
 .font_(Font("nil",12))
 .decimals_(0)
 .align_(\center)
 .action_({
 	arg obj;
-	~fslider.valueAction_(obj.value.linlin(40,75,0,1))
+	~fslider.valueAction_(obj.value.linlin(60,72,0,1))
 });
 
 //True note value
@@ -335,7 +318,7 @@ StaticText(w,Rect(0,620,500,2))
 //Define the sound to be played
 (
 SynthDef.new("sound", {
-	arg freqX = 40, outoftune = 0, intensity = 1, other = 1, vol = 0.3, harmToggle1=1, harmToggle2=1, harmToggle3=1, harmToggle4=1, harmToggle5=1, harmToggle6=1, harmToggle7=1, harmToggle8=1, harmToggle9=1, harmToggle10=1, harmToggle11=1, harmToggle12=1, harmToggle13=1, harmToggle14=1, harmToggle15=1, harmToggle16=1,
+	arg freqX = 60, outoftune = 0, intensity = 1, other = 1, vol = 0.3, harmToggle1=1, harmToggle2=1, harmToggle3=1, harmToggle4=1, harmToggle5=1, harmToggle6=1, harmToggle7=1, harmToggle8=1, harmToggle9=1, harmToggle10=1, harmToggle11=1, harmToggle12=1, harmToggle13=1, harmToggle14=1, harmToggle15=1, harmToggle16=1,
 			choose1=0,
 			choose2=0,
 			choose3=0,
@@ -361,7 +344,7 @@ SynthDef.new("sound", {
 
 /*			freq_ex = ((-49+freqX)/12); //this section converts the MIDI key note value to the frequency value (where 49 = A4)
 			freq_u =2**(freq_ex); */
-			freq = ((2**((-49+freqX)/12))*440);
+			freq = ((2**((-69+freqX)/12))*440);
 
 	signal =
 
@@ -549,7 +532,7 @@ to 0", Color.white,Color(0.4824, 0.4863, 0.4863,1)]
 */
 
 	// ~keyboard_open = 0;
-
+/*
 //Keyboard MIDI notation image button
 		~midi_table = Button.new(w, Rect(10, 100, 20, 20))
 	.states_([["#", Color.white, Color.gray]])
@@ -558,6 +541,7 @@ to 0", Color.white,Color(0.4824, 0.4863, 0.4863,1)]
 
 				(basePath +/+  "modules/keyboard_image.scd").loadPaths; //This line allows all contact buttons to be updated automatically
 	});
+	*/
 
 
 	//Keyboard visualizer button
@@ -614,7 +598,8 @@ arg obj;
 			)});
 
 
-
+//Dropdown harmonic value number
+~harmonic_count = 1;
 
 
 
@@ -668,7 +653,7 @@ snd = funcs2.at(menu.value).play;
 
  funcs2 = [
 
-				{
+				{~harmonic_count = 1;
 			x = Synth(
 				\sound,
 				[
@@ -695,7 +680,7 @@ snd = funcs2.at(menu.value).play;
 				]
 					).register; ~menu2.value_([menu.value]); //this allows the key to stay and be called at the current one without changing
 					~menu2.valueAction_([menu.value]);},
-{
+{~harmonic_count = 2;
 			x = Synth(
 				\sound,
 				[
@@ -722,7 +707,7 @@ snd = funcs2.at(menu.value).play;
 				]
 					).register; ~menu2.value_([menu.value]); //this allows the key to stay and be called at the current one without changing
 					~menu2.valueAction_([menu.value]);},
-				{
+				{~harmonic_count = 3;
 			x = Synth(
 				\sound,
 				[
@@ -749,7 +734,7 @@ snd = funcs2.at(menu.value).play;
 				]
 					).register; ~menu2.value_([menu.value]); //this allows the key to stay and be called at the current one without changing
 					~menu2.valueAction_([menu.value]);},
-{
+{~harmonic_count = 5;
 					x.free;
 
 			x = Synth(
@@ -778,7 +763,7 @@ snd = funcs2.at(menu.value).play;
 				]
 			).register; ~menu2.value_([menu.value]); //this allows the key to stay and be called at the current one without changing
 					~menu2.valueAction_([menu.value]);},
-				{
+				{~harmonic_count = 8;
 					x.free;
 
 			x = Synth(
@@ -807,7 +792,7 @@ snd = funcs2.at(menu.value).play;
 				]
 			).register; ~menu2.value_([menu.value]); //this allows the key to stay and be called at the current one without changing
 					~menu2.valueAction_([menu.value]);},
-				{
+				{~harmonic_count = 16;
 					x.free;
 
 			x = Synth(
