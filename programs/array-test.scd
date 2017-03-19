@@ -23,69 +23,69 @@ s.waitForBoot({
 //Properties of the slider
 ~fslider = Slider(w, Rect(250,20,120,20))
 	.background_(Color(0.8,0.8,0.8,0.75)).value_(0)
-	.step_(1/12)
+	.step_(1/(87))
 	.action_({
 	arg obj;
 	var cf;
-	cf = obj.value.linlin(0,1,60,72).postln;
-		~fundamental_note = obj.value.linlin(0,1,60,72);
+	cf = obj.value.linlin(0,1,21,108).postln;
+		~fundamental_note = obj.value.linlin(0,1,21,108);
 		~fundamental_note.postln;
 		~fund = ~fundamental_note-1;
-x.set(\fundamental_note, obj.value.linlin(0,1,60,72););
+x.set(\fundamental_note, obj.value.linlin(0,1,21,108););
 
 
-/*A0*/(if(obj.value.linlin(0,1,60,72) <= 21, {~a0.background_(Color(1,~color_array[21-1],~color_array[21-1]));~note_name.string_("A0");}, {~a0.background_(Color.white)}););
-/*B0*/(if(obj.value.linlin(0,1,60,72) <= 23, {~b0.background_(Color(1,~color_array[23-1],~color_array[23-1]));~note_name.string_("B0");}, {~b0.background_(Color.white)}););
-/*C1*/(if(obj.value.linlin(0,1,60,72) <= 24, {~c1.background_(Color(1,~color_array[24-1],~color_array[24-1]));~note_name.string_("C1");}, {~c1.background_(Color.white)}););
-/*D1*/(if(obj.value.linlin(0,1,60,72) <= 26, {~d1.background_(Color(1,~color_array[26-1],~color_array[26-1]));~note_name.string_("D1");}, {~d1.background_(Color.white)}););
-/*E1*/(if(obj.value.linlin(0,1,60,72) <= 28, {~e1.background_(Color(1,~color_array[28-1],~color_array[28-1]));~note_name.string_("E1");}, {~e1.background_(Color.white)}););
-/*F1*/(if(obj.value.linlin(0,1,60,72) <= 29, {~f1.background_(Color(1,~color_array[29-1],~color_array[29-1]));~note_name.string_("F1");}, {~f1.background_(Color.white)}););
-/*G1*/(if(obj.value.linlin(0,1,60,72) <= 31, {~g1.background_(Color(1,~color_array[31-1],~color_array[31-1]));~note_name.string_("G1");}, {~g1.background_(Color.white)}););
-/*A1*/(if(obj.value.linlin(0,1,60,72) <= 33, {~a1.background_(Color(1,~color_array[33-1],~color_array[33-1]));~note_name.string_("A1");}, {~a1.background_(Color.white)}););
-/*B1*/(if(obj.value.linlin(0,1,60,72) <= 35, {~b1.background_(Color(1,~color_array[35-1],~color_array[35-1]));~note_name.string_("B1");}, {~b1.background_(Color.white)}););
-/*C2*/(if(obj.value.linlin(0,1,60,72) <= 36, {~c2.background_(Color(1,~color_array[36-1],~color_array[36-1]));~note_name.string_("C2");}, {~c2.background_(Color.white)}););
-/*D2*/(if(obj.value.linlin(0,1,60,72) <= 38, {~d2.background_(Color(1,~color_array[38-1],~color_array[38-1]));~note_name.string_("D2");}, {~d2.background_(Color.white)}););
-/*E2*/(if(obj.value.linlin(0,1,60,72) <= 40, {~e2.background_(Color(1,~color_array[40-1],~color_array[40-1]));~note_name.string_("E2");}, {~e2.background_(Color.white)}););
-/*F2*/(if(obj.value.linlin(0,1,60,72) <= 41, {~f2.background_(Color(1,~color_array[41-1],~color_array[41-1]));~note_name.string_("F2");}, {~f2.background_(Color.white)}););
-/*G2*/(if(obj.value.linlin(0,1,60,72) <= 43, {~g2.background_(Color(1,~color_array[43-1],~color_array[43-1]));~note_name.string_("G2");}, {~g2.background_(Color.white)}););
-/*A2*/(if(obj.value.linlin(0,1,60,72) <= 45, {~a2.background_(Color(1,~color_array[45-1],~color_array[45-1]));~note_name.string_("A2");}, {~a2.background_(Color.white)}););
-/*B2*/(if(obj.value.linlin(0,1,60,72) <= 47, {~b2.background_(Color(1,~color_array[47-1],~color_array[47-1]));~note_name.string_("B2");}, {~b2.background_(Color.white)}););
-/*C3*/(if(obj.value.linlin(0,1,60,72) <= 48, {~c3.background_(Color(1,~color_array[48-1],~color_array[48-1]));~note_name.string_("C3");}, {~c3.background_(Color.white)}););
-/*D3*/(if(obj.value.linlin(0,1,60,72) <= 50, {~d3.background_(Color(1,~color_array[50-1],~color_array[50-1]));~note_name.string_("D3");}, {~d3.background_(Color.white)}););
-/*E3*/(if(obj.value.linlin(0,1,60,72) <= 52, {~e3.background_(Color(1,~color_array[52-1],~color_array[52-1]));~note_name.string_("E3");}, {~e3.background_(Color.white)}););
-/*F3*/(if(obj.value.linlin(0,1,60,72) <= 53, {~f3.background_(Color(1,~color_array[53-1],~color_array[53-1]));~note_name.string_("F3");}, {~f3.background_(Color.white)}););
-/*G3*/(if(obj.value.linlin(0,1,60,72) <= 55, {~g3.background_(Color(1,~color_array[55-1],~color_array[55-1]));~note_name.string_("G3");}, {~g3.background_(Color.white)}););
-/*A3*/(if(obj.value.linlin(0,1,60,72) <= 57, {~a3.background_(Color(1,~color_array[57-1],~color_array[57-1]));~note_name.string_("A3");}, {~a3.background_(Color.white)}););
-/*B3*/(if(obj.value.linlin(0,1,60,72) <= 59, {~b3.background_(Color(1,~color_array[59-1],~color_array[59-1]));~note_name.string_("B3");}, {~b3.background_(Color.white)}););
-/*C4*/(if(obj.value.linlin(0,1,60,72) <= 60, {~c4.background_(Color(1,~color_array[60-1],~color_array[60-1]));~note_name.string_("C4");}, {~c4.background_(Color.white)}););
-/*D4*/(if(obj.value.linlin(0,1,60,72) <= 62, {~d4.background_(Color(1,~color_array[62-1],~color_array[62-1]));~note_name.string_("D4");}, {~d4.background_(Color.white)}););
-/*E4*/(if(obj.value.linlin(0,1,60,72) <= 64, {~e4.background_(Color(1,~color_array[64-1],~color_array[64-1]));~note_name.string_("E4");}, {~e4.background_(Color.white)}););
-/*F4*/(if(obj.value.linlin(0,1,60,72) <= 65, {~f4.background_(Color(1,~color_array[65-1],~color_array[65-1]));~note_name.string_("F4");}, {~f4.background_(Color.white)}););
-/*G4*/(if(obj.value.linlin(0,1,60,72) <= 67, {~g4.background_(Color(1,~color_array[67-1],~color_array[67-1]));~note_name.string_("G4");}, {~g4.background_(Color.white)}););
-/*A4*/(if(obj.value.linlin(0,1,60,72) <= 69, {~a4.background_(Color(1,~color_array[69-1],~color_array[69-1]));~note_name.string_("A4");}, {~a4.background_(Color.white)}););
-/*B4*/(if(obj.value.linlin(0,1,60,72) <= 71, {~b4.background_(Color(1,~color_array[71-1],~color_array[71-1]));~note_name.string_("B4");}, {~b4.background_(Color.white)}););
-/*C5*/(if(obj.value.linlin(0,1,60,72) <= 72, {~c5.background_(Color(1,~color_array[72-1],~color_array[72-1]));~note_name.string_("C5");}, {~c5.background_(Color.white)}););
-/*D5*/(if(obj.value.linlin(0,1,60,72) <= 74, {~d5.background_(Color(1,~color_array[74-1],~color_array[74-1]));~note_name.string_("D5");}, {~d5.background_(Color.white)}););
-/*E5*/(if(obj.value.linlin(0,1,60,72) <= 76, {~e5.background_(Color(1,~color_array[76-1],~color_array[76-1]));~note_name.string_("E5");}, {~e5.background_(Color.white)}););
-/*F5*/(if(obj.value.linlin(0,1,60,72) <= 77, {~f5.background_(Color(1,~color_array[77-1],~color_array[77-1]));~note_name.string_("F5");}, {~f5.background_(Color.white)}););
-/*G5*/(if(obj.value.linlin(0,1,60,72) <= 79, {~g5.background_(Color(1,~color_array[79-1],~color_array[79-1]));~note_name.string_("G5");}, {~g5.background_(Color.white)}););
-/*A5*/(if(obj.value.linlin(0,1,60,72) <= 81, {~a5.background_(Color(1,~color_array[81-1],~color_array[81-1]));~note_name.string_("A5");}, {~a5.background_(Color.white)}););
-/*B5*/(if(obj.value.linlin(0,1,60,72) <= 83, {~b5.background_(Color(1,~color_array[83-1],~color_array[83-1]));~note_name.string_("B5");}, {~b5.background_(Color.white)}););
-/*C6*/(if(obj.value.linlin(0,1,60,72) <= 84, {~c6.background_(Color(1,~color_array[84-1],~color_array[84-1]));~note_name.string_("C6");}, {~c6.background_(Color.white)}););
-/*D6*/(if(obj.value.linlin(0,1,60,72) <= 86, {~d6.background_(Color(1,~color_array[86-1],~color_array[86-1]));~note_name.string_("D6");}, {~d6.background_(Color.white)}););
-/*E6*/(if(obj.value.linlin(0,1,60,72) <= 88, {~e6.background_(Color(1,~color_array[88-1],~color_array[88-1]));~note_name.string_("E6");}, {~e6.background_(Color.white)}););
-/*F6*/(if(obj.value.linlin(0,1,60,72) <= 89, {~f6.background_(Color(1,~color_array[89-1],~color_array[89-1]));~note_name.string_("F6");}, {~f6.background_(Color.white)}););
-/*G6*/(if(obj.value.linlin(0,1,60,72) <= 91, {~g6.background_(Color(1,~color_array[91-1],~color_array[91-1]));~note_name.string_("G6");}, {~g6.background_(Color.white)}););
-/*A6*/(if(obj.value.linlin(0,1,60,72) <= 93, {~a6.background_(Color(1,~color_array[93-1],~color_array[93-1]));~note_name.string_("A6");}, {~a6.background_(Color.white)}););
-/*B6*/(if(obj.value.linlin(0,1,60,72) <= 95, {~b6.background_(Color(1,~color_array[95-1],~color_array[95-1]));~note_name.string_("B6");}, {~b6.background_(Color.white)}););
-/*C5*/(if(obj.value.linlin(0,1,60,72) <= 96, {~c5.background_(Color(1,~color_array[96-1],~color_array[96-1]));~note_name.string_("C5");}, {~c5.background_(Color.white)}););
-/*D7*/(if(obj.value.linlin(0,1,60,72) <= 98, {~d7.background_(Color(1,~color_array[98-1],~color_array[98-1]));~note_name.string_("D7");}, {~d7.background_(Color.white)}););
-/*E7*/(if(obj.value.linlin(0,1,60,72) <= 100, {~e7.background_(Color(1,~color_array[100-1],~color_array[100-1]));~note_name.string_("E7");}, {~e7.background_(Color.white)}););
-/*F7*/(if(obj.value.linlin(0,1,60,72) <= 101, {~f7.background_(Color(1,~color_array[101-1],~color_array[101-1]));~note_name.string_("F7");}, {~f7.background_(Color.white)}););
-/*G7*/(if(obj.value.linlin(0,1,60,72) <= 103, {~g7.background_(Color(1,~color_array[103-1],~color_array[103-1]));~note_name.string_("G7");}, {~g7.background_(Color.white)}););
-/*A7*/(if(obj.value.linlin(0,1,60,72) <= 105, {~a7.background_(Color(1,~color_array[105-1],~color_array[105-1]));~note_name.string_("A7");}, {~a7.background_(Color.white)}););
-/*B7*/(if(obj.value.linlin(0,1,60,72) <= 107, {~b7.background_(Color(1,~color_array[107-1],~color_array[107-1]));~note_name.string_("B7");}, {~b7.background_(Color.white)}););
-/*C8*/(if(obj.value.linlin(0,1,60,72) <= 108, {~c8.background_(Color(1,~color_array[108-1],~color_array[108-1]));~note_name.string_("C8");}, {~c8.background_(Color.white)}););
+/*A0*/(if(obj.value.linlin(0,1,21,108) <= 21, {~a0.background_(Color(1,~color_array[21-1],~color_array[21-1]));~note_name.string_("A0");}, {~a0.background_(Color.white)}););
+/*B0*/(if(obj.value.linlin(0,1,21,108) <= 23, {~b0.background_(Color(1,~color_array[23-1],~color_array[23-1]));~note_name.string_("B0");}, {~b0.background_(Color.white)}););
+/*C1*/(if(obj.value.linlin(0,1,21,108) <= 24, {~c1.background_(Color(1,~color_array[24-1],~color_array[24-1]));~note_name.string_("C1");}, {~c1.background_(Color.white)}););
+/*D1*/(if(obj.value.linlin(0,1,21,108) <= 26, {~d1.background_(Color(1,~color_array[26-1],~color_array[26-1]));~note_name.string_("D1");}, {~d1.background_(Color.white)}););
+/*E1*/(if(obj.value.linlin(0,1,21,108) <= 28, {~e1.background_(Color(1,~color_array[28-1],~color_array[28-1]));~note_name.string_("E1");}, {~e1.background_(Color.white)}););
+/*F1*/(if(obj.value.linlin(0,1,21,108) <= 29, {~f1.background_(Color(1,~color_array[29-1],~color_array[29-1]));~note_name.string_("F1");}, {~f1.background_(Color.white)}););
+/*G1*/(if(obj.value.linlin(0,1,21,108) <= 31, {~g1.background_(Color(1,~color_array[31-1],~color_array[31-1]));~note_name.string_("G1");}, {~g1.background_(Color.white)}););
+/*A1*/(if(obj.value.linlin(0,1,21,108) <= 33, {~a1.background_(Color(1,~color_array[33-1],~color_array[33-1]));~note_name.string_("A1");}, {~a1.background_(Color.white)}););
+/*B1*/(if(obj.value.linlin(0,1,21,108) <= 35, {~b1.background_(Color(1,~color_array[35-1],~color_array[35-1]));~note_name.string_("B1");}, {~b1.background_(Color.white)}););
+/*C2*/(if(obj.value.linlin(0,1,21,108) <= 36, {~c2.background_(Color(1,~color_array[36-1],~color_array[36-1]));~note_name.string_("C2");}, {~c2.background_(Color.white)}););
+/*D2*/(if(obj.value.linlin(0,1,21,108) <= 38, {~d2.background_(Color(1,~color_array[38-1],~color_array[38-1]));~note_name.string_("D2");}, {~d2.background_(Color.white)}););
+/*E2*/(if(obj.value.linlin(0,1,21,108) <= 40, {~e2.background_(Color(1,~color_array[40-1],~color_array[40-1]));~note_name.string_("E2");}, {~e2.background_(Color.white)}););
+/*F2*/(if(obj.value.linlin(0,1,21,108) <= 41, {~f2.background_(Color(1,~color_array[41-1],~color_array[41-1]));~note_name.string_("F2");}, {~f2.background_(Color.white)}););
+/*G2*/(if(obj.value.linlin(0,1,21,108) <= 43, {~g2.background_(Color(1,~color_array[43-1],~color_array[43-1]));~note_name.string_("G2");}, {~g2.background_(Color.white)}););
+/*A2*/(if(obj.value.linlin(0,1,21,108) <= 45, {~a2.background_(Color(1,~color_array[45-1],~color_array[45-1]));~note_name.string_("A2");}, {~a2.background_(Color.white)}););
+/*B2*/(if(obj.value.linlin(0,1,21,108) <= 47, {~b2.background_(Color(1,~color_array[47-1],~color_array[47-1]));~note_name.string_("B2");}, {~b2.background_(Color.white)}););
+/*C3*/(if(obj.value.linlin(0,1,21,108) <= 48, {~c3.background_(Color(1,~color_array[48-1],~color_array[48-1]));~note_name.string_("C3");}, {~c3.background_(Color.white)}););
+/*D3*/(if(obj.value.linlin(0,1,21,108) <= 50, {~d3.background_(Color(1,~color_array[50-1],~color_array[50-1]));~note_name.string_("D3");}, {~d3.background_(Color.white)}););
+/*E3*/(if(obj.value.linlin(0,1,21,108) <= 52, {~e3.background_(Color(1,~color_array[52-1],~color_array[52-1]));~note_name.string_("E3");}, {~e3.background_(Color.white)}););
+/*F3*/(if(obj.value.linlin(0,1,21,108) <= 53, {~f3.background_(Color(1,~color_array[53-1],~color_array[53-1]));~note_name.string_("F3");}, {~f3.background_(Color.white)}););
+/*G3*/(if(obj.value.linlin(0,1,21,108) <= 55, {~g3.background_(Color(1,~color_array[55-1],~color_array[55-1]));~note_name.string_("G3");}, {~g3.background_(Color.white)}););
+/*A3*/(if(obj.value.linlin(0,1,21,108) <= 57, {~a3.background_(Color(1,~color_array[57-1],~color_array[57-1]));~note_name.string_("A3");}, {~a3.background_(Color.white)}););
+/*B3*/(if(obj.value.linlin(0,1,21,108) <= 59, {~b3.background_(Color(1,~color_array[59-1],~color_array[59-1]));~note_name.string_("B3");}, {~b3.background_(Color.white)}););
+/*C4*/(if(obj.value.linlin(0,1,21,108) <= 60, {~c4.background_(Color(1,~color_array[60-1],~color_array[60-1]));~note_name.string_("C4");}, {~c4.background_(Color.white)}););
+/*D4*/(if(obj.value.linlin(0,1,21,108) <= 62, {~d4.background_(Color(1,~color_array[62-1],~color_array[62-1]));~note_name.string_("D4");}, {~d4.background_(Color.white)}););
+/*E4*/(if(obj.value.linlin(0,1,21,108) <= 64, {~e4.background_(Color(1,~color_array[64-1],~color_array[64-1]));~note_name.string_("E4");}, {~e4.background_(Color.white)}););
+/*F4*/(if(obj.value.linlin(0,1,21,108) <= 65, {~f4.background_(Color(1,~color_array[65-1],~color_array[65-1]));~note_name.string_("F4");}, {~f4.background_(Color.white)}););
+/*G4*/(if(obj.value.linlin(0,1,21,108) <= 67, {~g4.background_(Color(1,~color_array[67-1],~color_array[67-1]));~note_name.string_("G4");}, {~g4.background_(Color.white)}););
+/*A4*/(if(obj.value.linlin(0,1,21,108) <= 69, {~a4.background_(Color(1,~color_array[69-1],~color_array[69-1]));~note_name.string_("A4");}, {~a4.background_(Color.white)}););
+/*B4*/(if(obj.value.linlin(0,1,21,108) <= 71, {~b4.background_(Color(1,~color_array[71-1],~color_array[71-1]));~note_name.string_("B4");}, {~b4.background_(Color.white)}););
+/*C5*/(if(obj.value.linlin(0,1,21,108) <= 72, {~c5.background_(Color(1,~color_array[72-1],~color_array[72-1]));~note_name.string_("C5");}, {~c5.background_(Color.white)}););
+/*D5*/(if(obj.value.linlin(0,1,21,108) <= 74, {~d5.background_(Color(1,~color_array[74-1],~color_array[74-1]));~note_name.string_("D5");}, {~d5.background_(Color.white)}););
+/*E5*/(if(obj.value.linlin(0,1,21,108) <= 76, {~e5.background_(Color(1,~color_array[76-1],~color_array[76-1]));~note_name.string_("E5");}, {~e5.background_(Color.white)}););
+/*F5*/(if(obj.value.linlin(0,1,21,108) <= 77, {~f5.background_(Color(1,~color_array[77-1],~color_array[77-1]));~note_name.string_("F5");}, {~f5.background_(Color.white)}););
+/*G5*/(if(obj.value.linlin(0,1,21,108) <= 79, {~g5.background_(Color(1,~color_array[79-1],~color_array[79-1]));~note_name.string_("G5");}, {~g5.background_(Color.white)}););
+/*A5*/(if(obj.value.linlin(0,1,21,108) <= 81, {~a5.background_(Color(1,~color_array[81-1],~color_array[81-1]));~note_name.string_("A5");}, {~a5.background_(Color.white)}););
+/*B5*/(if(obj.value.linlin(0,1,21,108) <= 83, {~b5.background_(Color(1,~color_array[83-1],~color_array[83-1]));~note_name.string_("B5");}, {~b5.background_(Color.white)}););
+/*C6*/(if(obj.value.linlin(0,1,21,108) <= 84, {~c6.background_(Color(1,~color_array[84-1],~color_array[84-1]));~note_name.string_("C6");}, {~c6.background_(Color.white)}););
+/*D6*/(if(obj.value.linlin(0,1,21,108) <= 86, {~d6.background_(Color(1,~color_array[86-1],~color_array[86-1]));~note_name.string_("D6");}, {~d6.background_(Color.white)}););
+/*E6*/(if(obj.value.linlin(0,1,21,108) <= 88, {~e6.background_(Color(1,~color_array[88-1],~color_array[88-1]));~note_name.string_("E6");}, {~e6.background_(Color.white)}););
+/*F6*/(if(obj.value.linlin(0,1,21,108) <= 89, {~f6.background_(Color(1,~color_array[89-1],~color_array[89-1]));~note_name.string_("F6");}, {~f6.background_(Color.white)}););
+/*G6*/(if(obj.value.linlin(0,1,21,108) <= 91, {~g6.background_(Color(1,~color_array[91-1],~color_array[91-1]));~note_name.string_("G6");}, {~g6.background_(Color.white)}););
+/*A6*/(if(obj.value.linlin(0,1,21,108) <= 93, {~a6.background_(Color(1,~color_array[93-1],~color_array[93-1]));~note_name.string_("A6");}, {~a6.background_(Color.white)}););
+/*B6*/(if(obj.value.linlin(0,1,21,108) <= 95, {~b6.background_(Color(1,~color_array[95-1],~color_array[95-1]));~note_name.string_("B6");}, {~b6.background_(Color.white)}););
+/*C5*/(if(obj.value.linlin(0,1,21,108) <= 96, {~c5.background_(Color(1,~color_array[96-1],~color_array[96-1]));~note_name.string_("C5");}, {~c5.background_(Color.white)}););
+/*D7*/(if(obj.value.linlin(0,1,21,108) <= 98, {~d7.background_(Color(1,~color_array[98-1],~color_array[98-1]));~note_name.string_("D7");}, {~d7.background_(Color.white)}););
+/*E7*/(if(obj.value.linlin(0,1,21,108) <= 100, {~e7.background_(Color(1,~color_array[100-1],~color_array[100-1]));~note_name.string_("E7");}, {~e7.background_(Color.white)}););
+/*F7*/(if(obj.value.linlin(0,1,21,108) <= 101, {~f7.background_(Color(1,~color_array[101-1],~color_array[101-1]));~note_name.string_("F7");}, {~f7.background_(Color.white)}););
+/*G7*/(if(obj.value.linlin(0,1,21,108) <= 103, {~g7.background_(Color(1,~color_array[103-1],~color_array[103-1]));~note_name.string_("G7");}, {~g7.background_(Color.white)}););
+/*A7*/(if(obj.value.linlin(0,1,21,108) <= 105, {~a7.background_(Color(1,~color_array[105-1],~color_array[105-1]));~note_name.string_("A7");}, {~a7.background_(Color.white)}););
+/*B7*/(if(obj.value.linlin(0,1,21,108) <= 107, {~b7.background_(Color(1,~color_array[107-1],~color_array[107-1]));~note_name.string_("B7");}, {~b7.background_(Color.white)}););
+/*C8*/(if(obj.value.linlin(0,1,21,108) <= 108, {~c8.background_(Color(1,~color_array[108-1],~color_array[108-1]));~note_name.string_("C8");}, {~c8.background_(Color.white)}););
 
 		/*
 /*	C4	*/	(if(obj.value.linlin(0,1,60,72) <= 	60	, {~	c4	.background_(Color(1,	~color_array[60-1],~color_array[60-1]	));	~note_name.string_("C4");	}, {~	c4	.background_(Color.white)}););
@@ -111,65 +111,89 @@ x.set(\fundamental_note, obj.value.linlin(0,1,60,72););
 /*	B6	*/	(if(obj.value.linlin(0,1,60,72) <= 	95	, {~	b6	.background_(Color(1,	~color_array[95-1],~color_array[95-1]	));	~note_name.string_("B6");	}, {~	b6	.background_(Color.white)}););
 		*/
 
-/*	CSHARP4	*/	(if(obj.value.linlin(0,1,60,72) <= 	61	, {	~cSHARP4.background_(Color((1-~color_array[61-1]),0,0));			~note_name.string_("C#4");	}, {~	cSHARP4	.background_(Color.black)}););
-/*	DSHARP4	*/	(if(obj.value.linlin(0,1,60,72) <= 	63	, {	~dSHARP4.background_(Color((1-~color_array[63-1]),0,0));			~note_name.string_("D#4");	}, {~	dSHARP4	.background_(Color.black)}););
-/*	FSHARP4	*/	(if(obj.value.linlin(0,1,60,72) <= 	66	, {	~fSHARP4.background_(Color((1-~color_array[66-1]),0,0));			~note_name.string_("F#4");	}, {~	fSHARP4	.background_(Color.black)}););
-/*	GSHARP4	*/	(if(obj.value.linlin(0,1,60,72) <= 	68	, {	~gSHARP4.background_(Color((1-~color_array[68-1]),0,0));			~note_name.string_("G#4");	}, {~	gSHARP4	.background_(Color.black)}););
-/*	ASHARP4	*/	(if(obj.value.linlin(0,1,60,72) <= 	70	, {	~aSHARP4.background_(Color((1-~color_array[70-1]),0,0));			~note_name.string_("A#4");	}, {~	aSHARP4	.background_(Color.black)}););
-/*	CSHARP5	*/	(if(obj.value.linlin(0,1,60,72) <= 	73	, {	~cSHARP5.background_(Color((1-~color_array[73-1]),0,0));			~note_name.string_("C#5");	}, {~	cSHARP5	.background_(Color.black)}););
-/*	DSHARP5	*/	(if(obj.value.linlin(0,1,60,72) <= 	75	, {	~dSHARP5.background_(Color((1-~color_array[75-1]),0,0));			~note_name.string_("D#5");	}, {~	dSHARP5	.background_(Color.black)}););
-/*	FSHARP5	*/	(if(obj.value.linlin(0,1,60,72) <= 	78	, {	~fSHARP5.background_(Color((1-~color_array[78-1]),0,0));			~note_name.string_("F#5");	}, {~	fSHARP5	.background_(Color.black)}););
-/*	GSHARP5	*/	(if(obj.value.linlin(0,1,60,72) <= 	80	, {	~gSHARP5.background_(Color((1-~color_array[80-1]),0,0));			~note_name.string_("G#5");	}, {~	gSHARP5	.background_(Color.black)}););
-/*	ASHARP5	*/	(if(obj.value.linlin(0,1,60,72) <= 	82	, {	~aSHARP5.background_(Color((1-~color_array[82-1]),0,0));			~note_name.string_("A#5");	}, {~	aSHARP5	.background_(Color.black)}););
-/*	CSHARP6	*/	(if(obj.value.linlin(0,1,60,72) <= 	85	, {	~cSHARP6.background_(Color((1-~color_array[85-1]),0,0));			~note_name.string_("C#6");	}, {~	cSHARP6	.background_(Color.black)}););
-/*	DSHARP6	*/	(if(obj.value.linlin(0,1,60,72) <= 	87	, {	~dSHARP6.background_(Color((1-~color_array[87-1]),0,0));			~note_name.string_("D#6");	}, {~	dSHARP6	.background_(Color.black)}););
-/*	FSHARP6	*/	(if(obj.value.linlin(0,1,60,72) <= 	90	, {	~fSHARP6.background_(Color((1-~color_array[90-1]),0,0));			~note_name.string_("F#6");	}, {~	fSHARP6	.background_(Color.black)}););
-/*	GSHARP6	*/	(if(obj.value.linlin(0,1,60,72) <= 	92	, {	~gSHARP6.background_(Color((1-~color_array[92-1]),0,0));			~note_name.string_("G#6");	}, {~	gSHARP6	.background_(Color.black)}););
-/*	ASHARP6	*/	(if(obj.value.linlin(0,1,60,72) <= 	94	, {	~aSHARP6.background_(Color((1-~color_array[94-1]),0,0));			~note_name.string_("A#6");	}, {~	aSHARP6	.background_(Color.black)}););
+/*ASHARP0*/(if(obj.value.linlin(0,1,21,108) <= 22, {~aSHARP0.background_(Color((1-~color_array[22-1]),0,0));~note_name.string_("A#0");}, {~aSHARP0.background_(Color.black)}););
+/*CSHARP1*/(if(obj.value.linlin(0,1,21,108) <= 25, {~cSHARP1.background_(Color((1-~color_array[25-1]),0,0));~note_name.string_("C#1");}, {~cSHARP1.background_(Color.black)}););
+/*DSHARP1*/(if(obj.value.linlin(0,1,21,108) <= 27, {~dSHARP1.background_(Color((1-~color_array[27-1]),0,0));~note_name.string_("D#1");}, {~dSHARP1.background_(Color.black)}););
+/*FSHARP1*/(if(obj.value.linlin(0,1,21,108) <= 30, {~fSHARP1.background_(Color((1-~color_array[30-1]),0,0));~note_name.string_("F#1");}, {~fSHARP1.background_(Color.black)}););
+/*GSHARP1*/(if(obj.value.linlin(0,1,21,108) <= 32, {~gSHARP1.background_(Color((1-~color_array[32-1]),0,0));~note_name.string_("G#1");}, {~gSHARP1.background_(Color.black)}););
+/*ASHARP1*/(if(obj.value.linlin(0,1,21,108) <= 34, {~aSHARP1.background_(Color((1-~color_array[34-1]),0,0));~note_name.string_("A#1");}, {~aSHARP1.background_(Color.black)}););
+/*CSHARP2*/(if(obj.value.linlin(0,1,21,108) <= 37, {~cSHARP2.background_(Color((1-~color_array[37-1]),0,0));~note_name.string_("C#2");}, {~cSHARP2.background_(Color.black)}););
+/*DSHARP2*/(if(obj.value.linlin(0,1,21,108) <= 39, {~dSHARP2.background_(Color((1-~color_array[39-1]),0,0));~note_name.string_("D#2");}, {~dSHARP2.background_(Color.black)}););
+/*FSHARP2*/(if(obj.value.linlin(0,1,21,108) <= 42, {~fSHARP2.background_(Color((1-~color_array[42-1]),0,0));~note_name.string_("F#2");}, {~fSHARP2.background_(Color.black)}););
+/*GSHARP2*/(if(obj.value.linlin(0,1,21,108) <= 44, {~gSHARP2.background_(Color((1-~color_array[44-1]),0,0));~note_name.string_("G#2");}, {~gSHARP2.background_(Color.black)}););
+/*ASHARP2*/(if(obj.value.linlin(0,1,21,108) <= 46, {~aSHARP2.background_(Color((1-~color_array[46-1]),0,0));~note_name.string_("A#2");}, {~aSHARP2.background_(Color.black)}););
+/*CSHARP3*/(if(obj.value.linlin(0,1,21,108) <= 49, {~cSHARP3.background_(Color((1-~color_array[49-1]),0,0));~note_name.string_("C#3");}, {~cSHARP3.background_(Color.black)}););
+/*DSHARP3*/(if(obj.value.linlin(0,1,21,108) <= 51, {~dSHARP3.background_(Color((1-~color_array[51-1]),0,0));~note_name.string_("D#3");}, {~dSHARP3.background_(Color.black)}););
+/*FSHARP3*/(if(obj.value.linlin(0,1,21,108) <= 54, {~fSHARP3.background_(Color((1-~color_array[54-1]),0,0));~note_name.string_("F#3");}, {~fSHARP3.background_(Color.black)}););
+/*GSHARP3*/(if(obj.value.linlin(0,1,21,108) <= 56, {~gSHARP3.background_(Color((1-~color_array[56-1]),0,0));~note_name.string_("G#3");}, {~gSHARP3.background_(Color.black)}););
+/*ASHARP3*/(if(obj.value.linlin(0,1,21,108) <= 58, {~aSHARP3.background_(Color((1-~color_array[58-1]),0,0));~note_name.string_("A#3");}, {~aSHARP3.background_(Color.black)}););
+/*CSHARP4*/(if(obj.value.linlin(0,1,21,108) <= 61, {~cSHARP4.background_(Color((1-~color_array[61-1]),0,0));~note_name.string_("C#4");}, {~cSHARP4.background_(Color.black)}););
+/*DSHARP4*/(if(obj.value.linlin(0,1,21,108) <= 63, {~dSHARP4.background_(Color((1-~color_array[63-1]),0,0));~note_name.string_("D#4");}, {~dSHARP4.background_(Color.black)}););
+/*FSHARP4*/(if(obj.value.linlin(0,1,21,108) <= 66, {~fSHARP4.background_(Color((1-~color_array[66-1]),0,0));~note_name.string_("F#4");}, {~fSHARP4.background_(Color.black)}););
+/*GSHARP4*/(if(obj.value.linlin(0,1,21,108) <= 68, {~gSHARP4.background_(Color((1-~color_array[68-1]),0,0));~note_name.string_("G#4");}, {~gSHARP4.background_(Color.black)}););
+/*ASHARP4*/(if(obj.value.linlin(0,1,21,108) <= 70, {~aSHARP4.background_(Color((1-~color_array[70-1]),0,0));~note_name.string_("A#4");}, {~aSHARP4.background_(Color.black)}););
+/*CSHARP5*/(if(obj.value.linlin(0,1,21,108) <= 73, {~cSHARP5.background_(Color((1-~color_array[73-1]),0,0));~note_name.string_("C#5");}, {~cSHARP5.background_(Color.black)}););
+/*DSHARP5*/(if(obj.value.linlin(0,1,21,108) <= 75, {~dSHARP5.background_(Color((1-~color_array[75-1]),0,0));~note_name.string_("D#5");}, {~dSHARP5.background_(Color.black)}););
+/*FSHARP5*/(if(obj.value.linlin(0,1,21,108) <= 78, {~fSHARP5.background_(Color((1-~color_array[78-1]),0,0));~note_name.string_("F#5");}, {~fSHARP5.background_(Color.black)}););
+/*GSHARP5*/(if(obj.value.linlin(0,1,21,108) <= 80, {~gSHARP5.background_(Color((1-~color_array[80-1]),0,0));~note_name.string_("G#5");}, {~gSHARP5.background_(Color.black)}););
+/*ASHARP5*/(if(obj.value.linlin(0,1,21,108) <= 82, {~aSHARP5.background_(Color((1-~color_array[82-1]),0,0));~note_name.string_("A#5");}, {~aSHARP5.background_(Color.black)}););
+/*CSHARP6*/(if(obj.value.linlin(0,1,21,108) <= 85, {~cSHARP6.background_(Color((1-~color_array[85-1]),0,0));~note_name.string_("C#6");}, {~cSHARP6.background_(Color.black)}););
+/*DSHARP6*/(if(obj.value.linlin(0,1,21,108) <= 87, {~dSHARP6.background_(Color((1-~color_array[87-1]),0,0));~note_name.string_("D#6");}, {~dSHARP6.background_(Color.black)}););
+/*FSHARP6*/(if(obj.value.linlin(0,1,21,108) <= 90, {~fSHARP6.background_(Color((1-~color_array[90-1]),0,0));~note_name.string_("F#6");}, {~fSHARP6.background_(Color.black)}););
+/*GSHARP6*/(if(obj.value.linlin(0,1,21,108) <= 92, {~gSHARP6.background_(Color((1-~color_array[92-1]),0,0));~note_name.string_("G#6");}, {~gSHARP6.background_(Color.black)}););
+/*ASHARP6*/(if(obj.value.linlin(0,1,21,108) <= 94, {~aSHARP6.background_(Color((1-~color_array[94-1]),0,0));~note_name.string_("A#6");}, {~aSHARP6.background_(Color.black)}););
+/*CSHARP7*/(if(obj.value.linlin(0,1,21,108) <= 97, {~cSHARP7.background_(Color((1-~color_array[97-1]),0,0));~note_name.string_("C#7");}, {~cSHARP7.background_(Color.black)}););
+/*DSHARP7*/(if(obj.value.linlin(0,1,21,108) <= 99, {~dSHARP7.background_(Color((1-~color_array[99-1]),0,0));~note_name.string_("D#7");}, {~dSHARP7.background_(Color.black)}););
+/*FSHARP7*/(if(obj.value.linlin(0,1,21,108) <= 102, {~fSHARP7.background_(Color((1-~color_array[102-1]),0,0));~note_name.string_("F#7");}, {~fSHARP7.background_(Color.black)}););
+/*GSHARP7*/(if(obj.value.linlin(0,1,21,108) <= 104, {~gSHARP7.background_(Color((1-~color_array[104-1]),0,0));~note_name.string_("G#7");}, {~gSHARP7.background_(Color.black)}););
+/*ASHARP7*/(if(obj.value.linlin(0,1,21,108) <= 106, {~aSHARP7.background_(Color((1-~color_array[106-1]),0,0));~note_name.string_("A#7");}, {~aSHARP7.background_(Color.black)}););
 
 
 (
-~color_array = Array.fill(200,1);	~color_array[~fslider.value.linlin(0,1,60,72)-1+0]=~harmonics_array[0]*~f1slider.value.linlin(0,1,1,0);
-~color_array[~fslider.value.linlin(0,1,60,72)-1+12]=~harmonics_array[1]*~f2slider.value.linlin(0,1,1,0);
-~color_array[~fslider.value.linlin(0,1,60,72)-1+19]=~harmonics_array[2]*~f3slider.value.linlin(0,1,1,0);
-~color_array[~fslider.value.linlin(0,1,60,72)-1+24]=~harmonics_array[3]*~f4slider.value.linlin(0,1,1,0);
-~color_array[~fslider.value.linlin(0,1,60,72)-1+28]=~harmonics_array[4]*~f5slider.value.linlin(0,1,1,0);
-~color_array[~fslider.value.linlin(0,1,60,72)-1+31]=~harmonics_array[5]*~f6slider.value.linlin(0,1,1,0);
-~color_array[~fslider.value.linlin(0,1,60,72)-1+34]=~harmonics_array[6]*~f7slider.value.linlin(0,1,1,0);
-~color_array[~fslider.value.linlin(0,1,60,72)-1+36]=~harmonics_array[7]*~f8slider.value.linlin(0,1,1,0);
-~color_array[~fslider.value.linlin(0,1,60,72)-1+38]=~harmonics_array[8]*~f9slider.value.linlin(0,1,1,0);
-~color_array[~fslider.value.linlin(0,1,60,72)-1+40]=~harmonics_array[9]*~f10slider.value.linlin(0,1,1,0);
-~color_array[~fslider.value.linlin(0,1,60,72)-1+41]=~harmonics_array[10]*~f11slider.value.linlin(0,1,1,0);
-~color_array[~fslider.value.linlin(0,1,60,72)-1+43]=~harmonics_array[11]*~f12slider.value.linlin(0,1,1,0);
-~color_array[~fslider.value.linlin(0,1,60,72)-1+44]=~harmonics_array[12]*~f13slider.value.linlin(0,1,1,0);
-~color_array[~fslider.value.linlin(0,1,60,72)-1+46]=~harmonics_array[13]*~f14slider.value.linlin(0,1,1,0);
-~color_array[~fslider.value.linlin(0,1,60,72)-1+47]=~harmonics_array[14]*~f15slider.value.linlin(0,1,1,0);
-~color_array[~fslider.value.linlin(0,1,60,72)-1+48]=~harmonics_array[15]*~f16slider.value.linlin(0,1,1,0););
+~color_array = Array.fill(200,1);
+			~color_array[~fslider.value.linlin(0,1,21,108)-1+0]=~harmonics_array[0]*~f1slider.value.linlin(0,1,1,0);
+~color_array[~fslider.value.linlin(0,1,21,108)-1+12]=~harmonics_array[1]*~f2slider.value.linlin(0,1,1,0);
+~color_array[~fslider.value.linlin(0,1,21,108)-1+19]=~harmonics_array[2]*~f3slider.value.linlin(0,1,1,0);
+~color_array[~fslider.value.linlin(0,1,21,108)-1+24]=~harmonics_array[3]*~f4slider.value.linlin(0,1,1,0);
+~color_array[~fslider.value.linlin(0,1,21,108)-1+28]=~harmonics_array[4]*~f5slider.value.linlin(0,1,1,0);
+~color_array[~fslider.value.linlin(0,1,21,108)-1+31]=~harmonics_array[5]*~f6slider.value.linlin(0,1,1,0);
+~color_array[~fslider.value.linlin(0,1,21,108)-1+34]=~harmonics_array[6]*~f7slider.value.linlin(0,1,1,0);
+~color_array[~fslider.value.linlin(0,1,21,108)-1+36]=~harmonics_array[7]*~f8slider.value.linlin(0,1,1,0);
+~color_array[~fslider.value.linlin(0,1,21,108)-1+38]=~harmonics_array[8]*~f9slider.value.linlin(0,1,1,0);
+~color_array[~fslider.value.linlin(0,1,21,108)-1+40]=~harmonics_array[9]*~f10slider.value.linlin(0,1,1,0);
+~color_array[~fslider.value.linlin(0,1,21,108)-1+41]=~harmonics_array[10]*~f11slider.value.linlin(0,1,1,0);
+~color_array[~fslider.value.linlin(0,1,21,108)-1+43]=~harmonics_array[11]*~f12slider.value.linlin(0,1,1,0);
+~color_array[~fslider.value.linlin(0,1,21,108)-1+44]=~harmonics_array[12]*~f13slider.value.linlin(0,1,1,0);
+~color_array[~fslider.value.linlin(0,1,21,108)-1+46]=~harmonics_array[13]*~f14slider.value.linlin(0,1,1,0);
+~color_array[~fslider.value.linlin(0,1,21,108)-1+47]=~harmonics_array[14]*~f15slider.value.linlin(0,1,1,0);
+~color_array[~fslider.value.linlin(0,1,21,108)-1+48]=~harmonics_array[15]*~f16slider.value.linlin(0,1,1,0);
+
+		);
 
 
 		if(
 		x.isPlaying,
 		{x.set(\freqX,cf)});
-	~numberfBox.value_(obj.value.linlin(0,1,60,72));
+	~numberfBox.value_(obj.value.linlin(0,1,21,108));
 })
 	.orientation_(\horizontal);
 
 //Number box that can edit slider position
 ~numberfBox = NumberBox(w,Rect(250-30,20,30,20))
-.value_(60)
-.clipLo_(60)
-.clipHi_(72)
+.value_(21)
+.clipLo_(21)
+.clipHi_(108)
 .font_(Font("nil",12))
 .decimals_(0)
 .align_(\center)
 .action_({
 	arg obj;
-	~fslider.valueAction_(obj.value.linlin(60,72,0,1))
+	~fslider.valueAction_(obj.value.linlin(21,108,0,1))
 });
 
 //True note value
 	~note_name = StaticText(w,Rect(250+70,0,72,15))
-	.string_("C4")
+	.string_("A0")
 	.font_(Font("nil", 12));
 
 
@@ -178,7 +202,7 @@ x.set(\fundamental_note, obj.value.linlin(0,1,60,72););
 ~harmonic_count = 0;
 ~intensity_array = Array.fill(1, {arg i; 0});
 ~harmonic_sums = Array.fill(0, {arg i; 0});
-	~fundamental_note = ~fslider.value.linlin(0,1,60,72); //Middle C
+	~fundamental_note = ~fslider.value.linlin(0,1,21,108); //Middle C
 ~fundamental_freq = ((2**((-69+~fundamental_note)/12))*440);
 
 ///How many harmonics?
@@ -369,6 +393,12 @@ to 0", Color.white,Color(0.4824, 0.4863, 0.4863,1)]
 	);
 
 ~keyboard_image = Image.new(basePath +/+ "images/keyboard_small.png");
+
+
+
+
+
+
 
 //Aesthetic lines
 	w.drawFunc = {

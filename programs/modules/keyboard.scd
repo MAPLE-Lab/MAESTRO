@@ -87,7 +87,7 @@
 ~g6 = StaticText(~keyboard, Rect(20+820,20,19,150)).background_(Color.white).string_("").align_(\bottom).stringColor_(Color(0.4824, 0.4863, 0.4863));
 ~a6 = StaticText(~keyboard, Rect(20+840,20,19,150)).background_(Color.white).string_("").align_(\bottom).stringColor_(Color(0.4824, 0.4863, 0.4863));
 ~b6 = StaticText(~keyboard, Rect(20+860,20,19,150)).background_(Color.white).string_("").align_(\bottom).stringColor_(Color(0.4824, 0.4863, 0.4863));
-~c5 = StaticText(~keyboard, Rect(20+880,20,19,150)).background_(Color.white).string_("").align_(\bottom).stringColor_(Color(0.4824, 0.4863, 0.4863));
+~c7 = StaticText(~keyboard, Rect(20+880,20,19,150)).background_(Color.white).string_("").align_(\bottom).stringColor_(Color(0.4824, 0.4863, 0.4863));
 ~d7 = StaticText(~keyboard, Rect(20+900,20,19,150)).background_(Color.white).string_("").align_(\bottom).stringColor_(Color(0.4824, 0.4863, 0.4863));
 ~e7 = StaticText(~keyboard, Rect(20+920,20,19,150)).background_(Color.white).string_("").align_(\bottom).stringColor_(Color(0.4824, 0.4863, 0.4863));
 ~f7 = StaticText(~keyboard, Rect(20+940,20,19,150)).background_(Color.white).string_("").align_(\bottom).stringColor_(Color(0.4824, 0.4863, 0.4863));
