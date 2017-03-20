@@ -63,7 +63,7 @@ b = Button.new(t, Rect((400-220-50), 180+30-20, 100, 40))
 	.font_(Font("nil", 18))
 	.mouseDownAction_({
 
-			(basePath +/+  "MAPLE_Tuning_Demonstration-proper_freq_experiment.scd").loadPaths;
+			(basePath +/+  "MAPLE_Tuning_Demonstration.scd").loadPaths;
 			t.close;
 		});
 
