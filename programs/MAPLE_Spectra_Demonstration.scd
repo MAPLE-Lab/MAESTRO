@@ -12,7 +12,7 @@ a.free; //clear buffers to help resolve memory leak
 	w = Window.new("MAPLE Lab Spectra Demonstration (Beta)", Rect.new(
 	Window.screenBounds.width/2-400,
 	Window.screenBounds.height/2-50,
-		800,530),false).background_(Color.white).userCanClose_(true).front;//Creates the new window with title
+		800,530),false).background_(Color.white).userCanClose_(false).front;//Creates the new window with title
 	// w.view.background = Color(0.9,0.9,0.9,1);
 
 
@@ -161,11 +161,11 @@ StaticText(w,Rect(410,360,500,2))
 .action_({
 	arg obj;
 	if(obj.value == 1,
-		{
+		{~freqslider.valueAction_(~fslider.value); //This allows it to refresh real-time
 			x = Synth.new(
 				\sound,
 				[
-						\freq, ~freqslider.value.linexp(0,1,100,1000),
+						\freq, ~freqslider.value.linlin(0,1,21,108),
 						\phase, pi,
 						\vol, ~volslider.value.linlin(0,1,0,1),
 						\f1, ~f1slider.value.linlin(0,1,0.0,2),
@@ -255,9 +255,11 @@ l.free;
 				{ //sine
 		var variable;
 		variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
-		~freqslider.valueAction_(440.value.explin(100,1000,0,1)); //only need to affect slider to affect the number box and true sound value
-		~volslider.valueAction_(1.value.linlin(0,1,0,1));
-		~f1slider.valueAction_(2.value.linlin(0.0,2,0,1));
+		~freqslider.valueAction_(69.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
+
+					~volslider.valueAction_(1.value.linlin(0,1,0,1));
+
+					~f1slider.valueAction_(2.value.linlin(0.0,2,0,1));
 		~f2slider.valueAction_(0.value.linlin(0.0,2,0,1));
 		~f3slider.valueAction_(0.value.linlin(0.0,2,0,1));
 		~f4slider.valueAction_(0.value.linlin(0.0,2,0,1));
@@ -283,7 +285,7 @@ l.free;
 { //saw
 		var variable;
 		variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
-		~freqslider.valueAction_(440.value.explin(100,1000,0,1)); //only need to affect slider to affect the number box and true sound value
+		~freqslider.valueAction_(69.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
 		~volslider.valueAction_(0.8.value.linlin(0,1,0,1));
 		~f1slider.valueAction_(1.value.linlin(0.0,2,0,1));
 					~f2slider.valueAction_((0.5**1).value.linlin(0.0,2,0,1));
@@ -335,7 +337,7 @@ l.free;
 				{
 		var variable;
 		variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
-		~freqslider.valueAction_(440.value.explin(100,1000,0,1)); //only need to affect slider to affect the number box and true sound value
+		~freqslider.valueAction_(69.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
 		~volslider.valueAction_(1.value.linlin(0,1,0,1));
 					~f1slider.valueAction_(1.value.linlin(0.0,2,0,1));
 		~f2slider.valueAction_(0.value.linlin(0.0,2,0,1));
@@ -386,7 +388,7 @@ l.free;
 		{
 		var variable;
 		variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
-		~freqslider.valueAction_(261.6.value.explin(100,1000,0,1)); //only need to affect slider to affect the number box and true sound value
+		~freqslider.valueAction_(60.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
 		~volslider.valueAction_(0.5.value.linlin(0,1,0,1));
 		~f1slider.valueAction_(0.09.value.linlin(0.0,2,0,1));
 		~f2slider.valueAction_(0.39.value.linlin(0.0,2,0,1));
@@ -428,7 +430,7 @@ l.free;
 		{
 		var variable;
 		variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
-		~freqslider.valueAction_(261.6.value.explin(100,1000,0,1)); //only need to affect slider to affect the number box and true sound value
+		~freqslider.valueAction_(60.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
 				~volslider.valueAction_(0.7.value.linlin(0,1,0,1));
 		~f1slider.valueAction_(0.05.value.linlin(0.0,2,0,1));
 		~f2slider.valueAction_(0.13.value.linlin(0.0,2,0,1));
@@ -472,7 +474,7 @@ l.free;
 		{
 		var variable;
 		variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
-		~freqslider.valueAction_(523.2.value.explin(100,1000,0,1)); //only need to affect slider to affect the number box and true sound value
+		~freqslider.valueAction_(72.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
 				~volslider.valueAction_(1.value.linlin(0,1,0,1));
 		~f1slider.valueAction_(0.33.value.linlin(0.0,2,0,1));
 		~f2slider.valueAction_(0.20.value.linlin(0.0,2,0,1));
@@ -514,7 +516,7 @@ l.free;
 		{
 		var variable;
 		variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
-		~freqslider.valueAction_(261.6.value.explin(100,1000,0,1)); //only need to affect slider to affect the number box and true sound value
+		~freqslider.valueAction_(60.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
 				~volslider.valueAction_(0.4.value.linlin(0,1,0,1));
 		~f1slider.valueAction_(1.4134615384615
 
@@ -604,7 +606,9 @@ l.free;
 	arg obj;
 	var cf;
 	cf = obj.value.linlin(0,1,21,108).postln;
-
+		~fundamental_note = obj.value.linlin(0,1,21,108);
+		~fundamental_note.postln;
+		~fund = ~fundamental_note-1;
 		/*//C4
 		(
 		if( //This IF function provides the capability to control the system
@@ -764,62 +768,62 @@ l.free;
 
 
 
-/*ASHARP0*/(if(obj.value.linlin(0,1,21,108) <= 22, {~aSHARP0.background_(Color((1-~color_array[22-1]),0,0));}, {~aSHARP0.background_(Color.black)}););
-/*CSHARP1*/(if(obj.value.linlin(0,1,21,108) <= 25, {~cSHARP1.background_(Color((1-~color_array[25-1]),0,0));}, {~cSHARP1.background_(Color.black)}););
-/*DSHARP1*/(if(obj.value.linlin(0,1,21,108) <= 27, {~dSHARP1.background_(Color((1-~color_array[27-1]),0,0));}, {~dSHARP1.background_(Color.black)}););
-/*FSHARP1*/(if(obj.value.linlin(0,1,21,108) <= 30, {~fSHARP1.background_(Color((1-~color_array[30-1]),0,0));}, {~fSHARP1.background_(Color.black)}););
-/*GSHARP1*/(if(obj.value.linlin(0,1,21,108) <= 32, {~gSHARP1.background_(Color((1-~color_array[32-1]),0,0));}, {~gSHARP1.background_(Color.black)}););
-/*ASHARP1*/(if(obj.value.linlin(0,1,21,108) <= 34, {~aSHARP1.background_(Color((1-~color_array[34-1]),0,0));}, {~aSHARP1.background_(Color.black)}););
-/*CSHARP2*/(if(obj.value.linlin(0,1,21,108) <= 37, {~cSHARP2.background_(Color((1-~color_array[37-1]),0,0));}, {~cSHARP2.background_(Color.black)}););
-/*DSHARP2*/(if(obj.value.linlin(0,1,21,108) <= 39, {~dSHARP2.background_(Color((1-~color_array[39-1]),0,0));}, {~dSHARP2.background_(Color.black)}););
-/*FSHARP2*/(if(obj.value.linlin(0,1,21,108) <= 42, {~fSHARP2.background_(Color((1-~color_array[42-1]),0,0));}, {~fSHARP2.background_(Color.black)}););
-/*GSHARP2*/(if(obj.value.linlin(0,1,21,108) <= 44, {~gSHARP2.background_(Color((1-~color_array[44-1]),0,0));}, {~gSHARP2.background_(Color.black)}););
-/*ASHARP2*/(if(obj.value.linlin(0,1,21,108) <= 46, {~aSHARP2.background_(Color((1-~color_array[46-1]),0,0));}, {~aSHARP2.background_(Color.black)}););
-/*CSHARP3*/(if(obj.value.linlin(0,1,21,108) <= 49, {~cSHARP3.background_(Color((1-~color_array[49-1]),0,0));}, {~cSHARP3.background_(Color.black)}););
-/*DSHARP3*/(if(obj.value.linlin(0,1,21,108) <= 51, {~dSHARP3.background_(Color((1-~color_array[51-1]),0,0));}, {~dSHARP3.background_(Color.black)}););
-/*FSHARP3*/(if(obj.value.linlin(0,1,21,108) <= 54, {~fSHARP3.background_(Color((1-~color_array[54-1]),0,0));}, {~fSHARP3.background_(Color.black)}););
-/*GSHARP3*/(if(obj.value.linlin(0,1,21,108) <= 56, {~gSHARP3.background_(Color((1-~color_array[56-1]),0,0));}, {~gSHARP3.background_(Color.black)}););
-/*ASHARP3*/(if(obj.value.linlin(0,1,21,108) <= 58, {~aSHARP3.background_(Color((1-~color_array[58-1]),0,0));}, {~aSHARP3.background_(Color.black)}););
-/*CSHARP4*/(if(obj.value.linlin(0,1,21,108) <= 61, {~cSHARP4.background_(Color((1-~color_array[61-1]),0,0));}, {~cSHARP4.background_(Color.black)}););
-/*DSHARP4*/(if(obj.value.linlin(0,1,21,108) <= 63, {~dSHARP4.background_(Color((1-~color_array[63-1]),0,0));}, {~dSHARP4.background_(Color.black)}););
-/*FSHARP4*/(if(obj.value.linlin(0,1,21,108) <= 66, {~fSHARP4.background_(Color((1-~color_array[66-1]),0,0));}, {~fSHARP4.background_(Color.black)}););
-/*GSHARP4*/(if(obj.value.linlin(0,1,21,108) <= 68, {~gSHARP4.background_(Color((1-~color_array[68-1]),0,0));}, {~gSHARP4.background_(Color.black)}););
-/*ASHARP4*/(if(obj.value.linlin(0,1,21,108) <= 70, {~aSHARP4.background_(Color((1-~color_array[70-1]),0,0));}, {~aSHARP4.background_(Color.black)}););
-/*CSHARP5*/(if(obj.value.linlin(0,1,21,108) <= 73, {~cSHARP5.background_(Color((1-~color_array[73-1]),0,0));}, {~cSHARP5.background_(Color.black)}););
-/*DSHARP5*/(if(obj.value.linlin(0,1,21,108) <= 75, {~dSHARP5.background_(Color((1-~color_array[75-1]),0,0));}, {~dSHARP5.background_(Color.black)}););
-/*FSHARP5*/(if(obj.value.linlin(0,1,21,108) <= 78, {~fSHARP5.background_(Color((1-~color_array[78-1]),0,0));}, {~fSHARP5.background_(Color.black)}););
-/*GSHARP5*/(if(obj.value.linlin(0,1,21,108) <= 80, {~gSHARP5.background_(Color((1-~color_array[80-1]),0,0));}, {~gSHARP5.background_(Color.black)}););
-/*ASHARP5*/(if(obj.value.linlin(0,1,21,108) <= 82, {~aSHARP5.background_(Color((1-~color_array[82-1]),0,0));}, {~aSHARP5.background_(Color.black)}););
-/*CSHARP6*/(if(obj.value.linlin(0,1,21,108) <= 85, {~cSHARP6.background_(Color((1-~color_array[85-1]),0,0));}, {~cSHARP6.background_(Color.black)}););
-/*DSHARP6*/(if(obj.value.linlin(0,1,21,108) <= 87, {~dSHARP6.background_(Color((1-~color_array[87-1]),0,0));}, {~dSHARP6.background_(Color.black)}););
-/*FSHARP6*/(if(obj.value.linlin(0,1,21,108) <= 90, {~fSHARP6.background_(Color((1-~color_array[90-1]),0,0));}, {~fSHARP6.background_(Color.black)}););
-/*GSHARP6*/(if(obj.value.linlin(0,1,21,108) <= 92, {~gSHARP6.background_(Color((1-~color_array[92-1]),0,0));}, {~gSHARP6.background_(Color.black)}););
-/*ASHARP6*/(if(obj.value.linlin(0,1,21,108) <= 94, {~aSHARP6.background_(Color((1-~color_array[94-1]),0,0));}, {~aSHARP6.background_(Color.black)}););
-/*CSHARP7*/(if(obj.value.linlin(0,1,21,108) <= 97, {~cSHARP7.background_(Color((1-~color_array[97-1]),0,0));}, {~cSHARP7.background_(Color.black)}););
-/*DSHARP7*/(if(obj.value.linlin(0,1,21,108) <= 99, {~dSHARP7.background_(Color((1-~color_array[99-1]),0,0));}, {~dSHARP7.background_(Color.black)}););
-/*FSHARP7*/(if(obj.value.linlin(0,1,21,108) <= 102, {~fSHARP7.background_(Color((1-~color_array[102-1]),0,0));}, {~fSHARP7.background_(Color.black)}););
-/*GSHARP7*/(if(obj.value.linlin(0,1,21,108) <= 104, {~gSHARP7.background_(Color((1-~color_array[104-1]),0,0));}, {~gSHARP7.background_(Color.black)}););
-/*ASHARP7*/(if(obj.value.linlin(0,1,21,108) <= 106, {~aSHARP7.background_(Color((1-~color_array[106-1]),0,0));}, {~aSHARP7.background_(Color.black)}););
+/*ASHARP0*/(if(obj.value.linlin(0,1,21,108) <= 22, {~aSHARP0.background_(Color((1-~color_array[22-1])**(0.25),0,0));}, {~aSHARP0.background_(Color.black)}););
+/*CSHARP1*/(if(obj.value.linlin(0,1,21,108) <= 25, {~cSHARP1.background_(Color((1-~color_array[25-1])**(0.25),0,0));}, {~cSHARP1.background_(Color.black)}););
+/*DSHARP1*/(if(obj.value.linlin(0,1,21,108) <= 27, {~dSHARP1.background_(Color((1-~color_array[27-1])**(0.25),0,0));}, {~dSHARP1.background_(Color.black)}););
+/*FSHARP1*/(if(obj.value.linlin(0,1,21,108) <= 30, {~fSHARP1.background_(Color((1-~color_array[30-1])**(0.25),0,0));}, {~fSHARP1.background_(Color.black)}););
+/*GSHARP1*/(if(obj.value.linlin(0,1,21,108) <= 32, {~gSHARP1.background_(Color((1-~color_array[32-1])**(0.25),0,0));}, {~gSHARP1.background_(Color.black)}););
+/*ASHARP1*/(if(obj.value.linlin(0,1,21,108) <= 34, {~aSHARP1.background_(Color((1-~color_array[34-1])**(0.25),0,0));}, {~aSHARP1.background_(Color.black)}););
+/*CSHARP2*/(if(obj.value.linlin(0,1,21,108) <= 37, {~cSHARP2.background_(Color((1-~color_array[37-1])**(0.25),0,0));}, {~cSHARP2.background_(Color.black)}););
+/*DSHARP2*/(if(obj.value.linlin(0,1,21,108) <= 39, {~dSHARP2.background_(Color((1-~color_array[39-1])**(0.25),0,0));}, {~dSHARP2.background_(Color.black)}););
+/*FSHARP2*/(if(obj.value.linlin(0,1,21,108) <= 42, {~fSHARP2.background_(Color((1-~color_array[42-1])**(0.25),0,0));}, {~fSHARP2.background_(Color.black)}););
+/*GSHARP2*/(if(obj.value.linlin(0,1,21,108) <= 44, {~gSHARP2.background_(Color((1-~color_array[44-1])**(0.25),0,0));}, {~gSHARP2.background_(Color.black)}););
+/*ASHARP2*/(if(obj.value.linlin(0,1,21,108) <= 46, {~aSHARP2.background_(Color((1-~color_array[46-1])**(0.25),0,0));}, {~aSHARP2.background_(Color.black)}););
+/*CSHARP3*/(if(obj.value.linlin(0,1,21,108) <= 49, {~cSHARP3.background_(Color((1-~color_array[49-1])**(0.25),0,0));}, {~cSHARP3.background_(Color.black)}););
+/*DSHARP3*/(if(obj.value.linlin(0,1,21,108) <= 51, {~dSHARP3.background_(Color((1-~color_array[51-1])**(0.25),0,0));}, {~dSHARP3.background_(Color.black)}););
+/*FSHARP3*/(if(obj.value.linlin(0,1,21,108) <= 54, {~fSHARP3.background_(Color((1-~color_array[54-1])**(0.25),0,0));}, {~fSHARP3.background_(Color.black)}););
+/*GSHARP3*/(if(obj.value.linlin(0,1,21,108) <= 56, {~gSHARP3.background_(Color((1-~color_array[56-1])**(0.25),0,0));}, {~gSHARP3.background_(Color.black)}););
+/*ASHARP3*/(if(obj.value.linlin(0,1,21,108) <= 58, {~aSHARP3.background_(Color((1-~color_array[58-1])**(0.25),0,0));}, {~aSHARP3.background_(Color.black)}););
+/*CSHARP4*/(if(obj.value.linlin(0,1,21,108) <= 61, {~cSHARP4.background_(Color((1-~color_array[61-1])**(0.25),0,0));}, {~cSHARP4.background_(Color.black)}););
+/*DSHARP4*/(if(obj.value.linlin(0,1,21,108) <= 63, {~dSHARP4.background_(Color((1-~color_array[63-1])**(0.25),0,0));}, {~dSHARP4.background_(Color.black)}););
+/*FSHARP4*/(if(obj.value.linlin(0,1,21,108) <= 66, {~fSHARP4.background_(Color((1-~color_array[66-1])**(0.25),0,0));}, {~fSHARP4.background_(Color.black)}););
+/*GSHARP4*/(if(obj.value.linlin(0,1,21,108) <= 68, {~gSHARP4.background_(Color((1-~color_array[68-1])**(0.25),0,0));}, {~gSHARP4.background_(Color.black)}););
+/*ASHARP4*/(if(obj.value.linlin(0,1,21,108) <= 70, {~aSHARP4.background_(Color((1-~color_array[70-1])**(0.25),0,0));}, {~aSHARP4.background_(Color.black)}););
+/*CSHARP5*/(if(obj.value.linlin(0,1,21,108) <= 73, {~cSHARP5.background_(Color((1-~color_array[73-1])**(0.25),0,0));}, {~cSHARP5.background_(Color.black)}););
+/*DSHARP5*/(if(obj.value.linlin(0,1,21,108) <= 75, {~dSHARP5.background_(Color((1-~color_array[75-1])**(0.25),0,0));}, {~dSHARP5.background_(Color.black)}););
+/*FSHARP5*/(if(obj.value.linlin(0,1,21,108) <= 78, {~fSHARP5.background_(Color((1-~color_array[78-1])**(0.25),0,0));}, {~fSHARP5.background_(Color.black)}););
+/*GSHARP5*/(if(obj.value.linlin(0,1,21,108) <= 80, {~gSHARP5.background_(Color((1-~color_array[80-1])**(0.25),0,0));}, {~gSHARP5.background_(Color.black)}););
+/*ASHARP5*/(if(obj.value.linlin(0,1,21,108) <= 82, {~aSHARP5.background_(Color((1-~color_array[82-1])**(0.25),0,0));}, {~aSHARP5.background_(Color.black)}););
+/*CSHARP6*/(if(obj.value.linlin(0,1,21,108) <= 85, {~cSHARP6.background_(Color((1-~color_array[85-1])**(0.25),0,0));}, {~cSHARP6.background_(Color.black)}););
+/*DSHARP6*/(if(obj.value.linlin(0,1,21,108) <= 87, {~dSHARP6.background_(Color((1-~color_array[87-1])**(0.25),0,0));}, {~dSHARP6.background_(Color.black)}););
+/*FSHARP6*/(if(obj.value.linlin(0,1,21,108) <= 90, {~fSHARP6.background_(Color((1-~color_array[90-1])**(0.25),0,0));}, {~fSHARP6.background_(Color.black)}););
+/*GSHARP6*/(if(obj.value.linlin(0,1,21,108) <= 92, {~gSHARP6.background_(Color((1-~color_array[92-1])**(0.25),0,0));}, {~gSHARP6.background_(Color.black)}););
+/*ASHARP6*/(if(obj.value.linlin(0,1,21,108) <= 94, {~aSHARP6.background_(Color((1-~color_array[94-1])**(0.25),0,0));}, {~aSHARP6.background_(Color.black)}););
+/*CSHARP7*/(if(obj.value.linlin(0,1,21,108) <= 97, {~cSHARP7.background_(Color((1-~color_array[97-1])**(0.25),0,0));}, {~cSHARP7.background_(Color.black)}););
+/*DSHARP7*/(if(obj.value.linlin(0,1,21,108) <= 99, {~dSHARP7.background_(Color((1-~color_array[99-1])**(0.25),0,0));}, {~dSHARP7.background_(Color.black)}););
+/*FSHARP7*/(if(obj.value.linlin(0,1,21,108) <= 102, {~fSHARP7.background_(Color((1-~color_array[102-1])**(0.25),0,0));}, {~fSHARP7.background_(Color.black)}););
+/*GSHARP7*/(if(obj.value.linlin(0,1,21,108) <= 104, {~gSHARP7.background_(Color((1-~color_array[104-1])**(0.25),0,0));}, {~gSHARP7.background_(Color.black)}););
+/*ASHARP7*/(if(obj.value.linlin(0,1,21,108) <= 106, {~aSHARP7.background_(Color((1-~color_array[106-1])**(0.25),0,0));}, {~aSHARP7.background_(Color.black)}););
 		}));
 		//
 (
 ~color_array = Array.fill(200,1);
-~color_array[~fslider.value.linlin(0,1,21,108)-1+0]=(~harmonics_array[0]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[0])))-(~manipulated_harmonic[0]*~f1slider.value.linlin(0,1,1,0););
-~color_array[~fslider.value.linlin(0,1,21,108)-1+12]=(~harmonics_array[1]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[1])))-(~manipulated_harmonic[1]*~f2slider.value.linlin(0,1,1,0););
-~color_array[~fslider.value.linlin(0,1,21,108)-1+19]=(~harmonics_array[2]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[2])))-(~manipulated_harmonic[2]*~f3slider.value.linlin(0,1,1,0););
-~color_array[~fslider.value.linlin(0,1,21,108)-1+24]=(~harmonics_array[3]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[3])))-(~manipulated_harmonic[3]*~f4slider.value.linlin(0,1,1,0););
-~color_array[~fslider.value.linlin(0,1,21,108)-1+28]=(~harmonics_array[4]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[4])))-(~manipulated_harmonic[4]*~f5slider.value.linlin(0,1,1,0););
-~color_array[~fslider.value.linlin(0,1,21,108)-1+31]=(~harmonics_array[5]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[5])))-(~manipulated_harmonic[5]*~f6slider.value.linlin(0,1,1,0););
-~color_array[~fslider.value.linlin(0,1,21,108)-1+34]=(~harmonics_array[6]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[6])))-(~manipulated_harmonic[6]*~f7slider.value.linlin(0,1,1,0););
-~color_array[~fslider.value.linlin(0,1,21,108)-1+36]=(~harmonics_array[7]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[7])))-(~manipulated_harmonic[7]*~f8slider.value.linlin(0,1,1,0););
-~color_array[~fslider.value.linlin(0,1,21,108)-1+38]=(~harmonics_array[8]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[8])))-(~manipulated_harmonic[8]*~f9slider.value.linlin(0,1,1,0););
-~color_array[~fslider.value.linlin(0,1,21,108)-1+40]=(~harmonics_array[9]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[9])))-(~manipulated_harmonic[9]*~f10slider.value.linlin(0,1,1,0););
-~color_array[~fslider.value.linlin(0,1,21,108)-1+41]=(~harmonics_array[10]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[10])))-(~manipulated_harmonic[10]*~f11slider.value.linlin(0,1,1,0););
-~color_array[~fslider.value.linlin(0,1,21,108)-1+43]=(~harmonics_array[11]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[11])))-(~manipulated_harmonic[11]*~f12slider.value.linlin(0,1,1,0););
-~color_array[~fslider.value.linlin(0,1,21,108)-1+44]=(~harmonics_array[12]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[12])))-(~manipulated_harmonic[12]*~f13slider.value.linlin(0,1,1,0););
-~color_array[~fslider.value.linlin(0,1,21,108)-1+46]=(~harmonics_array[13]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[13])))-(~manipulated_harmonic[13]*~f14slider.value.linlin(0,1,1,0););
-~color_array[~fslider.value.linlin(0,1,21,108)-1+47]=(~harmonics_array[14]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[14])))-(~manipulated_harmonic[14]*~f15slider.value.linlin(0,1,1,0););
-~color_array[~fslider.value.linlin(0,1,21,108)-1+48]=(~harmonics_array[15]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[15])))-(~manipulated_harmonic[15]*~f16slider.value.linlin(0,1,1,0););
+~color_array[~freqslider.value.linlin(0,1,21,108)-1+0]=(~harmonics_array[0]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[0])))-(~manipulated_harmonic[0]*~f1slider.value.linlin(0,1,0,1););
+~color_array[~freqslider.value.linlin(0,1,21,108)-1+12]=(~harmonics_array[1]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[1])))-(~manipulated_harmonic[1]*~f2slider.value.linlin(0,1,0,1););
+~color_array[~freqslider.value.linlin(0,1,21,108)-1+19]=(~harmonics_array[2]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[2])))-(~manipulated_harmonic[2]*~f3slider.value.linlin(0,1,0,1););
+~color_array[~freqslider.value.linlin(0,1,21,108)-1+24]=(~harmonics_array[3]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[3])))-(~manipulated_harmonic[3]*~f4slider.value.linlin(0,1,0,1););
+~color_array[~freqslider.value.linlin(0,1,21,108)-1+28]=(~harmonics_array[4]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[4])))-(~manipulated_harmonic[4]*~f5slider.value.linlin(0,1,0,1););
+~color_array[~freqslider.value.linlin(0,1,21,108)-1+31]=(~harmonics_array[5]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[5])))-(~manipulated_harmonic[5]*~f6slider.value.linlin(0,1,0,1););
+~color_array[~freqslider.value.linlin(0,1,21,108)-1+34]=(~harmonics_array[6]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[6])))-(~manipulated_harmonic[6]*~f7slider.value.linlin(0,1,0,1););
+~color_array[~freqslider.value.linlin(0,1,21,108)-1+36]=(~harmonics_array[7]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[7])))-(~manipulated_harmonic[7]*~f8slider.value.linlin(0,1,0,1););
+~color_array[~freqslider.value.linlin(0,1,21,108)-1+38]=(~harmonics_array[8]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[8])))-(~manipulated_harmonic[8]*~f9slider.value.linlin(0,1,0,1););
+~color_array[~freqslider.value.linlin(0,1,21,108)-1+40]=(~harmonics_array[9]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[9])))-(~manipulated_harmonic[9]*~f10slider.value.linlin(0,1,0,1););
+~color_array[~freqslider.value.linlin(0,1,21,108)-1+41]=(~harmonics_array[10]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[10])))-(~manipulated_harmonic[10]*~f11slider.value.linlin(0,1,0,1););
+~color_array[~freqslider.value.linlin(0,1,21,108)-1+43]=(~harmonics_array[11]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[11])))-(~manipulated_harmonic[11]*~f12slider.value.linlin(0,1,0,1););
+~color_array[~freqslider.value.linlin(0,1,21,108)-1+44]=(~harmonics_array[12]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[12])))-(~manipulated_harmonic[12]*~f13slider.value.linlin(0,1,0,1););
+~color_array[~freqslider.value.linlin(0,1,21,108)-1+46]=(~harmonics_array[13]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[13])))-(~manipulated_harmonic[13]*~f14slider.value.linlin(0,1,0,1););
+~color_array[~freqslider.value.linlin(0,1,21,108)-1+47]=(~harmonics_array[14]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[14])))-(~manipulated_harmonic[14]*~f15slider.value.linlin(0,1,0,1););
+~color_array[~freqslider.value.linlin(0,1,21,108)-1+48]=(~harmonics_array[15]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[15])))-(~manipulated_harmonic[15]*~f16slider.value.linlin(0,1,0,1););
 		);
 
 
@@ -827,7 +831,9 @@ l.free;
 		if(
 		x.isPlaying,
 		{x.set(\freq,cf)});
-	~numberBox.value_(obj.value.linlin(0,1,40,75));
+
+	~numberBox.value_(obj.value.linlin(0,1,21,108));
+		/*
 		~f1Box.value_(obj.value.linlin(0,1,40,75));
 		~f2Box.value_(obj.value.linexp(0,1,200,2000));
 		~f3Box.value_(obj.value.linexp(0,1,300,3000));
@@ -844,6 +850,8 @@ l.free;
 		~f14Box.value_(obj.value.linexp(0,1,1400,14000));
 		~f15Box.value_(obj.value.linexp(0,1,1500,15000));
 		~f16Box.value_(obj.value.linexp(0,1,1600,16000));
+		*/
+
 		/* ~fsliderharm1.valueAction_(obj.value.linlin(0,1,0.065,0.495));//must be linlin because a slider to slider is using the same exact values (no transformation required)
 		 ~fsliderharm2.valueAction_(obj.value.linlin(0,1,0.19047619047619,0.63));
 				~fsliderharm3.valueAction_(obj.value.linlin(0,1,0.26190476190476,0.705)); */
@@ -858,8 +866,10 @@ l.free;
 .background_(Color(0,0,0,0))
 .stringColor_(Color.black);
 
+
+
 //Number box that can edit slider position
-~numberBox = NumberBox(w,Rect(200,110,50,20))
+~numberBox = NumberBox(w,Rect(225,110,25,20))
 .value_(21)
 .clipLo_(21)
 .clipHi_(108)
@@ -868,22 +878,22 @@ l.free;
 .align_(\center)
 .action_({
 	arg obj;
-	~freqslider.valueAction_(obj.value.linlin(40,75,0,1))
+	~freqslider.valueAction_(obj.value.linlin(21,108,0,1))
 });
 
 
 
+
 		///Starter harmonics array (sets everything to 0) arrays
-	~harmonics_array = Array.fill(16, {arg i; 1});
-	~harmonics_array[0] =0;
-~harmonic_count = 0;
-~intensity_array = Array.fill(1, {arg i; 0});
-~harmonic_sums = Array.fill(0, {arg i; 0});
+	~harmonics_array = Array.fill(16, {arg i; 0});
+~harmonic_count = 16;
+~intensity_array = Array.fill(16, {arg i; 0});
+~harmonic_sums = Array.fill(16, {arg i; 0});
 ~fundamental_note = ~freqslider.value.linlin(0,1,21,108); //Middle C
 ~fundamental_freq = ((2**((-69+~fundamental_note)/12))*440);
-~manipulated_harmonic = Array.fill(16, {arg i; 0});
+~manipulated_harmonic = Array.fill(16, {arg i; 1});
 	~color_array = Array.fill(200,1);
-
+~otherslider = 0;
 
 
 //VOLUME
@@ -1246,28 +1256,30 @@ r = Button(w, Rect(240, 457.5, 90, 26))
 //Define the slider sounds to be played
 (
 SynthDef.new("sound", {
-			arg vol = 0.2, freq = 240, outoftune = 720, phase = pi, f1,f2,f3,f4,f5,f6,f7,f8,f9,f10,f11,f12,f13,f14,f15,f16;
-	var mul, signal;
+			arg vol = 0.2, freq = 21, outoftune = 720, phase = pi, f1,f2,f3,f4,f5,f6,f7,f8,f9,f10,f11,f12,f13,f14,f15,f16;
+	var mul, signal, freqU;
 
 			mul = XLine.kr(0.01,1,0.01,0.1); //Ramps sound onset so not so harsh
 
+			freqU = ((2**((-69+freq)/12))*440);
+
 	signal =
-	SinOsc.ar(freq, phase, vol*mul*f1) +
-	SinOsc.ar(freq*2, phase, vol*mul*f2) +
-	SinOsc.ar(freq*3, phase, vol*mul*f3) +
-	SinOsc.ar(freq*4, phase, vol*mul*f4) +
-	SinOsc.ar(freq*5, phase, vol*mul*f5) +
-	SinOsc.ar(freq*6, phase, vol*mul*f6)+
-	SinOsc.ar(freq*7, phase, vol*mul*f7)+
-	SinOsc.ar(freq*8, phase, vol*mul*f8)+
-	SinOsc.ar(freq*9, phase, vol*mul*f9)+
-	SinOsc.ar(freq*10, phase, vol*mul*f10)+
-	SinOsc.ar(freq*11, phase, vol*mul*f11)+
-	SinOsc.ar(freq*12, phase, vol*mul*f12)+
-	SinOsc.ar(freq*13, phase, vol*mul*f13)+
-	SinOsc.ar(freq*14, phase, vol*mul*f14)+
-	SinOsc.ar(freq*15, phase, vol*mul*f15)+
-	SinOsc.ar(freq*16, phase, vol*mul*f16)
+	SinOsc.ar(freqU, phase, vol*mul*f1) +
+	SinOsc.ar(freqU*2, phase, vol*mul*f2) +
+	SinOsc.ar(freqU*3, phase, vol*mul*f3) +
+	SinOsc.ar(freqU*4, phase, vol*mul*f4) +
+	SinOsc.ar(freqU*5, phase, vol*mul*f5) +
+	SinOsc.ar(freqU*6, phase, vol*mul*f6)+
+	SinOsc.ar(freqU*7, phase, vol*mul*f7)+
+	SinOsc.ar(freqU*8, phase, vol*mul*f8)+
+	SinOsc.ar(freqU*9, phase, vol*mul*f9)+
+	SinOsc.ar(freqU*10, phase, vol*mul*f10)+
+	SinOsc.ar(freqU*11, phase, vol*mul*f11)+
+	SinOsc.ar(freqU*12, phase, vol*mul*f12)+
+	SinOsc.ar(freqU*13, phase, vol*mul*f13)+
+	SinOsc.ar(freqU*14, phase, vol*mul*f14)+
+	SinOsc.ar(freqU*15, phase, vol*mul*f15)+
+	SinOsc.ar(freqU*16, phase, vol*mul*f16)
 	;
 
 	Out.ar([0,1], signal); //sends to busses 1 & 2 (stereo), and plays the var "signal"
@@ -1293,6 +1305,7 @@ SynthDef.new("sound", {
 		x.isPlaying,
 		{x.set(\f1,cf)});
 	~number1Box.value_(obj.value.linlin(0,1,0.0,2));
+		~freqslider.valueAction_(~fslider.value); //This allows it to refresh real-time
 });
 //Label
 ~f1Label = StaticText(w,Rect(70,130,20,15))
@@ -1340,6 +1353,7 @@ SynthDef.new("sound", {
 		x.isPlaying,
 		{x.set(\f2,cf)});
 	~number2Box.value_(obj.value.linlin(0,1,0.0,2));
+		~freqslider.valueAction_(~fslider.value); //This allows it to refresh real-time
 });
 //Label
 ~f2Label = StaticText(w,Rect(90,130,20,15))
@@ -1387,6 +1401,7 @@ SynthDef.new("sound", {
 		x.isPlaying,
 		{x.set(\f3,cf)});
 	~number3Box.value_(obj.value.linlin(0,1,0.0,2));
+		~freqslider.valueAction_(~fslider.value); //This allows it to refresh real-time
 });
 //Label
 ~f3Label = StaticText(w,Rect(110,130,20,15))
@@ -1434,6 +1449,7 @@ SynthDef.new("sound", {
 		x.isPlaying,
 		{x.set(\f4,cf)});
 	~number4Box.value_(obj.value.linlin(0,1,0.0,2));
+		~freqslider.valueAction_(~fslider.value); //This allows it to refresh real-time
 });
 //Label
 ~f4Label = StaticText(w,Rect(130,130,20,15))
@@ -1481,6 +1497,7 @@ SynthDef.new("sound", {
 		x.isPlaying,
 		{x.set(\f5,cf)});
 	~number5Box.value_(obj.value.linlin(0,1,0.0,2));
+		~freqslider.valueAction_(~fslider.value); //This allows it to refresh real-time
 });
 //Label
 ~f5Label = StaticText(w,Rect(150,130,20,15))
@@ -1528,6 +1545,7 @@ SynthDef.new("sound", {
 		x.isPlaying,
 		{x.set(\f6,cf)});
 	~number6Box.value_(obj.value.linlin(0,1,0.0,2));
+		~freqslider.valueAction_(~fslider.value); //This allows it to refresh real-time
 });
 //Label
 ~f6Label = StaticText(w,Rect(170,130,20,15))
@@ -1575,6 +1593,7 @@ SynthDef.new("sound", {
 		x.isPlaying,
 		{x.set(\f7,cf)});
 	~number7Box.value_(obj.value.linlin(0,1,0.0,2));
+		~freqslider.valueAction_(~fslider.value); //This allows it to refresh real-time
 });
 //Label
 ~f7Label = StaticText(w,Rect(190,130,20,15))
@@ -1622,6 +1641,7 @@ SynthDef.new("sound", {
 		x.isPlaying,
 		{x.set(\f8,cf)});
 	~number8Box.value_(obj.value.linlin(0,1,0.0,2));
+		~freqslider.valueAction_(~fslider.value); //This allows it to refresh real-time
 });
 //Label
 ~f8Label = StaticText(w,Rect(210,130,20,15))
@@ -1669,6 +1689,7 @@ SynthDef.new("sound", {
 		x.isPlaying,
 		{x.set(\f9,cf)});
 	~number9Box.value_(obj.value.linlin(0,1,0.0,2));
+		~freqslider.valueAction_(~fslider.value); //This allows it to refresh real-time
 });
 //Label
 ~f9Label = StaticText(w,Rect(230,130,20,15))
@@ -1716,6 +1737,7 @@ SynthDef.new("sound", {
 		x.isPlaying,
 		{x.set(\f10,cf)});
 	~number10Box.value_(obj.value.linlin(0,1,0.0,2));
+		~freqslider.valueAction_(~fslider.value); //This allows it to refresh real-time
 });
 //Label
 ~f10Label = StaticText(w,Rect(250,130,20,15))
@@ -1763,6 +1785,7 @@ SynthDef.new("sound", {
 		x.isPlaying,
 		{x.set(\f11,cf)});
 	~number11Box.value_(obj.value.linlin(0,1,0.0,2));
+		~freqslider.valueAction_(~fslider.value); //This allows it to refresh real-time
 });
 //Label
 ~f11Label = StaticText(w,Rect(270,130,20,15))
@@ -1810,6 +1833,7 @@ SynthDef.new("sound", {
 		x.isPlaying,
 		{x.set(\f12,cf)});
 	~number12Box.value_(obj.value.linlin(0,1,0.0,2));
+		~freqslider.valueAction_(~fslider.value); //This allows it to refresh real-time
 });
 //Label
 ~f12Label = StaticText(w,Rect(290,130,20,15))
@@ -1857,6 +1881,7 @@ SynthDef.new("sound", {
 		x.isPlaying,
 		{x.set(\f13,cf)});
 	~number13Box.value_(obj.value.linlin(0,1,0.0,2));
+		~freqslider.valueAction_(~fslider.value); //This allows it to refresh real-time
 });
 //Label
 ~f13Label = StaticText(w,Rect(310,130,20,15))
@@ -1904,6 +1929,7 @@ SynthDef.new("sound", {
 		x.isPlaying,
 		{x.set(\f14,cf)});
 	~number14Box.value_(obj.value.linlin(0,1,0.0,2));
+		~freqslider.valueAction_(~fslider.value); //This allows it to refresh real-time
 });
 //Label
 ~f14Label = StaticText(w,Rect(330,130,20,15))
@@ -1951,6 +1977,7 @@ SynthDef.new("sound", {
 		x.isPlaying,
 		{x.set(\f15,cf)});
 	~number15Box.value_(obj.value.linlin(0,1,0.0,2));
+		~freqslider.valueAction_(~fslider.value); //This allows it to refresh real-time
 });
 //Label
 ~f15Label = StaticText(w,Rect(350,130,20,15))
@@ -1998,6 +2025,7 @@ SynthDef.new("sound", {
 		x.isPlaying,
 		{x.set(\f16,cf)});
 	~number16Box.value_(obj.value.linlin(0,1,0.0,2));
+		~freqslider.valueAction_(~fslider.value); //This allows it to refresh real-time
 });
 //Label
 ~f16Label = StaticText(w,Rect(370,130,20,15))
@@ -2238,6 +2266,7 @@ intensities", Color.white,Color(0.4824, 0.4863, 0.4863,1)]
 
 });
 
+	/*
 
 	//Keyboard MIDI notation image button
 		~midi_table = Button.new(w, Rect(10, 100, 20, 20))
@@ -2247,6 +2276,7 @@ intensities", Color.white,Color(0.4824, 0.4863, 0.4863,1)]
 
 				(basePath +/+  "modules/keyboard_image.scd").loadPaths; //This line allows all contact buttons to be updated automatically
 	});
+	*/
 
 /*
 	//Keyboard visualizer button
@@ -2271,7 +2301,7 @@ arg obj;
 */
 
 //True note value
-	~note_name = StaticText(w,Rect(85-23+30-5,155,27,15))
+	~note_name = StaticText(w,Rect(200,112.5,27,15))
 	.string_("A0").align_(\center)
 	.font_(Font("nil", 11));
 

@@ -165,6 +165,7 @@
 */
 
 //Black keys
+
 ~aSHARP0 = StaticText(~keyboard, Rect(30+0,20,19,100)).background_(Color.black).string_("");
 ~cSHARP1 = StaticText(~keyboard, Rect(30+40,20,19,100)).background_(Color.black).string_("");
 ~dSHARP1 = StaticText(~keyboard, Rect(30+60,20,19,100)).background_(Color.black).string_("");
@@ -201,6 +202,44 @@
 ~fSHARP7 = StaticText(~keyboard, Rect(30+940,20,19,100)).background_(Color.black).string_("");
 ~gSHARP7 = StaticText(~keyboard, Rect(30+960,20,19,100)).background_(Color.black).string_("");
 ~aSHARP7 = StaticText(~keyboard, Rect(30+980,20,19,100)).background_(Color.black).string_("");
+
+~aSHARP0dev = StaticText(~keyboard, Rect(30+0,20,19,100)).background_(Color.clear).string_("");
+~cSHARP1dev = StaticText(~keyboard, Rect(30+40,20,19,100)).background_(Color.clear).string_("");
+~dSHARP1dev = StaticText(~keyboard, Rect(30+60,20,19,100)).background_(Color.clear).string_("");
+~fSHARP1dev = StaticText(~keyboard, Rect(30+100,20,19,100)).background_(Color.clear).string_("");
+~gSHARP1dev = StaticText(~keyboard, Rect(30+120,20,19,100)).background_(Color.clear).string_("");
+~aSHARP1dev = StaticText(~keyboard, Rect(30+140,20,19,100)).background_(Color.clear).string_("");
+~cSHARP2dev = StaticText(~keyboard, Rect(30+180,20,19,100)).background_(Color.clear).string_("");
+~dSHARP2dev = StaticText(~keyboard, Rect(30+200,20,19,100)).background_(Color.clear).string_("");
+~fSHARP2dev = StaticText(~keyboard, Rect(30+240,20,19,100)).background_(Color.clear).string_("");
+~gSHARP2dev = StaticText(~keyboard, Rect(30+260,20,19,100)).background_(Color.clear).string_("");
+~aSHARP2dev = StaticText(~keyboard, Rect(30+280,20,19,100)).background_(Color.clear).string_("");
+~cSHARP3dev = StaticText(~keyboard, Rect(30+320,20,19,100)).background_(Color.clear).string_("");
+~dSHARP3dev = StaticText(~keyboard, Rect(30+340,20,19,100)).background_(Color.clear).string_("");
+~fSHARP3dev = StaticText(~keyboard, Rect(30+380,20,19,100)).background_(Color.clear).string_("");
+~gSHARP3dev = StaticText(~keyboard, Rect(30+400,20,19,100)).background_(Color.clear).string_("");
+~aSHARP3dev = StaticText(~keyboard, Rect(30+420,20,19,100)).background_(Color.clear).string_("");
+~cSHARP4dev = StaticText(~keyboard, Rect(30+460,20,19,100)).background_(Color.clear).string_("");
+~dSHARP4dev = StaticText(~keyboard, Rect(30+480,20,19,100)).background_(Color.clear).string_("");
+~fSHARP4dev = StaticText(~keyboard, Rect(30+520,20,19,100)).background_(Color.clear).string_("");
+~gSHARP4dev = StaticText(~keyboard, Rect(30+540,20,19,100)).background_(Color.clear).string_("");
+~aSHARP4dev = StaticText(~keyboard, Rect(30+560,20,19,100)).background_(Color.clear).string_("");
+~cSHARP5dev = StaticText(~keyboard, Rect(30+600,20,19,100)).background_(Color.clear).string_("");
+~dSHARP5dev = StaticText(~keyboard, Rect(30+620,20,19,100)).background_(Color.clear).string_("");
+~fSHARP5dev = StaticText(~keyboard, Rect(30+660,20,19,100)).background_(Color.clear).string_("");
+~gSHARP5dev = StaticText(~keyboard, Rect(30+680,20,19,100)).background_(Color.clear).string_("");
+~aSHARP5dev = StaticText(~keyboard, Rect(30+700,20,19,100)).background_(Color.clear).string_("");
+~cSHARP6dev = StaticText(~keyboard, Rect(30+740,20,19,100)).background_(Color.clear).string_("");
+~dSHARP6dev = StaticText(~keyboard, Rect(30+760,20,19,100)).background_(Color.clear).string_("");
+~fSHARP6dev = StaticText(~keyboard, Rect(30+800,20,19,100)).background_(Color.clear).string_("");
+~gSHARP6dev = StaticText(~keyboard, Rect(30+820,20,19,100)).background_(Color.clear).string_("");
+~aSHARP6dev = StaticText(~keyboard, Rect(30+840,20,19,100)).background_(Color.clear).string_("");
+~cSHARP7dev = StaticText(~keyboard, Rect(30+880,20,19,100)).background_(Color.clear).string_("");
+~dSHARP7dev = StaticText(~keyboard, Rect(30+900,20,19,100)).background_(Color.clear).string_("");
+~fSHARP7dev = StaticText(~keyboard, Rect(30+940,20,19,100)).background_(Color.clear).string_("");
+~gSHARP7dev = StaticText(~keyboard, Rect(30+960,20,19,100)).background_(Color.clear).string_("");
+~aSHARP7dev = StaticText(~keyboard, Rect(30+980,20,19,100)).background_(Color.clear).string_("");
+
 
 /*
 ~cSHARP4 = StaticText(~keyboard, Rect(30+0,20,19,100)).background_(Color.black).string_("");
