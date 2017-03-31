@@ -1,7 +1,7 @@
 (
 ~keyboard = Window.new("Keyboard", Rect(
 	Window.screenBounds.width/2-((420+20+20+620)/2),50,
-	420+20+20+620,190), false, true).front.background_(Color.white).userCanClose_(true);
+	420+20+20+620,190), false, true).front.background_(Color.white).userCanClose_(false);
 
 ~title =StaticText(~keyboard,Rect(0,0,(420+20+20+620),300))
 .string_("Keyboard")
