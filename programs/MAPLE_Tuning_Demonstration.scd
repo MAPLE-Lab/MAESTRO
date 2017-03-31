@@ -432,7 +432,7 @@ x.set(\fundamental_note, obj.value.linlin(0,1,21,108););
 
 			//Deviant definer
 
-			/*ASHARP0*/(if(obj.value.linlin(0,1,21,108) <= 22, sz{~aSHARP0dev.background_(Color((1-~color_array[22-1])**(0.25),0,0));}, {~aSHARP0dev.background_(Color.black)}););
+/*ASHARP0*/(if(obj.value.linlin(0,1,21,108) <= 22, {~aSHARP0dev.background_(Color((1-~color_array[22-1])**(0.25),0,0));}, {~aSHARP0dev.background_(Color.black)}););
 /*CSHARP1*/(if(obj.value.linlin(0,1,21,108) <= 25, {~cSHARP1dev.background_(Color((1-~color_array[25-1])**(0.25),0,0));}, {~cSHARP1dev.background_(Color.black)}););
 /*DSHARP1*/(if(obj.value.linlin(0,1,21,108) <= 27, {~dSHARP1dev.background_(Color((1-~color_array[27-1])**(0.25),0,0));}, {~dSHARP1dev.background_(Color.black)}););
 /*FSHARP1*/(if(obj.value.linlin(0,1,21,108) <= 30, {~fSHARP1dev.background_(Color((1-~color_array[30-1])**(0.25),0,0));}, {~fSHARP1dev.background_(Color.black)}););
