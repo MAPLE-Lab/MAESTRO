@@ -595,7 +595,7 @@ l.free;
 		//FUNDAMENTAL FREQUENCY
 //Properties of the slider
 ~freqslider = Slider(w, Rect(250,110,140,20))
-	.background_(Color(0.8,0.8,0.8,0.75)).value_(0)
+	.background_(Color(0.8,0.8,0.8,0.75)).value_(48/87)
 	.step_(1/(108-21)) //Math of linexp: y=100e^(kx)
 	//y1(1)=1000=y3(1) and y2(0)=100=y3(0) and y3=100e^(kx) what is k?
 	//hence: ln(y3/100)/x = k -->ln(1000/100)/1 = k = 2.3025 (using y2 makes no sense but should...)
@@ -1057,7 +1057,7 @@ s.makeBundle(1.0, //sound delay
 
 //Number box that can edit slider position
 ~numberBox = NumberBox(w,Rect(225,110,25,20))
-.value_(21)
+.value_(69)
 .clipLo_(21)
 .clipHi_(108)
 .font_(Font("nil",12))
@@ -2297,6 +2297,11 @@ s.makeBundle(1.0, //sound delay
 		// ~w2.close; //similar issue, but this does leave the oscilloscope open - workaround on splashscreen command
 		~scopebutton.valueAction_(0); //this works instead of closing the window as now the global variable is always available
 		h.kill;
+
+		(if(~key_vis.value == 1, {
+			~keyboard.close;
+		}));
+
 		w.close;
 		(basePath +/+ "splashscreen.scd").loadPaths;
 		});
@@ -2521,10 +2526,16 @@ arg obj;
 
 //True note value
 	~note_name = StaticText(w,Rect(200,112.5,27,15))
-	.string_("A0").align_(\center)
+	.string_("A4").align_(\center)
 	.font_(Font("nil", 11));
 
-w.onClose_({s.quit}); //not working, rerouted to back button
+w.onClose_({
+
+		(if(~key_vis.value == 1, {
+			~keyboard.close;
+		}));
+		s.quit;
+	}); //not working, rerouted to back button
 })
  //ends server when quit
 )

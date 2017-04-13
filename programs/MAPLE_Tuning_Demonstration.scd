@@ -207,10 +207,10 @@ StaticText(w,Rect(0,620,500,2))
 	//TONIC FREQUENCY
 
 //Label for Freq.
-~fLabel = StaticText(w,Rect(10,158,80,25))
+~fLabel = StaticText(w,Rect(10-10,158,80,25))
 .string_("Fundamental")
 .font_(Font("nil", 8))
-.align_(\topLeft)
+.align_(\topRight)
 .background_(Color(0,0,0,0))
 .stringColor_(Color.black);
 
@@ -218,12 +218,8 @@ StaticText(w,Rect(0,620,500,2))
 
 //Properties of the slider
 ~fslider = Slider(w, Rect(160,155,330,15))
-	.background_(Color(0.8,0.8,0.8,0.75)).value_(0)
-	.step_(1/(108-21)) //Math of linexp: y=100e^(kx)
-	//y1(1)=1000=y3(1) and y2(0)=100=y3(0) and y3=100e^(kx) what is k?
-	//hence: ln(y3/100)/x = k -->ln(1000/100)/1 = k = 2.3025 (using y2 makes no sense but should...)
-	//--> k = ln(10) EXACTLY
-	//new is k=ln(8)
+	.background_(Color(0.8,0.8,0.8,0.75)).value_(48/87)
+	.step_(1/(108-21)) //Math: 108-21 = 87; 69-21 = 48; 48/87 =
 	.action_({
 	arg obj;
 	var cf;
@@ -337,58 +333,58 @@ x.set(\fundamental_note, obj.value.linlin(0,1,21,108););
 
 (if(~key_vis.value == 1, {
 
-/*A0*/(if(obj.value.linlin(0,1,21,108) <= 21, {~a0.background_(Color(1,~color_array[21-1],~color_array[21-1]));}, {~a0.background_(Color.white)}););
-/*B0*/(if(obj.value.linlin(0,1,21,108) <= 23, {~b0.background_(Color(1,~color_array[23-1],~color_array[23-1]));}, {~b0.background_(Color.white)}););
-/*C1*/(if(obj.value.linlin(0,1,21,108) <= 24, {~c1.background_(Color(1,~color_array[24-1],~color_array[24-1]));}, {~c1.background_(Color.white)}););
-/*D1*/(if(obj.value.linlin(0,1,21,108) <= 26, {~d1.background_(Color(1,~color_array[26-1],~color_array[26-1]));}, {~d1.background_(Color.white)}););
-/*E1*/(if(obj.value.linlin(0,1,21,108) <= 28, {~e1.background_(Color(1,~color_array[28-1],~color_array[28-1]));}, {~e1.background_(Color.white)}););
-/*F1*/(if(obj.value.linlin(0,1,21,108) <= 29, {~f1.background_(Color(1,~color_array[29-1],~color_array[29-1]));}, {~f1.background_(Color.white)}););
-/*G1*/(if(obj.value.linlin(0,1,21,108) <= 31, {~g1.background_(Color(1,~color_array[31-1],~color_array[31-1]));}, {~g1.background_(Color.white)}););
-/*A1*/(if(obj.value.linlin(0,1,21,108) <= 33, {~a1.background_(Color(1,~color_array[33-1],~color_array[33-1]));}, {~a1.background_(Color.white)}););
-/*B1*/(if(obj.value.linlin(0,1,21,108) <= 35, {~b1.background_(Color(1,~color_array[35-1],~color_array[35-1]));}, {~b1.background_(Color.white)}););
-/*C2*/(if(obj.value.linlin(0,1,21,108) <= 36, {~c2.background_(Color(1,~color_array[36-1],~color_array[36-1]));}, {~c2.background_(Color.white)}););
-/*D2*/(if(obj.value.linlin(0,1,21,108) <= 38, {~d2.background_(Color(1,~color_array[38-1],~color_array[38-1]));}, {~d2.background_(Color.white)}););
-/*E2*/(if(obj.value.linlin(0,1,21,108) <= 40, {~e2.background_(Color(1,~color_array[40-1],~color_array[40-1]));}, {~e2.background_(Color.white)}););
-/*F2*/(if(obj.value.linlin(0,1,21,108) <= 41, {~f2.background_(Color(1,~color_array[41-1],~color_array[41-1]));}, {~f2.background_(Color.white)}););
-/*G2*/(if(obj.value.linlin(0,1,21,108) <= 43, {~g2.background_(Color(1,~color_array[43-1],~color_array[43-1]));}, {~g2.background_(Color.white)}););
-/*A2*/(if(obj.value.linlin(0,1,21,108) <= 45, {~a2.background_(Color(1,~color_array[45-1],~color_array[45-1]));}, {~a2.background_(Color.white)}););
-/*B2*/(if(obj.value.linlin(0,1,21,108) <= 47, {~b2.background_(Color(1,~color_array[47-1],~color_array[47-1]));}, {~b2.background_(Color.white)}););
-/*C3*/(if(obj.value.linlin(0,1,21,108) <= 48, {~c3.background_(Color(1,~color_array[48-1],~color_array[48-1]));}, {~c3.background_(Color.white)}););
-/*D3*/(if(obj.value.linlin(0,1,21,108) <= 50, {~d3.background_(Color(1,~color_array[50-1],~color_array[50-1]));}, {~d3.background_(Color.white)}););
-/*E3*/(if(obj.value.linlin(0,1,21,108) <= 52, {~e3.background_(Color(1,~color_array[52-1],~color_array[52-1]));}, {~e3.background_(Color.white)}););
-/*F3*/(if(obj.value.linlin(0,1,21,108) <= 53, {~f3.background_(Color(1,~color_array[53-1],~color_array[53-1]));}, {~f3.background_(Color.white)}););
-/*G3*/(if(obj.value.linlin(0,1,21,108) <= 55, {~g3.background_(Color(1,~color_array[55-1],~color_array[55-1]));}, {~g3.background_(Color.white)}););
-/*A3*/(if(obj.value.linlin(0,1,21,108) <= 57, {~a3.background_(Color(1,~color_array[57-1],~color_array[57-1]));}, {~a3.background_(Color.white)}););
-/*B3*/(if(obj.value.linlin(0,1,21,108) <= 59, {~b3.background_(Color(1,~color_array[59-1],~color_array[59-1]));}, {~b3.background_(Color.white)}););
-/*C4*/(if(obj.value.linlin(0,1,21,108) <= 60, {~c4.background_(Color(1,~color_array[60-1],~color_array[60-1]));}, {~c4.background_(Color.white)}););
-/*D4*/(if(obj.value.linlin(0,1,21,108) <= 62, {~d4.background_(Color(1,~color_array[62-1],~color_array[62-1]));}, {~d4.background_(Color.white)}););
-/*E4*/(if(obj.value.linlin(0,1,21,108) <= 64, {~e4.background_(Color(1,~color_array[64-1],~color_array[64-1]));}, {~e4.background_(Color.white)}););
-/*F4*/(if(obj.value.linlin(0,1,21,108) <= 65, {~f4.background_(Color(1,~color_array[65-1],~color_array[65-1]));}, {~f4.background_(Color.white)}););
-/*G4*/(if(obj.value.linlin(0,1,21,108) <= 67, {~g4.background_(Color(1,~color_array[67-1],~color_array[67-1]));}, {~g4.background_(Color.white)}););
-/*A4*/(if(obj.value.linlin(0,1,21,108) <= 69, {~a4.background_(Color(1,~color_array[69-1],~color_array[69-1]));}, {~a4.background_(Color.white)}););
-/*B4*/(if(obj.value.linlin(0,1,21,108) <= 71, {~b4.background_(Color(1,~color_array[71-1],~color_array[71-1]));}, {~b4.background_(Color.white)}););
-/*C5*/(if(obj.value.linlin(0,1,21,108) <= 72, {~c5.background_(Color(1,~color_array[72-1],~color_array[72-1]));}, {~c5.background_(Color.white)}););
-/*D5*/(if(obj.value.linlin(0,1,21,108) <= 74, {~d5.background_(Color(1,~color_array[74-1],~color_array[74-1]));}, {~d5.background_(Color.white)}););
-/*E5*/(if(obj.value.linlin(0,1,21,108) <= 76, {~e5.background_(Color(1,~color_array[76-1],~color_array[76-1]));}, {~e5.background_(Color.white)}););
-/*F5*/(if(obj.value.linlin(0,1,21,108) <= 77, {~f5.background_(Color(1,~color_array[77-1],~color_array[77-1]));}, {~f5.background_(Color.white)}););
-/*G5*/(if(obj.value.linlin(0,1,21,108) <= 79, {~g5.background_(Color(1,~color_array[79-1],~color_array[79-1]));}, {~g5.background_(Color.white)}););
-/*A5*/(if(obj.value.linlin(0,1,21,108) <= 81, {~a5.background_(Color(1,~color_array[81-1],~color_array[81-1]));}, {~a5.background_(Color.white)}););
-/*B5*/(if(obj.value.linlin(0,1,21,108) <= 83, {~b5.background_(Color(1,~color_array[83-1],~color_array[83-1]));}, {~b5.background_(Color.white)}););
-/*C6*/(if(obj.value.linlin(0,1,21,108) <= 84, {~c6.background_(Color(1,~color_array[84-1],~color_array[84-1]));}, {~c6.background_(Color.white)}););
-/*D6*/(if(obj.value.linlin(0,1,21,108) <= 86, {~d6.background_(Color(1,~color_array[86-1],~color_array[86-1]));}, {~d6.background_(Color.white)}););
-/*E6*/(if(obj.value.linlin(0,1,21,108) <= 88, {~e6.background_(Color(1,~color_array[88-1],~color_array[88-1]));}, {~e6.background_(Color.white)}););
-/*F6*/(if(obj.value.linlin(0,1,21,108) <= 89, {~f6.background_(Color(1,~color_array[89-1],~color_array[89-1]));}, {~f6.background_(Color.white)}););
-/*G6*/(if(obj.value.linlin(0,1,21,108) <= 91, {~g6.background_(Color(1,~color_array[91-1],~color_array[91-1]));}, {~g6.background_(Color.white)}););
-/*A6*/(if(obj.value.linlin(0,1,21,108) <= 93, {~a6.background_(Color(1,~color_array[93-1],~color_array[93-1]));}, {~a6.background_(Color.white)}););
-/*B6*/(if(obj.value.linlin(0,1,21,108) <= 95, {~b6.background_(Color(1,~color_array[95-1],~color_array[95-1]));}, {~b6.background_(Color.white)}););
-/*C7*/(if(obj.value.linlin(0,1,21,108) <= 96, {~c7.background_(Color(1,~color_array[96-1],~color_array[96-1]));}, {~c7.background_(Color.white)}););
-/*D7*/(if(obj.value.linlin(0,1,21,108) <= 98, {~d7.background_(Color(1,~color_array[98-1],~color_array[98-1]));}, {~d7.background_(Color.white)}););
-/*E7*/(if(obj.value.linlin(0,1,21,108) <= 100, {~e7.background_(Color(1,~color_array[100-1],~color_array[100-1]));}, {~e7.background_(Color.white)}););
-/*F7*/(if(obj.value.linlin(0,1,21,108) <= 101, {~f7.background_(Color(1,~color_array[101-1],~color_array[101-1]));}, {~f7.background_(Color.white)}););
-/*G7*/(if(obj.value.linlin(0,1,21,108) <= 103, {~g7.background_(Color(1,~color_array[103-1],~color_array[103-1]));}, {~g7.background_(Color.white)}););
-/*A7*/(if(obj.value.linlin(0,1,21,108) <= 105, {~a7.background_(Color(1,~color_array[105-1],~color_array[105-1]));}, {~a7.background_(Color.white)}););
-/*B7*/(if(obj.value.linlin(0,1,21,108) <= 107, {~b7.background_(Color(1,~color_array[107-1],~color_array[107-1]));}, {~b7.background_(Color.white)}););
-/*C8*/(if(obj.value.linlin(0,1,21,108) <= 108, {~c8.background_(Color(1,~color_array[108-1],~color_array[108-1]));}, {~c8.background_(Color.white)}););
+/*A0*/(if(obj.value.linlin(0,1,21,108) <= 21, {~a0.background_(Color(1,(~color_array[21-1]+~color_arrayMAN[21-1]),~color_array[21-1]));}, {~a0.background_(Color.white)}););
+/*B0*/(if(obj.value.linlin(0,1,21,108) <= 23, {~b0.background_(Color(1,(~color_array[23-1]+~color_arrayMAN[23-1]),~color_array[23-1]));}, {~b0.background_(Color.white)}););
+/*C1*/(if(obj.value.linlin(0,1,21,108) <= 24, {~c1.background_(Color(1,(~color_array[24-1]+~color_arrayMAN[24-1]),~color_array[24-1]));}, {~c1.background_(Color.white)}););
+/*D1*/(if(obj.value.linlin(0,1,21,108) <= 26, {~d1.background_(Color(1,(~color_array[26-1]+~color_arrayMAN[26-1]),~color_array[26-1]));}, {~d1.background_(Color.white)}););
+/*E1*/(if(obj.value.linlin(0,1,21,108) <= 28, {~e1.background_(Color(1,(~color_array[28-1]+~color_arrayMAN[28-1]),~color_array[28-1]));}, {~e1.background_(Color.white)}););
+/*F1*/(if(obj.value.linlin(0,1,21,108) <= 29, {~f1.background_(Color(1,(~color_array[29-1]+~color_arrayMAN[29-1]),~color_array[29-1]));}, {~f1.background_(Color.white)}););
+/*G1*/(if(obj.value.linlin(0,1,21,108) <= 31, {~g1.background_(Color(1,(~color_array[31-1]+~color_arrayMAN[31-1]),~color_array[31-1]));}, {~g1.background_(Color.white)}););
+/*A1*/(if(obj.value.linlin(0,1,21,108) <= 33, {~a1.background_(Color(1,(~color_array[33-1]+~color_arrayMAN[33-1]),~color_array[33-1]));}, {~a1.background_(Color.white)}););
+/*B1*/(if(obj.value.linlin(0,1,21,108) <= 35, {~b1.background_(Color(1,(~color_array[35-1]+~color_arrayMAN[35-1]),~color_array[35-1]));}, {~b1.background_(Color.white)}););
+/*C2*/(if(obj.value.linlin(0,1,21,108) <= 36, {~c2.background_(Color(1,(~color_array[36-1]+~color_arrayMAN[36-1]),~color_array[36-1]));}, {~c2.background_(Color.white)}););
+/*D2*/(if(obj.value.linlin(0,1,21,108) <= 38, {~d2.background_(Color(1,(~color_array[38-1]+~color_arrayMAN[38-1]),~color_array[38-1]));}, {~d2.background_(Color.white)}););
+/*E2*/(if(obj.value.linlin(0,1,21,108) <= 40, {~e2.background_(Color(1,(~color_array[40-1]+~color_arrayMAN[40-1]),~color_array[40-1]));}, {~e2.background_(Color.white)}););
+/*F2*/(if(obj.value.linlin(0,1,21,108) <= 41, {~f2.background_(Color(1,(~color_array[41-1]+~color_arrayMAN[41-1]),~color_array[41-1]));}, {~f2.background_(Color.white)}););
+/*G2*/(if(obj.value.linlin(0,1,21,108) <= 43, {~g2.background_(Color(1,(~color_array[43-1]+~color_arrayMAN[43-1]),~color_array[43-1]));}, {~g2.background_(Color.white)}););
+/*A2*/(if(obj.value.linlin(0,1,21,108) <= 45, {~a2.background_(Color(1,(~color_array[45-1]+~color_arrayMAN[45-1]),~color_array[45-1]));}, {~a2.background_(Color.white)}););
+/*B2*/(if(obj.value.linlin(0,1,21,108) <= 47, {~b2.background_(Color(1,(~color_array[47-1]+~color_arrayMAN[47-1]),~color_array[47-1]));}, {~b2.background_(Color.white)}););
+/*C3*/(if(obj.value.linlin(0,1,21,108) <= 48, {~c3.background_(Color(1,(~color_array[48-1]+~color_arrayMAN[48-1]),~color_array[48-1]));}, {~c3.background_(Color.white)}););
+/*D3*/(if(obj.value.linlin(0,1,21,108) <= 50, {~d3.background_(Color(1,(~color_array[50-1]+~color_arrayMAN[50-1]),~color_array[50-1]));}, {~d3.background_(Color.white)}););
+/*E3*/(if(obj.value.linlin(0,1,21,108) <= 52, {~e3.background_(Color(1,(~color_array[52-1]+~color_arrayMAN[52-1]),~color_array[52-1]));}, {~e3.background_(Color.white)}););
+/*F3*/(if(obj.value.linlin(0,1,21,108) <= 53, {~f3.background_(Color(1,(~color_array[53-1]+~color_arrayMAN[53-1]),~color_array[53-1]));}, {~f3.background_(Color.white)}););
+/*G3*/(if(obj.value.linlin(0,1,21,108) <= 55, {~g3.background_(Color(1,(~color_array[55-1]+~color_arrayMAN[55-1]),~color_array[55-1]));}, {~g3.background_(Color.white)}););
+/*A3*/(if(obj.value.linlin(0,1,21,108) <= 57, {~a3.background_(Color(1,(~color_array[57-1]+~color_arrayMAN[57-1]),~color_array[57-1]));}, {~a3.background_(Color.white)}););
+/*B3*/(if(obj.value.linlin(0,1,21,108) <= 59, {~b3.background_(Color(1,(~color_array[59-1]+~color_arrayMAN[59-1]),~color_array[59-1]));}, {~b3.background_(Color.white)}););
+/*C4*/(if(obj.value.linlin(0,1,21,108) <= 60, {~c4.background_(Color(1,(~color_array[60-1]+~color_arrayMAN[60-1]),~color_array[60-1]));}, {~c4.background_(Color.white)}););
+/*D4*/(if(obj.value.linlin(0,1,21,108) <= 62, {~d4.background_(Color(1,(~color_array[62-1]+~color_arrayMAN[62-1]),~color_array[62-1]));}, {~d4.background_(Color.white)}););
+/*E4*/(if(obj.value.linlin(0,1,21,108) <= 64, {~e4.background_(Color(1,(~color_array[64-1]+~color_arrayMAN[64-1]),~color_array[64-1]));}, {~e4.background_(Color.white)}););
+/*F4*/(if(obj.value.linlin(0,1,21,108) <= 65, {~f4.background_(Color(1,(~color_array[65-1]+~color_arrayMAN[65-1]),~color_array[65-1]));}, {~f4.background_(Color.white)}););
+/*G4*/(if(obj.value.linlin(0,1,21,108) <= 67, {~g4.background_(Color(1,(~color_array[67-1]+~color_arrayMAN[67-1]),~color_array[67-1]));}, {~g4.background_(Color.white)}););
+/*A4*/(if(obj.value.linlin(0,1,21,108) <= 69, {~a4.background_(Color(1,(~color_array[69-1]+~color_arrayMAN[69-1]),~color_array[69-1]));}, {~a4.background_(Color.white)}););
+/*B4*/(if(obj.value.linlin(0,1,21,108) <= 71, {~b4.background_(Color(1,(~color_array[71-1]+~color_arrayMAN[71-1]),~color_array[71-1]));}, {~b4.background_(Color.white)}););
+/*C5*/(if(obj.value.linlin(0,1,21,108) <= 72, {~c5.background_(Color(1,(~color_array[72-1]+~color_arrayMAN[72-1]),~color_array[72-1]));}, {~c5.background_(Color.white)}););
+/*D5*/(if(obj.value.linlin(0,1,21,108) <= 74, {~d5.background_(Color(1,(~color_array[74-1]+~color_arrayMAN[74-1]),~color_array[74-1]));}, {~d5.background_(Color.white)}););
+/*E5*/(if(obj.value.linlin(0,1,21,108) <= 76, {~e5.background_(Color(1,(~color_array[76-1]+~color_arrayMAN[76-1]),~color_array[76-1]));}, {~e5.background_(Color.white)}););
+/*F5*/(if(obj.value.linlin(0,1,21,108) <= 77, {~f5.background_(Color(1,(~color_array[77-1]+~color_arrayMAN[77-1]),~color_array[77-1]));}, {~f5.background_(Color.white)}););
+/*G5*/(if(obj.value.linlin(0,1,21,108) <= 79, {~g5.background_(Color(1,(~color_array[79-1]+~color_arrayMAN[79-1]),~color_array[79-1]));}, {~g5.background_(Color.white)}););
+/*A5*/(if(obj.value.linlin(0,1,21,108) <= 81, {~a5.background_(Color(1,(~color_array[81-1]+~color_arrayMAN[81-1]),~color_array[81-1]));}, {~a5.background_(Color.white)}););
+/*B5*/(if(obj.value.linlin(0,1,21,108) <= 83, {~b5.background_(Color(1,(~color_array[83-1]+~color_arrayMAN[83-1]),~color_array[83-1]));}, {~b5.background_(Color.white)}););
+/*C6*/(if(obj.value.linlin(0,1,21,108) <= 84, {~c6.background_(Color(1,(~color_array[84-1]+~color_arrayMAN[84-1]),~color_array[84-1]));}, {~c6.background_(Color.white)}););
+/*D6*/(if(obj.value.linlin(0,1,21,108) <= 86, {~d6.background_(Color(1,(~color_array[86-1]+~color_arrayMAN[86-1]),~color_array[86-1]));}, {~d6.background_(Color.white)}););
+/*E6*/(if(obj.value.linlin(0,1,21,108) <= 88, {~e6.background_(Color(1,(~color_array[88-1]+~color_arrayMAN[88-1]),~color_array[88-1]));}, {~e6.background_(Color.white)}););
+/*F6*/(if(obj.value.linlin(0,1,21,108) <= 89, {~f6.background_(Color(1,(~color_array[89-1]+~color_arrayMAN[89-1]),~color_array[89-1]));}, {~f6.background_(Color.white)}););
+/*G6*/(if(obj.value.linlin(0,1,21,108) <= 91, {~g6.background_(Color(1,(~color_array[91-1]+~color_arrayMAN[91-1]),~color_array[91-1]));}, {~g6.background_(Color.white)}););
+/*A6*/(if(obj.value.linlin(0,1,21,108) <= 93, {~a6.background_(Color(1,(~color_array[93-1]+~color_arrayMAN[93-1]),~color_array[93-1]));}, {~a6.background_(Color.white)}););
+/*B6*/(if(obj.value.linlin(0,1,21,108) <= 95, {~b6.background_(Color(1,(~color_array[95-1]+~color_arrayMAN[95-1]),~color_array[95-1]));}, {~b6.background_(Color.white)}););
+/*C7*/(if(obj.value.linlin(0,1,21,108) <= 96, {~c7.background_(Color(1,(~color_array[96-1]+~color_arrayMAN[96-1]),~color_array[96-1]));}, {~c7.background_(Color.white)}););
+/*D7*/(if(obj.value.linlin(0,1,21,108) <= 98, {~d7.background_(Color(1,(~color_array[98-1]+~color_arrayMAN[98-1]),~color_array[98-1]));}, {~d7.background_(Color.white)}););
+/*E7*/(if(obj.value.linlin(0,1,21,108) <= 100, {~e7.background_(Color(1,(~color_array[100-1]+~color_arrayMAN[100-1]),~color_array[100-1]));}, {~e7.background_(Color.white)}););
+/*F7*/(if(obj.value.linlin(0,1,21,108) <= 101, {~f7.background_(Color(1,(~color_array[101-1]+~color_arrayMAN[101-1]),~color_array[101-1]));}, {~f7.background_(Color.white)}););
+/*G7*/(if(obj.value.linlin(0,1,21,108) <= 103, {~g7.background_(Color(1,(~color_array[103-1]+~color_arrayMAN[103-1]),~color_array[103-1]));}, {~g7.background_(Color.white)}););
+/*A7*/(if(obj.value.linlin(0,1,21,108) <= 105, {~a7.background_(Color(1,(~color_array[105-1]+~color_arrayMAN[105-1]),~color_array[105-1]));}, {~a7.background_(Color.white)}););
+/*B7*/(if(obj.value.linlin(0,1,21,108) <= 107, {~b7.background_(Color(1,(~color_array[107-1]+~color_arrayMAN[107-1]),~color_array[107-1]));}, {~b7.background_(Color.white)}););
+/*C8*/(if(obj.value.linlin(0,1,21,108) <= 108, {~c8.background_(Color(1,(~color_array[108-1]+~color_arrayMAN[108-1]),~color_array[108-1]));}, {~c8.background_(Color.white)}););
 
 
 /*
@@ -430,42 +426,42 @@ x.set(\fundamental_note, obj.value.linlin(0,1,21,108););
 /*ASHARP7*/(if(obj.value.linlin(0,1,21,108) <= 106, {~aSHARP7.background_(Color((1-~color_array[106-1])**(0.25),0,0));}, {~aSHARP7.background_(Color.black)}););
 */
 
-			/*ASHARP0*/(if(obj.value.linlin(0,1,21,108) <=22,{if(~color_array[22-1]<1,{~aSHARP0.background_(Color(1,~color_array[22-1],~color_array[22-1]));},{~aSHARP0.background_(Color.black)})},{~aSHARP0.background_(Color.black)}););
-/*CSHARP1*/(if(obj.value.linlin(0,1,21,108) <=25,{if(~color_array[25-1]<1,{~cSHARP1.background_(Color(1,~color_array[25-1],~color_array[25-1]));},{~cSHARP1.background_(Color.black)})},{~cSHARP1.background_(Color.black)}););
-/*DSHARP1*/(if(obj.value.linlin(0,1,21,108) <=27,{if(~color_array[27-1]<1,{~dSHARP1.background_(Color(1,~color_array[27-1],~color_array[27-1]));},{~dSHARP1.background_(Color.black)})},{~dSHARP1.background_(Color.black)}););
-/*FSHARP1*/(if(obj.value.linlin(0,1,21,108) <=30,{if(~color_array[30-1]<1,{~fSHARP1.background_(Color(1,~color_array[30-1],~color_array[30-1]));},{~fSHARP1.background_(Color.black)})},{~fSHARP1.background_(Color.black)}););
-/*GSHARP1*/(if(obj.value.linlin(0,1,21,108) <=32,{if(~color_array[32-1]<1,{~gSHARP1.background_(Color(1,~color_array[32-1],~color_array[32-1]));},{~gSHARP1.background_(Color.black)})},{~gSHARP1.background_(Color.black)}););
-/*ASHARP1*/(if(obj.value.linlin(0,1,21,108) <=34,{if(~color_array[34-1]<1,{~aSHARP1.background_(Color(1,~color_array[34-1],~color_array[34-1]));},{~aSHARP1.background_(Color.black)})},{~aSHARP1.background_(Color.black)}););
-/*CSHARP2*/(if(obj.value.linlin(0,1,21,108) <=37,{if(~color_array[37-1]<1,{~cSHARP2.background_(Color(1,~color_array[37-1],~color_array[37-1]));},{~cSHARP2.background_(Color.black)})},{~cSHARP2.background_(Color.black)}););
-/*DSHARP2*/(if(obj.value.linlin(0,1,21,108) <=39,{if(~color_array[39-1]<1,{~dSHARP2.background_(Color(1,~color_array[39-1],~color_array[39-1]));},{~dSHARP2.background_(Color.black)})},{~dSHARP2.background_(Color.black)}););
-/*FSHARP2*/(if(obj.value.linlin(0,1,21,108) <=42,{if(~color_array[42-1]<1,{~fSHARP2.background_(Color(1,~color_array[42-1],~color_array[42-1]));},{~fSHARP2.background_(Color.black)})},{~fSHARP2.background_(Color.black)}););
-/*GSHARP2*/(if(obj.value.linlin(0,1,21,108) <=44,{if(~color_array[44-1]<1,{~gSHARP2.background_(Color(1,~color_array[44-1],~color_array[44-1]));},{~gSHARP2.background_(Color.black)})},{~gSHARP2.background_(Color.black)}););
-/*ASHARP2*/(if(obj.value.linlin(0,1,21,108) <=46,{if(~color_array[46-1]<1,{~aSHARP2.background_(Color(1,~color_array[46-1],~color_array[46-1]));},{~aSHARP2.background_(Color.black)})},{~aSHARP2.background_(Color.black)}););
-/*CSHARP3*/(if(obj.value.linlin(0,1,21,108) <=49,{if(~color_array[49-1]<1,{~cSHARP3.background_(Color(1,~color_array[49-1],~color_array[49-1]));},{~cSHARP3.background_(Color.black)})},{~cSHARP3.background_(Color.black)}););
-/*DSHARP3*/(if(obj.value.linlin(0,1,21,108) <=51,{if(~color_array[51-1]<1,{~dSHARP3.background_(Color(1,~color_array[51-1],~color_array[51-1]));},{~dSHARP3.background_(Color.black)})},{~dSHARP3.background_(Color.black)}););
-/*FSHARP3*/(if(obj.value.linlin(0,1,21,108) <=54,{if(~color_array[54-1]<1,{~fSHARP3.background_(Color(1,~color_array[54-1],~color_array[54-1]));},{~fSHARP3.background_(Color.black)})},{~fSHARP3.background_(Color.black)}););
-/*GSHARP3*/(if(obj.value.linlin(0,1,21,108) <=56,{if(~color_array[56-1]<1,{~gSHARP3.background_(Color(1,~color_array[56-1],~color_array[56-1]));},{~gSHARP3.background_(Color.black)})},{~gSHARP3.background_(Color.black)}););
-/*ASHARP3*/(if(obj.value.linlin(0,1,21,108) <=58,{if(~color_array[58-1]<1,{~aSHARP3.background_(Color(1,~color_array[58-1],~color_array[58-1]));},{~aSHARP3.background_(Color.black)})},{~aSHARP3.background_(Color.black)}););
-/*CSHARP4*/(if(obj.value.linlin(0,1,21,108) <=61,{if(~color_array[61-1]<1,{~cSHARP4.background_(Color(1,~color_array[61-1],~color_array[61-1]));},{~cSHARP4.background_(Color.black)})},{~cSHARP4.background_(Color.black)}););
-/*DSHARP4*/(if(obj.value.linlin(0,1,21,108) <=63,{if(~color_array[63-1]<1,{~dSHARP4.background_(Color(1,~color_array[63-1],~color_array[63-1]));},{~dSHARP4.background_(Color.black)})},{~dSHARP4.background_(Color.black)}););
-/*FSHARP4*/(if(obj.value.linlin(0,1,21,108) <=66,{if(~color_array[66-1]<1,{~fSHARP4.background_(Color(1,~color_array[66-1],~color_array[66-1]));},{~fSHARP4.background_(Color.black)})},{~fSHARP4.background_(Color.black)}););
-/*GSHARP4*/(if(obj.value.linlin(0,1,21,108) <=68,{if(~color_array[68-1]<1,{~gSHARP4.background_(Color(1,~color_array[68-1],~color_array[68-1]));},{~gSHARP4.background_(Color.black)})},{~gSHARP4.background_(Color.black)}););
-/*ASHARP4*/(if(obj.value.linlin(0,1,21,108) <=70,{if(~color_array[70-1]<1,{~aSHARP4.background_(Color(1,~color_array[70-1],~color_array[70-1]));},{~aSHARP4.background_(Color.black)})},{~aSHARP4.background_(Color.black)}););
-/*CSHARP5*/(if(obj.value.linlin(0,1,21,108) <=73,{if(~color_array[73-1]<1,{~cSHARP5.background_(Color(1,~color_array[73-1],~color_array[73-1]));},{~cSHARP5.background_(Color.black)})},{~cSHARP5.background_(Color.black)}););
-/*DSHARP5*/(if(obj.value.linlin(0,1,21,108) <=75,{if(~color_array[75-1]<1,{~dSHARP5.background_(Color(1,~color_array[75-1],~color_array[75-1]));},{~dSHARP5.background_(Color.black)})},{~dSHARP5.background_(Color.black)}););
-/*FSHARP5*/(if(obj.value.linlin(0,1,21,108) <=78,{if(~color_array[78-1]<1,{~fSHARP5.background_(Color(1,~color_array[78-1],~color_array[78-1]));},{~fSHARP5.background_(Color.black)})},{~fSHARP5.background_(Color.black)}););
-/*GSHARP5*/(if(obj.value.linlin(0,1,21,108) <=80,{if(~color_array[80-1]<1,{~gSHARP5.background_(Color(1,~color_array[80-1],~color_array[80-1]));},{~gSHARP5.background_(Color.black)})},{~gSHARP5.background_(Color.black)}););
-/*ASHARP5*/(if(obj.value.linlin(0,1,21,108) <=82,{if(~color_array[82-1]<1,{~aSHARP5.background_(Color(1,~color_array[82-1],~color_array[82-1]));},{~aSHARP5.background_(Color.black)})},{~aSHARP5.background_(Color.black)}););
-/*CSHARP6*/(if(obj.value.linlin(0,1,21,108) <=85,{if(~color_array[85-1]<1,{~cSHARP6.background_(Color(1,~color_array[85-1],~color_array[85-1]));},{~cSHARP6.background_(Color.black)})},{~cSHARP6.background_(Color.black)}););
-/*DSHARP6*/(if(obj.value.linlin(0,1,21,108) <=87,{if(~color_array[87-1]<1,{~dSHARP6.background_(Color(1,~color_array[87-1],~color_array[87-1]));},{~dSHARP6.background_(Color.black)})},{~dSHARP6.background_(Color.black)}););
-/*FSHARP6*/(if(obj.value.linlin(0,1,21,108) <=90,{if(~color_array[90-1]<1,{~fSHARP6.background_(Color(1,~color_array[90-1],~color_array[90-1]));},{~fSHARP6.background_(Color.black)})},{~fSHARP6.background_(Color.black)}););
-/*GSHARP6*/(if(obj.value.linlin(0,1,21,108) <=92,{if(~color_array[92-1]<1,{~gSHARP6.background_(Color(1,~color_array[92-1],~color_array[92-1]));},{~gSHARP6.background_(Color.black)})},{~gSHARP6.background_(Color.black)}););
-/*ASHARP6*/(if(obj.value.linlin(0,1,21,108) <=94,{if(~color_array[94-1]<1,{~aSHARP6.background_(Color(1,~color_array[94-1],~color_array[94-1]));},{~aSHARP6.background_(Color.black)})},{~aSHARP6.background_(Color.black)}););
-/*CSHARP7*/(if(obj.value.linlin(0,1,21,108) <=97,{if(~color_array[97-1]<1,{~cSHARP7.background_(Color(1,~color_array[97-1],~color_array[97-1]));},{~cSHARP7.background_(Color.black)})},{~cSHARP7.background_(Color.black)}););
-/*DSHARP7*/(if(obj.value.linlin(0,1,21,108) <=99,{if(~color_array[99-1]<1,{~dSHARP7.background_(Color(1,~color_array[99-1],~color_array[99-1]));},{~dSHARP7.background_(Color.black)})},{~dSHARP7.background_(Color.black)}););
-/*FSHARP7*/(if(obj.value.linlin(0,1,21,108) <=102,{if(~color_array[102-1]<1,{~fSHARP7.background_(Color(1,~color_array[102-1],~color_array[102-1]));},{~fSHARP7.background_(Color.black)})},{~fSHARP7.background_(Color.black)}););
-/*GSHARP7*/(if(obj.value.linlin(0,1,21,108) <=104,{if(~color_array[104-1]<1,{~gSHARP7.background_(Color(1,~color_array[104-1],~color_array[104-1]));},{~gSHARP7.background_(Color.black)})},{~gSHARP7.background_(Color.black)}););
-/*ASHARP7*/(if(obj.value.linlin(0,1,21,108) <=106,{if(~color_array[106-1]<1,{~aSHARP7.background_(Color(1,~color_array[106-1],~color_array[106-1]));},{~aSHARP7.background_(Color.black)})},{~aSHARP7.background_(Color.black)}););
+/*ASHARP0*/(if(obj.value.linlin(0,1,21,108) <=22,{if(~color_array[22-1]<1,{~aSHARP0.background_(Color(1,(~color_array[22-1]+~color_arrayMAN[22-1]),~color_array[22-1]));},{~aSHARP0.background_(Color.black)})},{~aSHARP0.background_(Color.black)}););
+/*CSHARP1*/(if(obj.value.linlin(0,1,21,108) <=25,{if(~color_array[25-1]<1,{~cSHARP1.background_(Color(1,(~color_array[25-1]+~color_arrayMAN[25-1]),~color_array[25-1]));},{~cSHARP1.background_(Color.black)})},{~cSHARP1.background_(Color.black)}););
+/*DSHARP1*/(if(obj.value.linlin(0,1,21,108) <=27,{if(~color_array[27-1]<1,{~dSHARP1.background_(Color(1,(~color_array[27-1]+~color_arrayMAN[27-1]),~color_array[27-1]));},{~dSHARP1.background_(Color.black)})},{~dSHARP1.background_(Color.black)}););
+/*FSHARP1*/(if(obj.value.linlin(0,1,21,108) <=30,{if(~color_array[30-1]<1,{~fSHARP1.background_(Color(1,(~color_array[30-1]+~color_arrayMAN[30-1]),~color_array[30-1]));},{~fSHARP1.background_(Color.black)})},{~fSHARP1.background_(Color.black)}););
+/*GSHARP1*/(if(obj.value.linlin(0,1,21,108) <=32,{if(~color_array[32-1]<1,{~gSHARP1.background_(Color(1,(~color_array[32-1]+~color_arrayMAN[32-1]),~color_array[32-1]));},{~gSHARP1.background_(Color.black)})},{~gSHARP1.background_(Color.black)}););
+/*ASHARP1*/(if(obj.value.linlin(0,1,21,108) <=34,{if(~color_array[34-1]<1,{~aSHARP1.background_(Color(1,(~color_array[34-1]+~color_arrayMAN[34-1]),~color_array[34-1]));},{~aSHARP1.background_(Color.black)})},{~aSHARP1.background_(Color.black)}););
+/*CSHARP2*/(if(obj.value.linlin(0,1,21,108) <=37,{if(~color_array[37-1]<1,{~cSHARP2.background_(Color(1,(~color_array[37-1]+~color_arrayMAN[37-1]),~color_array[37-1]));},{~cSHARP2.background_(Color.black)})},{~cSHARP2.background_(Color.black)}););
+/*DSHARP2*/(if(obj.value.linlin(0,1,21,108) <=39,{if(~color_array[39-1]<1,{~dSHARP2.background_(Color(1,(~color_array[39-1]+~color_arrayMAN[39-1]),~color_array[39-1]));},{~dSHARP2.background_(Color.black)})},{~dSHARP2.background_(Color.black)}););
+/*FSHARP2*/(if(obj.value.linlin(0,1,21,108) <=42,{if(~color_array[42-1]<1,{~fSHARP2.background_(Color(1,(~color_array[42-1]+~color_arrayMAN[42-1]),~color_array[42-1]));},{~fSHARP2.background_(Color.black)})},{~fSHARP2.background_(Color.black)}););
+/*GSHARP2*/(if(obj.value.linlin(0,1,21,108) <=44,{if(~color_array[44-1]<1,{~gSHARP2.background_(Color(1,(~color_array[44-1]+~color_arrayMAN[44-1]),~color_array[44-1]));},{~gSHARP2.background_(Color.black)})},{~gSHARP2.background_(Color.black)}););
+/*ASHARP2*/(if(obj.value.linlin(0,1,21,108) <=46,{if(~color_array[46-1]<1,{~aSHARP2.background_(Color(1,(~color_array[46-1]+~color_arrayMAN[46-1]),~color_array[46-1]));},{~aSHARP2.background_(Color.black)})},{~aSHARP2.background_(Color.black)}););
+/*CSHARP3*/(if(obj.value.linlin(0,1,21,108) <=49,{if(~color_array[49-1]<1,{~cSHARP3.background_(Color(1,(~color_array[49-1]+~color_arrayMAN[49-1]),~color_array[49-1]));},{~cSHARP3.background_(Color.black)})},{~cSHARP3.background_(Color.black)}););
+/*DSHARP3*/(if(obj.value.linlin(0,1,21,108) <=51,{if(~color_array[51-1]<1,{~dSHARP3.background_(Color(1,(~color_array[51-1]+~color_arrayMAN[51-1]),~color_array[51-1]));},{~dSHARP3.background_(Color.black)})},{~dSHARP3.background_(Color.black)}););
+/*FSHARP3*/(if(obj.value.linlin(0,1,21,108) <=54,{if(~color_array[54-1]<1,{~fSHARP3.background_(Color(1,(~color_array[54-1]+~color_arrayMAN[54-1]),~color_array[54-1]));},{~fSHARP3.background_(Color.black)})},{~fSHARP3.background_(Color.black)}););
+/*GSHARP3*/(if(obj.value.linlin(0,1,21,108) <=56,{if(~color_array[56-1]<1,{~gSHARP3.background_(Color(1,(~color_array[56-1]+~color_arrayMAN[56-1]),~color_array[56-1]));},{~gSHARP3.background_(Color.black)})},{~gSHARP3.background_(Color.black)}););
+/*ASHARP3*/(if(obj.value.linlin(0,1,21,108) <=58,{if(~color_array[58-1]<1,{~aSHARP3.background_(Color(1,(~color_array[58-1]+~color_arrayMAN[58-1]),~color_array[58-1]));},{~aSHARP3.background_(Color.black)})},{~aSHARP3.background_(Color.black)}););
+/*CSHARP4*/(if(obj.value.linlin(0,1,21,108) <=61,{if(~color_array[61-1]<1,{~cSHARP4.background_(Color(1,(~color_array[61-1]+~color_arrayMAN[61-1]),~color_array[61-1]));},{~cSHARP4.background_(Color.black)})},{~cSHARP4.background_(Color.black)}););
+/*DSHARP4*/(if(obj.value.linlin(0,1,21,108) <=63,{if(~color_array[63-1]<1,{~dSHARP4.background_(Color(1,(~color_array[63-1]+~color_arrayMAN[63-1]),~color_array[63-1]));},{~dSHARP4.background_(Color.black)})},{~dSHARP4.background_(Color.black)}););
+/*FSHARP4*/(if(obj.value.linlin(0,1,21,108) <=66,{if(~color_array[66-1]<1,{~fSHARP4.background_(Color(1,(~color_array[66-1]+~color_arrayMAN[66-1]),~color_array[66-1]));},{~fSHARP4.background_(Color.black)})},{~fSHARP4.background_(Color.black)}););
+/*GSHARP4*/(if(obj.value.linlin(0,1,21,108) <=68,{if(~color_array[68-1]<1,{~gSHARP4.background_(Color(1,(~color_array[68-1]+~color_arrayMAN[68-1]),~color_array[68-1]));},{~gSHARP4.background_(Color.black)})},{~gSHARP4.background_(Color.black)}););
+/*ASHARP4*/(if(obj.value.linlin(0,1,21,108) <=70,{if(~color_array[70-1]<1,{~aSHARP4.background_(Color(1,(~color_array[70-1]+~color_arrayMAN[70-1]),~color_array[70-1]));},{~aSHARP4.background_(Color.black)})},{~aSHARP4.background_(Color.black)}););
+/*CSHARP5*/(if(obj.value.linlin(0,1,21,108) <=73,{if(~color_array[73-1]<1,{~cSHARP5.background_(Color(1,(~color_array[73-1]+~color_arrayMAN[73-1]),~color_array[73-1]));},{~cSHARP5.background_(Color.black)})},{~cSHARP5.background_(Color.black)}););
+/*DSHARP5*/(if(obj.value.linlin(0,1,21,108) <=75,{if(~color_array[75-1]<1,{~dSHARP5.background_(Color(1,(~color_array[75-1]+~color_arrayMAN[75-1]),~color_array[75-1]));},{~dSHARP5.background_(Color.black)})},{~dSHARP5.background_(Color.black)}););
+/*FSHARP5*/(if(obj.value.linlin(0,1,21,108) <=78,{if(~color_array[78-1]<1,{~fSHARP5.background_(Color(1,(~color_array[78-1]+~color_arrayMAN[78-1]),~color_array[78-1]));},{~fSHARP5.background_(Color.black)})},{~fSHARP5.background_(Color.black)}););
+/*GSHARP5*/(if(obj.value.linlin(0,1,21,108) <=80,{if(~color_array[80-1]<1,{~gSHARP5.background_(Color(1,(~color_array[80-1]+~color_arrayMAN[80-1]),~color_array[80-1]));},{~gSHARP5.background_(Color.black)})},{~gSHARP5.background_(Color.black)}););
+/*ASHARP5*/(if(obj.value.linlin(0,1,21,108) <=82,{if(~color_array[82-1]<1,{~aSHARP5.background_(Color(1,(~color_array[82-1]+~color_arrayMAN[82-1]),~color_array[82-1]));},{~aSHARP5.background_(Color.black)})},{~aSHARP5.background_(Color.black)}););
+/*CSHARP6*/(if(obj.value.linlin(0,1,21,108) <=85,{if(~color_array[85-1]<1,{~cSHARP6.background_(Color(1,(~color_array[85-1]+~color_arrayMAN[85-1]),~color_array[85-1]));},{~cSHARP6.background_(Color.black)})},{~cSHARP6.background_(Color.black)}););
+/*DSHARP6*/(if(obj.value.linlin(0,1,21,108) <=87,{if(~color_array[87-1]<1,{~dSHARP6.background_(Color(1,(~color_array[87-1]+~color_arrayMAN[87-1]),~color_array[87-1]));},{~dSHARP6.background_(Color.black)})},{~dSHARP6.background_(Color.black)}););
+/*FSHARP6*/(if(obj.value.linlin(0,1,21,108) <=90,{if(~color_array[90-1]<1,{~fSHARP6.background_(Color(1,(~color_array[90-1]+~color_arrayMAN[90-1]),~color_array[90-1]));},{~fSHARP6.background_(Color.black)})},{~fSHARP6.background_(Color.black)}););
+/*GSHARP6*/(if(obj.value.linlin(0,1,21,108) <=92,{if(~color_array[92-1]<1,{~gSHARP6.background_(Color(1,(~color_array[92-1]+~color_arrayMAN[92-1]),~color_array[92-1]));},{~gSHARP6.background_(Color.black)})},{~gSHARP6.background_(Color.black)}););
+/*ASHARP6*/(if(obj.value.linlin(0,1,21,108) <=94,{if(~color_array[94-1]<1,{~aSHARP6.background_(Color(1,(~color_array[94-1]+~color_arrayMAN[94-1]),~color_array[94-1]));},{~aSHARP6.background_(Color.black)})},{~aSHARP6.background_(Color.black)}););
+/*CSHARP7*/(if(obj.value.linlin(0,1,21,108) <=97,{if(~color_array[97-1]<1,{~cSHARP7.background_(Color(1,(~color_array[97-1]+~color_arrayMAN[97-1]),~color_array[97-1]));},{~cSHARP7.background_(Color.black)})},{~cSHARP7.background_(Color.black)}););
+/*DSHARP7*/(if(obj.value.linlin(0,1,21,108) <=99,{if(~color_array[99-1]<1,{~dSHARP7.background_(Color(1,(~color_array[99-1]+~color_arrayMAN[99-1]),~color_array[99-1]));},{~dSHARP7.background_(Color.black)})},{~dSHARP7.background_(Color.black)}););
+/*FSHARP7*/(if(obj.value.linlin(0,1,21,108) <=102,{if(~color_array[102-1]<1,{~fSHARP7.background_(Color(1,(~color_array[102-1]+~color_arrayMAN[102-1]),~color_array[102-1]));},{~fSHARP7.background_(Color.black)})},{~fSHARP7.background_(Color.black)}););
+/*GSHARP7*/(if(obj.value.linlin(0,1,21,108) <=104,{if(~color_array[104-1]<1,{~gSHARP7.background_(Color(1,(~color_array[104-1]+~color_arrayMAN[104-1]),~color_array[104-1]));},{~gSHARP7.background_(Color.black)})},{~gSHARP7.background_(Color.black)}););
+/*ASHARP7*/(if(obj.value.linlin(0,1,21,108) <=106,{if(~color_array[106-1]<1,{~aSHARP7.background_(Color(1,(~color_array[106-1]+~color_arrayMAN[106-1]),~color_array[106-1]));},{~aSHARP7.background_(Color.black)})},{~aSHARP7.background_(Color.black)}););
 
 
 /*
@@ -530,6 +526,27 @@ x.set(\fundamental_note, obj.value.linlin(0,1,21,108););
 ~color_array[~fslider.value.linlin(0,1,21,108)-1+46]=(~harmonics_array[13]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[13])))-(~manipulated_harmonic[13]*~mulslider.value.linlin(0,1,0,1););
 ~color_array[~fslider.value.linlin(0,1,21,108)-1+47]=(~harmonics_array[14]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[14])))-(~manipulated_harmonic[14]*~mulslider.value.linlin(0,1,0,1););
 ~color_array[~fslider.value.linlin(0,1,21,108)-1+48]=(~harmonics_array[15]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[15])))-(~manipulated_harmonic[15]*~mulslider.value.linlin(0,1,0,1););
+
+
+
+			~color_arrayMAN = Array.fill(200,0);
+~color_arrayMAN[~fslider.value.linlin(0,1,21,108)-1+0]=~manipulated_harmonic[0]*0.5*~mulslider.value.linlin(0,1,0,1);
+~color_arrayMAN[~fslider.value.linlin(0,1,21,108)-1+12]=~manipulated_harmonic[1]*0.5*~mulslider.value.linlin(0,1,0,1);
+~color_arrayMAN[~fslider.value.linlin(0,1,21,108)-1+19]=~manipulated_harmonic[2]*0.5*~mulslider.value.linlin(0,1,0,1);
+~color_arrayMAN[~fslider.value.linlin(0,1,21,108)-1+24]=~manipulated_harmonic[3]*0.5*~mulslider.value.linlin(0,1,0,1);
+~color_arrayMAN[~fslider.value.linlin(0,1,21,108)-1+28]=~manipulated_harmonic[4]*0.5*~mulslider.value.linlin(0,1,0,1);
+~color_arrayMAN[~fslider.value.linlin(0,1,21,108)-1+31]=~manipulated_harmonic[5]*0.5*~mulslider.value.linlin(0,1,0,1);
+~color_arrayMAN[~fslider.value.linlin(0,1,21,108)-1+34]=~manipulated_harmonic[6]*0.5*~mulslider.value.linlin(0,1,0,1);
+~color_arrayMAN[~fslider.value.linlin(0,1,21,108)-1+36]=~manipulated_harmonic[7]*0.5*~mulslider.value.linlin(0,1,0,1);
+~color_arrayMAN[~fslider.value.linlin(0,1,21,108)-1+38]=~manipulated_harmonic[8]*0.5*~mulslider.value.linlin(0,1,0,1);
+~color_arrayMAN[~fslider.value.linlin(0,1,21,108)-1+40]=~manipulated_harmonic[9]*0.5*~mulslider.value.linlin(0,1,0,1);
+~color_arrayMAN[~fslider.value.linlin(0,1,21,108)-1+41]=~manipulated_harmonic[10]*0.5*~mulslider.value.linlin(0,1,0,1);
+~color_arrayMAN[~fslider.value.linlin(0,1,21,108)-1+43]=~manipulated_harmonic[11]*0.5*~mulslider.value.linlin(0,1,0,1);
+~color_arrayMAN[~fslider.value.linlin(0,1,21,108)-1+44]=~manipulated_harmonic[12]*0.5*~mulslider.value.linlin(0,1,0,1);
+~color_arrayMAN[~fslider.value.linlin(0,1,21,108)-1+46]=~manipulated_harmonic[13]*0.5*~mulslider.value.linlin(0,1,0,1);
+~color_arrayMAN[~fslider.value.linlin(0,1,21,108)-1+47]=~manipulated_harmonic[14]*0.5*~mulslider.value.linlin(0,1,0,1);
+~color_arrayMAN[~fslider.value.linlin(0,1,21,108)-1+48]=~manipulated_harmonic[15]*0.5*~mulslider.value.linlin(0,1,0,1);
+
 		);
 
 
@@ -539,58 +556,58 @@ s.makeBundle(10.0, //sound delay
 
 				(if(~key_vis.value == 1, {
 
-/*A0*/(if(obj.value.linlin(0,1,21,108) <= 21, {~a0.background_(Color(1,~color_array[21-1],~color_array[21-1]));}, {~a0.background_(Color.white)}););
-/*B0*/(if(obj.value.linlin(0,1,21,108) <= 23, {~b0.background_(Color(1,~color_array[23-1],~color_array[23-1]));}, {~b0.background_(Color.white)}););
-/*C1*/(if(obj.value.linlin(0,1,21,108) <= 24, {~c1.background_(Color(1,~color_array[24-1],~color_array[24-1]));}, {~c1.background_(Color.white)}););
-/*D1*/(if(obj.value.linlin(0,1,21,108) <= 26, {~d1.background_(Color(1,~color_array[26-1],~color_array[26-1]));}, {~d1.background_(Color.white)}););
-/*E1*/(if(obj.value.linlin(0,1,21,108) <= 28, {~e1.background_(Color(1,~color_array[28-1],~color_array[28-1]));}, {~e1.background_(Color.white)}););
-/*F1*/(if(obj.value.linlin(0,1,21,108) <= 29, {~f1.background_(Color(1,~color_array[29-1],~color_array[29-1]));}, {~f1.background_(Color.white)}););
-/*G1*/(if(obj.value.linlin(0,1,21,108) <= 31, {~g1.background_(Color(1,~color_array[31-1],~color_array[31-1]));}, {~g1.background_(Color.white)}););
-/*A1*/(if(obj.value.linlin(0,1,21,108) <= 33, {~a1.background_(Color(1,~color_array[33-1],~color_array[33-1]));}, {~a1.background_(Color.white)}););
-/*B1*/(if(obj.value.linlin(0,1,21,108) <= 35, {~b1.background_(Color(1,~color_array[35-1],~color_array[35-1]));}, {~b1.background_(Color.white)}););
-/*C2*/(if(obj.value.linlin(0,1,21,108) <= 36, {~c2.background_(Color(1,~color_array[36-1],~color_array[36-1]));}, {~c2.background_(Color.white)}););
-/*D2*/(if(obj.value.linlin(0,1,21,108) <= 38, {~d2.background_(Color(1,~color_array[38-1],~color_array[38-1]));}, {~d2.background_(Color.white)}););
-/*E2*/(if(obj.value.linlin(0,1,21,108) <= 40, {~e2.background_(Color(1,~color_array[40-1],~color_array[40-1]));}, {~e2.background_(Color.white)}););
-/*F2*/(if(obj.value.linlin(0,1,21,108) <= 41, {~f2.background_(Color(1,~color_array[41-1],~color_array[41-1]));}, {~f2.background_(Color.white)}););
-/*G2*/(if(obj.value.linlin(0,1,21,108) <= 43, {~g2.background_(Color(1,~color_array[43-1],~color_array[43-1]));}, {~g2.background_(Color.white)}););
-/*A2*/(if(obj.value.linlin(0,1,21,108) <= 45, {~a2.background_(Color(1,~color_array[45-1],~color_array[45-1]));}, {~a2.background_(Color.white)}););
-/*B2*/(if(obj.value.linlin(0,1,21,108) <= 47, {~b2.background_(Color(1,~color_array[47-1],~color_array[47-1]));}, {~b2.background_(Color.white)}););
-/*C3*/(if(obj.value.linlin(0,1,21,108) <= 48, {~c3.background_(Color(1,~color_array[48-1],~color_array[48-1]));}, {~c3.background_(Color.white)}););
-/*D3*/(if(obj.value.linlin(0,1,21,108) <= 50, {~d3.background_(Color(1,~color_array[50-1],~color_array[50-1]));}, {~d3.background_(Color.white)}););
-/*E3*/(if(obj.value.linlin(0,1,21,108) <= 52, {~e3.background_(Color(1,~color_array[52-1],~color_array[52-1]));}, {~e3.background_(Color.white)}););
-/*F3*/(if(obj.value.linlin(0,1,21,108) <= 53, {~f3.background_(Color(1,~color_array[53-1],~color_array[53-1]));}, {~f3.background_(Color.white)}););
-/*G3*/(if(obj.value.linlin(0,1,21,108) <= 55, {~g3.background_(Color(1,~color_array[55-1],~color_array[55-1]));}, {~g3.background_(Color.white)}););
-/*A3*/(if(obj.value.linlin(0,1,21,108) <= 57, {~a3.background_(Color(1,~color_array[57-1],~color_array[57-1]));}, {~a3.background_(Color.white)}););
-/*B3*/(if(obj.value.linlin(0,1,21,108) <= 59, {~b3.background_(Color(1,~color_array[59-1],~color_array[59-1]));}, {~b3.background_(Color.white)}););
-/*C4*/(if(obj.value.linlin(0,1,21,108) <= 60, {~c4.background_(Color(1,~color_array[60-1],~color_array[60-1]));}, {~c4.background_(Color.white)}););
-/*D4*/(if(obj.value.linlin(0,1,21,108) <= 62, {~d4.background_(Color(1,~color_array[62-1],~color_array[62-1]));}, {~d4.background_(Color.white)}););
-/*E4*/(if(obj.value.linlin(0,1,21,108) <= 64, {~e4.background_(Color(1,~color_array[64-1],~color_array[64-1]));}, {~e4.background_(Color.white)}););
-/*F4*/(if(obj.value.linlin(0,1,21,108) <= 65, {~f4.background_(Color(1,~color_array[65-1],~color_array[65-1]));}, {~f4.background_(Color.white)}););
-/*G4*/(if(obj.value.linlin(0,1,21,108) <= 67, {~g4.background_(Color(1,~color_array[67-1],~color_array[67-1]));}, {~g4.background_(Color.white)}););
-/*A4*/(if(obj.value.linlin(0,1,21,108) <= 69, {~a4.background_(Color(1,~color_array[69-1],~color_array[69-1]));}, {~a4.background_(Color.white)}););
-/*B4*/(if(obj.value.linlin(0,1,21,108) <= 71, {~b4.background_(Color(1,~color_array[71-1],~color_array[71-1]));}, {~b4.background_(Color.white)}););
-/*C5*/(if(obj.value.linlin(0,1,21,108) <= 72, {~c5.background_(Color(1,~color_array[72-1],~color_array[72-1]));}, {~c5.background_(Color.white)}););
-/*D5*/(if(obj.value.linlin(0,1,21,108) <= 74, {~d5.background_(Color(1,~color_array[74-1],~color_array[74-1]));}, {~d5.background_(Color.white)}););
-/*E5*/(if(obj.value.linlin(0,1,21,108) <= 76, {~e5.background_(Color(1,~color_array[76-1],~color_array[76-1]));}, {~e5.background_(Color.white)}););
-/*F5*/(if(obj.value.linlin(0,1,21,108) <= 77, {~f5.background_(Color(1,~color_array[77-1],~color_array[77-1]));}, {~f5.background_(Color.white)}););
-/*G5*/(if(obj.value.linlin(0,1,21,108) <= 79, {~g5.background_(Color(1,~color_array[79-1],~color_array[79-1]));}, {~g5.background_(Color.white)}););
-/*A5*/(if(obj.value.linlin(0,1,21,108) <= 81, {~a5.background_(Color(1,~color_array[81-1],~color_array[81-1]));}, {~a5.background_(Color.white)}););
-/*B5*/(if(obj.value.linlin(0,1,21,108) <= 83, {~b5.background_(Color(1,~color_array[83-1],~color_array[83-1]));}, {~b5.background_(Color.white)}););
-/*C6*/(if(obj.value.linlin(0,1,21,108) <= 84, {~c6.background_(Color(1,~color_array[84-1],~color_array[84-1]));}, {~c6.background_(Color.white)}););
-/*D6*/(if(obj.value.linlin(0,1,21,108) <= 86, {~d6.background_(Color(1,~color_array[86-1],~color_array[86-1]));}, {~d6.background_(Color.white)}););
-/*E6*/(if(obj.value.linlin(0,1,21,108) <= 88, {~e6.background_(Color(1,~color_array[88-1],~color_array[88-1]));}, {~e6.background_(Color.white)}););
-/*F6*/(if(obj.value.linlin(0,1,21,108) <= 89, {~f6.background_(Color(1,~color_array[89-1],~color_array[89-1]));}, {~f6.background_(Color.white)}););
-/*G6*/(if(obj.value.linlin(0,1,21,108) <= 91, {~g6.background_(Color(1,~color_array[91-1],~color_array[91-1]));}, {~g6.background_(Color.white)}););
-/*A6*/(if(obj.value.linlin(0,1,21,108) <= 93, {~a6.background_(Color(1,~color_array[93-1],~color_array[93-1]));}, {~a6.background_(Color.white)}););
-/*B6*/(if(obj.value.linlin(0,1,21,108) <= 95, {~b6.background_(Color(1,~color_array[95-1],~color_array[95-1]));}, {~b6.background_(Color.white)}););
-/*C7*/(if(obj.value.linlin(0,1,21,108) <= 96, {~c7.background_(Color(1,~color_array[96-1],~color_array[96-1]));}, {~c7.background_(Color.white)}););
-/*D7*/(if(obj.value.linlin(0,1,21,108) <= 98, {~d7.background_(Color(1,~color_array[98-1],~color_array[98-1]));}, {~d7.background_(Color.white)}););
-/*E7*/(if(obj.value.linlin(0,1,21,108) <= 100, {~e7.background_(Color(1,~color_array[100-1],~color_array[100-1]));}, {~e7.background_(Color.white)}););
-/*F7*/(if(obj.value.linlin(0,1,21,108) <= 101, {~f7.background_(Color(1,~color_array[101-1],~color_array[101-1]));}, {~f7.background_(Color.white)}););
-/*G7*/(if(obj.value.linlin(0,1,21,108) <= 103, {~g7.background_(Color(1,~color_array[103-1],~color_array[103-1]));}, {~g7.background_(Color.white)}););
-/*A7*/(if(obj.value.linlin(0,1,21,108) <= 105, {~a7.background_(Color(1,~color_array[105-1],~color_array[105-1]));}, {~a7.background_(Color.white)}););
-/*B7*/(if(obj.value.linlin(0,1,21,108) <= 107, {~b7.background_(Color(1,~color_array[107-1],~color_array[107-1]));}, {~b7.background_(Color.white)}););
-/*C8*/(if(obj.value.linlin(0,1,21,108) <= 108, {~c8.background_(Color(1,~color_array[108-1],~color_array[108-1]));}, {~c8.background_(Color.white)}););
+/*A0*/(if(obj.value.linlin(0,1,21,108) <= 21, {~a0.background_(Color(1,(~color_array[21-1]+~color_arrayMAN[21-1]),~color_array[21-1]));}, {~a0.background_(Color.white)}););
+/*B0*/(if(obj.value.linlin(0,1,21,108) <= 23, {~b0.background_(Color(1,(~color_array[23-1]+~color_arrayMAN[23-1]),~color_array[23-1]));}, {~b0.background_(Color.white)}););
+/*C1*/(if(obj.value.linlin(0,1,21,108) <= 24, {~c1.background_(Color(1,(~color_array[24-1]+~color_arrayMAN[24-1]),~color_array[24-1]));}, {~c1.background_(Color.white)}););
+/*D1*/(if(obj.value.linlin(0,1,21,108) <= 26, {~d1.background_(Color(1,(~color_array[26-1]+~color_arrayMAN[26-1]),~color_array[26-1]));}, {~d1.background_(Color.white)}););
+/*E1*/(if(obj.value.linlin(0,1,21,108) <= 28, {~e1.background_(Color(1,(~color_array[28-1]+~color_arrayMAN[28-1]),~color_array[28-1]));}, {~e1.background_(Color.white)}););
+/*F1*/(if(obj.value.linlin(0,1,21,108) <= 29, {~f1.background_(Color(1,(~color_array[29-1]+~color_arrayMAN[29-1]),~color_array[29-1]));}, {~f1.background_(Color.white)}););
+/*G1*/(if(obj.value.linlin(0,1,21,108) <= 31, {~g1.background_(Color(1,(~color_array[31-1]+~color_arrayMAN[31-1]),~color_array[31-1]));}, {~g1.background_(Color.white)}););
+/*A1*/(if(obj.value.linlin(0,1,21,108) <= 33, {~a1.background_(Color(1,(~color_array[33-1]+~color_arrayMAN[33-1]),~color_array[33-1]));}, {~a1.background_(Color.white)}););
+/*B1*/(if(obj.value.linlin(0,1,21,108) <= 35, {~b1.background_(Color(1,(~color_array[35-1]+~color_arrayMAN[35-1]),~color_array[35-1]));}, {~b1.background_(Color.white)}););
+/*C2*/(if(obj.value.linlin(0,1,21,108) <= 36, {~c2.background_(Color(1,(~color_array[36-1]+~color_arrayMAN[36-1]),~color_array[36-1]));}, {~c2.background_(Color.white)}););
+/*D2*/(if(obj.value.linlin(0,1,21,108) <= 38, {~d2.background_(Color(1,(~color_array[38-1]+~color_arrayMAN[38-1]),~color_array[38-1]));}, {~d2.background_(Color.white)}););
+/*E2*/(if(obj.value.linlin(0,1,21,108) <= 40, {~e2.background_(Color(1,(~color_array[40-1]+~color_arrayMAN[40-1]),~color_array[40-1]));}, {~e2.background_(Color.white)}););
+/*F2*/(if(obj.value.linlin(0,1,21,108) <= 41, {~f2.background_(Color(1,(~color_array[41-1]+~color_arrayMAN[41-1]),~color_array[41-1]));}, {~f2.background_(Color.white)}););
+/*G2*/(if(obj.value.linlin(0,1,21,108) <= 43, {~g2.background_(Color(1,(~color_array[43-1]+~color_arrayMAN[43-1]),~color_array[43-1]));}, {~g2.background_(Color.white)}););
+/*A2*/(if(obj.value.linlin(0,1,21,108) <= 45, {~a2.background_(Color(1,(~color_array[45-1]+~color_arrayMAN[45-1]),~color_array[45-1]));}, {~a2.background_(Color.white)}););
+/*B2*/(if(obj.value.linlin(0,1,21,108) <= 47, {~b2.background_(Color(1,(~color_array[47-1]+~color_arrayMAN[47-1]),~color_array[47-1]));}, {~b2.background_(Color.white)}););
+/*C3*/(if(obj.value.linlin(0,1,21,108) <= 48, {~c3.background_(Color(1,(~color_array[48-1]+~color_arrayMAN[48-1]),~color_array[48-1]));}, {~c3.background_(Color.white)}););
+/*D3*/(if(obj.value.linlin(0,1,21,108) <= 50, {~d3.background_(Color(1,(~color_array[50-1]+~color_arrayMAN[50-1]),~color_array[50-1]));}, {~d3.background_(Color.white)}););
+/*E3*/(if(obj.value.linlin(0,1,21,108) <= 52, {~e3.background_(Color(1,(~color_array[52-1]+~color_arrayMAN[52-1]),~color_array[52-1]));}, {~e3.background_(Color.white)}););
+/*F3*/(if(obj.value.linlin(0,1,21,108) <= 53, {~f3.background_(Color(1,(~color_array[53-1]+~color_arrayMAN[53-1]),~color_array[53-1]));}, {~f3.background_(Color.white)}););
+/*G3*/(if(obj.value.linlin(0,1,21,108) <= 55, {~g3.background_(Color(1,(~color_array[55-1]+~color_arrayMAN[55-1]),~color_array[55-1]));}, {~g3.background_(Color.white)}););
+/*A3*/(if(obj.value.linlin(0,1,21,108) <= 57, {~a3.background_(Color(1,(~color_array[57-1]+~color_arrayMAN[57-1]),~color_array[57-1]));}, {~a3.background_(Color.white)}););
+/*B3*/(if(obj.value.linlin(0,1,21,108) <= 59, {~b3.background_(Color(1,(~color_array[59-1]+~color_arrayMAN[59-1]),~color_array[59-1]));}, {~b3.background_(Color.white)}););
+/*C4*/(if(obj.value.linlin(0,1,21,108) <= 60, {~c4.background_(Color(1,(~color_array[60-1]+~color_arrayMAN[60-1]),~color_array[60-1]));}, {~c4.background_(Color.white)}););
+/*D4*/(if(obj.value.linlin(0,1,21,108) <= 62, {~d4.background_(Color(1,(~color_array[62-1]+~color_arrayMAN[62-1]),~color_array[62-1]));}, {~d4.background_(Color.white)}););
+/*E4*/(if(obj.value.linlin(0,1,21,108) <= 64, {~e4.background_(Color(1,(~color_array[64-1]+~color_arrayMAN[64-1]),~color_array[64-1]));}, {~e4.background_(Color.white)}););
+/*F4*/(if(obj.value.linlin(0,1,21,108) <= 65, {~f4.background_(Color(1,(~color_array[65-1]+~color_arrayMAN[65-1]),~color_array[65-1]));}, {~f4.background_(Color.white)}););
+/*G4*/(if(obj.value.linlin(0,1,21,108) <= 67, {~g4.background_(Color(1,(~color_array[67-1]+~color_arrayMAN[67-1]),~color_array[67-1]));}, {~g4.background_(Color.white)}););
+/*A4*/(if(obj.value.linlin(0,1,21,108) <= 69, {~a4.background_(Color(1,(~color_array[69-1]+~color_arrayMAN[69-1]),~color_array[69-1]));}, {~a4.background_(Color.white)}););
+/*B4*/(if(obj.value.linlin(0,1,21,108) <= 71, {~b4.background_(Color(1,(~color_array[71-1]+~color_arrayMAN[71-1]),~color_array[71-1]));}, {~b4.background_(Color.white)}););
+/*C5*/(if(obj.value.linlin(0,1,21,108) <= 72, {~c5.background_(Color(1,(~color_array[72-1]+~color_arrayMAN[72-1]),~color_array[72-1]));}, {~c5.background_(Color.white)}););
+/*D5*/(if(obj.value.linlin(0,1,21,108) <= 74, {~d5.background_(Color(1,(~color_array[74-1]+~color_arrayMAN[74-1]),~color_array[74-1]));}, {~d5.background_(Color.white)}););
+/*E5*/(if(obj.value.linlin(0,1,21,108) <= 76, {~e5.background_(Color(1,(~color_array[76-1]+~color_arrayMAN[76-1]),~color_array[76-1]));}, {~e5.background_(Color.white)}););
+/*F5*/(if(obj.value.linlin(0,1,21,108) <= 77, {~f5.background_(Color(1,(~color_array[77-1]+~color_arrayMAN[77-1]),~color_array[77-1]));}, {~f5.background_(Color.white)}););
+/*G5*/(if(obj.value.linlin(0,1,21,108) <= 79, {~g5.background_(Color(1,(~color_array[79-1]+~color_arrayMAN[79-1]),~color_array[79-1]));}, {~g5.background_(Color.white)}););
+/*A5*/(if(obj.value.linlin(0,1,21,108) <= 81, {~a5.background_(Color(1,(~color_array[81-1]+~color_arrayMAN[81-1]),~color_array[81-1]));}, {~a5.background_(Color.white)}););
+/*B5*/(if(obj.value.linlin(0,1,21,108) <= 83, {~b5.background_(Color(1,(~color_array[83-1]+~color_arrayMAN[83-1]),~color_array[83-1]));}, {~b5.background_(Color.white)}););
+/*C6*/(if(obj.value.linlin(0,1,21,108) <= 84, {~c6.background_(Color(1,(~color_array[84-1]+~color_arrayMAN[84-1]),~color_array[84-1]));}, {~c6.background_(Color.white)}););
+/*D6*/(if(obj.value.linlin(0,1,21,108) <= 86, {~d6.background_(Color(1,(~color_array[86-1]+~color_arrayMAN[86-1]),~color_array[86-1]));}, {~d6.background_(Color.white)}););
+/*E6*/(if(obj.value.linlin(0,1,21,108) <= 88, {~e6.background_(Color(1,(~color_array[88-1]+~color_arrayMAN[88-1]),~color_array[88-1]));}, {~e6.background_(Color.white)}););
+/*F6*/(if(obj.value.linlin(0,1,21,108) <= 89, {~f6.background_(Color(1,(~color_array[89-1]+~color_arrayMAN[89-1]),~color_array[89-1]));}, {~f6.background_(Color.white)}););
+/*G6*/(if(obj.value.linlin(0,1,21,108) <= 91, {~g6.background_(Color(1,(~color_array[91-1]+~color_arrayMAN[91-1]),~color_array[91-1]));}, {~g6.background_(Color.white)}););
+/*A6*/(if(obj.value.linlin(0,1,21,108) <= 93, {~a6.background_(Color(1,(~color_array[93-1]+~color_arrayMAN[93-1]),~color_array[93-1]));}, {~a6.background_(Color.white)}););
+/*B6*/(if(obj.value.linlin(0,1,21,108) <= 95, {~b6.background_(Color(1,(~color_array[95-1]+~color_arrayMAN[95-1]),~color_array[95-1]));}, {~b6.background_(Color.white)}););
+/*C7*/(if(obj.value.linlin(0,1,21,108) <= 96, {~c7.background_(Color(1,(~color_array[96-1]+~color_arrayMAN[96-1]),~color_array[96-1]));}, {~c7.background_(Color.white)}););
+/*D7*/(if(obj.value.linlin(0,1,21,108) <= 98, {~d7.background_(Color(1,(~color_array[98-1]+~color_arrayMAN[98-1]),~color_array[98-1]));}, {~d7.background_(Color.white)}););
+/*E7*/(if(obj.value.linlin(0,1,21,108) <= 100, {~e7.background_(Color(1,(~color_array[100-1]+~color_arrayMAN[100-1]),~color_array[100-1]));}, {~e7.background_(Color.white)}););
+/*F7*/(if(obj.value.linlin(0,1,21,108) <= 101, {~f7.background_(Color(1,(~color_array[101-1]+~color_arrayMAN[101-1]),~color_array[101-1]));}, {~f7.background_(Color.white)}););
+/*G7*/(if(obj.value.linlin(0,1,21,108) <= 103, {~g7.background_(Color(1,(~color_array[103-1]+~color_arrayMAN[103-1]),~color_array[103-1]));}, {~g7.background_(Color.white)}););
+/*A7*/(if(obj.value.linlin(0,1,21,108) <= 105, {~a7.background_(Color(1,(~color_array[105-1]+~color_arrayMAN[105-1]),~color_array[105-1]));}, {~a7.background_(Color.white)}););
+/*B7*/(if(obj.value.linlin(0,1,21,108) <= 107, {~b7.background_(Color(1,(~color_array[107-1]+~color_arrayMAN[107-1]),~color_array[107-1]));}, {~b7.background_(Color.white)}););
+/*C8*/(if(obj.value.linlin(0,1,21,108) <= 108, {~c8.background_(Color(1,(~color_array[108-1]+~color_arrayMAN[108-1]),~color_array[108-1]));}, {~c8.background_(Color.white)}););
 
 
 /*
@@ -632,42 +649,42 @@ s.makeBundle(10.0, //sound delay
 /*ASHARP7*/(if(obj.value.linlin(0,1,21,108) <= 106, {~aSHARP7.background_(Color((1-~color_array[106-1])**(0.25),0,0));}, {~aSHARP7.background_(Color.black)}););
 */
 
-			/*ASHARP0*/(if(obj.value.linlin(0,1,21,108) <=22,{if(~color_array[22-1]<1,{~aSHARP0.background_(Color(1,~color_array[22-1],~color_array[22-1]));},{~aSHARP0.background_(Color.black)})},{~aSHARP0.background_(Color.black)}););
-/*CSHARP1*/(if(obj.value.linlin(0,1,21,108) <=25,{if(~color_array[25-1]<1,{~cSHARP1.background_(Color(1,~color_array[25-1],~color_array[25-1]));},{~cSHARP1.background_(Color.black)})},{~cSHARP1.background_(Color.black)}););
-/*DSHARP1*/(if(obj.value.linlin(0,1,21,108) <=27,{if(~color_array[27-1]<1,{~dSHARP1.background_(Color(1,~color_array[27-1],~color_array[27-1]));},{~dSHARP1.background_(Color.black)})},{~dSHARP1.background_(Color.black)}););
-/*FSHARP1*/(if(obj.value.linlin(0,1,21,108) <=30,{if(~color_array[30-1]<1,{~fSHARP1.background_(Color(1,~color_array[30-1],~color_array[30-1]));},{~fSHARP1.background_(Color.black)})},{~fSHARP1.background_(Color.black)}););
-/*GSHARP1*/(if(obj.value.linlin(0,1,21,108) <=32,{if(~color_array[32-1]<1,{~gSHARP1.background_(Color(1,~color_array[32-1],~color_array[32-1]));},{~gSHARP1.background_(Color.black)})},{~gSHARP1.background_(Color.black)}););
-/*ASHARP1*/(if(obj.value.linlin(0,1,21,108) <=34,{if(~color_array[34-1]<1,{~aSHARP1.background_(Color(1,~color_array[34-1],~color_array[34-1]));},{~aSHARP1.background_(Color.black)})},{~aSHARP1.background_(Color.black)}););
-/*CSHARP2*/(if(obj.value.linlin(0,1,21,108) <=37,{if(~color_array[37-1]<1,{~cSHARP2.background_(Color(1,~color_array[37-1],~color_array[37-1]));},{~cSHARP2.background_(Color.black)})},{~cSHARP2.background_(Color.black)}););
-/*DSHARP2*/(if(obj.value.linlin(0,1,21,108) <=39,{if(~color_array[39-1]<1,{~dSHARP2.background_(Color(1,~color_array[39-1],~color_array[39-1]));},{~dSHARP2.background_(Color.black)})},{~dSHARP2.background_(Color.black)}););
-/*FSHARP2*/(if(obj.value.linlin(0,1,21,108) <=42,{if(~color_array[42-1]<1,{~fSHARP2.background_(Color(1,~color_array[42-1],~color_array[42-1]));},{~fSHARP2.background_(Color.black)})},{~fSHARP2.background_(Color.black)}););
-/*GSHARP2*/(if(obj.value.linlin(0,1,21,108) <=44,{if(~color_array[44-1]<1,{~gSHARP2.background_(Color(1,~color_array[44-1],~color_array[44-1]));},{~gSHARP2.background_(Color.black)})},{~gSHARP2.background_(Color.black)}););
-/*ASHARP2*/(if(obj.value.linlin(0,1,21,108) <=46,{if(~color_array[46-1]<1,{~aSHARP2.background_(Color(1,~color_array[46-1],~color_array[46-1]));},{~aSHARP2.background_(Color.black)})},{~aSHARP2.background_(Color.black)}););
-/*CSHARP3*/(if(obj.value.linlin(0,1,21,108) <=49,{if(~color_array[49-1]<1,{~cSHARP3.background_(Color(1,~color_array[49-1],~color_array[49-1]));},{~cSHARP3.background_(Color.black)})},{~cSHARP3.background_(Color.black)}););
-/*DSHARP3*/(if(obj.value.linlin(0,1,21,108) <=51,{if(~color_array[51-1]<1,{~dSHARP3.background_(Color(1,~color_array[51-1],~color_array[51-1]));},{~dSHARP3.background_(Color.black)})},{~dSHARP3.background_(Color.black)}););
-/*FSHARP3*/(if(obj.value.linlin(0,1,21,108) <=54,{if(~color_array[54-1]<1,{~fSHARP3.background_(Color(1,~color_array[54-1],~color_array[54-1]));},{~fSHARP3.background_(Color.black)})},{~fSHARP3.background_(Color.black)}););
-/*GSHARP3*/(if(obj.value.linlin(0,1,21,108) <=56,{if(~color_array[56-1]<1,{~gSHARP3.background_(Color(1,~color_array[56-1],~color_array[56-1]));},{~gSHARP3.background_(Color.black)})},{~gSHARP3.background_(Color.black)}););
-/*ASHARP3*/(if(obj.value.linlin(0,1,21,108) <=58,{if(~color_array[58-1]<1,{~aSHARP3.background_(Color(1,~color_array[58-1],~color_array[58-1]));},{~aSHARP3.background_(Color.black)})},{~aSHARP3.background_(Color.black)}););
-/*CSHARP4*/(if(obj.value.linlin(0,1,21,108) <=61,{if(~color_array[61-1]<1,{~cSHARP4.background_(Color(1,~color_array[61-1],~color_array[61-1]));},{~cSHARP4.background_(Color.black)})},{~cSHARP4.background_(Color.black)}););
-/*DSHARP4*/(if(obj.value.linlin(0,1,21,108) <=63,{if(~color_array[63-1]<1,{~dSHARP4.background_(Color(1,~color_array[63-1],~color_array[63-1]));},{~dSHARP4.background_(Color.black)})},{~dSHARP4.background_(Color.black)}););
-/*FSHARP4*/(if(obj.value.linlin(0,1,21,108) <=66,{if(~color_array[66-1]<1,{~fSHARP4.background_(Color(1,~color_array[66-1],~color_array[66-1]));},{~fSHARP4.background_(Color.black)})},{~fSHARP4.background_(Color.black)}););
-/*GSHARP4*/(if(obj.value.linlin(0,1,21,108) <=68,{if(~color_array[68-1]<1,{~gSHARP4.background_(Color(1,~color_array[68-1],~color_array[68-1]));},{~gSHARP4.background_(Color.black)})},{~gSHARP4.background_(Color.black)}););
-/*ASHARP4*/(if(obj.value.linlin(0,1,21,108) <=70,{if(~color_array[70-1]<1,{~aSHARP4.background_(Color(1,~color_array[70-1],~color_array[70-1]));},{~aSHARP4.background_(Color.black)})},{~aSHARP4.background_(Color.black)}););
-/*CSHARP5*/(if(obj.value.linlin(0,1,21,108) <=73,{if(~color_array[73-1]<1,{~cSHARP5.background_(Color(1,~color_array[73-1],~color_array[73-1]));},{~cSHARP5.background_(Color.black)})},{~cSHARP5.background_(Color.black)}););
-/*DSHARP5*/(if(obj.value.linlin(0,1,21,108) <=75,{if(~color_array[75-1]<1,{~dSHARP5.background_(Color(1,~color_array[75-1],~color_array[75-1]));},{~dSHARP5.background_(Color.black)})},{~dSHARP5.background_(Color.black)}););
-/*FSHARP5*/(if(obj.value.linlin(0,1,21,108) <=78,{if(~color_array[78-1]<1,{~fSHARP5.background_(Color(1,~color_array[78-1],~color_array[78-1]));},{~fSHARP5.background_(Color.black)})},{~fSHARP5.background_(Color.black)}););
-/*GSHARP5*/(if(obj.value.linlin(0,1,21,108) <=80,{if(~color_array[80-1]<1,{~gSHARP5.background_(Color(1,~color_array[80-1],~color_array[80-1]));},{~gSHARP5.background_(Color.black)})},{~gSHARP5.background_(Color.black)}););
-/*ASHARP5*/(if(obj.value.linlin(0,1,21,108) <=82,{if(~color_array[82-1]<1,{~aSHARP5.background_(Color(1,~color_array[82-1],~color_array[82-1]));},{~aSHARP5.background_(Color.black)})},{~aSHARP5.background_(Color.black)}););
-/*CSHARP6*/(if(obj.value.linlin(0,1,21,108) <=85,{if(~color_array[85-1]<1,{~cSHARP6.background_(Color(1,~color_array[85-1],~color_array[85-1]));},{~cSHARP6.background_(Color.black)})},{~cSHARP6.background_(Color.black)}););
-/*DSHARP6*/(if(obj.value.linlin(0,1,21,108) <=87,{if(~color_array[87-1]<1,{~dSHARP6.background_(Color(1,~color_array[87-1],~color_array[87-1]));},{~dSHARP6.background_(Color.black)})},{~dSHARP6.background_(Color.black)}););
-/*FSHARP6*/(if(obj.value.linlin(0,1,21,108) <=90,{if(~color_array[90-1]<1,{~fSHARP6.background_(Color(1,~color_array[90-1],~color_array[90-1]));},{~fSHARP6.background_(Color.black)})},{~fSHARP6.background_(Color.black)}););
-/*GSHARP6*/(if(obj.value.linlin(0,1,21,108) <=92,{if(~color_array[92-1]<1,{~gSHARP6.background_(Color(1,~color_array[92-1],~color_array[92-1]));},{~gSHARP6.background_(Color.black)})},{~gSHARP6.background_(Color.black)}););
-/*ASHARP6*/(if(obj.value.linlin(0,1,21,108) <=94,{if(~color_array[94-1]<1,{~aSHARP6.background_(Color(1,~color_array[94-1],~color_array[94-1]));},{~aSHARP6.background_(Color.black)})},{~aSHARP6.background_(Color.black)}););
-/*CSHARP7*/(if(obj.value.linlin(0,1,21,108) <=97,{if(~color_array[97-1]<1,{~cSHARP7.background_(Color(1,~color_array[97-1],~color_array[97-1]));},{~cSHARP7.background_(Color.black)})},{~cSHARP7.background_(Color.black)}););
-/*DSHARP7*/(if(obj.value.linlin(0,1,21,108) <=99,{if(~color_array[99-1]<1,{~dSHARP7.background_(Color(1,~color_array[99-1],~color_array[99-1]));},{~dSHARP7.background_(Color.black)})},{~dSHARP7.background_(Color.black)}););
-/*FSHARP7*/(if(obj.value.linlin(0,1,21,108) <=102,{if(~color_array[102-1]<1,{~fSHARP7.background_(Color(1,~color_array[102-1],~color_array[102-1]));},{~fSHARP7.background_(Color.black)})},{~fSHARP7.background_(Color.black)}););
-/*GSHARP7*/(if(obj.value.linlin(0,1,21,108) <=104,{if(~color_array[104-1]<1,{~gSHARP7.background_(Color(1,~color_array[104-1],~color_array[104-1]));},{~gSHARP7.background_(Color.black)})},{~gSHARP7.background_(Color.black)}););
-/*ASHARP7*/(if(obj.value.linlin(0,1,21,108) <=106,{if(~color_array[106-1]<1,{~aSHARP7.background_(Color(1,~color_array[106-1],~color_array[106-1]));},{~aSHARP7.background_(Color.black)})},{~aSHARP7.background_(Color.black)}););
+/*ASHARP0*/(if(obj.value.linlin(0,1,21,108) <=22,{if(~color_array[22-1]<1,{~aSHARP0.background_(Color(1,(~color_array[22-1]+~color_arrayMAN[22-1]),~color_array[22-1]));},{~aSHARP0.background_(Color.black)})},{~aSHARP0.background_(Color.black)}););
+/*CSHARP1*/(if(obj.value.linlin(0,1,21,108) <=25,{if(~color_array[25-1]<1,{~cSHARP1.background_(Color(1,(~color_array[25-1]+~color_arrayMAN[25-1]),~color_array[25-1]));},{~cSHARP1.background_(Color.black)})},{~cSHARP1.background_(Color.black)}););
+/*DSHARP1*/(if(obj.value.linlin(0,1,21,108) <=27,{if(~color_array[27-1]<1,{~dSHARP1.background_(Color(1,(~color_array[27-1]+~color_arrayMAN[27-1]),~color_array[27-1]));},{~dSHARP1.background_(Color.black)})},{~dSHARP1.background_(Color.black)}););
+/*FSHARP1*/(if(obj.value.linlin(0,1,21,108) <=30,{if(~color_array[30-1]<1,{~fSHARP1.background_(Color(1,(~color_array[30-1]+~color_arrayMAN[30-1]),~color_array[30-1]));},{~fSHARP1.background_(Color.black)})},{~fSHARP1.background_(Color.black)}););
+/*GSHARP1*/(if(obj.value.linlin(0,1,21,108) <=32,{if(~color_array[32-1]<1,{~gSHARP1.background_(Color(1,(~color_array[32-1]+~color_arrayMAN[32-1]),~color_array[32-1]));},{~gSHARP1.background_(Color.black)})},{~gSHARP1.background_(Color.black)}););
+/*ASHARP1*/(if(obj.value.linlin(0,1,21,108) <=34,{if(~color_array[34-1]<1,{~aSHARP1.background_(Color(1,(~color_array[34-1]+~color_arrayMAN[34-1]),~color_array[34-1]));},{~aSHARP1.background_(Color.black)})},{~aSHARP1.background_(Color.black)}););
+/*CSHARP2*/(if(obj.value.linlin(0,1,21,108) <=37,{if(~color_array[37-1]<1,{~cSHARP2.background_(Color(1,(~color_array[37-1]+~color_arrayMAN[37-1]),~color_array[37-1]));},{~cSHARP2.background_(Color.black)})},{~cSHARP2.background_(Color.black)}););
+/*DSHARP2*/(if(obj.value.linlin(0,1,21,108) <=39,{if(~color_array[39-1]<1,{~dSHARP2.background_(Color(1,(~color_array[39-1]+~color_arrayMAN[39-1]),~color_array[39-1]));},{~dSHARP2.background_(Color.black)})},{~dSHARP2.background_(Color.black)}););
+/*FSHARP2*/(if(obj.value.linlin(0,1,21,108) <=42,{if(~color_array[42-1]<1,{~fSHARP2.background_(Color(1,(~color_array[42-1]+~color_arrayMAN[42-1]),~color_array[42-1]));},{~fSHARP2.background_(Color.black)})},{~fSHARP2.background_(Color.black)}););
+/*GSHARP2*/(if(obj.value.linlin(0,1,21,108) <=44,{if(~color_array[44-1]<1,{~gSHARP2.background_(Color(1,(~color_array[44-1]+~color_arrayMAN[44-1]),~color_array[44-1]));},{~gSHARP2.background_(Color.black)})},{~gSHARP2.background_(Color.black)}););
+/*ASHARP2*/(if(obj.value.linlin(0,1,21,108) <=46,{if(~color_array[46-1]<1,{~aSHARP2.background_(Color(1,(~color_array[46-1]+~color_arrayMAN[46-1]),~color_array[46-1]));},{~aSHARP2.background_(Color.black)})},{~aSHARP2.background_(Color.black)}););
+/*CSHARP3*/(if(obj.value.linlin(0,1,21,108) <=49,{if(~color_array[49-1]<1,{~cSHARP3.background_(Color(1,(~color_array[49-1]+~color_arrayMAN[49-1]),~color_array[49-1]));},{~cSHARP3.background_(Color.black)})},{~cSHARP3.background_(Color.black)}););
+/*DSHARP3*/(if(obj.value.linlin(0,1,21,108) <=51,{if(~color_array[51-1]<1,{~dSHARP3.background_(Color(1,(~color_array[51-1]+~color_arrayMAN[51-1]),~color_array[51-1]));},{~dSHARP3.background_(Color.black)})},{~dSHARP3.background_(Color.black)}););
+/*FSHARP3*/(if(obj.value.linlin(0,1,21,108) <=54,{if(~color_array[54-1]<1,{~fSHARP3.background_(Color(1,(~color_array[54-1]+~color_arrayMAN[54-1]),~color_array[54-1]));},{~fSHARP3.background_(Color.black)})},{~fSHARP3.background_(Color.black)}););
+/*GSHARP3*/(if(obj.value.linlin(0,1,21,108) <=56,{if(~color_array[56-1]<1,{~gSHARP3.background_(Color(1,(~color_array[56-1]+~color_arrayMAN[56-1]),~color_array[56-1]));},{~gSHARP3.background_(Color.black)})},{~gSHARP3.background_(Color.black)}););
+/*ASHARP3*/(if(obj.value.linlin(0,1,21,108) <=58,{if(~color_array[58-1]<1,{~aSHARP3.background_(Color(1,(~color_array[58-1]+~color_arrayMAN[58-1]),~color_array[58-1]));},{~aSHARP3.background_(Color.black)})},{~aSHARP3.background_(Color.black)}););
+/*CSHARP4*/(if(obj.value.linlin(0,1,21,108) <=61,{if(~color_array[61-1]<1,{~cSHARP4.background_(Color(1,(~color_array[61-1]+~color_arrayMAN[61-1]),~color_array[61-1]));},{~cSHARP4.background_(Color.black)})},{~cSHARP4.background_(Color.black)}););
+/*DSHARP4*/(if(obj.value.linlin(0,1,21,108) <=63,{if(~color_array[63-1]<1,{~dSHARP4.background_(Color(1,(~color_array[63-1]+~color_arrayMAN[63-1]),~color_array[63-1]));},{~dSHARP4.background_(Color.black)})},{~dSHARP4.background_(Color.black)}););
+/*FSHARP4*/(if(obj.value.linlin(0,1,21,108) <=66,{if(~color_array[66-1]<1,{~fSHARP4.background_(Color(1,(~color_array[66-1]+~color_arrayMAN[66-1]),~color_array[66-1]));},{~fSHARP4.background_(Color.black)})},{~fSHARP4.background_(Color.black)}););
+/*GSHARP4*/(if(obj.value.linlin(0,1,21,108) <=68,{if(~color_array[68-1]<1,{~gSHARP4.background_(Color(1,(~color_array[68-1]+~color_arrayMAN[68-1]),~color_array[68-1]));},{~gSHARP4.background_(Color.black)})},{~gSHARP4.background_(Color.black)}););
+/*ASHARP4*/(if(obj.value.linlin(0,1,21,108) <=70,{if(~color_array[70-1]<1,{~aSHARP4.background_(Color(1,(~color_array[70-1]+~color_arrayMAN[70-1]),~color_array[70-1]));},{~aSHARP4.background_(Color.black)})},{~aSHARP4.background_(Color.black)}););
+/*CSHARP5*/(if(obj.value.linlin(0,1,21,108) <=73,{if(~color_array[73-1]<1,{~cSHARP5.background_(Color(1,(~color_array[73-1]+~color_arrayMAN[73-1]),~color_array[73-1]));},{~cSHARP5.background_(Color.black)})},{~cSHARP5.background_(Color.black)}););
+/*DSHARP5*/(if(obj.value.linlin(0,1,21,108) <=75,{if(~color_array[75-1]<1,{~dSHARP5.background_(Color(1,(~color_array[75-1]+~color_arrayMAN[75-1]),~color_array[75-1]));},{~dSHARP5.background_(Color.black)})},{~dSHARP5.background_(Color.black)}););
+/*FSHARP5*/(if(obj.value.linlin(0,1,21,108) <=78,{if(~color_array[78-1]<1,{~fSHARP5.background_(Color(1,(~color_array[78-1]+~color_arrayMAN[78-1]),~color_array[78-1]));},{~fSHARP5.background_(Color.black)})},{~fSHARP5.background_(Color.black)}););
+/*GSHARP5*/(if(obj.value.linlin(0,1,21,108) <=80,{if(~color_array[80-1]<1,{~gSHARP5.background_(Color(1,(~color_array[80-1]+~color_arrayMAN[80-1]),~color_array[80-1]));},{~gSHARP5.background_(Color.black)})},{~gSHARP5.background_(Color.black)}););
+/*ASHARP5*/(if(obj.value.linlin(0,1,21,108) <=82,{if(~color_array[82-1]<1,{~aSHARP5.background_(Color(1,(~color_array[82-1]+~color_arrayMAN[82-1]),~color_array[82-1]));},{~aSHARP5.background_(Color.black)})},{~aSHARP5.background_(Color.black)}););
+/*CSHARP6*/(if(obj.value.linlin(0,1,21,108) <=85,{if(~color_array[85-1]<1,{~cSHARP6.background_(Color(1,(~color_array[85-1]+~color_arrayMAN[85-1]),~color_array[85-1]));},{~cSHARP6.background_(Color.black)})},{~cSHARP6.background_(Color.black)}););
+/*DSHARP6*/(if(obj.value.linlin(0,1,21,108) <=87,{if(~color_array[87-1]<1,{~dSHARP6.background_(Color(1,(~color_array[87-1]+~color_arrayMAN[87-1]),~color_array[87-1]));},{~dSHARP6.background_(Color.black)})},{~dSHARP6.background_(Color.black)}););
+/*FSHARP6*/(if(obj.value.linlin(0,1,21,108) <=90,{if(~color_array[90-1]<1,{~fSHARP6.background_(Color(1,(~color_array[90-1]+~color_arrayMAN[90-1]),~color_array[90-1]));},{~fSHARP6.background_(Color.black)})},{~fSHARP6.background_(Color.black)}););
+/*GSHARP6*/(if(obj.value.linlin(0,1,21,108) <=92,{if(~color_array[92-1]<1,{~gSHARP6.background_(Color(1,(~color_array[92-1]+~color_arrayMAN[92-1]),~color_array[92-1]));},{~gSHARP6.background_(Color.black)})},{~gSHARP6.background_(Color.black)}););
+/*ASHARP6*/(if(obj.value.linlin(0,1,21,108) <=94,{if(~color_array[94-1]<1,{~aSHARP6.background_(Color(1,(~color_array[94-1]+~color_arrayMAN[94-1]),~color_array[94-1]));},{~aSHARP6.background_(Color.black)})},{~aSHARP6.background_(Color.black)}););
+/*CSHARP7*/(if(obj.value.linlin(0,1,21,108) <=97,{if(~color_array[97-1]<1,{~cSHARP7.background_(Color(1,(~color_array[97-1]+~color_arrayMAN[97-1]),~color_array[97-1]));},{~cSHARP7.background_(Color.black)})},{~cSHARP7.background_(Color.black)}););
+/*DSHARP7*/(if(obj.value.linlin(0,1,21,108) <=99,{if(~color_array[99-1]<1,{~dSHARP7.background_(Color(1,(~color_array[99-1]+~color_arrayMAN[99-1]),~color_array[99-1]));},{~dSHARP7.background_(Color.black)})},{~dSHARP7.background_(Color.black)}););
+/*FSHARP7*/(if(obj.value.linlin(0,1,21,108) <=102,{if(~color_array[102-1]<1,{~fSHARP7.background_(Color(1,(~color_array[102-1]+~color_arrayMAN[102-1]),~color_array[102-1]));},{~fSHARP7.background_(Color.black)})},{~fSHARP7.background_(Color.black)}););
+/*GSHARP7*/(if(obj.value.linlin(0,1,21,108) <=104,{if(~color_array[104-1]<1,{~gSHARP7.background_(Color(1,(~color_array[104-1]+~color_arrayMAN[104-1]),~color_array[104-1]));},{~gSHARP7.background_(Color.black)})},{~gSHARP7.background_(Color.black)}););
+/*ASHARP7*/(if(obj.value.linlin(0,1,21,108) <=106,{if(~color_array[106-1]<1,{~aSHARP7.background_(Color(1,(~color_array[106-1]+~color_arrayMAN[106-1]),~color_array[106-1]));},{~aSHARP7.background_(Color.black)})},{~aSHARP7.background_(Color.black)}););
 
 
 /*
@@ -731,7 +748,7 @@ s.makeBundle(10.0, //sound delay
 
 //Number box that can edit slider position
 ~numberfBox = NumberBox(w,Rect(85+30,155,72-30,15))
-.value_(21)
+.value_(69)
 .clipLo_(21)
 .clipHi_(108)
 .font_(Font("nil",12))
@@ -744,7 +761,7 @@ s.makeBundle(10.0, //sound delay
 
 //True note value
 	~note_name = StaticText(w,Rect(85-23+30-5,155,27,15))
-	.string_("A0").align_(\center)
+	.string_("A4").align_(\center)
 	.font_(Font("nil", 11));
 
 ///Starter harmonics array (sets everything to 0) arrays
@@ -786,7 +803,7 @@ s.makeBundle(10.0, //sound delay
 //Define the sound to be played
 (
 SynthDef.new("sound", {
-	arg freqX = 21, outoftune = 0, intensity = 1, other = 1, vol = 0.3, harmToggle1=1, harmToggle2=1, harmToggle3=1, harmToggle4=1, harmToggle5=1, harmToggle6=1, harmToggle7=1, harmToggle8=1, harmToggle9=1, harmToggle10=1, harmToggle11=1, harmToggle12=1, harmToggle13=1, harmToggle14=1, harmToggle15=1, harmToggle16=1,
+	arg freqX = 21, outoftune = 0, intensity = 1, other = 1, vol = 1.2, harmToggle1=1, harmToggle2=1, harmToggle3=1, harmToggle4=1, harmToggle5=1, harmToggle6=1, harmToggle7=1, harmToggle8=1, harmToggle9=1, harmToggle10=1, harmToggle11=1, harmToggle12=1, harmToggle13=1, harmToggle14=1, harmToggle15=1, harmToggle16=1,
 			choose1=0,
 			choose2=0,
 			choose3=0,
@@ -1134,6 +1151,9 @@ s.waitForBoot({
 				~menu2.value_(0);
 				~menu2.valueAction_(0);*/
     snd.release;
+				~fslider.valueAction_(~fslider.value); //This allows it to refresh real-time
+		s.makeBundle(1.0, //sound delay
+			{~dirtyBit = 5; ~dirtyBit.postln;~fslider.valueAction_(~fslider.value);});
    });
 
 menu = PopUpMenu(w, Rect(250-(250/2)+5,95+5,50,20));
@@ -1152,6 +1172,7 @@ menu = PopUpMenu(w, Rect(250-(250/2)+5,95+5,50,20));
 
 snd = funcs2.at(menu.value).play;
 			};
+
 
  funcs2 = [
 
@@ -1382,11 +1403,22 @@ s.waitForBoot({
 /*~choosebutton.valueAction_(0);*/
 /*				x.free;*/
 			/*	~choosebutton.valueAction_(1);*/
+
+(
+					if((~menu2.value == 0),
+					(~coverComposite.visible = true), (~coverComposite.visible = false));
+
+			);
 snd = funcs2.at(menu2.value).play;
 
 				// x.set(menu.action);
 
+
+
 			};
+
+
+
 
  funcs2 = [
 
@@ -1410,7 +1442,8 @@ snd = funcs2.at(menu2.value).play;
 						\choose15,0,
 						\choose16,0,
 
-				)},
+				);
+				(~coverComposite.visible = true)},
 
 				{//1
 					~harmonics_array[0..(~harmonic_count-1)]=0;~harmonics_array[0]=1;~manipulated_harmonic[0..15]=0;~manipulated_harmonic[0]=1;
@@ -1779,12 +1812,21 @@ snd = funcs2.at(menu2.value).play;
 
 	);
 
+	~coverComposite = CompositeView(w, Rect(160-80,235+60-30,330+80,30+30));
+	~coverBox = StaticText(~coverComposite, Rect(0,0,330+80,30+30)).background_(Color.white).stringColor_(Color.black).align_(\center);
+	~coverBox.string = "Select a harmonic to deviate from the
+Harmonic (mistuned) dropdown menu";
+
 
 ~quit = Button.new(w, Rect(465,95,30,30))
 	.states_([["", Color.white, Color.clear]])
 	.font_(Font("nil", 12))
 	.mouseDownAction_({w.close; f.kill; x.free; //shuts down window and scope
+		(if(~key_vis.value == 1, {
+			~keyboard.close;
+		}));
 		(basePath +/+ "splashscreen.scd").loadPaths;
+
 		});
 
 
@@ -1796,7 +1838,13 @@ snd = funcs2.at(menu2.value).play;
 		});*/
 
 
-w.onClose_({s.quit; x.free}); //ends server when quit
+w.onClose_({
+
+		(if(~key_vis.value == 1, {
+			~keyboard.close;
+		}));
+
+		s.quit; x.free}); //ends server when quit
 });
 
 )
