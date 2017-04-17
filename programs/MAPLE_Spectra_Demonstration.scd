@@ -25,9 +25,14 @@ a.free; //clear buffers to help resolve memory leak
 
 	~composite = CompositeView(w, Rect(320,105,500,300)); //needs to use Spectra bounds to not crop FreqScope
 
+	~intensifier = 1;
+
 //Spectra viewer
-h = FreqScopeView.new(~composite, Rect.new(0,0,500,300)); //Prepares frequency scope (a.k.a. spectra)
-h.active_(true).freqMode_(1).dbRange_(70);
+~spectra_x = 500;
+~spectra_y = 300;
+~spectra_db = 70;
+h = FreqScopeView.new(~composite, Rect.new(0,0,~spectra_x,~spectra_y)); //Prepares frequency scope (a.k.a. spectra)
+h.active_(true).freqMode_(1).dbRange_(~spectra_db);
 
 	// s.onBootAdd({~scopebutton.valueAction_(1);});
 
@@ -855,7 +860,26 @@ l.free;
 		//
 (
 ~color_array = Array.fill(200,1);
-~color_array[~freqslider.value.linlin(0,1,21,108)-1+0]=(~harmonics_array[0]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[0])))-(~manipulated_harmonic[0]*~f1slider.value.linlin(0,1,0,1););
+~color_array[~freqslider.value.linlin(0,1,21,108)-1+0]=(~harmonics_array[0]-~knob.value.linlin(0,1,0,1)+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[0])))-(~manipulated_harmonic[0]*~f1slider.value.linlin(0,1,0,1););
+~color_array[~freqslider.value.linlin(0,1,21,108)-1+12]=(~harmonics_array[1]-~knob.value.linlin(0,1,0,1)+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[1])))-(~manipulated_harmonic[1]*~f2slider.value.linlin(0,1,0,1););
+~color_array[~freqslider.value.linlin(0,1,21,108)-1+19]=(~harmonics_array[2]-~knob.value.linlin(0,1,0,1)+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[2])))-(~manipulated_harmonic[2]*~f3slider.value.linlin(0,1,0,1););
+~color_array[~freqslider.value.linlin(0,1,21,108)-1+24]=(~harmonics_array[3]-~knob.value.linlin(0,1,0,1)+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[3])))-(~manipulated_harmonic[3]*~f4slider.value.linlin(0,1,0,1););
+~color_array[~freqslider.value.linlin(0,1,21,108)-1+28]=(~harmonics_array[4]-~knob.value.linlin(0,1,0,1)+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[4])))-(~manipulated_harmonic[4]*~f5slider.value.linlin(0,1,0,1););
+~color_array[~freqslider.value.linlin(0,1,21,108)-1+31]=(~harmonics_array[5]-~knob.value.linlin(0,1,0,1)+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[5])))-(~manipulated_harmonic[5]*~f6slider.value.linlin(0,1,0,1););
+~color_array[~freqslider.value.linlin(0,1,21,108)-1+34]=(~harmonics_array[6]-~knob.value.linlin(0,1,0,1)+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[6])))-(~manipulated_harmonic[6]*~f7slider.value.linlin(0,1,0,1););
+~color_array[~freqslider.value.linlin(0,1,21,108)-1+36]=(~harmonics_array[7]-~knob.value.linlin(0,1,0,1)+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[7])))-(~manipulated_harmonic[7]*~f8slider.value.linlin(0,1,0,1););
+~color_array[~freqslider.value.linlin(0,1,21,108)-1+38]=(~harmonics_array[8]-~knob.value.linlin(0,1,0,1)+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[8])))-(~manipulated_harmonic[8]*~f9slider.value.linlin(0,1,0,1););
+~color_array[~freqslider.value.linlin(0,1,21,108)-1+40]=(~harmonics_array[9]-~knob.value.linlin(0,1,0,1)+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[9])))-(~manipulated_harmonic[9]*~f10slider.value.linlin(0,1,0,1););
+~color_array[~freqslider.value.linlin(0,1,21,108)-1+41]=(~harmonics_array[10]-~knob.value.linlin(0,1,0,1)+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[10])))-(~manipulated_harmonic[10]*~f11slider.value.linlin(0,1,0,1););
+~color_array[~freqslider.value.linlin(0,1,21,108)-1+43]=(~harmonics_array[11]-~knob.value.linlin(0,1,0,1)+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[11])))-(~manipulated_harmonic[11]*~f12slider.value.linlin(0,1,0,1););
+~color_array[~freqslider.value.linlin(0,1,21,108)-1+44]=(~harmonics_array[12]-~knob.value.linlin(0,1,0,1)+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[12])))-(~manipulated_harmonic[12]*~f13slider.value.linlin(0,1,0,1););
+~color_array[~freqslider.value.linlin(0,1,21,108)-1+46]=(~harmonics_array[13]-~knob.value.linlin(0,1,0,1)+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[13])))-(~manipulated_harmonic[13]*~f14slider.value.linlin(0,1,0,1););
+~color_array[~freqslider.value.linlin(0,1,21,108)-1+47]=(~harmonics_array[14]-~knob.value.linlin(0,1,0,1)+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[14])))-(~manipulated_harmonic[14]*~f15slider.value.linlin(0,1,0,1););
+~color_array[~freqslider.value.linlin(0,1,21,108)-1+48]=(~harmonics_array[15]-~knob.value.linlin(0,1,0,1)+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[15])))-(~manipulated_harmonic[15]*~f16slider.value.linlin(0,1,0,1););
+
+
+
+		/*	~color_array[~freqslider.value.linlin(0,1,21,108)-1+0]=(~harmonics_array[0]-~knob.value.linlin(0,1,0,2)+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[0])))-(~manipulated_harmonic[0]*~f1slider.value.linlin(0,1,0,1););
 ~color_array[~freqslider.value.linlin(0,1,21,108)-1+12]=(~harmonics_array[1]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[1])))-(~manipulated_harmonic[1]*~f2slider.value.linlin(0,1,0,1););
 ~color_array[~freqslider.value.linlin(0,1,21,108)-1+19]=(~harmonics_array[2]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[2])))-(~manipulated_harmonic[2]*~f3slider.value.linlin(0,1,0,1););
 ~color_array[~freqslider.value.linlin(0,1,21,108)-1+24]=(~harmonics_array[3]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[3])))-(~manipulated_harmonic[3]*~f4slider.value.linlin(0,1,0,1););
@@ -871,10 +895,12 @@ l.free;
 ~color_array[~freqslider.value.linlin(0,1,21,108)-1+46]=(~harmonics_array[13]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[13])))-(~manipulated_harmonic[13]*~f14slider.value.linlin(0,1,0,1););
 ~color_array[~freqslider.value.linlin(0,1,21,108)-1+47]=(~harmonics_array[14]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[14])))-(~manipulated_harmonic[14]*~f15slider.value.linlin(0,1,0,1););
 ~color_array[~freqslider.value.linlin(0,1,21,108)-1+48]=(~harmonics_array[15]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[15])))-(~manipulated_harmonic[15]*~f16slider.value.linlin(0,1,0,1););
+			*/
+
 		);
 
 //Ensure it updates
-s.makeBundle(1.0, //sound delay
+s.makeBundle(1.0, //sound delay -~knob.value.linlin(0,1,0,0.5)
 			{~dirtyBit = 2; ~dirtyBit.postln;
 
 			(if(~key_vis.value == 1, {
@@ -1046,8 +1072,8 @@ s.makeBundle(1.0, //sound delay
 	.orientation_(\horizontal);
 
 //Label for Freq.
-~freqLabel = StaticText(w,Rect(115,110,80,25))
-.string_("Fundamental Frequency")
+~freqLabel = StaticText(w,Rect(123,116,80,25))
+.string_("Fundamental")
 .font_(Font("nil", 8))
 .align_(\topRight)
 .background_(Color(0,0,0,0))
@@ -2462,6 +2488,21 @@ arg obj;
 
 
 
+	///SPECTRA SLIDER
+	//Allows scaling
+
+	~spectra_x = Slider(w, Rect(490,390,300,15)).value_(0).action_({
+		~spectra_width = ~spectra_x.value.linlin(0,1,500,5000);
+h.bounds_(Rect.new(0,0,~spectra_width,~spectra_height));
+	});
+
+	~spectra_y = Slider(w, Rect(775,180,15,210)).value_(0.5).action_({
+		~spectra_db = ~spectra_y.value.linlin(0,1,40,100);
+h.dbRange_(~spectra_db);
+	});
+
+
+
 	//Button to reset harmonic intensities
 ~reset = Button(w, Rect(110,110,35,20))
 .states_([
@@ -2524,8 +2565,19 @@ arg obj;
 		});
 */
 
+
+
+
+~knob = Slider(w, Rect(640,70,60,25));
+	~knob.action_({~freqslider.valueAction_(~fslider.value); //This allows it to refresh real-time
+s.makeBundle(1.0, //sound delay
+			{~dirtyBit = 13; ~dirtyBit.postln;~freqslider.valueAction_(~fslider.value);});});
+
+
+
+
 //True note value
-	~note_name = StaticText(w,Rect(200,112.5,27,15))
+	~note_name = StaticText(w,Rect(180,112.5,70,15))
 	.string_("A4").align_(\center)
 	.font_(Font("nil", 11));
 

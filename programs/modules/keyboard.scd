@@ -96,6 +96,59 @@
 ~b7 = StaticText(~keyboard, Rect(20+1000,20,19,150)).background_(Color.white).string_("").align_(\bottom).stringColor_(Color(0.4824, 0.4863, 0.4863));
 ~c8 = StaticText(~keyboard, Rect(20+1020,20,19,150)).background_(Color.white).string_("").align_(\bottom).stringColor_(Color(0.4824, 0.4863, 0.4863));
 
+~dot_a0 = StaticText(~keyboard, Rect(20+0+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
+~dot_b0 = StaticText(~keyboard, Rect(20+20+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
+~dot_c1 = StaticText(~keyboard, Rect(20+40+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
+~dot_d1 = StaticText(~keyboard, Rect(20+60+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
+~dot_e1 = StaticText(~keyboard, Rect(20+80+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
+~dot_f1 = StaticText(~keyboard, Rect(20+100+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
+~dot_g1 = StaticText(~keyboard, Rect(20+120+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
+~dot_a1 = StaticText(~keyboard, Rect(20+140+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
+~dot_b1 = StaticText(~keyboard, Rect(20+160+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
+~dot_c2 = StaticText(~keyboard, Rect(20+180+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
+~dot_d2 = StaticText(~keyboard, Rect(20+200+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
+~dot_e2 = StaticText(~keyboard, Rect(20+220+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
+~dot_f2 = StaticText(~keyboard, Rect(20+240+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
+~dot_g2 = StaticText(~keyboard, Rect(20+260+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
+~dot_a2 = StaticText(~keyboard, Rect(20+280+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
+~dot_b2 = StaticText(~keyboard, Rect(20+300+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
+~dot_c3 = StaticText(~keyboard, Rect(20+320+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
+~dot_d3 = StaticText(~keyboard, Rect(20+340+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
+~dot_e3 = StaticText(~keyboard, Rect(20+360+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
+~dot_f3 = StaticText(~keyboard, Rect(20+380+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
+~dot_g3 = StaticText(~keyboard, Rect(20+400+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
+~dot_a3 = StaticText(~keyboard, Rect(20+420+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
+~dot_b3 = StaticText(~keyboard, Rect(20+440+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
+~dot_c4 = StaticText(~keyboard, Rect(20+460+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
+~dot_d4 = StaticText(~keyboard, Rect(20+480+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
+~dot_e4 = StaticText(~keyboard, Rect(20+500+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
+~dot_f4 = StaticText(~keyboard, Rect(20+520+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
+~dot_g4 = StaticText(~keyboard, Rect(20+540+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
+~dot_a4 = StaticText(~keyboard, Rect(20+560+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
+~dot_b4 = StaticText(~keyboard, Rect(20+580+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
+~dot_c5 = StaticText(~keyboard, Rect(20+600+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
+~dot_d5 = StaticText(~keyboard, Rect(20+620+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
+~dot_e5 = StaticText(~keyboard, Rect(20+640+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
+~dot_f5 = StaticText(~keyboard, Rect(20+660+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
+~dot_g5 = StaticText(~keyboard, Rect(20+680+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
+~dot_a5 = StaticText(~keyboard, Rect(20+700+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
+~dot_b5 = StaticText(~keyboard, Rect(20+720+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
+~dot_c6 = StaticText(~keyboard, Rect(20+740+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
+~dot_d6 = StaticText(~keyboard, Rect(20+760+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
+~dot_e6 = StaticText(~keyboard, Rect(20+780+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
+~dot_f6 = StaticText(~keyboard, Rect(20+800+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
+~dot_g6 = StaticText(~keyboard, Rect(20+820+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
+~dot_a6 = StaticText(~keyboard, Rect(20+840+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
+~dot_b6 = StaticText(~keyboard, Rect(20+860+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
+~dot_c7 = StaticText(~keyboard, Rect(20+880+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
+~dot_d7 = StaticText(~keyboard, Rect(20+900+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
+~dot_e7 = StaticText(~keyboard, Rect(20+920+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
+~dot_f7 = StaticText(~keyboard, Rect(20+940+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
+~dot_g7 = StaticText(~keyboard, Rect(20+960+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
+~dot_a7 = StaticText(~keyboard, Rect(20+980+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
+~dot_b7 = StaticText(~keyboard, Rect(20+1000+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
+~dot_c8 = StaticText(~keyboard, Rect(20+1020+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
+
 /*
 ~c4 = StaticText(~keyboard, Rect(20+0,20,19,150)).background_(Color.white).string_("").align_(\bottom).stringColor_(Color(0.4824, 0.4863, 0.4863));
 ~d4 = StaticText(~keyboard, Rect(20+20,20,19,150)).background_(Color.white).string_("").align_(\bottom).stringColor_(Color(0.4824, 0.4863, 0.4863));
@@ -203,6 +256,45 @@
 ~gSHARP7 = StaticText(~keyboard, Rect(30+960,20,19,100)).background_(Color.black).string_("");
 ~aSHARP7 = StaticText(~keyboard, Rect(30+980,20,19,100)).background_(Color.black).string_("");
 
+
+~dot_aSHARP0 = StaticText(~keyboard, Rect(30+0+7,20+90,5,5)).background_(Color(1,1,1,0)).string_("");
+~dot_cSHARP1 = StaticText(~keyboard, Rect(30+40+7,20+90,5,5)).background_(Color(1,1,1,0)).string_("");
+~dot_dSHARP1 = StaticText(~keyboard, Rect(30+60+7,20+90,5,5)).background_(Color(1,1,1,0)).string_("");
+~dot_fSHARP1 = StaticText(~keyboard, Rect(30+100+7,20+90,5,5)).background_(Color(1,1,1,0)).string_("");
+~dot_gSHARP1 = StaticText(~keyboard, Rect(30+120+7,20+90,5,5)).background_(Color(1,1,1,0)).string_("");
+~dot_aSHARP1 = StaticText(~keyboard, Rect(30+140+7,20+90,5,5)).background_(Color(1,1,1,0)).string_("");
+~dot_cSHARP2 = StaticText(~keyboard, Rect(30+180+7,20+90,5,5)).background_(Color(1,1,1,0)).string_("");
+~dot_dSHARP2 = StaticText(~keyboard, Rect(30+200+7,20+90,5,5)).background_(Color(1,1,1,0)).string_("");
+~dot_fSHARP2 = StaticText(~keyboard, Rect(30+240+7,20+90,5,5)).background_(Color(1,1,1,0)).string_("");
+~dot_gSHARP2 = StaticText(~keyboard, Rect(30+260+7,20+90,5,5)).background_(Color(1,1,1,0)).string_("");
+~dot_aSHARP2 = StaticText(~keyboard, Rect(30+280+7,20+90,5,5)).background_(Color(1,1,1,0)).string_("");
+~dot_cSHARP3 = StaticText(~keyboard, Rect(30+320+7,20+90,5,5)).background_(Color(1,1,1,0)).string_("");
+~dot_dSHARP3 = StaticText(~keyboard, Rect(30+340+7,20+90,5,5)).background_(Color(1,1,1,0)).string_("");
+~dot_fSHARP3 = StaticText(~keyboard, Rect(30+380+7,20+90,5,5)).background_(Color(1,1,1,0)).string_("");
+~dot_gSHARP3 = StaticText(~keyboard, Rect(30+400+7,20+90,5,5)).background_(Color(1,1,1,0)).string_("");
+~dot_aSHARP3 = StaticText(~keyboard, Rect(30+420+7,20+90,5,5)).background_(Color(1,1,1,0)).string_("");
+~dot_cSHARP4 = StaticText(~keyboard, Rect(30+460+7,20+90,5,5)).background_(Color(1,1,1,0)).string_("");
+~dot_dSHARP4 = StaticText(~keyboard, Rect(30+480+7,20+90,5,5)).background_(Color(1,1,1,0)).string_("");
+~dot_fSHARP4 = StaticText(~keyboard, Rect(30+520+7,20+90,5,5)).background_(Color(1,1,1,0)).string_("");
+~dot_gSHARP4 = StaticText(~keyboard, Rect(30+540+7,20+90,5,5)).background_(Color(1,1,1,0)).string_("");
+~dot_aSHARP4 = StaticText(~keyboard, Rect(30+560+7,20+90,5,5)).background_(Color(1,1,1,0)).string_("");
+~dot_cSHARP5 = StaticText(~keyboard, Rect(30+600+7,20+90,5,5)).background_(Color(1,1,1,0)).string_("");
+~dot_dSHARP5 = StaticText(~keyboard, Rect(30+620+7,20+90,5,5)).background_(Color(1,1,1,0)).string_("");
+~dot_fSHARP5 = StaticText(~keyboard, Rect(30+660+7,20+90,5,5)).background_(Color(1,1,1,0)).string_("");
+~dot_gSHARP5 = StaticText(~keyboard, Rect(30+680+7,20+90,5,5)).background_(Color(1,1,1,0)).string_("");
+~dot_aSHARP5 = StaticText(~keyboard, Rect(30+700+7,20+90,5,5)).background_(Color(1,1,1,0)).string_("");
+~dot_cSHARP6 = StaticText(~keyboard, Rect(30+740+7,20+90,5,5)).background_(Color(1,1,1,0)).string_("");
+~dot_dSHARP6 = StaticText(~keyboard, Rect(30+760+7,20+90,5,5)).background_(Color(1,1,1,0)).string_("");
+~dot_fSHARP6 = StaticText(~keyboard, Rect(30+800+7,20+90,5,5)).background_(Color(1,1,1,0)).string_("");
+~dot_gSHARP6 = StaticText(~keyboard, Rect(30+820+7,20+90,5,5)).background_(Color(1,1,1,0)).string_("");
+~dot_aSHARP6 = StaticText(~keyboard, Rect(30+840+7,20+90,5,5)).background_(Color(1,1,1,0)).string_("");
+~dot_cSHARP7 = StaticText(~keyboard, Rect(30+880+7,20+90,5,5)).background_(Color(1,1,1,0)).string_("");
+~dot_dSHARP7 = StaticText(~keyboard, Rect(30+900+7,20+90,5,5)).background_(Color(1,1,1,0)).string_("");
+~dot_fSHARP7 = StaticText(~keyboard, Rect(30+940+7,20+90,5,5)).background_(Color(1,1,1,0)).string_("");
+~dot_gSHARP7 = StaticText(~keyboard, Rect(30+960+7,20+90,5,5)).background_(Color(1,1,1,0)).string_("");
+~dot_aSHARP7 = StaticText(~keyboard, Rect(30+980+7,20+90,5,5)).background_(Color(1,1,1,0)).string_("");
+
+/*
 ~aSHARP0dev = StaticText(~keyboard, Rect(30+0,20,19,100)).background_(Color.clear).string_("");
 ~cSHARP1dev = StaticText(~keyboard, Rect(30+40,20,19,100)).background_(Color.clear).string_("");
 ~dSHARP1dev = StaticText(~keyboard, Rect(30+60,20,19,100)).background_(Color.clear).string_("");
@@ -239,7 +331,7 @@
 ~fSHARP7dev = StaticText(~keyboard, Rect(30+940,20,19,100)).background_(Color.clear).string_("");
 ~gSHARP7dev = StaticText(~keyboard, Rect(30+960,20,19,100)).background_(Color.clear).string_("");
 ~aSHARP7dev = StaticText(~keyboard, Rect(30+980,20,19,100)).background_(Color.clear).string_("");
-
+*/
 
 /*
 ~cSHARP4 = StaticText(~keyboard, Rect(30+0,20,19,100)).background_(Color.black).string_("");
@@ -490,8 +582,10 @@ Pen.line(1008@120,1031@120);
 			    Pen.width = 2;
                 Pen.stroke};
         };
-
-
+//
+// ///Knob for colour intensity
+// ~intensifier = 1;
+// ~knob = Knob.new(~keyboard, Rect(580, 1, 17, 17)).action_(~intensifier = ~knob.value.linlin(0,1,1,10));
 
 w.onClose_({a.free; ~keyboard_open = 0;});
 )
