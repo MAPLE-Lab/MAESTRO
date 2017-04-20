@@ -1341,6 +1341,9 @@ s.waitForBoot({
 				s.makeBundle(3.0, //sound delay
 			{~dirtyBit = 4; ~dirtyBit.postln;~fslider.valueAction_(~fslider.value);});
 
+
+
+
 						},{x.free; /*~fslider.valueAction_(0.value.linlin(21,108,0,1));*/}
 			)})
   .action_({ arg mod;
@@ -1351,7 +1354,10 @@ s.waitForBoot({
 				~fslider.valueAction_(~fslider.value); //This allows it to refresh real-time
 		s.makeBundle(1.0, //sound delay
 			{~dirtyBit = 5; ~dirtyBit.postln;~fslider.valueAction_(~fslider.value);});
-   });
+
+			~volslider.valueAction_(0.3);
+
+			});
 
 menu = PopUpMenu(w, Rect(250-(250/2)+5,95+5,50,20));
 			menu.items_(["1", "2", "3", "5", "8", "16"]);
