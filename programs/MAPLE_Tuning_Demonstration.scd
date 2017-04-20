@@ -527,6 +527,8 @@ x.set(\fundamental_note, obj.value.linlin(0,1,21,108););
 /*GSHARP7*/(if(obj.value.linlin(0,1,21,108) <=104,{if(~color_array[104-1]<1,{~gSHARP7.background_(Color(1,(~color_array[104-1]+~color_arrayMAN[104-1]),~color_array[104-1]));},{~gSHARP7.background_(Color.black)})},{~gSHARP7.background_(Color.black)}););
 /*ASHARP7*/(if(obj.value.linlin(0,1,21,108) <=106,{if(~color_array[106-1]<1,{~aSHARP7.background_(Color(1,(~color_array[106-1]+~color_arrayMAN[106-1]),~color_array[106-1]));},{~aSHARP7.background_(Color.black)})},{~aSHARP7.background_(Color.black)}););*/
 
+
+
 /*ASHARP0*/(if(obj.value.linlin(0,1,21,108) <=22,{if(~color_array[22-1]<1,{~aSHARP0.background_(Color(1,~color_array[22-1],~color_array[22-1]));~dot_aSHARP0.background_(Color(1,1,1,~color_arrayMAN[22-1]));},{~aSHARP0.background_(Color.black); ~dot_aSHARP0.background_(Color(1,1,1,0))})},{~aSHARP0.background_(Color.black);~dot_aSHARP0.background_(Color(1,1,1,0))}););
 /*CSHARP1*/(if(obj.value.linlin(0,1,21,108) <=25,{if(~color_array[25-1]<1,{~cSHARP1.background_(Color(1,~color_array[25-1],~color_array[25-1]));~dot_cSHARP1.background_(Color(1,1,1,~color_arrayMAN[25-1]));},{~cSHARP1.background_(Color.black); ~dot_cSHARP1.background_(Color(1,1,1,0))})},{~cSHARP1.background_(Color.black);~dot_cSHARP1.background_(Color(1,1,1,0))}););
 /*DSHARP1*/(if(obj.value.linlin(0,1,21,108) <=27,{if(~color_array[27-1]<1,{~dSHARP1.background_(Color(1,~color_array[27-1],~color_array[27-1]));~dot_dSHARP1.background_(Color(1,1,1,~color_arrayMAN[27-1]));},{~dSHARP1.background_(Color.black); ~dot_dSHARP1.background_(Color(1,1,1,0))})},{~dSHARP1.background_(Color.black);~dot_dSHARP1.background_(Color(1,1,1,0))}););
@@ -2106,6 +2108,12 @@ Harmonic (mistuned) dropdown menu";
 	.mouseDownAction_({w.close; f.kill; x.free; //shuts down window and scope
 		(basePath +/+ "splashscreen.scd").loadPaths;
 		});*/
+
+
+
+	//To ensure there is a variable value for when the keyboard is opened, if the keyboard is opened before the slider or any other setting is activated - thus bypasses error
+	~numberfBox.valueAction_(~fslider.value.linlin(0,1,21,108));
+
 
 
 w.onClose_({
