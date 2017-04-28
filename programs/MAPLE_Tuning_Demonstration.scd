@@ -11,6 +11,8 @@ s.waitForBoot({ //Ensures it only opens once the server is working completely, a
 		500,570),false //shortened the
 	).background_(Color.white).userCanClose_(false).front; //Creates the new window with title
 
+//Module ID
+	~module_ID = "tuning";
 
 //Record button - sends to Supercollider file
 	~record = Button.new(w, Rect(35, 100, 85, 20))
@@ -170,6 +172,8 @@ StaticText(w,Rect(0,620,500,2))
 
 	//VOLUME
 //Properties of the slider
+	~volume_value = 1.2;
+
 ~volslider = Slider(w, Rect(160,140,330,15))
 	.background_(Color(0.0118,0.0118,0.0118,1))
 	.value_(0.3)
@@ -181,6 +185,7 @@ StaticText(w,Rect(0,620,500,2))
 		x.isPlaying,
 		{x.set(\vol,cf)});
 	~numberVBox.value_(obj.value.linlin(0,1,0,1)); //Acts as an invisible change so even though it seems 1:1 it's really 1:4
+		~volume_value = obj.value.linlin(0,1,0,4);
 
 })
 	.orientation_(\horizontal);
@@ -243,97 +248,8 @@ x.set(\fundamental_note, obj.value.linlin(0,1,21,108););
 	}, {a.free; ~c4.background_(Color.white)});
 	);*/
 
-/*A0*/(if(obj.value.linlin(0,1,21,108) == 21,{~note_name.string_("A0");}););
-/*B0*/(if(obj.value.linlin(0,1,21,108) == 23,{~note_name.string_("B0");}););
-/*C1*/(if(obj.value.linlin(0,1,21,108) == 24,{~note_name.string_("C1");}););
-/*D1*/(if(obj.value.linlin(0,1,21,108) == 26,{~note_name.string_("D1");}););
-/*E1*/(if(obj.value.linlin(0,1,21,108) == 28,{~note_name.string_("E1");}););
-/*F1*/(if(obj.value.linlin(0,1,21,108) == 29,{~note_name.string_("F1");}););
-/*G1*/(if(obj.value.linlin(0,1,21,108) == 31,{~note_name.string_("G1");}););
-/*A1*/(if(obj.value.linlin(0,1,21,108) == 33,{~note_name.string_("A1");}););
-/*B1*/(if(obj.value.linlin(0,1,21,108) == 35,{~note_name.string_("B1");}););
-/*C2*/(if(obj.value.linlin(0,1,21,108) == 36,{~note_name.string_("C2");}););
-/*D2*/(if(obj.value.linlin(0,1,21,108) == 38,{~note_name.string_("D2");}););
-/*E2*/(if(obj.value.linlin(0,1,21,108) == 40,{~note_name.string_("E2");}););
-/*F2*/(if(obj.value.linlin(0,1,21,108) == 41,{~note_name.string_("F2");}););
-/*G2*/(if(obj.value.linlin(0,1,21,108) == 43,{~note_name.string_("G2");}););
-/*A2*/(if(obj.value.linlin(0,1,21,108) == 45,{~note_name.string_("A2");}););
-/*B2*/(if(obj.value.linlin(0,1,21,108) == 47,{~note_name.string_("B2");}););
-/*C3*/(if(obj.value.linlin(0,1,21,108) == 48,{~note_name.string_("C3");}););
-/*D3*/(if(obj.value.linlin(0,1,21,108) == 50,{~note_name.string_("D3");}););
-/*E3*/(if(obj.value.linlin(0,1,21,108) == 52,{~note_name.string_("E3");}););
-/*F3*/(if(obj.value.linlin(0,1,21,108) == 53,{~note_name.string_("F3");}););
-/*G3*/(if(obj.value.linlin(0,1,21,108) == 55,{~note_name.string_("G3");}););
-/*A3*/(if(obj.value.linlin(0,1,21,108) == 57,{~note_name.string_("A3");}););
-/*B3*/(if(obj.value.linlin(0,1,21,108) == 59,{~note_name.string_("B3");}););
-/*C4*/(if(obj.value.linlin(0,1,21,108) == 60,{~note_name.string_("C4");}););
-/*D4*/(if(obj.value.linlin(0,1,21,108) == 62,{~note_name.string_("D4");}););
-/*E4*/(if(obj.value.linlin(0,1,21,108) == 64,{~note_name.string_("E4");}););
-/*F4*/(if(obj.value.linlin(0,1,21,108) == 65,{~note_name.string_("F4");}););
-/*G4*/(if(obj.value.linlin(0,1,21,108) == 67,{~note_name.string_("G4");}););
-/*A4*/(if(obj.value.linlin(0,1,21,108) == 69,{~note_name.string_("A4");}););
-/*B4*/(if(obj.value.linlin(0,1,21,108) == 71,{~note_name.string_("B4");}););
-/*C5*/(if(obj.value.linlin(0,1,21,108) == 72,{~note_name.string_("C5");}););
-/*D5*/(if(obj.value.linlin(0,1,21,108) == 74,{~note_name.string_("D5");}););
-/*E5*/(if(obj.value.linlin(0,1,21,108) == 76,{~note_name.string_("E5");}););
-/*F5*/(if(obj.value.linlin(0,1,21,108) == 77,{~note_name.string_("F5");}););
-/*G5*/(if(obj.value.linlin(0,1,21,108) == 79,{~note_name.string_("G5");}););
-/*A5*/(if(obj.value.linlin(0,1,21,108) == 81,{~note_name.string_("A5");}););
-/*B5*/(if(obj.value.linlin(0,1,21,108) == 83,{~note_name.string_("B5");}););
-/*C6*/(if(obj.value.linlin(0,1,21,108) == 84,{~note_name.string_("C6");}););
-/*D6*/(if(obj.value.linlin(0,1,21,108) == 86,{~note_name.string_("D6");}););
-/*E6*/(if(obj.value.linlin(0,1,21,108) == 88,{~note_name.string_("E6");}););
-/*F6*/(if(obj.value.linlin(0,1,21,108) == 89,{~note_name.string_("F6");}););
-/*G6*/(if(obj.value.linlin(0,1,21,108) == 91,{~note_name.string_("G6");}););
-/*A6*/(if(obj.value.linlin(0,1,21,108) == 93,{~note_name.string_("A6");}););
-/*B6*/(if(obj.value.linlin(0,1,21,108) == 95,{~note_name.string_("B6");}););
-/*C5*/(if(obj.value.linlin(0,1,21,108) == 96,{~note_name.string_("C5");}););
-/*D7*/(if(obj.value.linlin(0,1,21,108) == 98,{~note_name.string_("D7");}););
-/*E7*/(if(obj.value.linlin(0,1,21,108) == 100,{~note_name.string_("E7");}););
-/*F7*/(if(obj.value.linlin(0,1,21,108) == 101,{~note_name.string_("F7");}););
-/*G7*/(if(obj.value.linlin(0,1,21,108) == 103,{~note_name.string_("G7");}););
-/*A7*/(if(obj.value.linlin(0,1,21,108) == 105,{~note_name.string_("A7");}););
-/*B7*/(if(obj.value.linlin(0,1,21,108) == 107,{~note_name.string_("B7");}););
-/*C8*/(if(obj.value.linlin(0,1,21,108) == 108,{~note_name.string_("C8");}););
 
-
-/*ASHARP0*/(if(obj.value.linlin(0,1,21,108) ==22,{~note_name.string_("A#0");}););
-/*CSHARP1*/(if(obj.value.linlin(0,1,21,108) ==25,{~note_name.string_("C#1");}););
-/*DSHARP1*/(if(obj.value.linlin(0,1,21,108) ==27,{~note_name.string_("D#1");}););
-/*FSHARP1*/(if(obj.value.linlin(0,1,21,108) ==30,{~note_name.string_("F#1");}););
-/*GSHARP1*/(if(obj.value.linlin(0,1,21,108) ==32,{~note_name.string_("G#1");}););
-/*ASHARP1*/(if(obj.value.linlin(0,1,21,108) ==34,{~note_name.string_("A#1");}););
-/*CSHARP2*/(if(obj.value.linlin(0,1,21,108) ==37,{~note_name.string_("C#2");}););
-/*DSHARP2*/(if(obj.value.linlin(0,1,21,108) ==39,{~note_name.string_("D#2");}););
-/*FSHARP2*/(if(obj.value.linlin(0,1,21,108) ==42,{~note_name.string_("F#2");}););
-/*GSHARP2*/(if(obj.value.linlin(0,1,21,108) ==44,{~note_name.string_("G#2");}););
-/*ASHARP2*/(if(obj.value.linlin(0,1,21,108) ==46,{~note_name.string_("A#2");}););
-/*CSHARP3*/(if(obj.value.linlin(0,1,21,108) ==49,{~note_name.string_("C#3");}););
-/*DSHARP3*/(if(obj.value.linlin(0,1,21,108) ==51,{~note_name.string_("D#3");}););
-/*FSHARP3*/(if(obj.value.linlin(0,1,21,108) ==54,{~note_name.string_("F#3");}););
-/*GSHARP3*/(if(obj.value.linlin(0,1,21,108) ==56,{~note_name.string_("G#3");}););
-/*ASHARP3*/(if(obj.value.linlin(0,1,21,108) ==58,{~note_name.string_("A#3");}););
-/*CSHARP4*/(if(obj.value.linlin(0,1,21,108) ==61,{~note_name.string_("C#4");}););
-/*DSHARP4*/(if(obj.value.linlin(0,1,21,108) ==63,{~note_name.string_("D#4");}););
-/*FSHARP4*/(if(obj.value.linlin(0,1,21,108) ==66,{~note_name.string_("F#4");}););
-/*GSHARP4*/(if(obj.value.linlin(0,1,21,108) ==68,{~note_name.string_("G#4");}););
-/*ASHARP4*/(if(obj.value.linlin(0,1,21,108) ==70,{~note_name.string_("A#4");}););
-/*CSHARP5*/(if(obj.value.linlin(0,1,21,108) ==73,{~note_name.string_("C#5");}););
-/*DSHARP5*/(if(obj.value.linlin(0,1,21,108) ==75,{~note_name.string_("D#5");}););
-/*FSHARP5*/(if(obj.value.linlin(0,1,21,108) ==78,{~note_name.string_("F#5");}););
-/*GSHARP5*/(if(obj.value.linlin(0,1,21,108) ==80,{~note_name.string_("G#5");}););
-/*ASHARP5*/(if(obj.value.linlin(0,1,21,108) ==82,{~note_name.string_("A#5");}););
-/*CSHARP6*/(if(obj.value.linlin(0,1,21,108) ==85,{~note_name.string_("C#6");}););
-/*DSHARP6*/(if(obj.value.linlin(0,1,21,108) ==87,{~note_name.string_("D#6");}););
-/*FSHARP6*/(if(obj.value.linlin(0,1,21,108) ==90,{~note_name.string_("F#6");}););
-/*GSHARP6*/(if(obj.value.linlin(0,1,21,108) ==92,{~note_name.string_("G#6");}););
-/*ASHARP6*/(if(obj.value.linlin(0,1,21,108) ==94,{~note_name.string_("A#6");}););
-/*CSHARP7*/(if(obj.value.linlin(0,1,21,108) ==97,{~note_name.string_("C#7");}););
-/*DSHARP7*/(if(obj.value.linlin(0,1,21,108) ==99,{~note_name.string_("D#7");}););
-/*FSHARP7*/(if(obj.value.linlin(0,1,21,108) ==102,{~note_name.string_("F#7");}););
-/*GSHARP7*/(if(obj.value.linlin(0,1,21,108) ==104,{~note_name.string_("G#7");}););
-/*ASHARP7*/(if(obj.value.linlin(0,1,21,108) ==106,{~note_name.string_("A#7");}););
-
+		(basePath +/+  "data/tuning_frequency_slider.scd").load; //This calls the naming function from another code block to help keep this program clean and modular
 
 (if(~key_vis.value == 1, {
 
@@ -981,7 +897,7 @@ s.makeBundle(10.0, //sound delay
 //Define the sound to be played
 (
 SynthDef.new("sound", {
-	arg freqX = 21, outoftune = 0, intensity = 1, other = 1, vol = 1.2, harmToggle1=1, harmToggle2=1, harmToggle3=1, harmToggle4=1, harmToggle5=1, harmToggle6=1, harmToggle7=1, harmToggle8=1, harmToggle9=1, harmToggle10=1, harmToggle11=1, harmToggle12=1, harmToggle13=1, harmToggle14=1, harmToggle15=1, harmToggle16=1,
+	arg freqX = 21, outoftune = 0, intensity = 1, other = 1, vol = ~volume_value, harmToggle1=1, harmToggle2=1, harmToggle3=1, harmToggle4=1, harmToggle5=1, harmToggle6=1, harmToggle7=1, harmToggle8=1, harmToggle9=1, harmToggle10=1, harmToggle11=1, harmToggle12=1, harmToggle13=1, harmToggle14=1, harmToggle15=1, harmToggle16=1,
 			choose1=0,
 			choose2=0,
 			choose3=0,
@@ -1050,7 +966,7 @@ SynthDef.new("sound", {
 );
 
 
-//FREQUENCY of deviant
+//FREQUENCY deviation of deviant
 //Properties of the slider
 ~freqslider = Slider(w, Rect(160,200+65+30,330,30))
 .background_(Color(0.8,0.8,0.8,0.75))
@@ -1063,6 +979,32 @@ SynthDef.new("sound", {
 		x.isPlaying,
 		{x.set(\outoftune,cf)});
 	~numberBox.value_(obj.value.linlin(0,1,-1,1));
+
+
+
+
+
+		//Deviant control for keyboard GUI to shift the inner fill square
+(
+~deviant_move = ~freqslider.value.linlin(0,1,-1,1); //Should get value from the deviant slider
+~deviant_scale = 7*20;
+~keyboard_CompositeView_White.bounds_(Rect(27+(~deviant_move*~deviant_scale)+1,175+1,5-1,5-1))
+)
+
+/*
+The deviant_scale values for different harmonics:
+Harmonic 1: 12 semitones  = 7*20 if white key starts
+Harmonic 2: 4*20 if white key starts
+Harmonic 3: 3*20 if white key starts
+Harmonic 4: 2.5*20 if white key starts
+Harmonic 5: *20 if black key
+Harmonic 6: 4*20 if white key
+*/
+
+
+
+
+
 });
 
 //Label for Freq.
@@ -1355,7 +1297,11 @@ s.waitForBoot({
 		s.makeBundle(1.0, //sound delay
 			{~dirtyBit = 5; ~dirtyBit.postln;~fslider.valueAction_(~fslider.value);});
 
-			~volslider.valueAction_(0.3);
+				if(
+		x.isPlaying,
+		{x.set(\vol,~volume_value)}); //Conserves the volume value between sound on/off
+
+//			~volslider.valueAction_(0.3);
 
 			});
 

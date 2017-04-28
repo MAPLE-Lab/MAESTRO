@@ -96,6 +96,7 @@
 ~b7 = StaticText(~keyboard, Rect(20+1000,20,19,150)).background_(Color.white).string_("").align_(\bottom).stringColor_(Color(0.4824, 0.4863, 0.4863));
 ~c8 = StaticText(~keyboard, Rect(20+1020,20,19,150)).background_(Color.white).string_("").align_(\bottom).stringColor_(Color(0.4824, 0.4863, 0.4863));
 
+//White Dots
 ~dot_a0 = StaticText(~keyboard, Rect(20+0+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
 ~dot_b0 = StaticText(~keyboard, Rect(20+20+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
 ~dot_c1 = StaticText(~keyboard, Rect(20+40+7,20+150+5,5,5)).background_(Color(0, 0, 0, 0)).string_("").align_(\bottom).stringColor_(Color(0, 0, 0, 1));
@@ -256,7 +257,7 @@
 ~gSHARP7 = StaticText(~keyboard, Rect(30+960,20,19,100)).background_(Color.black).string_("");
 ~aSHARP7 = StaticText(~keyboard, Rect(30+980,20,19,100)).background_(Color.black).string_("");
 
-
+//Black dots
 ~dot_aSHARP0 = StaticText(~keyboard, Rect(30+0+7,20+90,5,5)).background_(Color(1,1,1,0)).string_("");
 ~dot_cSHARP1 = StaticText(~keyboard, Rect(30+40+7,20+90,5,5)).background_(Color(1,1,1,0)).string_("");
 ~dot_dSHARP1 = StaticText(~keyboard, Rect(30+60+7,20+90,5,5)).background_(Color(1,1,1,0)).string_("");
@@ -586,6 +587,23 @@ Pen.line(1008@120,1031@120);
 // ///Knob for colour intensity
 // ~intensifier = 1;
 // ~knob = Knob.new(~keyboard, Rect(580, 1, 17, 17)).action_(~intensifier = ~knob.value.linlin(0,1,1,10));
+
+if(~module_ID == "spectra",
+		{
+		~knob_text = StaticText(~keyboard, Rect(0, 1, (420+20+20+620)-20, 17)).string_("Gain").stringColor_(Color.black).align_(\right);
+~knob_keyboard = Knob.new(~keyboard, Rect(580+430, 1, 17, 17)); //Knob version
+		// Slider(~keyboard, Rect(580, 1, 170, 17)); //Slider version
+~knob_keyboard.action_({~knob.valueAction_(~knob_keyboard.value)});
+
+
+
+}); //This controls the value of the invisible knob on the Spectra
+
+//(if(obj.value.linlin(0,1,21,108) <= 98, {~d7.background_(Color(1,~color_array[98-1],~color_array[98-1]));}, {~d7.background_(Color.white)});)
+
+~keyboard_CompositeView_White = CompositeView(~keyboard, Rect(27+1,175+1,5-1,5-1));
+
+~deviat_fill = StaticText(~keyboard_CompositeView_White, Rect(0,0,3,3)).background_(Color.red);
 
 w.onClose_({a.free; ~keyboard_open = 0;});
 )

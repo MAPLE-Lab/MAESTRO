@@ -16,6 +16,10 @@ a.free; //clear buffers to help resolve memory leak
 	// w.view.background = Color(0.9,0.9,0.9,1);
 
 
+//Module ID
+	~module_ID = "spectra";
+
+
 //Dirty bit used in GUI updating sync
 	~dirtyBit = 0;
 
@@ -859,8 +863,61 @@ l.free;
 		}));
 		//
 (
+// These y_var and x_var make the following lines of code more clear to read
+			~y_var = Array.fill(200,1);
+			~x_var = Array.fill(200,~knob.value.linlin(0,1,0,1););
+			~gain_strength = 10; //Doesn't seem to actually affect the Gain
+			// ~y_var[0] =(~manipulated_harmonic[0]*~f1slider.value.linlin(0,1,1,0););
+			// ~x_var[0] = ~knob.value.linlin(0,1,0,1);
+
+			//Allows the calculation of the keyboard GUI intensity with Knob Gain
 ~color_array = Array.fill(200,1);
-~color_array[~freqslider.value.linlin(0,1,21,108)-1+0]=(~harmonics_array[0]-~knob.value.linlin(0,1,0,1)+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[0])))-(~manipulated_harmonic[0]*~f1slider.value.linlin(0,1,0,1););
+
+
+// y_var values must be computed BEFORE the color_array block so that the values exist; thus when copying from the Excel generator the order of the two blocks must be inverted
+~y_var[0] =(~manipulated_harmonic[0]*~f1slider.value.linlin(0,1,1,0););
+~y_var[1] =(~manipulated_harmonic[1]*~f2slider.value.linlin(0,1,1,0););
+~y_var[2] =(~manipulated_harmonic[2]*~f3slider.value.linlin(0,1,1,0););
+~y_var[3] =(~manipulated_harmonic[3]*~f4slider.value.linlin(0,1,1,0););
+~y_var[4] =(~manipulated_harmonic[4]*~f5slider.value.linlin(0,1,1,0););
+~y_var[5] =(~manipulated_harmonic[5]*~f6slider.value.linlin(0,1,1,0););
+~y_var[6] =(~manipulated_harmonic[6]*~f7slider.value.linlin(0,1,1,0););
+~y_var[7] =(~manipulated_harmonic[7]*~f8slider.value.linlin(0,1,1,0););
+~y_var[8] =(~manipulated_harmonic[8]*~f9slider.value.linlin(0,1,1,0););
+~y_var[9] =(~manipulated_harmonic[9]*~f10slider.value.linlin(0,1,1,0););
+~y_var[10] =(~manipulated_harmonic[10]*~f11slider.value.linlin(0,1,1,0););
+~y_var[11] =(~manipulated_harmonic[11]*~f12slider.value.linlin(0,1,1,0););
+~y_var[12] =(~manipulated_harmonic[12]*~f13slider.value.linlin(0,1,1,0););
+~y_var[13] =(~manipulated_harmonic[13]*~f14slider.value.linlin(0,1,1,0););
+~y_var[14] =(~manipulated_harmonic[14]*~f15slider.value.linlin(0,1,1,0););
+~y_var[15] =(~manipulated_harmonic[15]*~f16slider.value.linlin(0,1,1,0););
+
+
+~color_array[~freqslider.value.linlin(0,1,21,108)-1+0]=((~y_var[0]**~gain_strength)*(~x_var[0])+(1-~x_var[0])*(~y_var[0]));
+~color_array[~freqslider.value.linlin(0,1,21,108)-1+12]=((~y_var[1]**~gain_strength)*(~x_var[1])+(1-~x_var[1])*(~y_var[1]));
+~color_array[~freqslider.value.linlin(0,1,21,108)-1+19]=((~y_var[2]**~gain_strength)*(~x_var[2])+(1-~x_var[2])*(~y_var[2]));
+~color_array[~freqslider.value.linlin(0,1,21,108)-1+24]=((~y_var[3]**~gain_strength)*(~x_var[3])+(1-~x_var[3])*(~y_var[3]));
+~color_array[~freqslider.value.linlin(0,1,21,108)-1+28]=((~y_var[4]**~gain_strength)*(~x_var[4])+(1-~x_var[4])*(~y_var[4]));
+~color_array[~freqslider.value.linlin(0,1,21,108)-1+31]=((~y_var[5]**~gain_strength)*(~x_var[5])+(1-~x_var[5])*(~y_var[5]));
+~color_array[~freqslider.value.linlin(0,1,21,108)-1+34]=((~y_var[6]**~gain_strength)*(~x_var[6])+(1-~x_var[6])*(~y_var[6]));
+~color_array[~freqslider.value.linlin(0,1,21,108)-1+36]=((~y_var[7]**~gain_strength)*(~x_var[7])+(1-~x_var[7])*(~y_var[7]));
+~color_array[~freqslider.value.linlin(0,1,21,108)-1+38]=((~y_var[8]**~gain_strength)*(~x_var[8])+(1-~x_var[8])*(~y_var[8]));
+~color_array[~freqslider.value.linlin(0,1,21,108)-1+40]=((~y_var[9]**~gain_strength)*(~x_var[9])+(1-~x_var[9])*(~y_var[9]));
+~color_array[~freqslider.value.linlin(0,1,21,108)-1+41]=((~y_var[10]**~gain_strength)*(~x_var[10])+(1-~x_var[10])*(~y_var[10]));
+~color_array[~freqslider.value.linlin(0,1,21,108)-1+43]=((~y_var[11]**~gain_strength)*(~x_var[11])+(1-~x_var[11])*(~y_var[11]));
+~color_array[~freqslider.value.linlin(0,1,21,108)-1+44]=((~y_var[12]**~gain_strength)*(~x_var[12])+(1-~x_var[12])*(~y_var[12]));
+~color_array[~freqslider.value.linlin(0,1,21,108)-1+46]=((~y_var[13]**~gain_strength)*(~x_var[13])+(1-~x_var[13])*(~y_var[13]));
+~color_array[~freqslider.value.linlin(0,1,21,108)-1+47]=((~y_var[14]**~gain_strength)*(~x_var[14])+(1-~x_var[14])*(~y_var[14]));
+~color_array[~freqslider.value.linlin(0,1,21,108)-1+48]=((~y_var[15]**~gain_strength)*(~x_var[15])+(1-~x_var[15])*(~y_var[15]));
+
+
+
+
+
+
+			// ~color_array[~freqslider.value.linlin(0,1,21,108)-1+0]=((~y_var[0]**10)*(~x_var[0])+(1-~x_var[0])*(~y_var[0]));
+
+			/*
 ~color_array[~freqslider.value.linlin(0,1,21,108)-1+12]=(~harmonics_array[1]-~knob.value.linlin(0,1,0,1)+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[1])))-(~manipulated_harmonic[1]*~f2slider.value.linlin(0,1,0,1););
 ~color_array[~freqslider.value.linlin(0,1,21,108)-1+19]=(~harmonics_array[2]-~knob.value.linlin(0,1,0,1)+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[2])))-(~manipulated_harmonic[2]*~f3slider.value.linlin(0,1,0,1););
 ~color_array[~freqslider.value.linlin(0,1,21,108)-1+24]=(~harmonics_array[3]-~knob.value.linlin(0,1,0,1)+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[3])))-(~manipulated_harmonic[3]*~f4slider.value.linlin(0,1,0,1););
@@ -876,6 +933,9 @@ l.free;
 ~color_array[~freqslider.value.linlin(0,1,21,108)-1+46]=(~harmonics_array[13]-~knob.value.linlin(0,1,0,1)+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[13])))-(~manipulated_harmonic[13]*~f14slider.value.linlin(0,1,0,1););
 ~color_array[~freqslider.value.linlin(0,1,21,108)-1+47]=(~harmonics_array[14]-~knob.value.linlin(0,1,0,1)+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[14])))-(~manipulated_harmonic[14]*~f15slider.value.linlin(0,1,0,1););
 ~color_array[~freqslider.value.linlin(0,1,21,108)-1+48]=(~harmonics_array[15]-~knob.value.linlin(0,1,0,1)+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[15])))-(~manipulated_harmonic[15]*~f16slider.value.linlin(0,1,0,1););
+*/
+
+
 
 
 
@@ -1501,809 +1561,8 @@ SynthDef.new("sound", {
 
 
 
-
-
 	/////////////////SLIDERS
-///F1
-//Properties of the slider
-~f1slider = Slider(w, Rect(70,145,20,230))
-.background_(Color(0.8,0.8,0.8,0.75))
-	.value_(0.5) //is converted to 1
-	.orientation_(\vertical)
-	.action_({
-	arg obj;
-	var cf;
-	cf = obj.value.linlin(0,1,0.0,2).postln;
-		if(
-		x.isPlaying,
-		{x.set(\f1,cf)});
-	~number1Box.value_(obj.value.linlin(0,1,0.0,2));
-		~freqslider.valueAction_(~fslider.value); //This allows it to refresh real-time
-
-s.makeBundle(1.0, //sound delay
-			{~dirtyBit = 5; ~dirtyBit.postln;~freqslider.valueAction_(~fslider.value);});
-});
-//Label
-~f1Label = StaticText(w,Rect(70,130,20,15))
-.string_("1")
-.font_(Font("nil", 12))
-.align_(\top)
-.background_(Color(0,0,0,0.1))
-.stringColor_(Color.black);
-//Number box that can edit slider position
-~number1Box = NumberBox(w,Rect(70,375,20,15))
-.value_(1)
-.clipLo_(0.0)
-.clipHi_(2)
-.font_(Font("nil",7))
-.decimals_(2)
-.align_(\center)
-.action_({
-	arg obj;
-	~f1slider.valueAction_(obj.value.linlin(0.0,2,0,1))
-});
-//Number box showing harmonic frequency
-~f1Box = NumberBox(w,Rect(70,390,20,15))
-.value_(240)
-.clipLo_(100)
-.clipHi_(20000)
-.font_(Font("nil",5))
-.decimals_(1)
-.align_(\center);
-	// .action_({
-		// arg obj;
-		// ~freqslider.valueAction_(obj.value.explin(100,1000,0,1))
-// });
-
-	///F2
-//Properties of the slider
-~f2slider = Slider(w, Rect(90,145,20,230))
-.background_(Color(0.8,0.8,0.8,0.75))
-	.value_(0.5) //is converted to 1
-	.orientation_(\vertical)
-	.action_({
-	arg obj;
-	var cf;
-	cf = obj.value.linlin(0,1,0.0,2).postln;
-		if(
-		x.isPlaying,
-		{x.set(\f2,cf)});
-	~number2Box.value_(obj.value.linlin(0,1,0.0,2));
-		~freqslider.valueAction_(~fslider.value); //This allows it to refresh real-time
-s.makeBundle(1.0, //sound delay
-			{~dirtyBit = 5; ~dirtyBit.postln;~freqslider.valueAction_(~fslider.value);});
-});
-//Label
-~f2Label = StaticText(w,Rect(90,130,20,15))
-.string_("2")
-.font_(Font("nil", 12))
-.align_(\top)
-.background_(Color(0,0,0,0.1))
-.stringColor_(Color.black);
-//Number box that can edit slider position
-~number2Box = NumberBox(w,Rect(90,375,20,15))
-.value_(1)
-.clipLo_(0.0)
-.clipHi_(2)
-.font_(Font("nil",7))
-.decimals_(2)
-.align_(\center)
-.action_({
-	arg obj;
-	~f2slider.valueAction_(obj.value.linlin(0.0,2,0,1))
-});
-//Number box showing harmonic frequency
-~f2Box = NumberBox(w,Rect(90,390,20,15))
-.value_(240*1)
-.clipLo_(100)
-.clipHi_(20000)
-.font_(Font("nil",5))
-.decimals_(1)
-.align_(\center);
-	// .action_({
-		// arg obj;
-		// ~freqslider.valueAction_(obj.value.explin(100,1000,0,1))
-// });
-
-	///F3
-//Properties of the slider
-~f3slider = Slider(w, Rect(110,145,20,230))
-.background_(Color(0.8,0.8,0.8,0.75))
-	.value_(0.5) //is converted to 1
-	.orientation_(\vertical)
-	.action_({
-	arg obj;
-	var cf;
-	cf = obj.value.linlin(0,1,0.0,2).postln;
-		if(
-		x.isPlaying,
-		{x.set(\f3,cf)});
-	~number3Box.value_(obj.value.linlin(0,1,0.0,2));
-		~freqslider.valueAction_(~fslider.value); //This allows it to refresh real-time
-s.makeBundle(1.0, //sound delay
-			{~dirtyBit = 5; ~dirtyBit.postln;~freqslider.valueAction_(~fslider.value);});
-});
-//Label
-~f3Label = StaticText(w,Rect(110,130,20,15))
-.string_("3")
-.font_(Font("nil", 12))
-.align_(\top)
-.background_(Color(0,0,0,0.1))
-.stringColor_(Color.black);
-//Number box that can edit slider position
-~number3Box = NumberBox(w,Rect(110,375,20,15))
-.value_(3)
-.clipLo_(0.0)
-.clipHi_(2)
-.font_(Font("nil",7))
-.decimals_(2)
-.align_(\center)
-.action_({
-	arg obj;
-	~f3slider.valueAction_(obj.value.linlin(0.0,2,0,1))
-});
-//Number box showing harmonic frequency
-~f3Box = NumberBox(w,Rect(110,390,20,15))
-.value_(240*3)
-.clipLo_(100)
-.clipHi_(20000)
-.font_(Font("nil",5))
-.decimals_(1)
-.align_(\center);
-	// .action_({
-		// arg obj;
-		// ~freqslider.valueAction_(obj.value.explin(100,1000,0,1))
-// });
-
-	///F4
-//Properties of the slider
-~f4slider = Slider(w, Rect(130,145,20,230))
-.background_(Color(0.8,0.8,0.8,0.75))
-	.value_(0.5) //is converted to 1
-	.orientation_(\vertical)
-	.action_({
-	arg obj;
-	var cf;
-	cf = obj.value.linlin(0,1,0.0,2).postln;
-		if(
-		x.isPlaying,
-		{x.set(\f4,cf)});
-	~number4Box.value_(obj.value.linlin(0,1,0.0,2));
-		~freqslider.valueAction_(~fslider.value); //This allows it to refresh real-time
-s.makeBundle(1.0, //sound delay
-			{~dirtyBit = 5; ~dirtyBit.postln;~freqslider.valueAction_(~fslider.value);});
-});
-//Label
-~f4Label = StaticText(w,Rect(130,130,20,15))
-.string_("4")
-.font_(Font("nil", 12))
-.align_(\top)
-.background_(Color(0,0,0,0.1))
-.stringColor_(Color.black);
-//Number box that can edit slider position
-~number4Box = NumberBox(w,Rect(130,375,20,15))
-.value_(1)
-.clipLo_(0.0)
-.clipHi_(2)
-.font_(Font("nil",7))
-.decimals_(2)
-.align_(\center)
-.action_({
-	arg obj;
-	~f4slider.valueAction_(obj.value.linlin(0.0,2,0,1))
-});
-//Number box showing harmonic frequency
-~f4Box = NumberBox(w,Rect(130,390,20,15))
-.value_(240*4)
-.clipLo_(100)
-.clipHi_(20000)
-.font_(Font("nil",5))
-.decimals_(1)
-.align_(\center);
-	// .action_({
-		// arg obj;
-		// ~freqslider.valueAction_(obj.value.explin(100,1000,0,1))
-// });
-
-	///F5
-//Properties of the slider
-~f5slider = Slider(w, Rect(150,145,20,230))
-.background_(Color(0.8,0.8,0.8,0.75))
-	.value_(0.5) //is converted to 1
-	.orientation_(\vertical)
-	.action_({
-	arg obj;
-	var cf;
-	cf = obj.value.linlin(0,1,0.0,2).postln;
-		if(
-		x.isPlaying,
-		{x.set(\f5,cf)});
-	~number5Box.value_(obj.value.linlin(0,1,0.0,2));
-		~freqslider.valueAction_(~fslider.value); //This allows it to refresh real-time
-s.makeBundle(1.0, //sound delay
-			{~dirtyBit = 5; ~dirtyBit.postln;~freqslider.valueAction_(~fslider.value);});
-});
-//Label
-~f5Label = StaticText(w,Rect(150,130,20,15))
-.string_("5")
-.font_(Font("nil", 12))
-.align_(\top)
-.background_(Color(0,0,0,0.1))
-.stringColor_(Color.black);
-//Number box that can edit slider position
-~number5Box = NumberBox(w,Rect(150,375,20,15))
-.value_(1)
-.clipLo_(0.0)
-.clipHi_(2)
-.font_(Font("nil",7))
-.decimals_(2)
-.align_(\center)
-.action_({
-	arg obj;
-	~f5slider.valueAction_(obj.value.linlin(0.0,2,0,1))
-});
-//Number box showing harmonic frequency
-~f5Box = NumberBox(w,Rect(150,390,20,15))
-.value_(240*5)
-.clipLo_(100)
-.clipHi_(20000)
-.font_(Font("nil",5))
-.decimals_(1)
-.align_(\center);
-	// .action_({
-		// arg obj;
-		// ~freqslider.valueAction_(obj.value.explin(100,1000,0,1))
-// });
-
-	///F6
-//Properties of the slider
-~f6slider = Slider(w, Rect(170,145,20,230))
-.background_(Color(0.8,0.8,0.8,0.75))
-	.value_(0.5) //is converted to 1
-	.orientation_(\vertical)
-	.action_({
-	arg obj;
-	var cf;
-	cf = obj.value.linlin(0,1,0.0,2).postln;
-		if(
-		x.isPlaying,
-		{x.set(\f6,cf)});
-	~number6Box.value_(obj.value.linlin(0,1,0.0,2));
-		~freqslider.valueAction_(~fslider.value); //This allows it to refresh real-time
-s.makeBundle(1.0, //sound delay
-			{~dirtyBit = 5; ~dirtyBit.postln;~freqslider.valueAction_(~fslider.value);});
-});
-//Label
-~f6Label = StaticText(w,Rect(170,130,20,15))
-.string_("6")
-.font_(Font("nil", 12))
-.align_(\top)
-.background_(Color(0,0,0,0.1))
-.stringColor_(Color.black);
-//Number box that can edit slider position
-~number6Box = NumberBox(w,Rect(170,375,20,15))
-.value_(1)
-.clipLo_(0.0)
-.clipHi_(2)
-.font_(Font("nil",7))
-.decimals_(2)
-.align_(\center)
-.action_({
-	arg obj;
-	~f6slider.valueAction_(obj.value.linlin(0.0,2,0,1))
-});
-//Number box showing harmonic frequency
-~f6Box = NumberBox(w,Rect(170,390,20,15))
-.value_(240)
-.clipLo_(100)
-.clipHi_(20000)
-.font_(Font("nil",5))
-.decimals_(1)
-.align_(\center);
-	// .action_({
-		// arg obj;
-		// ~freqslider.valueAction_(obj.value.explin(100,1000,0,1))
-// });
-
-	///F7
-//Properties of the slider
-~f7slider = Slider(w, Rect(190,145,20,230))
-.background_(Color(0.8,0.8,0.8,0.75))
-	.value_(0.5) //is converted to 1
-	.orientation_(\vertical)
-	.action_({
-	arg obj;
-	var cf;
-	cf = obj.value.linlin(0,1,0.0,2).postln;
-		if(
-		x.isPlaying,
-		{x.set(\f7,cf)});
-	~number7Box.value_(obj.value.linlin(0,1,0.0,2));
-		~freqslider.valueAction_(~fslider.value); //This allows it to refresh real-time
-s.makeBundle(1.0, //sound delay
-			{~dirtyBit = 5; ~dirtyBit.postln;~freqslider.valueAction_(~fslider.value);});
-});
-//Label
-~f7Label = StaticText(w,Rect(190,130,20,15))
-.string_("7")
-.font_(Font("nil", 12))
-.align_(\top)
-.background_(Color(0,0,0,0.1))
-.stringColor_(Color.black);
-//Number box that can edit slider position
-~number7Box = NumberBox(w,Rect(190,375,20,15))
-.value_(1)
-.clipLo_(0.0)
-.clipHi_(2)
-.font_(Font("nil",7))
-.decimals_(2)
-.align_(\center)
-.action_({
-	arg obj;
-	~f7slider.valueAction_(obj.value.linlin(0.0,2,0,1))
-});
-//Number box showing harmonic frequency
-~f7Box = NumberBox(w,Rect(190,390,20,15))
-.value_(240*7)
-.clipLo_(100)
-.clipHi_(20000)
-.font_(Font("nil",5))
-.decimals_(1)
-.align_(\center);
-	// .action_({
-		// arg obj;
-		// ~freqslider.valueAction_(obj.value.explin(100,1000,0,1))
-// });
-
-	///F8
-//Properties of the slider
-~f8slider = Slider(w, Rect(210,145,20,230))
-.background_(Color(0.8,0.8,0.8,0.75))
-	.value_(0.5) //is converted to 1
-	.orientation_(\vertical)
-	.action_({
-	arg obj;
-	var cf;
-	cf = obj.value.linlin(0,1,0.0,2).postln;
-		if(
-		x.isPlaying,
-		{x.set(\f8,cf)});
-	~number8Box.value_(obj.value.linlin(0,1,0.0,2));
-		~freqslider.valueAction_(~fslider.value); //This allows it to refresh real-time
-s.makeBundle(1.0, //sound delay
-			{~dirtyBit = 5; ~dirtyBit.postln;~freqslider.valueAction_(~fslider.value);});
-});
-//Label
-~f8Label = StaticText(w,Rect(210,130,20,15))
-.string_("8")
-.font_(Font("nil", 12))
-.align_(\top)
-.background_(Color(0,0,0,0.1))
-.stringColor_(Color.black);
-//Number box that can edit slider position
-~number8Box = NumberBox(w,Rect(210,375,20,15))
-.value_(1)
-.clipLo_(0.0)
-.clipHi_(2)
-.font_(Font("nil",7))
-.decimals_(2)
-.align_(\center)
-.action_({
-	arg obj;
-	~f8slider.valueAction_(obj.value.linlin(0.0,2,0,1))
-});
-//Number box showing harmonic frequency
-~f8Box = NumberBox(w,Rect(210,390,20,15))
-.value_(240*8)
-.clipLo_(100)
-.clipHi_(20000)
-.font_(Font("nil",5))
-.decimals_(1)
-.align_(\center);
-	// .action_({
-		// arg obj;
-		// ~freqslider.valueAction_(obj.value.explin(100,1000,0,1))
-// });
-
-	///F9
-//Properties of the slider
-~f9slider = Slider(w, Rect(230,145,20,230))
-.background_(Color(0.8,0.8,0.8,0.75))
-	.value_(0.5) //is converted to 1
-	.orientation_(\vertical)
-	.action_({
-	arg obj;
-	var cf;
-	cf = obj.value.linlin(0,1,0.0,2).postln;
-		if(
-		x.isPlaying,
-		{x.set(\f9,cf)});
-	~number9Box.value_(obj.value.linlin(0,1,0.0,2));
-		~freqslider.valueAction_(~fslider.value); //This allows it to refresh real-time
-s.makeBundle(1.0, //sound delay
-			{~dirtyBit = 5; ~dirtyBit.postln;~freqslider.valueAction_(~fslider.value);});
-});
-//Label
-~f9Label = StaticText(w,Rect(230,130,20,15))
-.string_("9")
-.font_(Font("nil", 12))
-.align_(\top)
-.background_(Color(0,0,0,0.1))
-.stringColor_(Color.black);
-//Number box that can edit slider position
-~number9Box = NumberBox(w,Rect(230,375,20,15))
-.value_(1)
-.clipLo_(0.0)
-.clipHi_(2)
-.font_(Font("nil",7))
-.decimals_(2)
-.align_(\center)
-.action_({
-	arg obj;
-	~f9slider.valueAction_(obj.value.linlin(0.0,2,0,1))
-});
-//Number box showing harmonic frequency
-~f9Box = NumberBox(w,Rect(230,390,20,15))
-.value_(240*9)
-.clipLo_(100)
-.clipHi_(20000)
-.font_(Font("nil",5))
-.decimals_(1)
-.align_(\center);
-	// .action_({
-		// arg obj;
-		// ~freqslider.valueAction_(obj.value.explin(100,1000,0,1))
-// });
-
-	///F10
-//Properties of the slider
-~f10slider = Slider(w, Rect(250,145,20,230))
-.background_(Color(0.8,0.8,0.8,0.75))
-	.value_(0.5) //is converted to 1
-	.orientation_(\vertical)
-	.action_({
-	arg obj;
-	var cf;
-	cf = obj.value.linlin(0,1,0.0,2).postln;
-		if(
-		x.isPlaying,
-		{x.set(\f10,cf)});
-	~number10Box.value_(obj.value.linlin(0,1,0.0,2));
-		~freqslider.valueAction_(~fslider.value); //This allows it to refresh real-time
-s.makeBundle(1.0, //sound delay
-			{~dirtyBit = 5; ~dirtyBit.postln;~freqslider.valueAction_(~fslider.value);});
-});
-//Label
-~f10Label = StaticText(w,Rect(250,130,20,15))
-.string_("10")
-.font_(Font("nil", 12))
-.align_(\top)
-.background_(Color(0,0,0,0.1))
-.stringColor_(Color.black);
-//Number box that can edit slider position
-~number10Box = NumberBox(w,Rect(250,375,20,15))
-.value_(1)
-.clipLo_(0.0)
-.clipHi_(2)
-.font_(Font("nil",7))
-.decimals_(2)
-.align_(\center)
-.action_({
-	arg obj;
-	~f10slider.valueAction_(obj.value.linlin(0.0,2,0,1))
-});
-//Number box showing harmonic frequency
-~f10Box = NumberBox(w,Rect(250,390,20,15))
-.value_(240*10)
-.clipLo_(100)
-.clipHi_(20000)
-.font_(Font("nil",5))
-.decimals_(1)
-.align_(\center);
-	// .action_({
-		// arg obj;
-		// ~freqslider.valueAction_(obj.value.explin(100,1000,0,1))
-// });
-
-	///F11
-//Properties of the slider
-~f11slider = Slider(w, Rect(270,145,20,230))
-.background_(Color(0.8,0.8,0.8,0.75))
-	.value_(0.5) //is converted to 1
-	.orientation_(\vertical)
-	.action_({
-	arg obj;
-	var cf;
-	cf = obj.value.linlin(0,1,0.0,2).postln;
-		if(
-		x.isPlaying,
-		{x.set(\f11,cf)});
-	~number11Box.value_(obj.value.linlin(0,1,0.0,2));
-		~freqslider.valueAction_(~fslider.value); //This allows it to refresh real-time
-s.makeBundle(1.0, //sound delay
-			{~dirtyBit = 5; ~dirtyBit.postln;~freqslider.valueAction_(~fslider.value);});
-});
-//Label
-~f11Label = StaticText(w,Rect(270,130,20,15))
-.string_("11")
-.font_(Font("nil", 12))
-.align_(\top)
-.background_(Color(0,0,0,0.1))
-.stringColor_(Color.black);
-//Number box that can edit slider position
-~number11Box = NumberBox(w,Rect(270,375,20,15))
-.value_(1)
-.clipLo_(0.0)
-.clipHi_(2)
-.font_(Font("nil",7))
-.decimals_(2)
-.align_(\center)
-.action_({
-	arg obj;
-	~f11slider.valueAction_(obj.value.linlin(0.0,2,0,1))
-});
-//Number box showing harmonic frequency
-~f11Box = NumberBox(w,Rect(270,390,20,15))
-.value_(240*11)
-.clipLo_(100)
-.clipHi_(20000)
-.font_(Font("nil",5))
-.decimals_(1)
-.align_(\center);
-	// .action_({
-		// arg obj;
-		// ~freqslider.valueAction_(obj.value.explin(100,1000,0,1))
-// });
-
-	///F12
-//Properties of the slider
-~f12slider = Slider(w, Rect(290,145,20,230))
-.background_(Color(0.8,0.8,0.8,0.75))
-	.value_(0.5) //is converted to 1
-	.orientation_(\vertical)
-	.action_({
-	arg obj;
-	var cf;
-	cf = obj.value.linlin(0,1,0.0,2).postln;
-		if(
-		x.isPlaying,
-		{x.set(\f12,cf)});
-	~number12Box.value_(obj.value.linlin(0,1,0.0,2));
-		~freqslider.valueAction_(~fslider.value); //This allows it to refresh real-time
-s.makeBundle(1.0, //sound delay
-			{~dirtyBit = 5; ~dirtyBit.postln;~freqslider.valueAction_(~fslider.value);});
-});
-//Label
-~f12Label = StaticText(w,Rect(290,130,20,15))
-.string_("12")
-.font_(Font("nil", 12))
-.align_(\top)
-.background_(Color(0,0,0,0.1))
-.stringColor_(Color.black);
-//Number box that can edit slider position
-~number12Box = NumberBox(w,Rect(290,375,20,15))
-.value_(1)
-.clipLo_(0.0)
-.clipHi_(2)
-.font_(Font("nil",7))
-.decimals_(2)
-.align_(\center)
-.action_({
-	arg obj;
-	~f12slider.valueAction_(obj.value.linlin(0.0,2,0,1))
-});
-//Number box showing harmonic frequency
-~f12Box = NumberBox(w,Rect(290,390,20,15))
-.value_(240*12)
-.clipLo_(100)
-.clipHi_(20000)
-.font_(Font("nil",5))
-.decimals_(1)
-.align_(\center);
-	// .action_({
-		// arg obj;
-		// ~freqslider.valueAction_(obj.value.explin(100,1000,0,1))
-// });
-
-	///F13
-//Properties of the slider
-~f13slider = Slider(w, Rect(310,145,20,230))
-.background_(Color(0.8,0.8,0.8,0.75))
-	.value_(0.5) //is converted to 1
-	.orientation_(\vertical)
-	.action_({
-	arg obj;
-	var cf;
-	cf = obj.value.linlin(0,1,0.0,2).postln;
-		if(
-		x.isPlaying,
-		{x.set(\f13,cf)});
-	~number13Box.value_(obj.value.linlin(0,1,0.0,2));
-		~freqslider.valueAction_(~fslider.value); //This allows it to refresh real-time
-s.makeBundle(1.0, //sound delay
-			{~dirtyBit = 5; ~dirtyBit.postln;~freqslider.valueAction_(~fslider.value);});
-});
-//Label
-~f13Label = StaticText(w,Rect(310,130,20,15))
-.string_("13")
-.font_(Font("nil", 12))
-.align_(\top)
-.background_(Color(0,0,0,0.1))
-.stringColor_(Color.black);
-//Number box that can edit slider position
-~number13Box = NumberBox(w,Rect(310,375,20,15))
-.value_(1)
-.clipLo_(0.0)
-.clipHi_(2)
-.font_(Font("nil",7))
-.decimals_(2)
-.align_(\center)
-.action_({
-	arg obj;
-	~f13slider.valueAction_(obj.value.linlin(0.0,2,0,1))
-});
-//Number box showing harmonic frequency
-~f13Box = NumberBox(w,Rect(310,390,20,15))
-.value_(240*13)
-.clipLo_(100)
-.clipHi_(20000)
-.font_(Font("nil",5))
-.decimals_(1)
-.align_(\center);
-	// .action_({
-		// arg obj;
-		// ~freqslider.valueAction_(obj.value.explin(100,1000,0,1))
-// });
-
-	///F14
-//Properties of the slider
-~f14slider = Slider(w, Rect(330,145,20,230))
-.background_(Color(0.8,0.8,0.8,0.75))
-	.value_(0.5) //is converted to 1
-	.orientation_(\vertical)
-	.action_({
-	arg obj;
-	var cf;
-	cf = obj.value.linlin(0,1,0.0,2).postln;
-		if(
-		x.isPlaying,
-		{x.set(\f14,cf)});
-	~number14Box.value_(obj.value.linlin(0,1,0.0,2));
-		~freqslider.valueAction_(~fslider.value); //This allows it to refresh real-time
-s.makeBundle(1.0, //sound delay
-			{~dirtyBit = 5; ~dirtyBit.postln;~freqslider.valueAction_(~fslider.value);});
-});
-//Label
-~f14Label = StaticText(w,Rect(330,130,20,15))
-.string_("14")
-.font_(Font("nil", 12))
-.align_(\top)
-.background_(Color(0,0,0,0.1))
-.stringColor_(Color.black);
-//Number box that can edit slider position
-~number14Box = NumberBox(w,Rect(330,375,20,15))
-.value_(1)
-.clipLo_(0.0)
-.clipHi_(2)
-.font_(Font("nil",7))
-.decimals_(2)
-.align_(\center)
-.action_({
-	arg obj;
-	~f14slider.valueAction_(obj.value.linlin(0.0,2,0,1))
-});
-//Number box showing harmonic frequency
-~f14Box = NumberBox(w,Rect(330,390,20,15))
-.value_(240*14)
-.clipLo_(100)
-.clipHi_(20000)
-.font_(Font("nil",5))
-.decimals_(1)
-.align_(\center);
-	// .action_({
-		// arg obj;
-		// ~freqslider.valueAction_(obj.value.explin(100,1000,0,1))
-// });
-
-	///F15
-//Properties of the slider
-~f15slider = Slider(w, Rect(350,145,20,230))
-.background_(Color(0.8,0.8,0.8,0.75))
-	.value_(0.5) //is converted to 1
-	.orientation_(\vertical)
-	.action_({
-	arg obj;
-	var cf;
-	cf = obj.value.linlin(0,1,0.0,2).postln;
-		if(
-		x.isPlaying,
-		{x.set(\f15,cf)});
-	~number15Box.value_(obj.value.linlin(0,1,0.0,2));
-		~freqslider.valueAction_(~fslider.value); //This allows it to refresh real-time
-s.makeBundle(1.0, //sound delay
-			{~dirtyBit = 5; ~dirtyBit.postln;~freqslider.valueAction_(~fslider.value);});
-});
-//Label
-~f15Label = StaticText(w,Rect(350,130,20,15))
-.string_("15")
-.font_(Font("nil", 12))
-.align_(\top)
-.background_(Color(0,0,0,0.1))
-.stringColor_(Color.black);
-//Number box that can edit slider position
-~number15Box = NumberBox(w,Rect(350,375,20,15))
-.value_(1)
-.clipLo_(0.0)
-.clipHi_(2)
-.font_(Font("nil",7))
-.decimals_(2)
-.align_(\center)
-.action_({
-	arg obj;
-	~f15slider.valueAction_(obj.value.linlin(0.0,2,0,1))
-});
-//Number box showing harmonic frequency
-~f15Box = NumberBox(w,Rect(350,390,20,15))
-.value_(240*15)
-.clipLo_(100)
-.clipHi_(20000)
-.font_(Font("nil",5))
-.decimals_(1)
-.align_(\center);
-	// .action_({
-		// arg obj;
-		// ~freqslider.valueAction_(obj.value.explin(100,1000,0,1))
-// });
-
-	///F16
-//Properties of the slider
-~f16slider = Slider(w, Rect(370,145,20,230))
-.background_(Color(0.8,0.8,0.8,0.75))
-	.value_(0.5) //is converted to 1
-	.orientation_(\vertical)
-	.action_({
-	arg obj;
-	var cf;
-	cf = obj.value.linlin(0,1,0.0,2).postln;
-		if(
-		x.isPlaying,
-		{x.set(\f16,cf)});
-	~number16Box.value_(obj.value.linlin(0,1,0.0,2));
-		~freqslider.valueAction_(~fslider.value); //This allows it to refresh real-time
-s.makeBundle(1.0, //sound delay
-			{~dirtyBit = 5; ~dirtyBit.postln;~freqslider.valueAction_(~fslider.value);});
-});
-//Label
-~f16Label = StaticText(w,Rect(370,130,20,15))
-.string_("16")
-.font_(Font("nil", 12))
-.align_(\top)
-.background_(Color(0,0,0,0.1))
-.stringColor_(Color.black);
-//Number box that can edit slider position
-~number16Box = NumberBox(w,Rect(370,375,20,15))
-.value_(1)
-.clipLo_(0.0)
-.clipHi_(2)
-.font_(Font("nil",7))
-.decimals_(2)
-.align_(\center)
-.action_({
-	arg obj;
-	~f16slider.valueAction_(obj.value.linlin(0.0,2,0,1))
-});
-//Number box showing harmonic frequency
-~f16Box = NumberBox(w,Rect(370,390,20,15))
-.value_(240*16)
-.clipLo_(100)
-.clipHi_(20000)
-.font_(Font("nil",5))
-.decimals_(1)
-.align_(\center);
-	// .action_({
-		// arg obj;
-		// ~freqslider.valueAction_(obj.value.explin(100,1000,0,1))
-// });
+(basePath +/+  "data/spectra_harmonics_panel.scd").load; //This calls the naming function from another code block to help keep this program clean and modular
 
 
 ~quit = Button.new(w, Rect(760,65,30,30))
@@ -2567,8 +1826,8 @@ arg obj;
 
 
 
-
-~knob = Slider(w, Rect(640,70,60,25));
+//Gain Knob/Slider
+~knob = Slider(w, Rect(640+200,70,60,25)); //Placed off-screen, as a knob on the keyboard itself controls this value
 	~knob.action_({~freqslider.valueAction_(~fslider.value); //This allows it to refresh real-time
 s.makeBundle(1.0, //sound delay
 			{~dirtyBit = 13; ~dirtyBit.postln;~freqslider.valueAction_(~fslider.value);});});
