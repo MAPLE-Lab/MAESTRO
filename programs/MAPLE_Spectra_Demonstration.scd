@@ -619,9 +619,9 @@ l.free;
 	.action_({
 	arg obj;
 	var cf;
-	cf = obj.value.linlin(0,1,21,108).postln;
+	cf = obj.value.linlin(0,1,21,108); //.postln;
 		~fundamental_note = obj.value.linlin(0,1,21,108);
-		~fundamental_note.postln;
+		~fundamental_note; //.postln;
 		~fund = ~fundamental_note-1;
 		/*//C4
 		(
@@ -860,18 +860,17 @@ l.free;
 /*ASHARP7*/(if(obj.value.linlin(0,1,21,108) <=106,{if(~color_array[106-1]<1,{~aSHARP7.background_(Color(1,~color_array[106-1],~color_array[106-1]));},{~aSHARP7.background_(Color.black)})},{~aSHARP7.background_(Color.black)}););
 
 			~dirtyBit = 1;
-			~dirtyBit.postln;
+			/*~dirtyBit.postln;*/
 
 
-			(if(~dirtyBit > 0, {~dirtyBit.postln;}, {~freqslider.valueAction_(~fslider.value);}););
+			(if(~dirtyBit > 0, {/*~dirtyBit.postln;*/}, {~freqslider.valueAction_(~fslider.value);}););
 
 
-		}));
-		//
+
 (
 // These y_var and x_var make the following lines of code more clear to read
 			~y_var = Array.fill(200,1);
-			~x_var = Array.fill(200,~knob.value.linlin(0,1,0,1););
+			~x_var = Array.fill(200,~knob.value.linexp(0,1,1,100);); //use linexp to make the Knob somewhat intuitive to use
 			~gain_strength = 10; //Doesn't seem to actually affect the Gain
 			// ~y_var[0] =(~manipulated_harmonic[0]*~f1slider.value.linlin(0,1,1,0););
 			// ~x_var[0] = ~knob.value.linlin(0,1,0,1);
@@ -881,25 +880,76 @@ l.free;
 
 
 // y_var values must be computed BEFORE the color_array block so that the values exist; thus when copying from the Excel generator the order of the two blocks must be inverted
-~y_var[0] =(~manipulated_harmonic[0]*~f1slider.value.linlin(0,1,1,0););
-~y_var[1] =(~manipulated_harmonic[1]*~f2slider.value.linlin(0,1,1,0););
-~y_var[2] =(~manipulated_harmonic[2]*~f3slider.value.linlin(0,1,1,0););
-~y_var[3] =(~manipulated_harmonic[3]*~f4slider.value.linlin(0,1,1,0););
-~y_var[4] =(~manipulated_harmonic[4]*~f5slider.value.linlin(0,1,1,0););
-~y_var[5] =(~manipulated_harmonic[5]*~f6slider.value.linlin(0,1,1,0););
-~y_var[6] =(~manipulated_harmonic[6]*~f7slider.value.linlin(0,1,1,0););
-~y_var[7] =(~manipulated_harmonic[7]*~f8slider.value.linlin(0,1,1,0););
-~y_var[8] =(~manipulated_harmonic[8]*~f9slider.value.linlin(0,1,1,0););
-~y_var[9] =(~manipulated_harmonic[9]*~f10slider.value.linlin(0,1,1,0););
-~y_var[10] =(~manipulated_harmonic[10]*~f11slider.value.linlin(0,1,1,0););
-~y_var[11] =(~manipulated_harmonic[11]*~f12slider.value.linlin(0,1,1,0););
-~y_var[12] =(~manipulated_harmonic[12]*~f13slider.value.linlin(0,1,1,0););
-~y_var[13] =(~manipulated_harmonic[13]*~f14slider.value.linlin(0,1,1,0););
-~y_var[14] =(~manipulated_harmonic[14]*~f15slider.value.linlin(0,1,1,0););
-~y_var[15] =(~manipulated_harmonic[15]*~f16slider.value.linlin(0,1,1,0););
+				(
+					(0..15).do({
+						arg i;
+						var namer = i+1, slider_name;
+
+						slider_name = "~f" ++ namer ++ "slider.value.linlin(0,1,0,1)";
+						[i, ("~y_var["++i++"] =(~manipulated_harmonic["++i++"]*"++slider_name++")")].postln;
+						//slider_name.compile.postln;
+						("~y_var["++i++"] =(~manipulated_harmonic["++i++"]*"++slider_name++")").interpret; //Needs to be interpret and not compile (not sure why yet)
+
+					})
+				);
+
+				/* //OLD manual version, replaced with .do function
+~y_var[0] =(~manipulated_harmonic[0]*~f1slider.value.linlin(0,1,0,1););
+~y_var[1] =(~manipulated_harmonic[1]*~f2slider.value.linlin(0,1,0,1););
+~y_var[2] =(~manipulated_harmonic[2]*~f3slider.value.linlin(0,1,0,1););
+~y_var[3] =(~manipulated_harmonic[3]*~f4slider.value.linlin(0,1,0,1););
+~y_var[4] =(~manipulated_harmonic[4]*~f5slider.value.linlin(0,1,0,1););
+~y_var[5] =(~manipulated_harmonic[5]*~f6slider.value.linlin(0,1,0,1););
+~y_var[6] =(~manipulated_harmonic[6]*~f7slider.value.linlin(0,1,0,1););
+~y_var[7] =(~manipulated_harmonic[7]*~f8slider.value.linlin(0,1,0,1););
+~y_var[8] =(~manipulated_harmonic[8]*~f9slider.value.linlin(0,1,0,1););
+~y_var[9] =(~manipulated_harmonic[9]*~f10slider.value.linlin(0,1,0,1););
+~y_var[10] =(~manipulated_harmonic[10]*~f11slider.value.linlin(0,1,0,1););
+~y_var[11] =(~manipulated_harmonic[11]*~f12slider.value.linlin(0,1,0,1););
+~y_var[12] =(~manipulated_harmonic[12]*~f13slider.value.linlin(0,1,0,1););
+~y_var[13] =(~manipulated_harmonic[13]*~f14slider.value.linlin(0,1,0,1););
+~y_var[14] =(~manipulated_harmonic[14]*~f15slider.value.linlin(0,1,0,1););
+~y_var[15] =(~manipulated_harmonic[15]*~f16slider.value.linlin(0,1,0,1););
+*/
+
+//HARMONICS
+(
+[0, 12, 19, 24, 28, 31, 34, 36, 38, 40, 41, 43,44, 46, 47, 48].do({
+	arg i, item;
+	var note_add = i, harmonic_index = item, shorthand;
+	harmonic_index/*.postln*/;
+	note_add/*.postln*/;
+	~shorthand = ~freqslider.value.linlin(0,1,21,108)-1;
+	~shorthand/*.postln*/;
+
+	(if(~y_var[harmonic_index]*~x_var[harmonic_index] > 1, {
+		~color_array[~shorthand+note_add]=0;
+							//[harmonic_index, note_add, ~y_var[harmonic_index], ~color_array[~shorthand+note_add]].postln;
+						},
+	{if(~x_var[harmonic_index] == 100, {
+							if(~y_var[harmonic_index] > 0, {
+								~color_array[~shorthand+note_add]=0;}, {//else do nothing
+							};
+							//[harmonic_index, note_add, ~y_var[harmonic_index], ~color_array[~shorthand+note_add]].postln;
+						)},
+							{~color_array[~shorthand+note_add]=(-1)*((~y_var[harmonic_index])*(~x_var[harmonic_index])-1);
+							//[harmonic_index, note_add, ~y_var[harmonic_index], ~color_array[~shorthand+note_add]].postln;
+						})}
+	));
+
+});
+)
+
+			/*
+
+			//((~y_var[0]**~gain_strength)*(~x_var[0])+(1-~x_var[0])*(~y_var[0])); // The old way
 
 
-~color_array[~freqslider.value.linlin(0,1,21,108)-1+0]=((~y_var[0]**~gain_strength)*(~x_var[0])+(1-~x_var[0])*(~y_var[0]));
+			(if(~y_var[0]*~x_var[0] > 1,
+				{~color_array[~freqslider.value.linlin(0,1,21,108)-1+0]=0},
+				{~color_array[~freqslider.value.linlin(0,1,21,108)-1+0]=(-1)*((~y_var[0])*(~x_var[0])-1)}
+			););
+
 ~color_array[~freqslider.value.linlin(0,1,21,108)-1+12]=((~y_var[1]**~gain_strength)*(~x_var[1])+(1-~x_var[1])*(~y_var[1]));
 ~color_array[~freqslider.value.linlin(0,1,21,108)-1+19]=((~y_var[2]**~gain_strength)*(~x_var[2])+(1-~x_var[2])*(~y_var[2]));
 ~color_array[~freqslider.value.linlin(0,1,21,108)-1+24]=((~y_var[3]**~gain_strength)*(~x_var[3])+(1-~x_var[3])*(~y_var[3]));
@@ -916,7 +966,7 @@ l.free;
 ~color_array[~freqslider.value.linlin(0,1,21,108)-1+47]=((~y_var[14]**~gain_strength)*(~x_var[14])+(1-~x_var[14])*(~y_var[14]));
 ~color_array[~freqslider.value.linlin(0,1,21,108)-1+48]=((~y_var[15]**~gain_strength)*(~x_var[15])+(1-~x_var[15])*(~y_var[15]));
 
-
+*/
 
 
 
@@ -965,9 +1015,12 @@ l.free;
 
 		);
 
+			}));
+		//
+
 //Ensure it updates
 s.makeBundle(1.0, //sound delay -~knob.value.linlin(0,1,0,0.5)
-			{~dirtyBit = 2; ~dirtyBit.postln;
+			{~dirtyBit = 2; /*~dirtyBit.postln;*/
 
 			(if(~key_vis.value == 1, {
 
@@ -1183,7 +1236,7 @@ s.makeBundle(1.0, //sound delay -~knob.value.linlin(0,1,0,0.5)
 	.action_({
 	arg obj;
 	var cf;
-	cf = obj.value.linlin(0,1,0,1).postln;
+	cf = obj.value.linlin(0,1,0,1); //.postln;
 		if(
 		x.isPlaying,
 		{x.set(\vol,cf)});
@@ -1836,7 +1889,7 @@ arg obj;
 ~knob = Slider(w, Rect(640+200,70,60,25)); //Placed off-screen, as a knob on the keyboard itself controls this value
 	~knob.action_({~freqslider.valueAction_(~fslider.value); //This allows it to refresh real-time
 s.makeBundle(1.0, //sound delay
-			{~dirtyBit = 13; ~dirtyBit.postln;~freqslider.valueAction_(~fslider.value);});});
+			{~dirtyBit = 13; /*~dirtyBit.postln;*/~freqslider.valueAction_(~fslider.value);});});
 
 
 
