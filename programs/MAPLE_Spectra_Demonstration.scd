@@ -202,7 +202,13 @@ StaticText(w,Rect(410,360,500,2))
 		t.free;
 
 		},
-		{x.free; ~vinbutton.valueAction_(0);}
+		{x.free; ~vinbutton.valueAction_(0);
+				(if(~j.value==1, {~j.value_(0)}));//Added so big button closes small buttons
+				(if(~l.value==1, {~l.value_(0)}));
+				(if(~k.value==1, {~k.value_(0)}));
+				(if(~r.value==1, {~r.value_(0)})); //Only Power require it as the other buttons are not two-state
+
+			}
 	);
 });
 
@@ -425,7 +431,7 @@ l.free;
 				~k.valueAction_(0);
 								~vinbutton.valueAction_(0);
 
-	}, {x.free; ~j.valueAction_(1);~button.valueAction_(0)});});
+	}, {x.free; ~j.valueAction_(1);~button.value_(0)});}); //Ensure ~button.value is value not valueAction to avoid loop and ensure this turns off big button properly
 
 	//FORCED trumpet preset
 ~l = Button(w, Rect(335, 417.5, 90, 26))
@@ -468,7 +474,7 @@ l.free;
 				~r.valueAction_(0);
 								~vinbutton.valueAction_(0);
 
-	}, {x.free; ~l.valueAction_(1);~button.valueAction_(0)});});
+	}, {x.free; ~l.valueAction_(1);~button.value_(0)});});
 
 
 //FORCED flute preset
@@ -511,7 +517,7 @@ l.free;
 				~j.valueAction_(0);
 				~r.valueAction_(0);
 				~vinbutton.valueAction_(0);
-	}, {x.free; ~k.valueAction_(1);~button.valueAction_(0)});});
+	}, {x.free; ~k.valueAction_(1);~button.value_(0)});});
 
 	//FORCED horn preset
 ~r = Button(w, Rect(525, 417.5, 90, 26))
@@ -565,7 +571,7 @@ l.free;
 		~l.valueAction_(0);
 								~vinbutton.valueAction_(0);
 
-	}, {x.free; ~r.valueAction_(1);~button.valueAction_(0)});});
+	}, {x.free; ~r.valueAction_(1);~button.value_(0)});});
 
 
 	//Label for Moving

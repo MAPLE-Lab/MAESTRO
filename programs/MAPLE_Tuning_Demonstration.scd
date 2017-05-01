@@ -185,7 +185,7 @@ StaticText(w,Rect(0,620,500,2))
 		x.isPlaying,
 		{x.set(\vol,cf)});
 	~numberVBox.value_(obj.value.linlin(0,1,0,1)); //Acts as an invisible change so even though it seems 1:1 it's really 1:4
-		~volume_value = obj.value.linlin(0,1,0,4);
+		~volume_value = ~volslider.value.linlin(0,1,0,4);
 
 })
 	.orientation_(\horizontal);
@@ -897,7 +897,7 @@ s.makeBundle(10.0, //sound delay
 //Define the sound to be played
 (
 SynthDef.new("sound", {
-	arg freqX = 21, outoftune = 0, intensity = 1, other = 1, vol = ~volume_value, harmToggle1=1, harmToggle2=1, harmToggle3=1, harmToggle4=1, harmToggle5=1, harmToggle6=1, harmToggle7=1, harmToggle8=1, harmToggle9=1, harmToggle10=1, harmToggle11=1, harmToggle12=1, harmToggle13=1, harmToggle14=1, harmToggle15=1, harmToggle16=1,
+	arg freqX = 21, outoftune = 0, intensity = 1, other = 1, vol = 0+~volume_value, harmToggle1=1, harmToggle2=1, harmToggle3=1, harmToggle4=1, harmToggle5=1, harmToggle6=1, harmToggle7=1, harmToggle8=1, harmToggle9=1, harmToggle10=1, harmToggle11=1, harmToggle12=1, harmToggle13=1, harmToggle14=1, harmToggle15=1, harmToggle16=1,
 			choose1=0,
 			choose2=0,
 			choose3=0,
@@ -1274,7 +1274,7 @@ s.waitForBoot({
 				{
 
 					arg obj;
-	if(obj.value == 0,
+	if(~vinbutton.value == 0,
 						{
 
 							snd = funcs2.at(menu.value).play /*+ funcs2.at(menu2.value).postln*/;
@@ -1298,7 +1298,7 @@ s.waitForBoot({
 			{~dirtyBit = 5; ~dirtyBit.postln;~fslider.valueAction_(~fslider.value);});
 
 				if(
-		x.isPlaying,
+		~vinbutton.value == 1, //Helps ensure this function activates
 		{x.set(\vol,~volume_value)}); //Conserves the volume value between sound on/off
 
 //			~volslider.valueAction_(0.3);

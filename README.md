@@ -9,4 +9,15 @@ Name possibilities:
 
 * _Sound Manipulation_
 * _SoundMan_
-* 
+* _Sonico_
+* _Audio Creator_
+* _AudioSynth_
+* _Sound Explorer_
+* _SoundExpo_
+* _Rubato_
+* _Crescendo_
+* _Maestro_
+* _Fermata_
+* _Sono_
+* _Muse_
+* Copied-in name lists from the Markdown file seems to break Trello
