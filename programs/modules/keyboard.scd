@@ -593,7 +593,13 @@ if(~module_ID == "spectra",
 		~knob_text = StaticText(~keyboard, Rect(0, 1, (420+20+20+620)-20, 17)).string_("Gain").stringColor_(Color.black).align_(\right);
 ~knob_keyboard = Knob.new(~keyboard, Rect(580+430, 1, 17, 17)); //Knob version
 		// Slider(~keyboard, Rect(580, 1, 170, 17)); //Slider version
-~knob_keyboard.action_({~knob.valueAction_(~knob_keyboard.value)});
+~knob_keyboard.action_({
+			~knob.valueAction_(~knob_keyboard.value);
+			(
+			if(~knob_keyboard.value.linlin(0,1,0,1) == 1,
+				{~knob_keyboard.background_(Color.red)},{~knob_keyboard.background_(Color.white)})
+		);
+		});
 
 
 
