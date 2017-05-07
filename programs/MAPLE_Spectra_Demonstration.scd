@@ -869,11 +869,9 @@ l.free;
 
 (
 // These y_var and x_var make the following lines of code more clear to read
-			~y_var = Array.fill(200,1);
-			~x_var = Array.fill(200,~knob.value.linexp(0,1,1,100);); //use linexp to make the Knob somewhat intuitive to use
+			~energy = Array.fill(200,1);
+			~gain = Array.fill(200,~knob.value.linexp(0,1,1,100);); //use linexp to make the Knob somewhat intuitive to use
 			~gain_strength = 10; //Doesn't seem to actually affect the Gain
-			// ~y_var[0] =(~manipulated_harmonic[0]*~f1slider.value.linlin(0,1,1,0););
-			// ~x_var[0] = ~knob.value.linlin(0,1,0,1);
 
 			//Allows the calculation of the keyboard GUI intensity with Knob Gain
 ~color_array = Array.fill(200,1);
@@ -886,31 +884,13 @@ l.free;
 						var namer = i+1, slider_name;
 
 						slider_name = "~f" ++ namer ++ "slider.value.linlin(0,1,0,1)";
-						[i, ("~y_var["++i++"] =(~manipulated_harmonic["++i++"]*"++slider_name++")")].postln;
+						[i, ("~energy["++i++"] =(~manipulated_harmonic["++i++"]*"++slider_name++")")].postln;
 						//slider_name.compile.postln;
-						("~y_var["++i++"] =(~manipulated_harmonic["++i++"]*"++slider_name++")").interpret; //Needs to be interpret and not compile (not sure why yet)
+						("~energy["++i++"] =(~manipulated_harmonic["++i++"]*"++slider_name++")").interpret; //Needs to be interpret and not compile (not sure why yet)
 
 					})
 				);
 
-				/* //OLD manual version, replaced with .do function
-~y_var[0] =(~manipulated_harmonic[0]*~f1slider.value.linlin(0,1,0,1););
-~y_var[1] =(~manipulated_harmonic[1]*~f2slider.value.linlin(0,1,0,1););
-~y_var[2] =(~manipulated_harmonic[2]*~f3slider.value.linlin(0,1,0,1););
-~y_var[3] =(~manipulated_harmonic[3]*~f4slider.value.linlin(0,1,0,1););
-~y_var[4] =(~manipulated_harmonic[4]*~f5slider.value.linlin(0,1,0,1););
-~y_var[5] =(~manipulated_harmonic[5]*~f6slider.value.linlin(0,1,0,1););
-~y_var[6] =(~manipulated_harmonic[6]*~f7slider.value.linlin(0,1,0,1););
-~y_var[7] =(~manipulated_harmonic[7]*~f8slider.value.linlin(0,1,0,1););
-~y_var[8] =(~manipulated_harmonic[8]*~f9slider.value.linlin(0,1,0,1););
-~y_var[9] =(~manipulated_harmonic[9]*~f10slider.value.linlin(0,1,0,1););
-~y_var[10] =(~manipulated_harmonic[10]*~f11slider.value.linlin(0,1,0,1););
-~y_var[11] =(~manipulated_harmonic[11]*~f12slider.value.linlin(0,1,0,1););
-~y_var[12] =(~manipulated_harmonic[12]*~f13slider.value.linlin(0,1,0,1););
-~y_var[13] =(~manipulated_harmonic[13]*~f14slider.value.linlin(0,1,0,1););
-~y_var[14] =(~manipulated_harmonic[14]*~f15slider.value.linlin(0,1,0,1););
-~y_var[15] =(~manipulated_harmonic[15]*~f16slider.value.linlin(0,1,0,1););
-*/
 
 //HARMONICS
 (
@@ -922,101 +902,29 @@ l.free;
 	~shorthand = ~freqslider.value.linlin(0,1,21,108)-1;
 	~shorthand/*.postln*/;
 
-	(if(~y_var[harmonic_index]*~x_var[harmonic_index] > 1, {
+	(if(~energy[harmonic_index]*~gain[harmonic_index] > 1, {
 		~color_array[~shorthand+note_add]=0;
-							//[harmonic_index, note_add, ~y_var[harmonic_index], ~color_array[~shorthand+note_add]].postln;
+							//[harmonic_index, note_add, ~energy[harmonic_index], ~color_array[~shorthand+note_add]].postln;
 						},
-	{if(~x_var[harmonic_index] == 100, {
-							if(~y_var[harmonic_index] > 0, {
+	{if(~gain[harmonic_index] == 100, {
+							if(~energy[harmonic_index] > 0, {
 								~color_array[~shorthand+note_add]=0;}, {//else do nothing
 							};
-							//[harmonic_index, note_add, ~y_var[harmonic_index], ~color_array[~shorthand+note_add]].postln;
+							//[harmonic_index, note_add, ~energy[harmonic_index], ~color_array[~shorthand+note_add]].postln;
 						)},
-							{~color_array[~shorthand+note_add]=(-1)*((~y_var[harmonic_index])*(~x_var[harmonic_index])-1);
-							//[harmonic_index, note_add, ~y_var[harmonic_index], ~color_array[~shorthand+note_add]].postln;
+							{~color_array[~shorthand+note_add]=(-1)*((~energy[harmonic_index])*(~gain[harmonic_index])-1);
+							//[harmonic_index, note_add, ~energy[harmonic_index], ~color_array[~shorthand+note_add]].postln;
 						})}
 	));
 
 });
 )
 
-			/*
-
-			//((~y_var[0]**~gain_strength)*(~x_var[0])+(1-~x_var[0])*(~y_var[0])); // The old way
-
-
-			(if(~y_var[0]*~x_var[0] > 1,
-				{~color_array[~freqslider.value.linlin(0,1,21,108)-1+0]=0},
-				{~color_array[~freqslider.value.linlin(0,1,21,108)-1+0]=(-1)*((~y_var[0])*(~x_var[0])-1)}
-			););
-
-~color_array[~freqslider.value.linlin(0,1,21,108)-1+12]=((~y_var[1]**~gain_strength)*(~x_var[1])+(1-~x_var[1])*(~y_var[1]));
-~color_array[~freqslider.value.linlin(0,1,21,108)-1+19]=((~y_var[2]**~gain_strength)*(~x_var[2])+(1-~x_var[2])*(~y_var[2]));
-~color_array[~freqslider.value.linlin(0,1,21,108)-1+24]=((~y_var[3]**~gain_strength)*(~x_var[3])+(1-~x_var[3])*(~y_var[3]));
-~color_array[~freqslider.value.linlin(0,1,21,108)-1+28]=((~y_var[4]**~gain_strength)*(~x_var[4])+(1-~x_var[4])*(~y_var[4]));
-~color_array[~freqslider.value.linlin(0,1,21,108)-1+31]=((~y_var[5]**~gain_strength)*(~x_var[5])+(1-~x_var[5])*(~y_var[5]));
-~color_array[~freqslider.value.linlin(0,1,21,108)-1+34]=((~y_var[6]**~gain_strength)*(~x_var[6])+(1-~x_var[6])*(~y_var[6]));
-~color_array[~freqslider.value.linlin(0,1,21,108)-1+36]=((~y_var[7]**~gain_strength)*(~x_var[7])+(1-~x_var[7])*(~y_var[7]));
-~color_array[~freqslider.value.linlin(0,1,21,108)-1+38]=((~y_var[8]**~gain_strength)*(~x_var[8])+(1-~x_var[8])*(~y_var[8]));
-~color_array[~freqslider.value.linlin(0,1,21,108)-1+40]=((~y_var[9]**~gain_strength)*(~x_var[9])+(1-~x_var[9])*(~y_var[9]));
-~color_array[~freqslider.value.linlin(0,1,21,108)-1+41]=((~y_var[10]**~gain_strength)*(~x_var[10])+(1-~x_var[10])*(~y_var[10]));
-~color_array[~freqslider.value.linlin(0,1,21,108)-1+43]=((~y_var[11]**~gain_strength)*(~x_var[11])+(1-~x_var[11])*(~y_var[11]));
-~color_array[~freqslider.value.linlin(0,1,21,108)-1+44]=((~y_var[12]**~gain_strength)*(~x_var[12])+(1-~x_var[12])*(~y_var[12]));
-~color_array[~freqslider.value.linlin(0,1,21,108)-1+46]=((~y_var[13]**~gain_strength)*(~x_var[13])+(1-~x_var[13])*(~y_var[13]));
-~color_array[~freqslider.value.linlin(0,1,21,108)-1+47]=((~y_var[14]**~gain_strength)*(~x_var[14])+(1-~x_var[14])*(~y_var[14]));
-~color_array[~freqslider.value.linlin(0,1,21,108)-1+48]=((~y_var[15]**~gain_strength)*(~x_var[15])+(1-~x_var[15])*(~y_var[15]));
-
-*/
-
-
-
-
-			// ~color_array[~freqslider.value.linlin(0,1,21,108)-1+0]=((~y_var[0]**10)*(~x_var[0])+(1-~x_var[0])*(~y_var[0]));
-
-			/*
-~color_array[~freqslider.value.linlin(0,1,21,108)-1+12]=(~harmonics_array[1]-~knob.value.linlin(0,1,0,1)+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[1])))-(~manipulated_harmonic[1]*~f2slider.value.linlin(0,1,0,1););
-~color_array[~freqslider.value.linlin(0,1,21,108)-1+19]=(~harmonics_array[2]-~knob.value.linlin(0,1,0,1)+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[2])))-(~manipulated_harmonic[2]*~f3slider.value.linlin(0,1,0,1););
-~color_array[~freqslider.value.linlin(0,1,21,108)-1+24]=(~harmonics_array[3]-~knob.value.linlin(0,1,0,1)+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[3])))-(~manipulated_harmonic[3]*~f4slider.value.linlin(0,1,0,1););
-~color_array[~freqslider.value.linlin(0,1,21,108)-1+28]=(~harmonics_array[4]-~knob.value.linlin(0,1,0,1)+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[4])))-(~manipulated_harmonic[4]*~f5slider.value.linlin(0,1,0,1););
-~color_array[~freqslider.value.linlin(0,1,21,108)-1+31]=(~harmonics_array[5]-~knob.value.linlin(0,1,0,1)+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[5])))-(~manipulated_harmonic[5]*~f6slider.value.linlin(0,1,0,1););
-~color_array[~freqslider.value.linlin(0,1,21,108)-1+34]=(~harmonics_array[6]-~knob.value.linlin(0,1,0,1)+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[6])))-(~manipulated_harmonic[6]*~f7slider.value.linlin(0,1,0,1););
-~color_array[~freqslider.value.linlin(0,1,21,108)-1+36]=(~harmonics_array[7]-~knob.value.linlin(0,1,0,1)+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[7])))-(~manipulated_harmonic[7]*~f8slider.value.linlin(0,1,0,1););
-~color_array[~freqslider.value.linlin(0,1,21,108)-1+38]=(~harmonics_array[8]-~knob.value.linlin(0,1,0,1)+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[8])))-(~manipulated_harmonic[8]*~f9slider.value.linlin(0,1,0,1););
-~color_array[~freqslider.value.linlin(0,1,21,108)-1+40]=(~harmonics_array[9]-~knob.value.linlin(0,1,0,1)+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[9])))-(~manipulated_harmonic[9]*~f10slider.value.linlin(0,1,0,1););
-~color_array[~freqslider.value.linlin(0,1,21,108)-1+41]=(~harmonics_array[10]-~knob.value.linlin(0,1,0,1)+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[10])))-(~manipulated_harmonic[10]*~f11slider.value.linlin(0,1,0,1););
-~color_array[~freqslider.value.linlin(0,1,21,108)-1+43]=(~harmonics_array[11]-~knob.value.linlin(0,1,0,1)+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[11])))-(~manipulated_harmonic[11]*~f12slider.value.linlin(0,1,0,1););
-~color_array[~freqslider.value.linlin(0,1,21,108)-1+44]=(~harmonics_array[12]-~knob.value.linlin(0,1,0,1)+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[12])))-(~manipulated_harmonic[12]*~f13slider.value.linlin(0,1,0,1););
-~color_array[~freqslider.value.linlin(0,1,21,108)-1+46]=(~harmonics_array[13]-~knob.value.linlin(0,1,0,1)+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[13])))-(~manipulated_harmonic[13]*~f14slider.value.linlin(0,1,0,1););
-~color_array[~freqslider.value.linlin(0,1,21,108)-1+47]=(~harmonics_array[14]-~knob.value.linlin(0,1,0,1)+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[14])))-(~manipulated_harmonic[14]*~f15slider.value.linlin(0,1,0,1););
-~color_array[~freqslider.value.linlin(0,1,21,108)-1+48]=(~harmonics_array[15]-~knob.value.linlin(0,1,0,1)+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[15])))-(~manipulated_harmonic[15]*~f16slider.value.linlin(0,1,0,1););
-*/
-
-
-
-
-
-		/*	~color_array[~freqslider.value.linlin(0,1,21,108)-1+0]=(~harmonics_array[0]-~knob.value.linlin(0,1,0,2)+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[0])))-(~manipulated_harmonic[0]*~f1slider.value.linlin(0,1,0,1););
-~color_array[~freqslider.value.linlin(0,1,21,108)-1+12]=(~harmonics_array[1]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[1])))-(~manipulated_harmonic[1]*~f2slider.value.linlin(0,1,0,1););
-~color_array[~freqslider.value.linlin(0,1,21,108)-1+19]=(~harmonics_array[2]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[2])))-(~manipulated_harmonic[2]*~f3slider.value.linlin(0,1,0,1););
-~color_array[~freqslider.value.linlin(0,1,21,108)-1+24]=(~harmonics_array[3]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[3])))-(~manipulated_harmonic[3]*~f4slider.value.linlin(0,1,0,1););
-~color_array[~freqslider.value.linlin(0,1,21,108)-1+28]=(~harmonics_array[4]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[4])))-(~manipulated_harmonic[4]*~f5slider.value.linlin(0,1,0,1););
-~color_array[~freqslider.value.linlin(0,1,21,108)-1+31]=(~harmonics_array[5]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[5])))-(~manipulated_harmonic[5]*~f6slider.value.linlin(0,1,0,1););
-~color_array[~freqslider.value.linlin(0,1,21,108)-1+34]=(~harmonics_array[6]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[6])))-(~manipulated_harmonic[6]*~f7slider.value.linlin(0,1,0,1););
-~color_array[~freqslider.value.linlin(0,1,21,108)-1+36]=(~harmonics_array[7]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[7])))-(~manipulated_harmonic[7]*~f8slider.value.linlin(0,1,0,1););
-~color_array[~freqslider.value.linlin(0,1,21,108)-1+38]=(~harmonics_array[8]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[8])))-(~manipulated_harmonic[8]*~f9slider.value.linlin(0,1,0,1););
-~color_array[~freqslider.value.linlin(0,1,21,108)-1+40]=(~harmonics_array[9]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[9])))-(~manipulated_harmonic[9]*~f10slider.value.linlin(0,1,0,1););
-~color_array[~freqslider.value.linlin(0,1,21,108)-1+41]=(~harmonics_array[10]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[10])))-(~manipulated_harmonic[10]*~f11slider.value.linlin(0,1,0,1););
-~color_array[~freqslider.value.linlin(0,1,21,108)-1+43]=(~harmonics_array[11]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[11])))-(~manipulated_harmonic[11]*~f12slider.value.linlin(0,1,0,1););
-~color_array[~freqslider.value.linlin(0,1,21,108)-1+44]=(~harmonics_array[12]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[12])))-(~manipulated_harmonic[12]*~f13slider.value.linlin(0,1,0,1););
-~color_array[~freqslider.value.linlin(0,1,21,108)-1+46]=(~harmonics_array[13]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[13])))-(~manipulated_harmonic[13]*~f14slider.value.linlin(0,1,0,1););
-~color_array[~freqslider.value.linlin(0,1,21,108)-1+47]=(~harmonics_array[14]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[14])))-(~manipulated_harmonic[14]*~f15slider.value.linlin(0,1,0,1););
-~color_array[~freqslider.value.linlin(0,1,21,108)-1+48]=(~harmonics_array[15]+(~otherslider.value.linlin(0,1,1,0)*(1-~harmonics_array[15])))-(~manipulated_harmonic[15]*~f16slider.value.linlin(0,1,0,1););
-			*/
 
 		);
 
 			}));
-		//
+
 
 //Ensure it updates
 s.makeBundle(1.0, //sound delay -~knob.value.linlin(0,1,0,0.5)
