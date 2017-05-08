@@ -16,9 +16,10 @@ w = Window.new("MAPLE Lab Overtone 'Popout' Demonstration (Beta)", Rect.new(
 
 	//Record button - sends to Supercollider file in the Recordings section.
 ~record = Button.new(w, Rect(35, 100, 85, 20))
-	.states_([
-	["Start Recording", Color.white,Color(0.4824, 0.4863, 0.4863,1)],
-	["Stop Recording", Color.white, Color.grey(0.251)]
+	.states_
+	([
+		["Start Recording", Color.white,Color(0.4824, 0.4863, 0.4863,1)],
+		["Stop Recording", Color.white, Color.grey(0.251)]
 	])
 	.font_(Font("nil", 10))
 	.action_({
@@ -306,7 +307,54 @@ SynthDef.new("sound", {
 );
 
 
-//FREQUENCY deviation of deviant
+//Spacing arrays
+~array_note_numbers = Array.fill((108-26+1), {arg i;  26 + i});
+//~array_note_name;
+
+//Note colour array (0 : white, 1 : black) (~array_note_color)
+(~bit = 0; ~queue = 1;
+
+~array_note_color = Array.fill((108-26+1), { arg i;
+
+	if( i > 2, {
+
+		if( ~bit == 0, {
+			(~queue = ~queue+1;
+				if((~queue % 6)==0,{~queue = 1; ~bit = 1});
+			);
+			if(i.odd, {0},{1})}, {
+			(~queue = ~queue+1;
+				if((~queue % 8)==0,{~queue = 1; ~bit = 0});
+			);
+			if(i.even, {0},{1})
+		});
+
+	},
+		{if(i < 1, {0}, {
+			if(i < 2, {1}, {0})
+		})
+		});
+
+	});
+);
+
+
+
+/*
+The deviant_scale values for different harmonics:
+Harmonic 1: 12 semitones  = 7*20 if white key starts
+Harmonic 2: 4*20 if white key starts
+Harmonic 3: 3*20 if white key starts
+Harmonic 4: 2.5*20 if white key starts
+Harmonic 5: *20 if black key
+Harmonic 6: 4*20 if white key
+*/
+
+
+
+
+
+//Frequency DEVIATION of deviant
 //Properties of the slider
 ~freqslider = Slider(w, Rect(160,200+65+30,330,30))
 .background_(Color(0.8,0.8,0.8,0.75))
@@ -321,27 +369,28 @@ SynthDef.new("sound", {
 	~numberBox.value_(obj.value.linlin(0,1,-1,1));
 
 
-
-
-
-		//Deviant control for keyboard GUI to shift the inner fill square
+//Deviant control for keyboard GUI to shift the inner fill square
 (
 ~deviant_move = ~freqslider.value.linlin(0,1,-1,1); //Should get value from the deviant slider
 ~deviant_scale = 7*20;
+
+			//What is the harmonic?
+			~menu2.value;
+
+			//Is it going in the positive or negative deviation?
+			~deviant_move.sign;
+
+			//How many semitones does that harmonic move it?
+			// 2 switch systems, the one used depends on the sign
+
+			// White keys are +20 pixels; Black keys are +10 pixels
+			// Color from ~array_note_color
+			//~array_note_color[+~menu.value
+
+
+
 ~keyboard_CompositeView_White.bounds_(Rect(27+(~deviant_move*~deviant_scale)+1,175+1,5-1,5-1))
-)
-
-/*
-The deviant_scale values for different harmonics:
-Harmonic 1: 12 semitones  = 7*20 if white key starts
-Harmonic 2: 4*20 if white key starts
-Harmonic 3: 3*20 if white key starts
-Harmonic 4: 2.5*20 if white key starts
-Harmonic 5: *20 if black key
-Harmonic 6: 4*20 if white key
-*/
-
-
+);
 
 
 

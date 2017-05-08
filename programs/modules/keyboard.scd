@@ -609,7 +609,7 @@ if(~module_ID == "spectra",
 
 ~keyboard_CompositeView_White = CompositeView(~keyboard, Rect(27+1,175+1,5-1,5-1));
 
-~deviat_fill = StaticText(~keyboard_CompositeView_White, Rect(0,0,3,3)).background_(Color.red);
+~deviant_fill = StaticText(~keyboard_CompositeView_White, Rect(0,0,3,3)).background_(Color.red);
 
 w.onClose_({a.free; ~keyboard_open = 0;});
 )

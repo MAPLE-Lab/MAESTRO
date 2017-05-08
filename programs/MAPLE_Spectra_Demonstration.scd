@@ -167,12 +167,12 @@ StaticText(w,Rect(410,360,500,2))
 
 ~play_UserView = UserView(w, Rect(400-(100/2),65,100,30));
 	~play_UserView.drawHook_({
-		~play_image.drawInRect(Rect(0,0,100,30), Rect(0,0,200,60), 2, 1.0);
+		~play_image.drawInRect(Rect(0,0,100,30), Rect(0,0,100,30), 2, 1.0);
 	});
 
 ~stop_UserView = UserView(w, Rect(400-(100/2),65,100,30));
 	~stop_UserView.drawHook_({
-		~stop_image.drawInRect(Rect(0,0,100,30), Rect(0,0,200,60), 2, 1.0);
+		~stop_image.drawInRect(Rect(0,0,100,30), Rect(0,0,100,30), 2, 1.0);
 	});
 
 	//~play_UserView.bounds_(Rect(400-(100/2),65,1,1)); //Hide the play button
@@ -908,7 +908,7 @@ l.free;
 						slider_name = "~f" ++ namer ++ "slider.value.linlin(0,1,0,1)";
 						[i, ("~energy["++i++"] =(~manipulated_harmonic["++i++"]*"++slider_name++")")].postln;
 						//slider_name.compile.postln;
-						("~energy["++i++"] =(~manipulated_harmonic["++i++"]*"++slider_name++")").interpret; //Needs to be interpret and not compile (not sure why yet)
+						("~energy["++i++"] =(~manipulated_harmonic["++i++"]*"++slider_name++")").interpret; //Needs to be interpret and not compile
 
 					})
 				);
