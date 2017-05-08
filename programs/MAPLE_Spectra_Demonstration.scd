@@ -159,11 +159,33 @@ StaticText(w,Rect(410,360,500,2))
 
 
 
+
+//Aesthetic lines
+//Button CompositeViews for hiding and showing
+~play_image = Image.new(basePath +/+ "images/play.png");
+~stop_image = Image.new(basePath +/+ "images/stop.png");
+
+~play_UserView = UserView(w, Rect(400-(100/2),65,100,30));
+	~play_UserView.drawHook_({
+		~play_image.drawInRect(Rect(0,0,100,30), Rect(0,0,200,60), 2, 1.0);
+	});
+
+~stop_UserView = UserView(w, Rect(400-(100/2),65,100,30));
+	~stop_UserView.drawHook_({
+		~stop_image.drawInRect(Rect(0,0,100,30), Rect(0,0,200,60), 2, 1.0);
+	});
+
+	//~play_UserView.bounds_(Rect(400-(100/2),65,1,1)); //Hide the play button
+	~stop_UserView.bounds_(Rect(400-(100/2),65,1,1)); //Hide the stop button
+
+
+//~stop_CompositeView =
+
 //Play Forced sounds button
-~button = Button(w, Rect(400-(330/2),65,330,30))
+~button = Button(w, Rect(400-(100/2),65,100,30))
 .states_([
-	["Click to Play Power Spectra Sounds", Color.white,Color(0.7569,0.1373,0.1725,1)],
-	["Click to Mute Power Spectra Sounds", Color.white, Color.grey(0.251)]
+		[" ", Color.white, Color.clear], //Color(0.7569,0.1373,0.1725,1)],
+	[" ", Color.white, Color.clear] // Color.grey(0.251)]
 ])
 .font_(Font("nil", 18))
 .action_({
@@ -200,14 +222,14 @@ StaticText(w,Rect(410,360,500,2))
 				z.free;
 				v.free;
 		t.free;
-
+~stop_UserView.bounds_(Rect(400-(100/2),65,100,30));
 		},
 		{x.free; ~vinbutton.valueAction_(0);
 				(if(~j.value==1, {~j.value_(0)}));//Added so big button closes small buttons
 				(if(~l.value==1, {~l.value_(0)}));
 				(if(~k.value==1, {~k.value_(0)}));
 				(if(~r.value==1, {~r.value_(0)})); //Only Power require it as the other buttons are not two-state
-
+~stop_UserView.bounds_(Rect(400-(100/2),65,1,1));
 			}
 	);
 });
