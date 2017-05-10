@@ -308,13 +308,13 @@ SynthDef.new("sound", {
 
 
 //Spacing arrays
-~array_note_numbers = Array.fill((108-26+1), {arg i;  26 + i});
+~array_note_numbers = Array.fill((108-21+1), {arg i;  21 + i});
 //~array_note_name;
 
-//Note colour array (0 : white, 1 : black) (~array_note_color)
+//Note colour array (0 : white, 1 : black) (~array_note_color), starting on the 21st MIDI Note and ending on the 108th (can call using ~array_note_color[i] or ~array_note_color[MIDINN-21])
 (~bit = 0; ~queue = 1;
 
-~array_note_color = Array.fill((108-26+1), { arg i;
+~array_note_color = Array.fill((108-21+1), { arg i;
 
 	if( i > 2, {
 
@@ -351,9 +351,6 @@ Harmonic 6: 4*20 if white key
 */
 
 
-
-
-
 //Frequency DEVIATION of deviant
 //Properties of the slider
 ~freqslider = Slider(w, Rect(160,200+65+30,330,30))
@@ -371,24 +368,134 @@ Harmonic 6: 4*20 if white key
 
 //Deviant control for keyboard GUI to shift the inner fill square
 (
-~deviant_move = ~freqslider.value.linlin(0,1,-1,1); //Should get value from the deviant slider
-~deviant_scale = 7*20;
+//What is the fundamental note? Gives MIDI Note Number (MIDINN)
+~fslider.value.linlin(0,1,21,108);
 
-			//What is the harmonic?
-			~menu2.value;
+//What is the harmonic being deviated? Gives the harmonic being used, 1-16
+~menu2.value;
 
-			//Is it going in the positive or negative deviation?
-			~deviant_move.sign;
+//Is it going in the positive or negative deviation? Gives {-1, 0, 1}
+~deviant_move.sign;
 
-			//How many semitones does that harmonic move it?
-			// 2 switch systems, the one used depends on the sign
+//How many semitones does that harmonic move it? 2 switch systems, the one used depends on the sign; Gives the maximum number of semitones to move away from the deviating note.
+~deviant_maximum =
+			if(~deviant_move.sign >= 0,
+				{(//IF POSITIVE DIRECTION:
+					switch (~menu2.value,
+0,0,
+1,12,
+2,7,
+3,5,
+4,4,
+5,3,
+6,3,
+7,2,
+8,2,
+9,2,
+10,1,
+11,2,
+12,1,
+13,2,
+14,1,
+15,1
+					);
+				);},
+
+				{(//IF NEGATIVE DIRECTION:
+					switch (~menu2.value,
+0,0,
+1,0,
+2,12,
+3,7,
+4,5,
+5,4,
+6,3,
+7,3,
+8,2,
+9,2,
+10,2,
+11,1,
+12,2,
+13,1,
+14,2,
+15,1
+					);
+			);});
+
+
+
+//Is the harmonic-end a different color than the one being deviated (currently just measures against the fundamental, need to find the variable that says the MIDINN of the harmonic being deviated)? If so, -10 pixels (because usually 10 pixels); else don't do any subtraction
+
+~black_end = if(~array_note_color[~fslider.value.linlin(0,1,21,108)+~deviant_maximum-21] != ~array_note_color[~fslider.value.linlin(0,1,21,108)-21],
+				{-0},
+				{0}
+			);
+// Count the number of black and white keys
+(
+~max_val = ~deviant_maximum+1; //How many semitones to consider
+~fund; //Fundamental
+~fundamental_note;
+~array_fund = ~fundamental_note-21;
+
+~array_note_color[~array_fund.asInteger..(~array_fund+~max_val-1).asInteger]; //The -1 is necessary because computer counts from 0, not 1
+
+//Counts the number of black keys
+~black_count = ~array_note_color[~array_fund.asInteger..(~array_fund+~max_val-1).asInteger].sum;
+
+//Counts the number of white keys
+~white_count = ~max_val- ~black_count;
+
+[
+	"Array used",
+	~array_note_color[~array_fund.asInteger..(~array_fund+~max_val-1).asInteger],
+	"# of black",
+	~black_count,
+	"# of white",
+	~white_count
+].postln
+);
+
+//Checks if there are any double-whites (i.e. B-C and E-F)
+(
+~adder = 0;
+~bonus = ~array_note_color[~array_fund.asInteger..(~array_fund+~max_val-1).asInteger].do({
+	arg i, seq;
+	~prev = seq-1;
+	~curr = seq;
+	[i,seq, ~prev, ~curr].postln;
+
+	if(~array_note_color[(~array_fund+~curr).asInteger] == 0,
+		{
+			if(~array_note_color[(~array_fund+~prev).asInteger] == 0,
+				{~adder = ~adder + 1;
+					~adder.postln;
+					"added".postln;
+				},
+				{"do nothing".postln});
+		},
+		{"did nothing".postln});
+
+});
+
+);
+
+
+//What is the maximum distance the red dot can move? It is the number of white keys * 20px - number of black keys * 10px
+			~deviant_scale = (~white_count*20)-(~black_count*10)+(~adder*20)+~black_end-10;
+
+
+
+
 
 			// White keys are +20 pixels; Black keys are +10 pixels
 			// Color from ~array_note_color
 			//~array_note_color[+~menu.value
 
 
+//The percentage (in decimal) from which the new frequency has gone from original to the new value, in an linear method (Should get value from the deviant slider). Gives decimal
+~deviant_move = ~freqslider.value.linlin(0,1,-1,1);
 
+//The actuator for this motion
 ~keyboard_CompositeView_White.bounds_(Rect(27+(~deviant_move*~deviant_scale)+1,175+1,5-1,5-1))
 );
 
@@ -907,6 +1014,7 @@ s.waitForBoot({
 ~menu2 = PopUpMenu(w, Rect(250-(250/2)+50,95+3+80+65+2,50,20));
 			~menu2.items_(["--","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16"]);
 			~menu2.font_(Font(\size, 12));
+			~menu2.valueAction_(5); //Visually display that it's 5
 			~menu2.allowsReselection_(true);
 			~menu2.action = { arg menu2;
 
@@ -979,6 +1087,9 @@ Harmonic (mistuned) dropdown menu";
 	//To ensure there is a variable value for when the keyboard is opened, if the keyboard is opened before the slider or any other setting is activated - thus bypasses error
 	~numberfBox.valueAction_(~fslider.value.linlin(0,1,21,108));
 
+
+
+			~menu2.valueAction_(5); // Activates it as being 5
 
 
 w.onClose_({
