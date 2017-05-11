@@ -157,7 +157,7 @@
 		},
 		{"do nothingA"/*.postln*/});
 
-});
+}).postln;
 
 );
 
@@ -172,23 +172,28 @@
 				0, 0,
 				1, 0,
 				2, 10,
-	3,{if(~menu2.value == 3, {20},{20-10})}, //Added -10 and also made if
-	4,{if(
-		or(~array_note_color[(~array_fund).asInteger..(~array_fund+6).asInteger] == [0,0,1,0,1,0,1], ~array_note_color[(~array_fund).asInteger..(~array_fund+6).asInteger] == [0,1,0,1,0,1,0]),
-		{20},
-		{30}
-	)},
+	3,{if(~menu2.value == 3, {20},{20-10})}, //Added -10 and also made if, Used for HARM 3
+	4,{if(or(~class_fund == 4, ~class_fund == 5),{20},{30})},//Used for HARM 3
 	5,0,
-	6,30,
-	7, 0,
+	6,30, //Used for HARM4 and HARM8
+	7, 30, //Used for HARM4 and HARM8
 	8, 0,
-	9, 0,
-	10, 0,
-	11, 0
+	9, {if(or(~class_fund == 4, ~class_fund == 3), {40}, {30})}, //Used for HARM5
+	10, {if(~class_fund == 0, {30}, {40})}, //Used for HARM5
+	11, 0,
+	12, 0,
+	13, {if(~class_fund == 11, {50}, {40})}, //Used for HARM6
+	14, {if(and(~class_fund == 10, ~menu2.value == 6), {50},
+		{
+			if(and(~menu2.value == 7, or(~class_fund == 3, or(~class_fund == 8, ~class_fund == 11))), {50}, {40})})}, //Used for HARM6 and HARM7
+	15, {if(or(~class_fund == 2, or(~class_fund == 4, or(~class_fund == 7, or(~class_fund == 9, ~class_fund == 10)))), {50}, {40})}, //Used for HARM7
+	16, 0,
+	17, 0,
+	18, 0,
 );
 
 ~case_whole_tone_starts_white_harm = if(~array_note_color[~fslider.value.linlin(0,1,21,108)+~current_harmonic_MIDINN_harm-21] == 0, //Starts on white
-				{if(~white_count == 2, //Two white keys
+				{if(~white_count_harm == 2, //Two white keys
 					{if(~array_note_color[~fslider.value.linlin(0,1,21,108)+~current_harmonic_MIDINN_harm-21+1] == 1, //The second semitone in the array is a black key
 						{-10},{0});}, {0})},
 				{0});
@@ -206,3 +211,7 @@
 ~deviant_scale_harm = ~basic_sum_harm + ~special_sum_harm + ~case_whole_tone_starts_white_harm + ~case_semitone_harm + ~case_starts_black_harm;
 		);
 //Here ends that calculation for distance
+
+///WHY IS ~adder_harm EVER above 7? That's ridiculously high and does not match up with the array. There seems to be an issue here - the switch also is likely going to either need a proper algorithm or for every special case the ~menu2.value needs to be added as an IF or AND.
+
+[~adder_harm, ~deviant_scale_harm, ~basic_sum_harm, ~special_sum_harm, ~case_whole_tone_starts_white_harm,  ~case_semitone_harm,~case_starts_black_harm].postln;

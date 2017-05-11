@@ -316,7 +316,7 @@ SynthDef.new("sound", {
 //Note colour array (0 : white, 1 : black) (~array_note_color), starting on the 21st MIDI Note and ending on the 108th (can call using ~array_note_color[i] or ~array_note_color[MIDINN-21])
 (~bit = 0; ~queue = 1;
 
-~array_note_color = Array.fill((108-21+1), { arg i;
+~array_note_color = Array.fill((/*108-21+1*/ 200), { arg i;
 
 	if( i > 2, {
 
@@ -454,6 +454,9 @@ SynthDef.new("sound", {
 ~starting_position_fund = if(~array_note_color[~array_fund.asInteger] == 1,
 				{((~white_count_fund)*20)-10},
 				{((~white_count_fund-1)*20)});
+
+//Note ID
+(basePath +/+  "data/switch_fund_ID.scd").load;
 
 (basePath +/+  "data/tuning_deviant_scale_harm.scd").load; //This calculates the ~deviant_scale_harm distance
 //~deviant_scale_harm = 0;
