@@ -157,6 +157,8 @@ x.set(\fundamental_note, obj.value.linlin(0,1,21,108););
 	);*/
 
 
+		~freqslider.valueAction_(~freqslider.value.linlin(0,1,0,1)); //Updates the deviation dot
+
 
 		(basePath +/+  "data/tuning_arrays-1.scd").load; //This line MUST come before the functions affecting the Keyboard as the array values must exist to provide the data
 
@@ -382,179 +384,96 @@ Harmonic 6: 4*20 if white key
 			if(~deviant_move.sign >= 0,
 				{(//IF POSITIVE DIRECTION:
 					switch (~menu2.value,
-0,0,
-1,12,
-2,7,
-3,5,
-4,4,
-5,3,
-6,3,
-7,2,
-8,2,
-9,2,
-10,1,
-11,2,
-12,1,
-13,2,
-14,1,
-15,1,
-16,0
+						0,0,
+						1,12,
+						2,7,
+						3,5,
+						4,4,
+						5,3,
+						6,3,
+						7,2,
+						8,2,
+						9,2,
+						10,1,
+						11,2,
+						12,1,
+						13,2,
+						14,1,
+						15,1,
+						16,0
 					);
 				);},
 
 				{(//IF NEGATIVE DIRECTION:
 					switch (~menu2.value,
-0,0,
-1,0,
-2,12,
-3,7,
-4,5,
-5,4,
-6,3,
-7,3,
-8,2,
-9,2,
-10,2,
-11,1,
-12,2,
-13,1,
-14,2,
-15,1,
-16,1
+						0,0,
+						1,0,
+						2,12,
+						3,7,
+						4,5,
+						5,4,
+						6,3,
+						7,3,
+						8,2,
+						9,2,
+						10,2,
+						11,1,
+						12,2,
+						13,1,
+						14,2,
+						15,1,
+						16,1
 					);
 			);});
 
 
 //Database for how many semitones higher from fundamental is the selected harmonic for deviation:
 ~current_harmonic_MIDINN = switch (~menu2.value,
-1,0,
-2,12,
-3,19,
-4,24,
-5,28,
-6,31,
-7,34,
-8,36,
-9,38,
-10,40,
-11,41,
-12,43,
-13,44,
-14,46,
-15,47,
-16,48
+				1,0,
+				2,12,
+				3,19,
+				4,24,
+				5,28,
+				6,31,
+				7,34,
+				8,36,
+				9,38,
+				10,40,
+				11,41,
+				12,43,
+				13,44,
+				14,46,
+				15,47,
+				16,48
 				);
 
-
-//Is the harmonic-end a different color than the one being deviated (currently just measures against the fundamental, need to find the variable that says the MIDINN of the harmonic being deviated)? If so, -10 pixels (because usually 10 pixels); else don't do any subtraction
-
-~black_end = if(~array_note_color[~fslider.value.linlin(0,1,21,108)+~deviant_maximum-21] != ~array_note_color[~fslider.value.linlin(0,1,21,108)+~current_harmonic_MIDINN-21],
-				{-10},
-				{-10}
-			);
-// Count the number of black and white keys
-(
-~max_val = ~deviant_maximum+1; //How many semitones to consider
-~fund; //Fundamental
-~fundamental_note;
-~array_fund = ~fundamental_note-21;
-
-				~array_note_color[(~array_fund+~current_harmonic_MIDINN).asInteger..(~array_fund+~max_val-1).asInteger]; //The -1 is necessary because computer counts from 0, not 1
-
-//Counts the number of black keys
-				~black_count = ~array_note_color[(~array_fund
-					+~current_harmonic_MIDINN
-				).asInteger..(~array_fund
-					+~current_harmonic_MIDINN
-					+~max_val-1).asInteger].sum;
-
-//Counts the number of white keys
-~white_count = ~max_val- ~black_count;
-
-[
-	"Array used",
-	~array_note_color[(~array_fund
-						+~current_harmonic_MIDINN).asInteger..(~array_fund
-						+~current_harmonic_MIDINN
-						+~max_val-1).asInteger],
-	"# of black",
-	~black_count,
-	"# of white",
-	~white_count
-].postln
-);
-
-
-			//Checks if there are any double-whites (i.e. B-C and E-F)
-(
-~adder = 0;
-~bonus = ~array_note_color[(~array_fund
-						+~current_harmonic_MIDINN).asInteger..(~array_fund
-						+~current_harmonic_MIDINN
-						+~max_val-1).asInteger].do({
-	arg i, seq;
-	~prev = seq-1;
-	~curr = seq;
-	[i,seq, ~prev, ~curr].postln;
-
-	if(~array_note_color[(~array_fund+~current_harmonic_MIDINN+~curr).asInteger] == 0,
-		{
-			if(~array_note_color[(~array_fund+~current_harmonic_MIDINN+~prev).asInteger] == 0,
-				{~adder = ~adder + 1;
-					~adder.postln;
-					"added".postln;
-				},
-				{"do nothingB".postln});
-		},
-		{"do nothingA".postln});
-
-});
-
-);
-
-
-//What is the maximum distance the red dot can move? It is the number of white keys * 20px - number of black keys * 10px
-//~deviant_scale = (~white_count*20)-(~black_count*10)+(~adder*20)+~black_end;
-
-//New model
-~basic_sum = ((~white_count+~black_count)*10);
-
-~special_sum = switch (~adder,
-				0, 0,
-				1, 0,
-				2, 10);
-
-~case_whole_tone_starts_white = if(~array_note_color[~fslider.value.linlin(0,1,21,108)+~current_harmonic_MIDINN-21] == 0, //Starts on white
-				{if(~white_count == 2, //Two white keys
-					{if(~array_note_color[~fslider.value.linlin(0,1,21,108)+~current_harmonic_MIDINN-21+1] == 1, //The second semitone in the array is a black key
-						{-10},{0});}, {0})},
-				{0});
-
-~case_semitone = if(~max_val == 2, //Array size of 2
-				{if(~white_count != 2, //Ensure it's not an E-F or B-C case
-					{-10},{0})},{0});
-
-~case_starts_black = if(~array_note_color[~fslider.value.linlin(0,1,21,108)+~current_harmonic_MIDINN-21] == 1, //Starts on black
-				{if(~max_val != 2, //Only if not a semitone case (see previous rule)
-					{-10},{0})},
-				{0});
-
-~deviant_scale = ~basic_sum + ~special_sum + ~case_whole_tone_starts_white + ~case_semitone + ~case_starts_black;
-
-
-
-
-
-			// White keys are +20 pixels; Black keys are +10 pixels
-			// Color from ~array_note_color
-			//~array_note_color[+~menu.value
-
+(basePath +/+  "data/tuning_deviant_scale.scd").load; //This calculates the ~deviant_scale distance
 
 //The percentage (in decimal) from which the new frequency has gone from original to the new value, in an linear method (Should get value from the deviant slider). Gives decimal
 ~deviant_move = ~freqslider.value.linlin(0,1,-1,1);
 
+//Where does the dot start? A0 = 0
+
+//Counts the number of black keys from A0
+~black_count_fund = ~array_note_color[0..~array_fund.asInteger].sum;
+
+//Counts the number of white keys from A0
+~white_count_fund = ~array_fund-~black_count_fund+1;
+
+~starting_position_fund = (~black_count_fund+~white_count_fund-1)*10; //NEEDS ALL THE POSITIVE ALGORITHMS TO WORK
+
+~starting_position_harm = if(~menu2.value < 2,
+				{0},
+				{~deviant_scale}); //BUT NEEDS TO USE THE PREVIOUS HARMONIC'S SCALE
+
+
+
+
+
+
+
 //The actuator for this motion
-~keyboard_CompositeView_White.bounds_(Rect(27+(~deviant_move*~deviant_scale)+1,175+1,5-1,5-1))
+~keyboard_CompositeView_White.bounds_(Rect(27+(~deviant_move*~deviant_scale)+1+~starting_position_fund+~starting_position_harm,175+1,5-1,5-1))
 );
 
 
