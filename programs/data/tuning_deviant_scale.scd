@@ -78,7 +78,9 @@
 ~special_sum = switch (~adder,
 				0, 0,
 				1, 0,
-				2, 10);
+				2, 10,
+	3,0
+);
 
 ~case_whole_tone_starts_white = if(~array_note_color[~fslider.value.linlin(0,1,21,108)+~current_harmonic_MIDINN-21] == 0, //Starts on white
 				{if(~white_count == 2, //Two white keys

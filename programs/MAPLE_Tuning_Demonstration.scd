@@ -341,18 +341,6 @@ SynthDef.new("sound", {
 );
 
 
-
-/*
-The deviant_scale values for different harmonics:
-Harmonic 1: 12 semitones  = 7*20 if white key starts
-Harmonic 2: 4*20 if white key starts
-Harmonic 3: 3*20 if white key starts
-Harmonic 4: 2.5*20 if white key starts
-Harmonic 5: *20 if black key
-Harmonic 6: 4*20 if white key
-*/
-
-
 //Frequency DEVIATION of deviant
 //Properties of the slider
 ~freqslider = Slider(w, Rect(160,200+65+30,330,30))
@@ -447,6 +435,8 @@ Harmonic 6: 4*20 if white key
 				16,48
 				);
 
+~array_fund = ~fundamental_note-21;
+
 (basePath +/+  "data/tuning_deviant_scale.scd").load; //This calculates the ~deviant_scale distance
 
 //The percentage (in decimal) from which the new frequency has gone from original to the new value, in an linear method (Should get value from the deviant slider). Gives decimal
@@ -460,11 +450,16 @@ Harmonic 6: 4*20 if white key
 //Counts the number of white keys from A0
 ~white_count_fund = ~array_fund-~black_count_fund+1;
 
-~starting_position_fund = (~black_count_fund+~white_count_fund-1)*10; //NEEDS ALL THE POSITIVE ALGORITHMS TO WORK
+//Calculates starting position of fundamental for the red dot
+~starting_position_fund = if(~array_note_color[~array_fund.asInteger] == 1,
+				{((~white_count_fund)*20)-10},
+				{((~white_count_fund-1)*20)});
 
+(basePath +/+  "data/tuning_deviant_scale_harm.scd").load; //This calculates the ~deviant_scale_harm distance
+//~deviant_scale_harm = 0;
 ~starting_position_harm = if(~menu2.value < 2,
 				{0},
-				{~deviant_scale}); //BUT NEEDS TO USE THE PREVIOUS HARMONIC'S SCALE
+				{~deviant_scale_harm}); //BUT NEEDS TO USE THE PREVIOUS HARMONIC'S SCALE
 
 
 
@@ -1066,9 +1061,6 @@ Harmonic (mistuned) dropdown menu";
 
 
 
-			~menu2.valueAction_(5); // Activates it as being 5
-
-
 w.onClose_({
 
 		(if(~key_vis.value == 1, {
@@ -1077,5 +1069,15 @@ w.onClose_({
 
 		s.quit; x.free}); //ends server when quit
 });
+
+/*s.doWhenBooted_(
+
+s.makeBundle(0.2, {
+					//~menu2.valueAction_(5); // Activates it as being 5
+~coverComposite.visible = false;
+
+});*/
+
+	);
 
 )

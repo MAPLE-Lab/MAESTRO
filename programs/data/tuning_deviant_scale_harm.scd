@@ -1,30 +1,122 @@
 //NOTE THIS IS FOR THE BOUNDS OF THE STARTING POSITION, there is another file for the harmonic's deviation
 //Here begins the note-specific calculation for distance
 (
+//How many semitones does that harmonic move it? 2 switch systems, the one used depends on the sign; Gives the maximum number of semitones to move away from the deviating note.
+~deviant_maximum_harm =
+			if(~deviant_move.sign >= 0,
+				{(//IF POSITIVE DIRECTION:
+					switch (~menu2.value-1,
+
+			-1,0,
+			0,0,
+1,12,
+2,19,
+3,24,
+4,28,
+5,31,
+6,34,
+7,36,
+8,38,
+9,40,
+10,41,
+11,43,
+12,44,
+13,46,
+14,47,
+15,48
+			/*
+						0,0,
+						1,12,
+						2,7,
+						3,5,
+						4,4,
+						5,3,
+						6,3,
+						7,2,
+						8,2,
+						9,2,
+						10,1,
+						11,2,
+						12,1,
+						13,2,
+						14,1,
+						15,1,
+						16,0
+			*/
+
+					);
+				);},
+
+				{(//IF NEGATIVE DIRECTION:
+					switch (~menu2.value-1,
+						0,0,
+						1,0,
+						2,12,
+						3,7,
+						4,5,
+						5,4,
+						6,3,
+						7,3,
+						8,2,
+						9,2,
+						10,2,
+						11,1,
+						12,2,
+						13,1,
+						14,2,
+						15,1,
+						16,1
+					);
+			);});
+
+
+//Database for how many semitones higher from fundamental is the selected harmonic for deviation:
+~current_harmonic_MIDINN_harm = switch (~menu2.value-1,
+	0,0,
+	1,0,
+				2,12,
+				3,19,
+				4,24,
+				5,28,
+				6,31,
+				7,34,
+				8,36,
+				9,38,
+				10,40,
+				11,41,
+				12,43,
+				13,44,
+				14,46,
+				15,47,
+				16,48
+				);
+
+
+
 //Is the harmonic-end a different color than the one being deviated (currently just measures against the fundamental, need to find the variable that says the MIDINN of the harmonic being deviated)? If so, -10 pixels (because usually 10 pixels); else don't do any subtraction
 
-~black_end = if(~array_note_color[~fslider.value.linlin(0,1,21,108)+~deviant_maximum-21] != ~array_note_color[~fslider.value.linlin(0,1,21,108)+~current_harmonic_MIDINN-21],
+~black_end_harm = if(~array_note_color[~fslider.value.linlin(0,1,21,108)+~deviant_maximum_harm-21] != ~array_note_color[~fslider.value.linlin(0,1,21,108)+~current_harmonic_MIDINN_harm-21],
 				{-10},
 				{-10}
 			);
 // Count the number of black and white keys
 (
-~max_val = ~deviant_maximum+1; //How many semitones to consider
+~max_val_harm = ~deviant_maximum_harm+1; //How many semitones to consider
 ~fund; //Fundamental
 ~fundamental_note;
 ~array_fund = ~fundamental_note-21;
 
-				~array_note_color[(~array_fund+~current_harmonic_MIDINN).asInteger..(~array_fund+~max_val-1).asInteger]; //The -1 is necessary because computer counts from 0, not 1
+				/*~array_note_color[(~array_fund+~current_harmonic_MIDINN_harm).asInteger..(~array_fund+~max_val_harm-1).asInteger]; //The -1 is necessary because computer counts from 0, not 1*/
 
 //Counts the number of black keys
-				~black_count = ~array_note_color[(~array_fund
-					+~current_harmonic_MIDINN
+~black_count_harm = ~array_note_color[(~array_fund
+					+~current_harmonic_MIDINN_harm
 				).asInteger..(~array_fund
-					+~current_harmonic_MIDINN
-					+~max_val-1).asInteger].sum;
+					+~current_harmonic_MIDINN_harm
+					+~max_val_harm-1).asInteger].sum;
 
 //Counts the number of white keys
-~white_count = ~max_val- ~black_count;
+~white_count_harm = ~max_val_harm-~black_count_harm;
 
 /*
 [
@@ -44,20 +136,20 @@
 
 			//Checks if there are any double-whites (i.e. B-C and E-F)
 (
-~adder = 0;
-~bonus = ~array_note_color[(~array_fund
-						+~current_harmonic_MIDINN).asInteger..(~array_fund
-						+~current_harmonic_MIDINN
-						+~max_val-1).asInteger].do({
+~adder_harm = 0;
+~bonus_harm = ~array_note_color[(~array_fund
+						+~current_harmonic_MIDINN_harm).asInteger..(~array_fund
+						+~current_harmonic_MIDINN_harm
+						+~max_val_harm-1).asInteger].do({
 	arg i, seq;
-	~prev = seq-1;
-	~curr = seq;
+	~prev_harm = seq-1;
+	~curr_harm = seq;
 	/*[i,seq, ~prev, ~curr].postln;*/
 
-	if(~array_note_color[(~array_fund+~current_harmonic_MIDINN+~curr).asInteger] == 0,
+	if(~array_note_color[(~array_fund+~current_harmonic_MIDINN_harm+~curr_harm).asInteger] == 0,
 		{
-			if(~array_note_color[(~array_fund+~current_harmonic_MIDINN+~prev).asInteger] == 0,
-				{~adder = ~adder + 1;
+			if(~array_note_color[(~array_fund+~current_harmonic_MIDINN+~prev_harm).asInteger] == 0,
+				{~adder_harm = ~adder_harm + 1;
 					/*~adder.postln;
 					"added".postln;*/
 				},
@@ -74,28 +166,43 @@
 //~deviant_scale = (~white_count*20)-(~black_count*10)+(~adder*20)+~black_end;
 
 //New model
-~basic_sum = ((~white_count+~black_count)*10);
+~basic_sum_harm = ((~white_count_harm+~black_count_harm)*10);
 
-~special_sum = switch (~adder,
+~special_sum_harm = switch (~adder_harm,
 				0, 0,
 				1, 0,
-				2, 10);
+				2, 10,
+	3,{if(~menu2.value == 3, {20},{20-10})}, //Added -10 and also made if
+	4,{if(
+		or(~array_note_color[(~array_fund).asInteger..(~array_fund+6).asInteger] == [0,0,1,0,1,0,1], ~array_note_color[(~array_fund).asInteger..(~array_fund+6).asInteger] == [0,1,0,1,0,1,0]),
+		{20},
+		{30}
+	)},
+	5,0,
+	6,30,
+	7, 0,
+	8, 0,
+	9, 0,
+	10, 0,
+	11, 0
+);
 
-~case_whole_tone_starts_white = if(~array_note_color[~fslider.value.linlin(0,1,21,108)+~current_harmonic_MIDINN-21] == 0, //Starts on white
+~case_whole_tone_starts_white_harm = if(~array_note_color[~fslider.value.linlin(0,1,21,108)+~current_harmonic_MIDINN_harm-21] == 0, //Starts on white
 				{if(~white_count == 2, //Two white keys
-					{if(~array_note_color[~fslider.value.linlin(0,1,21,108)+~current_harmonic_MIDINN-21+1] == 1, //The second semitone in the array is a black key
+					{if(~array_note_color[~fslider.value.linlin(0,1,21,108)+~current_harmonic_MIDINN_harm-21+1] == 1, //The second semitone in the array is a black key
 						{-10},{0});}, {0})},
 				{0});
 
-~case_semitone = if(~max_val == 2, //Array size of 2
-				{if(~white_count != 2, //Ensure it's not an E-F or B-C case
+~case_semitone_harm = if(~max_val_harm == 2, //Array size of 2
+				{if(~white_count_harm != 2, //Ensure it's not an E-F or B-C case
 					{-10},{0})},{0});
 
-~case_starts_black = if(~array_note_color[~fslider.value.linlin(0,1,21,108)+~current_harmonic_MIDINN-21] == 1, //Starts on black
-				{if(~max_val != 2, //Only if not a semitone case (see previous rule)
-					{-10},{0})},
+~case_starts_black_harm = if(~array_note_color[~fslider.value.linlin(0,1,21,108)+~current_harmonic_MIDINN_harm-21] == 1, //Starts on black
+				{if(~max_val_harm != 2, //Only if not a semitone case (see previous rule)
+					{-10+10}//Needs to be 0, not sure why
+		,{0})},
 				{0});
 
-~deviant_scale = ~basic_sum + ~special_sum + ~case_whole_tone_starts_white + ~case_semitone + ~case_starts_black;
+~deviant_scale_harm = ~basic_sum_harm + ~special_sum_harm + ~case_whole_tone_starts_white_harm + ~case_semitone_harm + ~case_starts_black_harm;
 		);
 //Here ends that calculation for distance
