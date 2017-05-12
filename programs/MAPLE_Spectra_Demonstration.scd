@@ -1829,6 +1829,22 @@ s.makeBundle(1.0, //sound delay
 	.string_("A4").align_(\center)
 	.font_(Font("nil", 11));
 
+
+
+
+
+//Inspector button (remove upon Release)
+~inspector = Button.new(w, Rect(10, 70, 20, 20))
+	.states_([["(i)", Color.white, Color.gray]])
+	.font_(Font("nil", 10))
+	.mouseDownAction_
+	({
+		(basePath +/+  "modules/inspector.scd").loadPaths;
+	});
+
+
+
+
 w.onClose_({
 
 		(if(~key_vis.value == 1, {

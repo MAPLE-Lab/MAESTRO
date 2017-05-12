@@ -1035,7 +1035,14 @@ snd = funcs2.at(menu2.value).play;
 	~coverBox.string = "Select a harmonic to deviate from the
 Harmonic (mistuned) dropdown menu";
 
-
+//Inspector button (remove upon Release)
+~inspector = Button.new(w, Rect(10, 100, 20, 20))
+	.states_([["(i)", Color.white, Color.gray]])
+	.font_(Font("nil", 10))
+	.mouseDownAction_
+	({
+		(basePath +/+  "modules/inspector.scd").loadPaths;
+	});
 
 
 ~quit = Button.new(w, Rect(465,95,30,30))
@@ -1046,7 +1053,6 @@ Harmonic (mistuned) dropdown menu";
 			~keyboard.close;
 		}));
 		(basePath +/+ "splashscreen.scd").loadPaths;
-
 		});
 
 
