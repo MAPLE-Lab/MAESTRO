@@ -1091,7 +1091,4 @@ s.makeBundle(0.2, {
 ~coverComposite.visible = false;
 
 });*/
-
-	);
-
 )
