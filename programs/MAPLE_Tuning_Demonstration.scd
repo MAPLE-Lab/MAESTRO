@@ -9,7 +9,10 @@ w = Window.new("MAPLE Lab Overtone 'Popout' Demonstration (Beta)", Rect.new(
 	Window.screenBounds.height/2-50,
 		500,570),
 	false) //Cannot be resized by user.
-	.background_(Color.white).userCanClose_(false).front;
+	.background_(Color.white).userCanClose_(false).front
+	.acceptsMouseOver_(true)
+	//.mouseOverAction_({"MouseOver".postln})
+	;
 
 //Module ID
 ~module_ID = "tuning";

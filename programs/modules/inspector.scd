@@ -10,7 +10,7 @@ d = Window.new(
 ~internalText = StaticText(d,Rect(10,10,280,280))
 	.string_("
 
-WIP Version 2017-05-11-2200
+WIP Version 2017-05-12-1130
 Towards: Pre-release v0.1.3-beta
 
 ")
