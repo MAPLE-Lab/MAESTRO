@@ -3,7 +3,7 @@
 (
 //How many semitones does that harmonic move it? 2 switch systems, the one used depends on the sign; Gives the maximum number of semitones to move away from the deviating note.
 ~deviant_maximum_harm =
-			if(~deviant_move.sign >= 0,
+			if(~deviant_move.sign > -2,
 				{(//IF POSITIVE DIRECTION:
 					switch (~menu2.value-1,
 
@@ -134,11 +134,11 @@
 );
 
 
-			//Checks if there are any double-whites (i.e. B-C and E-F)
+			//Checks if there are any double-whites (i.e. B-C and E-F), ALL THE WAY FROM THE FUNDAMENTAL
 (
 ~adder_harm = 0;
 ~bonus_harm = ~array_note_color[(~array_fund
-						+~current_harmonic_MIDINN_harm).asInteger..(~array_fund
+						/*+~current_harmonic_MIDINN_harm*/).asInteger..(~array_fund
 						+~current_harmonic_MIDINN_harm
 						+~max_val_harm-1).asInteger].do({
 	arg i, seq;
@@ -157,7 +157,7 @@
 		},
 		{"do nothingA"/*.postln*/});
 
-}).postln;
+}).postln; //Posts the truncated array
 
 );
 
@@ -169,6 +169,25 @@
 ~basic_sum_harm = ((~white_count_harm+~black_count_harm)*10);
 
 ~special_sum_harm = switch (~adder_harm,
+	0,0, //HARM1
+	1,0, //HARM1
+	2,10, //HARM2
+	3,0, //HARM2
+	5,20, //HARM3
+	6,if(or(~class_fund == 10, ~class_fund == 11), {30},{20}),//HARM3
+	10,30, //HARM4
+	11,30, //HARM4
+	12,30, //HARM4
+	17,if(or(~class_fund == 5, ~class_fund == 6), {30}, {40}),//HARM5
+	18,if(or(~class_fund == 7, ~class_fund == 0), {30}, {40}),//HARM5
+
+
+
+
+
+
+
+	/*
 				0, 0,
 				1, 0,
 				2, 10,
@@ -190,6 +209,9 @@
 	16, 0,
 	17, 0,
 	18, 0,
+
+
+	*/
 );
 
 ~case_whole_tone_starts_white_harm = if(~array_note_color[~fslider.value.linlin(0,1,21,108)+~current_harmonic_MIDINN_harm-21] == 0, //Starts on white
@@ -214,4 +236,14 @@
 
 ///WHY IS ~adder_harm EVER above 7? That's ridiculously high and does not match up with the array. There seems to be an issue here - the switch also is likely going to either need a proper algorithm or for every special case the ~menu2.value needs to be added as an IF or AND.
 
-[~adder_harm, ~deviant_scale_harm, ~basic_sum_harm, ~special_sum_harm, ~case_whole_tone_starts_white_harm,  ~case_semitone_harm,~case_starts_black_harm].postln;
+[~adder_harm, ~class_fund, ~deviant_scale_harm, ~basic_sum_harm, ~special_sum_harm, ~case_whole_tone_starts_white_harm,  ~case_semitone_harm,~case_starts_black_harm].postln;
+
+//Helpful format if needed:
+/*if(~menu2.value==3,
+		{if(or(~class_fund == 10, ~class_fund == 11), {30},
+			{if(or(~class_fund == 4, ~class_fund == 5), {20},
+				{20})
+			}
+		)
+		}
+	)*/

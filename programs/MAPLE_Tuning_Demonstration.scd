@@ -359,13 +359,17 @@ SynthDef.new("sound", {
 //Deviant control for keyboard GUI to shift the inner fill square
 (
 //What is the fundamental note? Gives MIDI Note Number (MIDINN)
-~fslider.value.linlin(0,1,21,108);
+//~fslider.value.linlin(0,1,21,108);
 
 //What is the harmonic being deviated? Gives the harmonic being used, 1-16
-~menu2.value;
+//~menu2.value;
 
-//Is it going in the positive or negative deviation? Gives {-1, 0, 1}
-~deviant_move.sign;
+
+//The percentage (in decimal) from which the new frequency has gone from original to the new value, in an linear method (Should get value from the deviant slider). Gives decimal
+~deviant_move = ~freqslider.value.linlin(0,1,-1,1);
+
+			//Is it going in the positive or negative deviation? Gives {-1, 0, 1}; NEEDS TO BE AFTER ~deviant_move is created and given a value, otherwise errors
+//~deviant_move.sign;
 
 //How many semitones does that harmonic move it? 2 switch systems, the one used depends on the sign; Gives the maximum number of semitones to move away from the deviating note.
 ~deviant_maximum =
@@ -439,8 +443,6 @@ SynthDef.new("sound", {
 
 (basePath +/+  "data/tuning_deviant_scale.scd").load; //This calculates the ~deviant_scale distance
 
-//The percentage (in decimal) from which the new frequency has gone from original to the new value, in an linear method (Should get value from the deviant slider). Gives decimal
-~deviant_move = ~freqslider.value.linlin(0,1,-1,1);
 
 //Where does the dot start? A0 = 0
 
