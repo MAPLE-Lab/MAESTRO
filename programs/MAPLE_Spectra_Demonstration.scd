@@ -251,7 +251,7 @@ s.waitForBoot({
  var menu, snd, funcs2, b;
 
 
- ~vinbutton = Button(w, Rect(620, 417.5, 170, 25))
+ ~vinbutton = Button(w, Rect(620+200, 417.5, 170, 25)) //Pushed off-screen
 			.states_([["            Click to Play", Color.white, Color(0.7569,0.1373,0.1725,1)], ["            Click to Stop", Color.white, Color.black]])
    .mouseDownAction_(
 
@@ -266,9 +266,10 @@ s.waitForBoot({
     snd.release;
    });
 
-menu = PopUpMenu(w, Rect(622.5, 420, 60, 20));
-			menu.items_(["Sine", "Sawtooth", /*"Triangle",*/ "Square"]);
+menu = PopUpMenu(w, Rect(260, 70-3, 100, 25)); //Moved to next to big button
+			menu.items_(["Sine", "Sawtooth", /*"Triangle",*/ "Square", "Instruments"]);
 			menu.font_(Font(\size, 12));
+			menu.value_(3);
 			menu.action = { arg menu;
 
 				// [menu.value, menu.item, menu.action].postln; //These lines allow below allow the menu clicker to auto-set the choice selected (not requiring to click on-off the button to set the dropdown selection)
@@ -397,7 +398,15 @@ l.free;
 				~k.valueAction_(0);
 								~j.valueAction_(0);
 
-	}
+	},
+
+				{"instruments (harmonics panel)".postln;
+					x.free; ///NEED TO ADD OSC DELAY
+		~button.valueAction_(1);
+					~l.valueAction_(0);
+				~k.valueAction_(0);
+								~j.valueAction_(0);
+				}
 
  ];
 

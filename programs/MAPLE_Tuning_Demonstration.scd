@@ -463,7 +463,7 @@ SynthDef.new("sound", {
 //Note ID
 (basePath +/+  "data/switch_fund_ID.scd").load;
 
-(basePath +/+  "data/tuning_deviant_scale_harm.scd").load; //This calculates the ~deviant_scale_harm distance
+(basePath +/+  "data/tuning_deviant_scale_harm-2.scd").load; //This calculates the ~deviant_scale_harm distance
 //~deviant_scale_harm = 0;
 ~starting_position_harm = if(~menu2.value < 2,
 				{0},
@@ -965,6 +965,9 @@ snd = funcs2.at(menu.value).play;
 	);
 
 
+
+
+
 	/////////DROPDOWN FOR CHOOSING WHICH TO AFFECT
 
 (
@@ -1083,6 +1086,8 @@ w.onClose_({
 
 		s.quit; x.free}); //ends server when quit
 });
+
+
 
 /*s.doWhenBooted_(
 

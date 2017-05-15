@@ -139,16 +139,21 @@
 ~adder_harm = 0;
 ~bonus_harm = ~array_note_color[(~array_fund
 						/*+~current_harmonic_MIDINN_harm*/).asInteger..(~array_fund
-	+~current_harmonic_MIDINN_harm //SOMETHING's ADDING TOO MANY
-						+~max_val_harm-1).asInteger].do({
+	//+~current_harmonic_MIDINN_harm //SOMETHING's ADDING TOO MANY
+						+~max_val_harm
+	-1).asInteger].do({
 	arg i, seq;
 	~prev_harm = seq-1;
 	~curr_harm = seq;
 	/*[i,seq, ~prev, ~curr].postln;*/
 
-	if(~array_note_color[(~array_fund+~current_harmonic_MIDINN_harm+~curr_harm).asInteger] == 0,
+	if(~array_note_color[(~array_fund
+		//+~current_harmonic_MIDINN_harm
+		+~curr_harm).asInteger] == 0,
 		{
-			if(~array_note_color[(~array_fund+~current_harmonic_MIDINN+~prev_harm).asInteger] == 0,
+			if(~array_note_color[(~array_fund
+			//+~current_harmonic_MIDINN
+			+~prev_harm).asInteger] == 0,
 				{~adder_harm = ~adder_harm + 1;
 					/*~adder.postln;
 					"added".postln;*/
@@ -172,9 +177,44 @@
 	0,0, //HARM1
 	1,0, //HARM1
 	2,10, //HARM2
+	3,if(~menu2.value == 2, {10}, {20}), //HARM2-3
+	4,if(~menu2.value == 3, {//Harm3
+		if(or(~class_fund == 10, ~class_fund == 11), {30},{20})},
+	{if(~menu2.value == 4, {30},//Harm4
+		{30},
+	)
+	}),
+	5, if(~menu2.value == 5,
+	{if(or(~class_fund == 0, or(~class_fund == 5, ~class_fund == 6)), {30}, {40})},
+	{if(~class_fund == 6, {40}, {40})}), //H4-6
+	6, if(or(~class_fund == 0, ~class_fund == 5), {40}, {50}),
+	7,if(or(~class_fund == 0, ~class_fund == 5), {50}, {60}),
+	8, if(~menu2.value == 12,
+	{if(~class_fund == 10, {70}, {60})},
+	{if(~menu2.value == 13,
+			{if(or(~class_fund >= 9, ~class_fund == 4), {70}, {60})},
+			{if(~menu2.value == 14,
+				{if(~class_fund == 0, {60}, {70})},
+				{if(or(~class_fund == 0, ~class_fund == 5), {60}, {70})}
+			)}
+			)}
+	)
+	,
+	9,70,
+
+
+
+
+
+	/*///THIS ALL MUST CHANGE
+	0,0, //HARM1
+	1,0, //HARM1
+	2,10, //HARM2
 	3,0, //HARM2
-	5,20, //HARM3
+	5,20+10, //HARM3
 	6,if(or(~class_fund == 10, ~class_fund == 11), {30},{20}),//HARM3
+	7,0,
+	8,0,
 	10,30, //HARM4
 	11,30, //HARM4
 	12,30, //HARM4
@@ -183,7 +223,7 @@
 	25,if(or(~class_fund == 10, ~class_fund == 11), {50}, {40}), //HARM6
 	27,if(or(or(~class_fund == 3, ~class_fund == 4), ~class_fund >= 8), {50}, {40}), //HARM7
 	28,if(or(~class_fund > 5, ~class_fund == 2), {50}, {40}), //HARM7
-
+*/
 
 
 
