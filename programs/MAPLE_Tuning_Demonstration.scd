@@ -360,7 +360,9 @@ SynthDef.new("sound", {
 
 
 //Deviant control for keyboard GUI to shift the inner fill square
-(
+if(~key_vis.value == 1,
+			{
+		(
 //What is the fundamental note? Gives MIDI Note Number (MIDINN)
 //~fslider.value.linlin(0,1,21,108);
 
@@ -424,6 +426,7 @@ SynthDef.new("sound", {
 
 //Database for how many semitones higher from fundamental is the selected harmonic for deviation:
 ~current_harmonic_MIDINN = switch (~menu2.value,
+				0,0, //To avoid errors if none selected
 				1,0,
 				2,12,
 				3,19,
@@ -442,10 +445,42 @@ SynthDef.new("sound", {
 				16,48
 				);
 
+~current_harmonic_MIDINN_neg = switch (~menu2.value-1,
+				-1,0, //To avoid errors if none selected
+				0,0,
+				1,0,
+				2,12,
+				3,19,
+				4,24,
+				5,28,
+				6,31,
+				7,34,
+				8,36,
+				9,38,
+				10,40,
+				11,41,
+				12,43,
+				13,44,
+				14,46,
+				15,47,
+				16,48
+				);
+
+
 ~array_fund = ~fundamental_note-21;
 
-(basePath +/+  "data/tuning_deviant_scale.scd").load; //This calculates the ~deviant_scale distance
 
+//Note ID, must be before the scale calculators!
+(basePath +/+  "data/switch_fund_ID.scd").load;
+
+//This calculates the ~deviant_scale distance}
+if(~deviant_move.sign >= 0,
+				{(basePath +/+  "data/tuning_deviant_scale.scd").load;},
+				{(basePath +/+  "data/tuning_deviant_scale-neg.scd").load;});
+
+		//	(basePath +/+  "data/tuning_deviant_scale.scd").load;
+
+/*			(thisProcess.nowExecutingPath.asString.dirname +/+  "data/tuning_deviant_scale.scd").load;*/
 
 //Where does the dot start? A0 = 0
 
@@ -460,24 +495,28 @@ SynthDef.new("sound", {
 				{((~white_count_fund)*20)-10},
 				{((~white_count_fund-1)*20)});
 
-//Note ID
-(basePath +/+  "data/switch_fund_ID.scd").load;
-
-(basePath +/+  "data/tuning_deviant_scale_harm-2.scd").load; //This calculates the ~deviant_scale_harm distance
+//This calculates the ~deviant_scale_harm distance
+(basePath +/+  "data/tuning_deviant_scale_harm-2.scd").load;
 //~deviant_scale_harm = 0;
 ~starting_position_harm = if(~menu2.value < 2,
 				{0},
 				{~deviant_scale_harm}); //BUT NEEDS TO USE THE PREVIOUS HARMONIC'S SCALE
 
 
-
+~case_none_selected =
+			if(~menu2.value == 0,
+				{2000}, //Hides the red dot by moving off-screen to the right
+				{0}
+			);
 
 
 
 
 //The actuator for this motion
-~keyboard_CompositeView_White.bounds_(Rect(27+(~deviant_move*~deviant_scale)+1+~starting_position_fund+~starting_position_harm,175+1,5-1,5-1))
+~keyboard_CompositeView_White.bounds_(Rect(27+(~deviant_move*~deviant_scale)+1+~starting_position_fund+~starting_position_harm+~case_none_selected,175+1,5-1,5-1))
 );
+			},
+			{"Key Vis not open".postln});
 
 
 
@@ -997,7 +1036,6 @@ s.waitForBoot({
 ~menu2 = PopUpMenu(w, Rect(250-(250/2)+50,95+3+80+65+2,50,20));
 			~menu2.items_(["--","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16"]);
 			~menu2.font_(Font(\size, 12));
-			~menu2.valueAction_(5); //Visually display that it's 5
 			~menu2.allowsReselection_(true);
 			~menu2.action = { arg menu2;
 
@@ -1008,7 +1046,7 @@ s.waitForBoot({
 
 (
 					if((~menu2.value == 0),
-					(~coverComposite.visible = true), (~coverComposite.visible = false));
+						{~coverComposite.visible = true}, {~coverComposite.visible = false});
 
 			);
 snd = funcs2.at(menu2.value).play;
@@ -1037,6 +1075,7 @@ snd = funcs2.at(menu2.value).play;
 
 
 	);
+
 
 	~coverComposite = CompositeView(w, Rect(160-80,235+60-30,330+80,30+30));
 	~coverBox = StaticText(~coverComposite, Rect(0,0,330+80,30+30)).background_(Color.white).stringColor_(Color.black).align_(\center);
@@ -1076,6 +1115,21 @@ Harmonic (mistuned) dropdown menu";
 	//To ensure there is a variable value for when the keyboard is opened, if the keyboard is opened before the slider or any other setting is activated - thus bypasses error
 	~numberfBox.valueAction_(~fslider.value.linlin(0,1,21,108));
 
+	//s.doWhenBooted_(
+
+s.makeBundle(5.0, {
+					//~menu2.valueAction_(5); // Activates it as being 5
+//~coverComposite.visible = false;
+			//~menu2.value_(5);
+
+
+});
+	//);
+
+	/*
+	~menu2.value_(5);
+~menu2.valueAction_(5); //Visually display that it's 5*/
+
 
 
 w.onClose_({
@@ -1085,15 +1139,11 @@ w.onClose_({
 		}));
 
 		s.quit; x.free}); //ends server when quit
+
 });
 
 
+	(thisProcess.nowExecutingPath.asString.dirname +/+  "data/menu_5.scd").load;
 
-/*s.doWhenBooted_(
-
-s.makeBundle(0.2, {
-					//~menu2.valueAction_(5); // Activates it as being 5
-~coverComposite.visible = false;
-
-});*/
+/**/
 )
