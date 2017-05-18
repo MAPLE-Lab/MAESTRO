@@ -28,8 +28,23 @@ a.free; //clear buffers to help resolve memory leak
 
 
 
-	////Spectra
+//Spectra
+	//Spectra parameters:
+	~spectraScreenComposite_bounds_array = [/*320*/410,105,/*500*/380,300];
 
+~spectra_x = ~spectraScreenComposite_bounds_width;
+~spectra_y = ~spectraScreenComposite_bounds_height;
+~spectra_db = 70;
+
+
+
+//Load the spectra now that all the above parameters have been set:
+(basePath +/+  "modules/spectra_screen.scd").load;
+
+
+
+
+/*
 	~composite = CompositeView(w, Rect(320,105,500,300)); //needs to use Spectra bounds to not crop FreqScope
 
 	~intensifier = 1;
@@ -40,8 +55,8 @@ a.free; //clear buffers to help resolve memory leak
 ~spectra_db = 70;
 h = FreqScopeView.new(~composite, Rect.new(0,0,~spectra_x,~spectra_y)); //Prepares frequency scope (a.k.a. spectra)
 h.active_(true).freqMode_(1).dbRange_(~spectra_db);
+*/
 
-	// s.onBootAdd({~scopebutton.valueAction_(1);});
 
 	///SPECTRA BUTTON
 	//Add swapables for the pen lines to switch the frequency views
@@ -87,13 +102,14 @@ h.active_(true).freqMode_(1).dbRange_(~spectra_db);
 .stringColor_(Color.black);
 
 
+	//HIDE SPECTRA EDGES
 //Left cheap box
-StaticText(w,Rect(0,105,410,300))
-.background_(Color.white);
+StaticText(w,Rect(0,105,410,300-290))
+.background_(Color.blue);
 
 //Right cheap box
-StaticText(w,Rect(790,105,410,300))
-.background_(Color.white);
+StaticText(w,Rect(790,105+100,410,300-100))
+.background_(Color.yellow);
 
 	//Harmonics cheap box
 StaticText(w,Rect(10,105,380,25))
@@ -154,7 +170,7 @@ StaticText(w,Rect(410,360,500,2))
 	// .background_(Color(0,0,0,0.8)); //old dark bottom cover
 	*/
 
-	StaticText(w,Rect(420,380,500,33))
+	StaticText(~composite,Rect(420-420+10,380-380+~spectraScreenComposite_bounds_height-33,500,33))
 	.string_("Frequency")
 	.align_(\topLeft)
 	.stringColor_(Color.white)
@@ -405,7 +421,7 @@ l.free;
 
 				{"instruments (harmonics panel)".postln;
 					x.free; ///NEED TO ADD OSC DELAY
-		~button.valueAction_(1);
+		~button.valueAction_(0);
 					~l.valueAction_(0);
 				~k.valueAction_(0);
 								~j.valueAction_(0);
@@ -1748,19 +1764,20 @@ arg obj;
 
 
 
-	///SPECTRA SLIDER
+	///SPECTRA SLIDERS
 	//Allows scaling
-
-	~spectra_x = Slider(w, Rect(490,390,300,15)).value_(0).action_({
-		~spectra_width = ~spectra_x.value.linlin(0,1,500,5000);
-h.bounds_(Rect.new(0,0,~spectra_width,~spectra_height));
+	//Moved to the spectra_screen module
+/*
+	~spectra_x = Slider(~composite, Rect(0,~spectraScreenComposite_bounds_height-15,~spectraScreenComposite_bounds_width,15)).value_(0).action_({
+		~spectra_width = ~spectra_x.value.linlin(0,1,~spectraScreenComposite_bounds_width,~spectraScreenComposite_bounds_width*10);
+		h.bounds_(Rect.new(0,0,~spectra_width,~spectra_height));
 	});
 
-	~spectra_y = Slider(w, Rect(775,180,15,210)).value_(0.5).action_({
+	~spectra_y = Slider(~composite, Rect(~spectraScreenComposite_bounds_width-15,0,15,~spectraScreenComposite_bounds_height-15)).value_(0.5).action_({
 		~spectra_db = ~spectra_y.value.linlin(0,1,40,100);
 h.dbRange_(~spectra_db);
 	});
-
+*/
 
 
 	//Button to reset harmonic intensities

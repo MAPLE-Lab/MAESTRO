@@ -36,15 +36,19 @@ w = Window.new("MAPLE Lab Overtone 'Popout' Demonstration (Beta)", Rect.new(
 	});
 
 //CompositeView to allow scaling of the Spectra.
-~composite = CompositeView(w, Rect(-100,355,600,300)); //Needs to use Spectra bounds to not crop FreqScope.
+	//Spectra parameters:
+	~spectraScreenComposite_bounds_array = [-100,355,600,300];
+
+//~composite = CompositeView(w, Rect(-100,355,600,300)); //Needs to use Spectra bounds to not crop FreqScope.
 
 
 //Spectra viewer
 ~spectra_width = 600;
 ~spectra_height = 300;
 ~spectra_db = 60;
-f = FreqScopeView(~composite, Rect.new(0,0,~spectra_width,~spectra_height)); //Prepares frequency scope (a.k.a. spectra) from (-120,355,800,300) to (-100,355,600,300)) - for harmonic marker transformation maths
-	f.active_(true).freqMode_(1).dbRange_(~spectra_db);	f.mouseOverAction_({~inspectorText.string_("This black screen shows a live (i.e. real-time, updating) spectra of the sounds being played.")}).mouseLeaveAction_({~inspectorText.string_(" ")});
+
+//Load the spectra now that all the above parameters have been set:
+(basePath +/+  "modules/spectra_screen.scd").load;
 
 //Descriptive paragraph at top
 ~para = StaticText(w,Rect(10,10,480,80))
@@ -174,31 +178,34 @@ x.set(\fundamental_note, obj.value.linlin(0,1,21,108););
 		}));
 
 
-
-
-
 		if(
 		x.isPlaying,
 		{x.set(\freqX,cf)});
-	~numberfBox.value_(obj.value.linlin(0,1,21,108));
-	/*	~fsliderharm1.valueAction_(obj.value.linlin(0,1,(55/500),(325/500)));//must be linlin because a slider to slider is using the same exact values (no transformation required)
+
+~fundamental_freq = ((2**((-69+~fundamental_note)/12))*440);
+		~numberfBox.value_(~fundamental_freq);
+
+
+
+		/*	~fsliderharm1.valueAction_(obj.value.linlin(0,1,(55/500),(325/500)));//must be linlin because a slider to slider is using the same exact values (no transformation required)
 		~fsliderharm2.valueAction_(obj.value.linlin(0,1,(55/500+0.16),(325/500+0.16)));
 				~fsliderharm3.valueAction_(obj.value.linlin(0,1,(55/500+0.254),(325/500+0.254)));
 		*/
 })
 	.orientation_(\horizontal);
 
-//Number box that can edit slider position
+	//Number box that can edit slider position (NO LONGER BECAUSE NOW NOT SET TO FREQUENCY, NEEDS MATH OTHERWISE)
+//Displays the frequency
 ~numberfBox = NumberBox(w,Rect(85+30,155,72-30,15))
-.value_(69)
-.clipLo_(21)
-.clipHi_(108)
+.value_(440)
+//.clipLo_(21)
+//.clipHi_(108)
 .font_(Font("nil",12))
-.decimals_(0)
+.decimals_(1)
 .align_(\center)
 .action_({
 	arg obj;
-	~fslider.valueAction_(obj.value.linlin(21,108,0,1))
+	//~fslider.valueAction_(obj.value.linlin(21,108,0,1))
 });
 
 //True note value
@@ -704,7 +711,7 @@ arg obj;
 
 	///SPECTRA SLIDER
 	//Allows scaling
-
+/*
 	~spectra_x = Slider(w, Rect(0,555,500,15)).value_(0).action_({
 		~spectra_width = ~spectra_x.value.linlin(0,1,600,6000);
 f.bounds_(Rect.new(0,0,~spectra_width,~spectra_height));
@@ -714,7 +721,7 @@ f.bounds_(Rect.new(0,0,~spectra_width,~spectra_height));
 		~spectra_db = ~spectra_y.value.linlin(0,1,30,90);
 f.dbRange_(~spectra_db);
 	});
-
+*/
 
 
 
@@ -722,11 +729,11 @@ f.dbRange_(~spectra_db);
 
 
 //Dropdown harmonic value number
-~harmonic_count = 1;
+~harmonic_count = 8; //The dropdown is already set to open at 8, and this just ensures the starting value is also 8, for the Harmonic deviator.
 
 
 
-	//Dropdown menus
+//Dropdown menus
 //Preset
 	(
 s.waitForBoot({
@@ -779,7 +786,15 @@ menu = PopUpMenu(w, Rect(250-(250/2)+5,95+5,50,20));
 
 				~vinbutton.valueAction_(0);
 				x.free;
-				// ~vinbutton.valueAction_(1); FOR SOME REASON THIS DOES NOT WORK NOW (UNKNOWN CAUSE FOR BREAK, NEEDS CONTINUED INVESTIGATION), current workaround is to just keep the big button off
+				//~vinbutton.valueAction_(1); //FOR SOME REASON THIS DOES NOT WORK NOW (UNKNOWN CAUSE FOR BREAK, NEEDS CONTINUED INVESTIGATION), current workaround is to just keep the big button off
+				//This gives a delay just enough so that the auto-playing works. Unknown why can't be set to immediately, as above used to work.
+				(
+AppClock.sched(0.01,{
+    //"0.1 seconds after set, HELLO".postln;
+						~vinbutton.valueAction_(1);
+    nil;
+});
+);
 
 	// ~fslider.valueAction_(~fslider.value); //This allows it to refresh real-time
 /*				s.makeBundle(1.0, //sound delay
@@ -1122,9 +1137,6 @@ Harmonic (mistuned) dropdown menu";
 		});*/
 
 
-
-	//To ensure there is a variable value for when the keyboard is opened, if the keyboard is opened before the slider or any other setting is activated - thus bypasses error
-	~numberfBox.valueAction_(~fslider.value.linlin(0,1,21,108));
 
 	//s.doWhenBooted_(
 
