@@ -11,11 +11,13 @@ w = Window.new("MAPLE Lab Overtone 'Popout' Demonstration (Beta)", Rect.new(
 	false) //Cannot be resized by user.
 	.background_(Color.white).userCanClose_(false).front
 	.acceptsMouseOver_(true)
-	//.mouseOverAction_({"MouseOver".postln})
 	;
 
 //Module ID
 ~module_ID = "tuning";
+
+//Inspector ID
+~inspectorExists = 0;
 
 	//Record button - sends to Supercollider file in the Recordings section.
 ~record = Button.new(w, Rect(35, 100, 85, 20))
@@ -42,7 +44,7 @@ w = Window.new("MAPLE Lab Overtone 'Popout' Demonstration (Beta)", Rect.new(
 ~spectra_height = 300;
 ~spectra_db = 60;
 f = FreqScopeView(~composite, Rect.new(0,0,~spectra_width,~spectra_height)); //Prepares frequency scope (a.k.a. spectra) from (-120,355,800,300) to (-100,355,600,300)) - for harmonic marker transformation maths
-f.active_(true).freqMode_(1).dbRange_(~spectra_db);
+	f.active_(true).freqMode_(1).dbRange_(~spectra_db);	f.mouseOverAction_({~inspectorText.string_("This black screen shows a live (i.e. real-time, updating) spectra of the sounds being played.")}).mouseLeaveAction_({~inspectorText.string_(" ")});
 
 //Descriptive paragraph at top
 ~para = StaticText(w,Rect(10,10,480,80))
@@ -1044,11 +1046,15 @@ s.waitForBoot({
 /*				x.free;*/
 			/*	~choosebutton.valueAction_(1);*/
 
-(
+				(
 					if((~menu2.value == 0),
 						{~coverComposite.visible = true}, {~coverComposite.visible = false});
+				);
 
-			);
+				(
+					if(~menu2.value > ~harmonic_count, {~inspectorError.string_("The harmonic selected was above the number of harmonics being played. Please select a lower harmonic to deviate or increase the number of harmonics being played");~menu2.valueAction_(0); }, {"The harmonic selected is accepted".postln})
+				);
+
 snd = funcs2.at(menu2.value).play;
 
 				// x.set(menu.action);
@@ -1099,6 +1105,11 @@ Harmonic (mistuned) dropdown menu";
 		(if(~key_vis.value == 1, {
 			~keyboard.close;
 		}));
+
+		(if(~inspectorExists == 1, {
+			~inspectorWindow.close;
+		}));
+
 		(basePath +/+ "splashscreen.scd").loadPaths;
 		});
 
@@ -1130,20 +1141,28 @@ s.makeBundle(5.0, {
 	~menu2.value_(5);
 ~menu2.valueAction_(5); //Visually display that it's 5*/
 
+(
+AppClock.sched(0.1,{
+    "0.1 seconds after load, the Harmonic is set to 5".postln;
+			~menu2.valueAction_(5);
+    nil;
+});
+);
 
-
+	///CAN THIS BE REMOVED? The Quitting button should be sufficient. This is more a safeguard.
 w.onClose_({
 
 		(if(~key_vis.value == 1, {
 			~keyboard.close;
 		}));
 
+		(if(~inspectorExists == 1, {
+			~inspectorWindow.close;
+		}));
+
 		s.quit; x.free}); //ends server when quit
 
 });
-
-
-	(thisProcess.nowExecutingPath.asString.dirname +/+  "data/menu_5.scd").load;
 
 /**/
 )

@@ -9,10 +9,13 @@ a.free; //clear buffers to help resolve memory leak
 	s.freeAll;
 	//Ensures it only opens once the server is working completely, and automatically opens server
 	s.prepareForRecord; //Avoid recording delay
+
+	//Creates the new window with title
 	w = Window.new("MAPLE Lab Spectra Demonstration (Beta)", Rect.new(
 	Window.screenBounds.width/2-400,
 	Window.screenBounds.height/2-50,
-		800,530),false).background_(Color.white).userCanClose_(false).front;//Creates the new window with title
+		800,530),false).background_(Color.white).userCanClose_(false).front
+	.acceptsMouseOver_(true);
 	// w.view.background = Color(0.9,0.9,0.9,1);
 
 
