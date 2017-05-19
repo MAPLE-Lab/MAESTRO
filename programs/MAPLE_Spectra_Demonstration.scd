@@ -23,6 +23,9 @@ w = Window.new("MAPLE Lab Spectra Demonstration (Beta)", Rect.new(
 //Module ID
 ~module_ID = "spectra";
 
+//Inspector ID
+~inspectorExists = 0;
+
 //Dirty bit used in GUI updating sync
 ~dirtyBit = 0;
 
@@ -30,7 +33,8 @@ w = Window.new("MAPLE Lab Spectra Demonstration (Beta)", Rect.new(
 (
 //Spectra parameters:
 ~spectraScreenComposite_bounds_array = [410,105,380,300];
-~spectraButton_bounds_array = [690-27.5, 112.5+40, 120, 20];
+~spectraButton_bounds_array = [690-40, 112.5+40, 120, 20];
+~spectraAutoscale_bounds_array = [690-40, 112.5+40+20, 120, 20];
 
 //Load the spectra now that all the above parameters have been set:
 (basePath +/+  "modules/spectra_screen.scd").load;
@@ -850,9 +854,13 @@ l.free;
 
 
 
+
+
+			}));
+
 (
 // These y_var and x_var make the following lines of code more clear to read
-			~energy = Array.fill(200,1);
+			~energy = Array.fill(16,1);
 			~gain = Array.fill(200,~knob.value.linexp(0,1,1,100);); //use linexp to make the Knob somewhat intuitive to use
 			~gain_strength = 10; //Doesn't seem to actually affect the Gain
 
@@ -861,18 +869,22 @@ l.free;
 
 
 // y_var values must be computed BEFORE the color_array block so that the values exist; thus when copying from the Excel generator the order of the two blocks must be inverted
+				//if(~key_vis == 1, {
 				(
 					(0..15).do({
 						arg i;
 						var namer = i+1, slider_name;
 
 						slider_name = "~f" ++ namer ++ "slider.value.linlin(0,1,0,1)";
-						[i, ("~energy["++i++"] =(~manipulated_harmonic["++i++"]*"++slider_name++")")].postln;
+
+						//[i, ("~energy["++i++"] =(~manipulated_harmonic["++i++"]*"++slider_name++")")].postln;
+
 						//slider_name.compile.postln;
 						("~energy["++i++"] =(~manipulated_harmonic["++i++"]*"++slider_name++")").interpret; //Needs to be interpret and not compile
 
 					})
-				);
+				//);}
+		);
 
 
 //HARMONICS
@@ -906,7 +918,10 @@ l.free;
 
 		);
 
-			}));
+
+
+
+
 
 
 //Ensure it updates
@@ -1050,6 +1065,7 @@ s.makeBundle(1.0, //sound delay -~knob.value.linlin(0,1,0,0.5)
 
 		}))
 		});
+
 
 		if(
 		x.isPlaying,
@@ -1542,7 +1558,7 @@ SynthDef.new("sound", {
 		});
 
 	//Open Stethoscope
-~scopebutton = Button(w, Rect((690-27.5), 112.5, 120, 20))
+~scopebutton = Button(w, Rect((690-40), 112.5, 120, 20))
 .states_([
 	["Open Oscilloscope", Color.white,Color(0.4824, 0.4863, 0.4863,1)]/*,
 	["Close Oscilloscope", Color.white, Color.grey(0.251)]*/
@@ -1578,7 +1594,7 @@ s.sendBundle(2, //sound delay
 });
 
 
-~scope2button = Button(w, Rect((690-27.5), 132.5, 120, 20))
+~scope2button = Button(w, Rect((690-40), 132.5, 120, 20))
 .states_([
 	["Set Osc. to ~440Hz", Color.white,Color(0.4824, 0.4863, 0.4863,1)]
 ])

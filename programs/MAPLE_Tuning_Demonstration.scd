@@ -41,6 +41,7 @@ w = Window.new("MAPLE Lab Overtone 'Popout' Demonstration (Beta)", Rect.new(
 //Spectra parameters:
 ~spectraScreenComposite_bounds_array = [-100+100,355,500,215];
 ~spectraButton_bounds_array = [250-(200/2)-65,200+135,110,20];
+		~spectraAutoscale_bounds_array = [250-(200/2)-65+110+10,200+135,110,20];
 
 //Load the spectra now that all the above parameters have been set:
 (basePath +/+  "modules/spectra_screen.scd").load;

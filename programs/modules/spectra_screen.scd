@@ -24,7 +24,17 @@
 ~spectra_scope = f = h = FreqScopeView.new(~composite, Rect.new(0,0,~spectraScreenComposite_bounds_width,~spectraScreenComposite_bounds_height));
 
 //Prepares frequency scope (a.k.a. spectra)
-~spectra_scope.active_(true).freqMode_(1).dbRange_(~spectra_db).mouseOverAction_({~inspectorText.string_("This black screen shows a live (i.e. real-time, updating) spectra of the sounds being played.")}).mouseLeaveAction_({~inspectorText.string_(" ")});
+~spectra_scope.active_(true).freqMode_(1).dbRange_(~spectra_db);
+~spectra_scope.mouseOverAction_({
+	if(~inspectorExists == 1, {
+		~inspectorText.string_("This black screen shows a live (i.e. real-time, updating) spectra of the sounds being played.")
+})
+});
+~spectra_scope.mouseLeaveAction_({
+	if(~inspectorExists == 1, {
+		~inspectorText.string_(" ")
+});
+});
 
 //Label for Spectra
 if(~module_ID == "spectra",
@@ -64,16 +74,23 @@ StaticText(~composite,Rect(10,~spectraScreenComposite_bounds_height-33,100,15))
 	15))
 .value_(0)
 .action_({
-	~spectra_width = ~spectra_x.value.linlin(0,1,~spectraScreenComposite_bounds_width,~spectraScreenComposite_bounds_width*10);
+	~spectra_width = ~spectra_x.value.linlin(0,1,
+	~spectraScreenComposite_bounds_width,
+	~spectraScreenComposite_bounds_width*10);
+
 	~spectra_scope.bounds_(Rect.new(0,0,~spectra_width,~spectra_height));
 	});
 
-	~spectra_y = Slider(~composite, Rect(~spectraScreenComposite_bounds_width-15,0,15,~spectraScreenComposite_bounds_height-15))
+~spectra_y = Slider(~composite, Rect(
+	~spectraScreenComposite_bounds_width-15,
+	0,
+	15,
+	~spectraScreenComposite_bounds_height-15))
 .value_(0.5)
 .action_({
 	~spectra_db = ~spectra_y.value.linlin(0,1,0,140);
 	~spectra_scope.dbRange_(~spectra_db);
-});
+	});
 
 //Button to change between Log to Linear view
 ~spectraButton = Button(w, Rect(
@@ -92,5 +109,66 @@ StaticText(~composite,Rect(10,~spectraScreenComposite_bounds_height-33,100,15))
 		{~spectra_scope.freqMode_(0);},
 		{~spectra_scope.freqMode_(1);})
 });
+
+//Button to auto-scale
+~spectraButton = Button(w, Rect(
+		~spectraAutoscale_bounds_array[0],
+		~spectraAutoscale_bounds_array[1],
+		~spectraAutoscale_bounds_array[2],
+		~spectraAutoscale_bounds_array[3]))
+.states_([
+		["Autoscale", Color.white,Color(0.4824, 0.4863, 0.4863,1)]]
+	)
+.font_(Font("nil", 12))
+.action_({
+if(~module_ID == "spectra",
+{
+~energyTruncated = ~energy.postln;
+
+if(~energyTruncated.last == 0, {
+
+while ( { ~energyTruncated.last == 0 }, {
+//	"Before".postln;
+	~energyTruncated = ~energyTruncated.drop(-1);
+	~energyTruncated.postln;
+//	"After".postln;
+
+	if (~energyTruncated.last != 0, {("Done: Up to the"+~energyTruncated.size++"th harmonic is being played").postln});
+});
+},
+{"All 16 harmonics being played".postln;});
+
+
+
+		},{
+~harmonic_count;
+}
+);
+	//Maximum frequency:
+~fundamental_freq = ((2**((-69+~fundamental_note)/12))*440);
+			~fundamental_freq.postln;
+//~max_freq = ~energyTruncated.size*~fundamental_freq;
+//~max_freq.postln;
+
+
+if(~spectra_scope.freqMode == 1,{
+				"Log View".postln;},{
+				"Linear View".postln;
+
+				~spectra_x.valueAction = 2 ** ((-0.008)*(~fundamental_freq-110));
+				/*
+				~auto_zoom = ~max_freq.explin(2000,21096,1,0);
+				~auto_zoom.postln;
+				~spectra_x.valueAction = ~auto_zoom;*/
+
+
+			}
+			);
+
+
+
+
+
+};);
 
 //~thingy = StaticText.new(~composite, Rect(10,0,500,50)).background_(Color.red);
