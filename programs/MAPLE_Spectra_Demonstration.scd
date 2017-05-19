@@ -3,95 +3,38 @@
 Window.closeAll;
 
 s.waitForBoot({
-a.free; //clear buffers to help resolve memory leak
-		b.free;
-		e.free;
+	a.free; //clear buffers to help resolve memory leak
+	b.free;
+	e.free;
 	s.freeAll;
 	//Ensures it only opens once the server is working completely, and automatically opens server
 	s.prepareForRecord; //Avoid recording delay
 
-	//Creates the new window with title
-	w = Window.new("MAPLE Lab Spectra Demonstration (Beta)", Rect.new(
+//Creates the new window with title
+w = Window.new("MAPLE Lab Spectra Demonstration (Beta)", Rect.new(
 	Window.screenBounds.width/2-400,
 	Window.screenBounds.height/2-50,
-		800,530),false).background_(Color.white).userCanClose_(false).front
+	800,530),false)
+	.background_(Color.white)
+	.userCanClose_(false)
+	.front
 	.acceptsMouseOver_(true);
-	// w.view.background = Color(0.9,0.9,0.9,1);
-
 
 //Module ID
-	~module_ID = "spectra";
-
+~module_ID = "spectra";
 
 //Dirty bit used in GUI updating sync
-	~dirtyBit = 0;
-
-
+~dirtyBit = 0;
 
 //Spectra
-	//Spectra parameters:
-	~spectraScreenComposite_bounds_array = [/*320*/410,105,/*500*/380,300];
-
-~spectra_x = ~spectraScreenComposite_bounds_width;
-~spectra_y = ~spectraScreenComposite_bounds_height;
-~spectra_db = 70;
-
-
+(
+//Spectra parameters:
+~spectraScreenComposite_bounds_array = [410,105,380,300];
+~spectraButton_bounds_array = [690-27.5, 112.5+40, 120, 20];
 
 //Load the spectra now that all the above parameters have been set:
 (basePath +/+  "modules/spectra_screen.scd").load;
-
-
-
-
-/*
-	~composite = CompositeView(w, Rect(320,105,500,300)); //needs to use Spectra bounds to not crop FreqScope
-
-	~intensifier = 1;
-
-//Spectra viewer
-~spectra_x = 500;
-~spectra_y = 300;
-~spectra_db = 70;
-h = FreqScopeView.new(~composite, Rect.new(0,0,~spectra_x,~spectra_y)); //Prepares frequency scope (a.k.a. spectra)
-h.active_(true).freqMode_(1).dbRange_(~spectra_db);
-*/
-
-
-	///SPECTRA BUTTON
-	//Add swapables for the pen lines to switch the frequency views
-
-	~spectraButton = Button(w, Rect(250-(200/2)-65,200+135,110,20))
-.states_([
-		["Log View", Color.white,Color(0.7569,0.1373,0.1725,1)]
-		,["Linear View", Color.white,Color(0.7569,0.1373,0.1725,1)]]
-
-)
-.font_(Font("nil", 12))
-.action_(
-
-
-				{
-
-					arg obj;
-	if(obj.value == 1,
-						{
-
-
-					f.freqMode_(0);
-					~composite.bounds_(Rect(320,355,600,300));
-					p.visible = false;
-
-					// f.set(\bounds, Rect.new(100,100,600,300));
-					// f.bounds_(Rect(100, 0, 300, 300);
-
-						},{f.freqMode_(1); ~composite.bounds_(Rect(320-200,355,600,300));}
-			)});
-
-
-
-
-
+);
 
 //Label for paragraph
 ~para = StaticText(w,Rect(10,10,790,80))
@@ -101,7 +44,7 @@ h.active_(true).freqMode_(1).dbRange_(~spectra_db);
 .background_(Color(0,0,0,0))
 .stringColor_(Color.black);
 
-
+/*
 	//HIDE SPECTRA EDGES
 //Left cheap box
 StaticText(w,Rect(0,105,410,300-290))
@@ -114,6 +57,7 @@ StaticText(w,Rect(790,105+100,410,300-100))
 	//Harmonics cheap box
 StaticText(w,Rect(10,105,380,25))
 .background_(Color(0,0,0,0.0));
+	*/
 
 
 /*
@@ -170,11 +114,6 @@ StaticText(w,Rect(410,360,500,2))
 	// .background_(Color(0,0,0,0.8)); //old dark bottom cover
 	*/
 
-	StaticText(~composite,Rect(420-420+10,380-380+~spectraScreenComposite_bounds_height-33,500,33))
-	.string_("Frequency")
-	.align_(\topLeft)
-	.stringColor_(Color.white)
-	.background_(Color(0,0,0,0));
 
 
 
@@ -648,13 +587,7 @@ l.free;
 .background_(Color(0,0,0,0))
 .stringColor_(Color.black);
 
-//Label for Spectra
-~para = StaticText(w,Rect(410,110,380,80))
-	.string_("Spectra")
-.font_(Font("nil", 18))
-.align_(\top)
-.background_(Color(0,0,0,0))
-.stringColor_(Color.white);
+
 
 
 		//FUNDAMENTAL FREQUENCY
@@ -1735,49 +1668,7 @@ arg obj;
 
 
 
-	///SPECTRA BUTTON
-	//Add swapables for the pen lines to switch the frequency views
 
-	~spectraButton = Button(w, Rect((690-27.5), 112.5+40, 120, 20))
-.states_([
-		["Log View", Color.white,Color(0.4824, 0.4863, 0.4863,1)]
-		,["Linear View", Color.white,Color(0.4824, 0.4863, 0.4863,1)]]
-
-)
-.font_(Font("nil", 12))
-.action_(
-
-
-				{
-
-					arg obj;
-	if(obj.value == 1,
-						{
-
-
-					h.freqMode_(0);
-					~composite.bounds_(Rect(320+90,105,500,300));
-					p.visible = false;
-
-						},{h.freqMode_(1); ~composite.bounds_(Rect(320,105,500,300));}
-			)});
-
-
-
-	///SPECTRA SLIDERS
-	//Allows scaling
-	//Moved to the spectra_screen module
-/*
-	~spectra_x = Slider(~composite, Rect(0,~spectraScreenComposite_bounds_height-15,~spectraScreenComposite_bounds_width,15)).value_(0).action_({
-		~spectra_width = ~spectra_x.value.linlin(0,1,~spectraScreenComposite_bounds_width,~spectraScreenComposite_bounds_width*10);
-		h.bounds_(Rect.new(0,0,~spectra_width,~spectra_height));
-	});
-
-	~spectra_y = Slider(~composite, Rect(~spectraScreenComposite_bounds_width-15,0,15,~spectraScreenComposite_bounds_height-15)).value_(0.5).action_({
-		~spectra_db = ~spectra_y.value.linlin(0,1,40,100);
-h.dbRange_(~spectra_db);
-	});
-*/
 
 
 	//Button to reset harmonic intensities

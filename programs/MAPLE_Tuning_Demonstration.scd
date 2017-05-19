@@ -35,20 +35,17 @@ w = Window.new("MAPLE Lab Overtone 'Popout' Demonstration (Beta)", Rect.new(
 		);
 	});
 
-//CompositeView to allow scaling of the Spectra.
-	//Spectra parameters:
-	~spectraScreenComposite_bounds_array = [-100,355,600,300];
 
-//~composite = CompositeView(w, Rect(-100,355,600,300)); //Needs to use Spectra bounds to not crop FreqScope.
-
-
-//Spectra viewer
-~spectra_width = 600;
-~spectra_height = 300;
-~spectra_db = 60;
+//Spectra
+(
+//Spectra parameters:
+~spectraScreenComposite_bounds_array = [-100+100,355,500,215];
+~spectraButton_bounds_array = [250-(200/2)-65,200+135,110,20];
 
 //Load the spectra now that all the above parameters have been set:
 (basePath +/+  "modules/spectra_screen.scd").load;
+);
+
 
 //Descriptive paragraph at top
 ~para = StaticText(w,Rect(10,10,480,80))
@@ -78,14 +75,6 @@ w.drawFunc = {
 			    Pen.width = 2;
                 Pen.stroke};//Top line, written differently in code
         };
-
-//Frequency on Spectra label
-StaticText(w,Rect(10,200+135+200,110,20))
-	.string_("Frequency")
-	.stringColor_(Color.white)
-	.align_(\topLeft)
-	.background_(Color(0,0,0,0));
-
 
 //VOLUME
 //Properties of the slider
@@ -241,13 +230,6 @@ x.set(\fundamental_note, obj.value.linlin(0,1,21,108););
 .background_(Color(0,0,0,0))
 .stringColor_(Color.black);
 
-//Label for Spectra
-~para = StaticText(w,Rect(10,335,480,80))
-	.string_("Spectra")
-.font_(Font("nil", 16))
-.align_(\topLeft)
-.background_(Color(0,0,0,0))
-.stringColor_(Color.black);
 
 //Define the sound to be played
 (
@@ -676,54 +658,6 @@ arg obj;
 		};);
 
 		});
-
-
-	///SPECTRA BUTTON
-	//Add swapables for the pen lines to switch the frequency views
-
-	~spectraButton = Button(w, Rect(250-(200/2)-65,200+135,110,20))
-.states_([
-		["Log View", Color.white,Color(0.4824, 0.4863, 0.4863,1)]
-		,["Linear View", Color.white,Color(0.4824, 0.4863, 0.4863,1)]]
-
-)
-.font_(Font("nil", 12))
-.action_(
-
-
-				{
-
-					arg obj;
-	if(obj.value == 1,
-						{
-
-
-					f.freqMode_(0);
-					~composite.bounds_(Rect(0,355,~spectra_width,~spectra_height));
-					p.visible = false;
-
-					// f.set(\bounds, Rect.new(100,100,600,300));
-					// f.bounds_(Rect(100, 0, 300, 300);
-
-				},{f.freqMode_(1); ~composite.bounds_(Rect(-100,355,~spectra_width,~spectra_height));}
-			)});
-
-
-	///SPECTRA SLIDER
-	//Allows scaling
-/*
-	~spectra_x = Slider(w, Rect(0,555,500,15)).value_(0).action_({
-		~spectra_width = ~spectra_x.value.linlin(0,1,600,6000);
-f.bounds_(Rect.new(0,0,~spectra_width,~spectra_height));
-	});
-
-	~spectra_y = Slider(w, Rect(485,355,15,200)).value_(0.5).action_({
-		~spectra_db = ~spectra_y.value.linlin(0,1,30,90);
-f.dbRange_(~spectra_db);
-	});
-*/
-
-
 
 
 

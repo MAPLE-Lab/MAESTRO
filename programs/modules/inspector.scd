@@ -9,7 +9,7 @@
 
 ~internalText = StaticText(~inspectorWindow,Rect(10,15,280,280))
 	.string_("
-WIP Version 2017-05-16-1200
+WIP Version 2017-05-18-1930
 Towards: Pre-release v0.1.3-beta
 
 ")

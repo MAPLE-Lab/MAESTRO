@@ -1,92 +1,96 @@
+//Modularized code that creates a spectra. Requires the following code in the starting code:
+// ~spectraScreenComposite_bounds_array = [?,?,?,?];
+// ~spectraButton_bounds_array = [?,?,?,?];
+// (basePath +/+  "modules/spectra_screen.scd").load;
 
+//Define variable values for the spectra composite view
 ~spectraScreenComposite_bounds_left = ~spectraScreenComposite_bounds_array[0];
 ~spectraScreenComposite_bounds_top = ~spectraScreenComposite_bounds_array[1];
 ~spectraScreenComposite_bounds_width = ~spectraScreenComposite_bounds_array[2];
 ~spectraScreenComposite_bounds_height = ~spectraScreenComposite_bounds_array[3];
 
+//Create the CompositeView for the spectra
+//This allows scaling and cropping of the spectra without changing the frequency scale on first creation of the spectra
 ~composite = CompositeView(w, Rect(
 	~spectraScreenComposite_bounds_left,
 	~spectraScreenComposite_bounds_top,
 	~spectraScreenComposite_bounds_width,
 	~spectraScreenComposite_bounds_height));
-//needs to use Spectra bounds to not crop FreqScope
 
-	~intensifier = 1;
+//Set the decibel range of the spectra
+~spectra_db = 70;
 
+//Creates the spectra
+~spectra_scope = f = h = FreqScopeView.new(~composite, Rect.new(0,0,~spectraScreenComposite_bounds_width,~spectraScreenComposite_bounds_height));
 
-//Currently the if exists because SPECTRA uses h, while TUNING uses f. These should both be chaned to a single, common global variable.
+//Prepares frequency scope (a.k.a. spectra)
+~spectra_scope.active_(true).freqMode_(1).dbRange_(~spectra_db).mouseOverAction_({~inspectorText.string_("This black screen shows a live (i.e. real-time, updating) spectra of the sounds being played.")}).mouseLeaveAction_({~inspectorText.string_(" ")});
 
+//Label for Spectra
 if(~module_ID == "spectra",
-	{
-//Spectra viewer
-// ~spectra_x = 500;
-// ~spectra_y = 300;
-// ~spectra_db = 70;
-h = FreqScopeView.new(~composite, Rect.new(0,0,~spectra_x,~spectra_y)); //Prepares frequency scope (a.k.a. spectra)
-h.active_(true).freqMode_(1).dbRange_(~spectra_db);
+{
+~spectraTitle = StaticText(~composite,Rect(0,0,~spectraScreenComposite_bounds_width,20))
+.string_("Spectra")
+.font_(Font("nil", 18))
+.align_(\top)
+.background_(Color(0,0,0,0))
+.stringColor_(Color.white);
+},{
+~spectraTitle = StaticText(w,Rect(10,335,480,80))
+.string_("Spectra")
+.font_(Font("nil", 16))
+.align_(\topLeft)
+.background_(Color(0,0,0,0))
+.stringColor_(Color.black);
+}
+);
 
-		~thingy = StaticText.new(~composite, Rect(0,0,500,50)).background_(Color.red);
+//x-axis (Frequency) label
+StaticText(~composite,Rect(10,~spectraScreenComposite_bounds_height-33,100,15))
+.string_("Frequency")
+.align_(\topLeft)
+.stringColor_(Color.white)
+.background_(Color(0,0,0,0));
 
+//Starting variable values for the sliders
+~spectra_width = ~spectraScreenComposite_bounds_width;
+~spectra_height = ~spectraScreenComposite_bounds_height;
 
-	~spectra_x = Slider(~composite, Rect(0,~spectraScreenComposite_bounds_height-15,~spectraScreenComposite_bounds_width,15)).value_(0).action_({
-		~spectra_width = ~spectra_x.value.linlin(0,1,~spectraScreenComposite_bounds_width,~spectraScreenComposite_bounds_width*10);
-		h.bounds_(Rect.new(0,0,~spectra_width,~spectra_height));
+//Sliders to scale the spectra
+~spectra_x = Slider(~composite, Rect(
+	0,
+	~spectraScreenComposite_bounds_height-15,
+	~spectraScreenComposite_bounds_width,
+	15))
+.value_(0)
+.action_({
+	~spectra_width = ~spectra_x.value.linlin(0,1,~spectraScreenComposite_bounds_width,~spectraScreenComposite_bounds_width*10);
+	~spectra_scope.bounds_(Rect.new(0,0,~spectra_width,~spectra_height));
 	});
 
-	~spectra_y = Slider(~composite, Rect(~spectraScreenComposite_bounds_width-15,0,15,~spectraScreenComposite_bounds_height-15)).value_(0.5).action_({
-		~spectra_db = ~spectra_y.value.linlin(0,1,40,100);
-h.dbRange_(~spectra_db);
-	});
-
-
-/*
-///SPECTRA BUTTON
-	//Add swapables for the pen lines to switch the frequency views
-
-	~spectraButton = Button(w, Rect(250-(200/2)-65,200+135,110,20))
-.states_([
-		["Log View", Color.white,Color(0.7569,0.1373,0.1725,1)]
-		,["Linear View", Color.white,Color(0.7569,0.1373,0.1725,1)]]
-
-)
-.font_(Font("nil", 12))
-.action_(
-
-
-				{
-
-					arg obj;
-	if(obj.value == 1,
-						{
-
-
-					f.freqMode_(0);
-					~composite.bounds_(Rect(320,355,600,300));
-					p.visible = false;
-
-					// f.set(\bounds, Rect.new(100,100,600,300));
-					// f.bounds_(Rect(100, 0, 300, 300);
-
-						},{f.freqMode_(1); ~composite.bounds_(Rect(320-200,355,600,300));}
-			)});
-*/
-	},
-
-	{//~module_ID == "tuning",
-f = FreqScopeView(~composite, Rect.new(0,0,~spectra_width,~spectra_height)); //Prepares frequency scope (a.k.a. spectra) from (-120,355,800,300) to (-100,355,600,300)) - for harmonic marker transformation maths
-	f.active_(true).freqMode_(1).dbRange_(~spectra_db);	f.mouseOverAction_({~inspectorText.string_("This black screen shows a live (i.e. real-time, updating) spectra of the sounds being played.")}).mouseLeaveAction_({~inspectorText.string_(" ")});
-
-
-
-~spectra_x = Slider(~composite, Rect(0,~spectraScreenComposite_bounds_height-15,~spectraScreenComposite_bounds_width,15)).value_(0).action_({
-		~spectra_width = ~spectra_x.value.linlin(0,1,~spectraScreenComposite_bounds_width,~spectraScreenComposite_bounds_width*10);
-		f.bounds_(Rect.new(0,0,~spectra_width,~spectra_height));
-	});
-
-	~spectra_y = Slider(~composite, Rect(~spectraScreenComposite_bounds_width-15,0,15,~spectraScreenComposite_bounds_height-15)).value_(0.5).action_({
-		~spectra_db = ~spectra_y.value.linlin(0,1,40,100);
-f.dbRange_(~spectra_db);
-	});
-
-
+	~spectra_y = Slider(~composite, Rect(~spectraScreenComposite_bounds_width-15,0,15,~spectraScreenComposite_bounds_height-15))
+.value_(0.5)
+.action_({
+	~spectra_db = ~spectra_y.value.linlin(0,1,0,140);
+	~spectra_scope.dbRange_(~spectra_db);
 });
+
+//Button to change between Log to Linear view
+~spectraButton = Button(w, Rect(
+		~spectraButton_bounds_array[0],
+		~spectraButton_bounds_array[1],
+		~spectraButton_bounds_array[2],
+		~spectraButton_bounds_array[3]))
+.states_([
+		["Log View", Color.white,Color(0.4824, 0.4863, 0.4863,1)],
+		["Linear View", Color.white,Color(0.4824, 0.4863, 0.4863,1)]]
+	)
+.font_(Font("nil", 12))
+.action_({
+	arg obj;
+	if(obj.value == 1,
+		{~spectra_scope.freqMode_(0);},
+		{~spectra_scope.freqMode_(1);})
+});
+
+//~thingy = StaticText.new(~composite, Rect(10,0,500,50)).background_(Color.red);
