@@ -64,7 +64,7 @@ i = Image.new(basePath +/+ "images/mapleICON-small.png");
 //All graphics (aesthetic lines and image positions)
 w.drawFunc = {
 		i.drawInRect(Rect(465,95,30,30), Rect(0,0,30,30), 2, 1.0); // only a section
-		~keyboard_image.drawInRect(Rect(250,330,60,25), Rect(0,0,60,25), 2, 1.0);
+		~keyboard_image.drawInRect(Rect(250+75,330,60,25), Rect(0,0,60,25), 2, 1.0);
 
 		Pen.use{
 		Pen.line(10@240,490@240); //New line
@@ -640,7 +640,7 @@ to 0", Color.white,Color(0.4824, 0.4863, 0.4863,1)]
 
 
 	//Keyboard visualizer button
-		~key_vis = Button.new(w, Rect(250,330,60,25))
+		~key_vis = Button.new(w, Rect(250+75,330,60,25))
 	.states_([["", Color.black, Color.clear],["CLOSE", Color.white, Color(0,0,0,0.7)]])
 	.font_(Font("nil", 10))
 	.action_({

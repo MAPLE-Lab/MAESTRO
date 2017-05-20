@@ -24,17 +24,17 @@
 ~spectra_scope = f = h = FreqScopeView.new(~composite, Rect.new(0,0,~spectraScreenComposite_bounds_width,~spectraScreenComposite_bounds_height));
 
 //Prepares frequency scope (a.k.a. spectra)
-~spectra_scope.active_(true).freqMode_(1).dbRange_(~spectra_db);
-~spectra_scope.mouseOverAction_({
+~spectra_scope.active_(true).freqMode_(1).dbRange_(~spectra_db)
+
+//Implements the hovertext for the inspector window
+.mouseOverAction_({
 	if(~inspectorExists == 1, {
 		~inspectorText.string_("This black screen shows a live (i.e. real-time, updating) spectra of the sounds being played.")
-})
-});
-~spectra_scope.mouseLeaveAction_({
+});})
+.mouseLeaveAction_({
 	if(~inspectorExists == 1, {
 		~inspectorText.string_(" ")
-});
-});
+});});
 
 //Label for Spectra
 if(~module_ID == "spectra",
@@ -52,8 +52,7 @@ if(~module_ID == "spectra",
 .align_(\topLeft)
 .background_(Color(0,0,0,0))
 .stringColor_(Color.black);
-}
-);
+});
 
 //x-axis (Frequency) label
 StaticText(~composite,Rect(10,~spectraScreenComposite_bounds_height-33,100,15))
@@ -74,10 +73,7 @@ StaticText(~composite,Rect(10,~spectraScreenComposite_bounds_height-33,100,15))
 	15))
 .value_(0)
 .action_({
-	~spectra_width = ~spectra_x.value.linlin(0,1,
-	~spectraScreenComposite_bounds_width,
-	~spectraScreenComposite_bounds_width*10);
-
+	~spectra_width = ~spectra_x.value.linlin(0,1,~spectraScreenComposite_bounds_width,~spectraScreenComposite_bounds_width*10);
 	~spectra_scope.bounds_(Rect.new(0,0,~spectra_width,~spectra_height));
 	});
 
@@ -121,54 +117,59 @@ StaticText(~composite,Rect(10,~spectraScreenComposite_bounds_height-33,100,15))
 	)
 .font_(Font("nil", 12))
 .action_({
-if(~module_ID == "spectra",
-{
-~energyTruncated = ~energy.postln;
 
-if(~energyTruncated.last == 0, {
+//The following sequence of code calculates how the ~spectra_x slider should move to fit all played harmonics on screen
 
-while ( { ~energyTruncated.last == 0 }, {
-//	"Before".postln;
-	~energyTruncated = ~energyTruncated.drop(-1);
-	~energyTruncated.postln;
-//	"After".postln;
-
-	if (~energyTruncated.last != 0, {("Done: Up to the"+~energyTruncated.size++"th harmonic is being played").postln});
-});
-},
-{"All 16 harmonics being played".postln;});
-
-
-
-		},{
-~harmonic_count;
-}
-);
-	//Maximum frequency:
+//1. Calculates the fundamental frequency from the MIDINN
 ~fundamental_freq = ((2**((-69+~fundamental_note)/12))*440);
-			~fundamental_freq.postln;
-//~max_freq = ~energyTruncated.size*~fundamental_freq;
-//~max_freq.postln;
 
+//2. Calculates the frequency of highest harmonic being played, method depending on the module
 
+//If the module is SPECTRA
+if(~module_ID == "spectra",{
+
+		//Create new array from original harmonic intensity array
+		~energyTruncated = ~energy;
+
+		//Check if the last harmonic intensity in the array (i.e. 16th harmonic) is 0
+		//If it is, all 16 harmonics are playing; otherwise, run a WHILE code
+		if(~energyTruncated.last == 0, {
+
+			//While the last harmonic intensity in the array is 0, remove the last item from the array
+			while ( { ~energyTruncated.last == 0 }, {
+				~energyTruncated = ~energyTruncated.drop(-1);
+				~energyTruncated.postln;
+
+				//This line will not activate until the new truncated harmonic intensity array has not 0 as the last harmonic
+				if (~energyTruncated.last != 0, {("Done: Up to the"+~energyTruncated.size++"th harmonic is being played").postln});
+			});
+		},{
+			//This line activates if all 16 harmonics have a non-zero intensity
+			"All 16 harmonics being played".postln;
+		});
+
+		//The maximum frequency is calculated
+		~max_freq = ~energyTruncated.size*~fundamental_freq;
+	},{
+		//If the module is TUNING
+		//This does NOT take into account deviation, as the deviation is generally inconsequential for scaling
+		~max_freq = ~harmonic_count*~fundamental_freq;
+});
+
+//3. Using the previously calculated maximum frequency, take the 16th of that value
+//If all 16 harmonics are being played, the functions follows a reasonable curve (from trial and error testing) based on the fundamental frequency; however, because the maximum frequency cannot be higher than the 16th harmonic, this formula allows the auto-adjustment of the scaling regardless of whether it is the 16th harmonic or less.
+~sixteenth_of_max_freq = ~max_freq/16;
+
+//4. Calculate the position of ~spectra_x to autoscale the screen
 if(~spectra_scope.freqMode == 1,{
-				"Log View".postln;},{
-				"Linear View".postln;
 
-				~spectra_x.valueAction = 2 ** ((-0.008)*(~fundamental_freq-110));
-				/*
-				~auto_zoom = ~max_freq.explin(2000,21096,1,0);
-				~auto_zoom.postln;
-				~spectra_x.valueAction = ~auto_zoom;*/
-
-
-			}
-			);
-
-
-
-
-
+		//If the spectra is set to Log view
+		~spectra_x.valueAction = 2 ** ((-0.01)*(~sixteenth_of_max_freq+310));
+	},{
+		//If the spectra is set to Linear view
+		~spectra_x.valueAction = 2 ** ((-0.008)*(~sixteenth_of_max_freq-110));
+	});
 };);
 
+//Activate this line of code for a width and top representation of the screen position (for WIP coding help)
 //~thingy = StaticText.new(~composite, Rect(10,0,500,50)).background_(Color.red);
