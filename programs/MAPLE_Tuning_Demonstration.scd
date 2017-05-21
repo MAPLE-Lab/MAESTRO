@@ -1,81 +1,82 @@
-//Tuning Demonstration
-( var basePath = thisProcess.nowExecutingPath.asString.dirname; //Provides code shorthand to call files in same or sub-folders.
-s.waitForBoot({//Ensures the module only opens once the server is working completely, and automatically opens server.
-	s.prepareForRecord; //Avoids lag when Record button is pressed.
-
-//Create the window.
-w = Window.new("MAPLE Lab Overtone 'Popout' Demonstration (Beta)", Rect.new(
-	Window.screenBounds.width/2-250,
-	Window.screenBounds.height/2-50,
-		500,570),
-	false) //Cannot be resized by user.
-	.background_(Color.white).userCanClose_(false).front
-	.acceptsMouseOver_(true)
-	;
-
-//Module ID
-~module_ID = "tuning";
-
-//Inspector ID
-~inspectorExists = 0;
-
-	//Record button - sends to Supercollider file in the Recordings section.
-~record = Button.new(w, Rect(35, 100, 85, 20))
-	.states_
-	([
-		["Start Recording", Color.white,Color(0.4824, 0.4863, 0.4863,1)],
-		["Stop Recording", Color.white, Color.grey(0.251)]
-	])
-	.font_(Font("nil", 10))
-	.action_({
-	arg obj;
-	if(obj.value == 1,
-		{s.record;},
-		{s.stopRecording;}
-		);
-	});
-
-
-//Spectra
+//TUNING Module
 (
-//Spectra parameters:
-~spectraScreenComposite_bounds_array = [-100+100,355,500,215];
-~spectraButton_bounds_array = [250-(200/2)-65,200+135,110,20];
-		~spectraAutoscale_bounds_array = [250-(200/2)-65+110+10,200+135,110,20];
+//Z. Reset to blank slate
+(
+//Ensure all other windows are closed
+Window.closeAll;
 
-//Load the spectra now that all the above parameters have been set:
-(basePath +/+  "modules/spectra_screen.scd").load;
+//Clear all nodes in the server
+s.freeAll;
 );
 
+//interim. Activate the module with standards
+(
+//Opens the module only once the server is working completely
+s.waitForBoot({
+
+//Provides code shorthand to call files in same or sub-folders.
+var basePath = thisProcess.nowExecutingPath.asString.dirname;
+
+//Avoids delay when the Recording button is pressed
+s.prepareForRecord;
+
+//A. Create window and aesthetics
+(
+//Positions the note name text
+~note_name_bounds_array = [(85-23+30-5),155,27,15];
+
+//Create the module's master window
+~master_window_bounds_array = [Window.screenBounds.width/2-250, Window.screenBounds.height/2-50, 500, 570];
+(basePath +/+  "modules/master_window.scd").load;
 
 //Descriptive paragraph at top
-~para = StaticText(w,Rect(10,10,480,80))
-	.string_(
+~para.string_(
 "Welcome to the MAPLE Lab Overtone 'Popout' Demonstration (Beta)! Using the parameters below, you can examine the fusion effect. Select the number of harmonics and which harmonic to move out-of-tune using the dropdown menus. Use the Play/Stop button to start and stop the sound. To explore how fusion/unfusion occurs, use the slider to change the deviation of the selected harmonic."
-	)
-	.font_(Font("nil", 12))
-	.align_(\topLeft)
-	.background_(Color(0,0,0,0))
-	.stringColor_(Color.black);
+	);
 
-i = Image.new(basePath +/+ "images/mapleICON-small.png");
+//Load graphics elements
+~maple_icon = Image.new(basePath +/+ "images/mapleICON-small.png");
 ~keyboard_image = Image.new(basePath +/+ "images/keyboard_small.png");
 
 //All graphics (aesthetic lines and image positions)
 w.drawFunc = {
-		i.drawInRect(Rect(465,95,30,30), Rect(0,0,30,30), 2, 1.0); // only a section
+		//Images underneath buttons
+		~maple_icon.drawInRect(Rect(465,95,30,30), Rect(0,0,30,30), 2, 1.0); // only a section
 		~keyboard_image.drawInRect(Rect(250+75,330,60,25), Rect(0,0,60,25), 2, 1.0);
 
+		//Draw lines
 		Pen.use{
-		Pen.line(10@240,490@240); //New line
-		Pen.line(10@175,490@175); //New line
-		Pen.line(10@330,490@330); //Third line
-		Pen.line(10@130,490@130); //Bottom line
-		Pen.line(10@90,490@90);
-		Pen.strokeColor = Color(0,0,0,0.5);
-			    Pen.width = 2;
-                Pen.stroke};//Top line, written differently in code
+			Pen.line(10@240,490@240);
+			Pen.line(10@175,490@175);
+			Pen.line(10@330,490@330);
+			Pen.line(10@130,490@130);
+			Pen.line(10@90,490@90);
+
+			Pen.strokeColor = Color(0,0,0,0.5);
+			Pen.width = 2;
+			Pen.stroke;
+			};//Top line, written differently in code
         };
+
+//Create spectra
+~spectraScreenComposite_bounds_array = [-100+100,355,500,215];
+~spectraButton_bounds_array = [250-(200/2)-65,200+135,110,20];
+~spectraAutoscale_bounds_array = [250-(200/2)-65+110+10,200+135,110,20];
+(basePath +/+  "modules/spectra_screen.scd").load;
+);
+
+//B. Add starting ID parameters
+(
+~module_ID = "tuning";
+~inspectorExists = 0;
+);
+
+//E. Interactive elements
+(
+//Record button - sends to Supercollider file in the Recordings section
+~record_button_bounds_array = [35, 100, 85, 20];
+(basePath +/+  "modules/record_button.scd").load;
+
 
 //VOLUME
 //Properties of the slider
@@ -143,17 +144,10 @@ w.drawFunc = {
 		~fundamental_note = obj.value.linlin(0,1,21,108);
 		~fundamental_note/*.postln*/;
 		~fund = ~fundamental_note-1;
+
+			if(x.isPlaying,{
 x.set(\fundamental_note, obj.value.linlin(0,1,21,108););
-		// (basePath +/+  "data/control_keyboard.scd").loadPaths;
-		//Does not seem to funciton this loadPaths as a function - liekly because cannot pull live like this
-		/*//C4
-		(
-		if( //This IF function provides the capability to control the system
-		obj.value.linlin(0,1,40,75) == 40, {a.free; //Needs to be at front because when leaving the slider position calls the first
-				// a = Synth(\SimpleSine);
-			~c4.background_(Color.red);
-	}, {a.free; ~c4.background_(Color.white)});
-	);*/
+			});
 
 
 		~freqslider.valueAction_(~freqslider.value.linlin(0,1,0,1)); //Updates the deviation dot
@@ -175,12 +169,6 @@ x.set(\fundamental_note, obj.value.linlin(0,1,21,108););
 ~fundamental_freq = ((2**((-69+~fundamental_note)/12))*440);
 		~numberfBox.value_(~fundamental_freq);
 
-
-
-		/*	~fsliderharm1.valueAction_(obj.value.linlin(0,1,(55/500),(325/500)));//must be linlin because a slider to slider is using the same exact values (no transformation required)
-		~fsliderharm2.valueAction_(obj.value.linlin(0,1,(55/500+0.16),(325/500+0.16)));
-				~fsliderharm3.valueAction_(obj.value.linlin(0,1,(55/500+0.254),(325/500+0.254)));
-		*/
 })
 	.orientation_(\horizontal);
 
@@ -198,14 +186,11 @@ x.set(\fundamental_note, obj.value.linlin(0,1,21,108););
 	//~fslider.valueAction_(obj.value.linlin(21,108,0,1))
 });
 
-//True note value
-	~note_name = StaticText(w,Rect(85-23+30-5,155,27,15))
-	.string_("A4").align_(\center)
-	.font_(Font("nil", 11));
+
 
 ///Starter harmonics array (sets everything to 0) arrays
-	~harmonics_array = Array.fill(16, {arg i; 1});
-	~harmonics_array[0..7] =0; //Starting value (first 8 currently)
+~harmonics_array = Array.fill(16, {arg i; 1});
+~harmonics_array[0..7] =0; //Starting value (first 8 currently)
 ~harmonic_count = 0;
 ~intensity_array = Array.fill(1, {arg i; 0});
 ~harmonic_sums = Array.fill(0, {arg i; 0});
@@ -216,7 +201,7 @@ x.set(\fundamental_note, obj.value.linlin(0,1,21,108););
 
 
 //Label for Focus tone
-~para = StaticText(w,Rect(10,177+65+2,480,80))
+~label2 = StaticText(w,Rect(10,177+65+2,480,80))
 	.string_("Harmonic (mistuned)")
 .font_(Font("nil", 16))
 .align_(\topLeft)
@@ -224,7 +209,7 @@ x.set(\fundamental_note, obj.value.linlin(0,1,21,108););
 .stringColor_(Color.black);
 
 //Label for Other tones
-~para = StaticText(w,Rect(10,270-90,480,80))
+~label1 = StaticText(w,Rect(10,270-90,480,80))
 	.string_("Harmonics (tuned)")
 .font_(Font("nil", 16))
 .align_(\topLeft)
@@ -508,7 +493,9 @@ if(~deviant_move.sign >= 0,
 ~keyboard_CompositeView_White.bounds_(Rect(27+(~deviant_move*~deviant_scale)+1+~starting_position_fund+~starting_position_harm+~case_none_selected,175+1,5-1,5-1))
 );
 			},
-			{"Key Vis not open".postln});
+			{
+					//"Key Vis not open".postln
+			});
 
 
 
@@ -1047,69 +1034,33 @@ Harmonic (mistuned) dropdown menu";
 		(basePath +/+  "modules/inspector.scd").loadPaths;
 	});
 
-
+//Q. Quit function
+(
 ~quit = Button.new(w, Rect(465,95,30,30))
 	.states_([["", Color.white, Color.clear]])
 	.font_(Font("nil", 12))
-	.mouseDownAction_({w.close; f.kill; x.free; //shuts down window and scope
-		(if(~key_vis.value == 1, {
-			~keyboard.close;
-		}));
-
-		(if(~inspectorExists == 1, {
-			~inspectorWindow.close;
-		}));
-
-		(basePath +/+ "splashscreen.scd").loadPaths;
+	.mouseDownAction_({
+			w.close;
+			f.kill;
+			x.free; //shuts down window and scope
+			(if(~key_vis.value == 1, {
+				~keyboard.close;
+			}));
+			(if(~inspectorExists == 1, {
+				~inspectorWindow.close;
+			}));
+			(basePath +/+ "splashscreen.scd").loadPaths;
 		});
-
-
-	/*~quit = Button.new(w, Rect((400), 100, 60, 20))
-	.states_([["Home", Color.white, Color(0.2510,0.2510,0.2510,1)]])
-	.font_(Font("nil", 12))
-	.mouseDownAction_({w.close; f.kill; x.free; //shuts down window and scope
-		(basePath +/+ "splashscreen.scd").loadPaths;
-		});*/
-
-
-
-	//s.doWhenBooted_(
-
-s.makeBundle(5.0, {
-					//~menu2.valueAction_(5); // Activates it as being 5
-//~coverComposite.visible = false;
-			//~menu2.value_(5);
-
-
-});
-	//);
-
-	/*
-	~menu2.value_(5);
-~menu2.valueAction_(5); //Visually display that it's 5*/
+);
 
 (
-AppClock.sched(0.1,{
-    "0.1 seconds after load, the Harmonic is set to 5".postln;
+AppClock.sched(0.01,{
+   // "0.01 seconds after load, the Harmonic is set to 5".postln;
 			~menu2.valueAction_(5);
     nil;
 });
 );
-
-	///CAN THIS BE REMOVED? The Quitting button should be sufficient. This is more a safeguard.
-w.onClose_({
-
-		(if(~key_vis.value == 1, {
-			~keyboard.close;
-		}));
-
-		(if(~inspectorExists == 1, {
-			~inspectorWindow.close;
-		}));
-
-		s.quit; x.free}); //ends server when quit
-
+);
 });
-
-/**/
+);
 )

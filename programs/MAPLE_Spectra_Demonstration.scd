@@ -1,14 +1,27 @@
-// "Spectra Demonstration"
-(var basePath = thisProcess.nowExecutingPath.asString.dirname;
+//SPECTRA Module
+(
+//Provides code shorthand to call files in same or sub-folders.
+var basePath = thisProcess.nowExecutingPath.asString.dirname;
+
+//Ensure all other windows are closed
 Window.closeAll;
 
+//Opens the module only once the server is working completely
 s.waitForBoot({
-	a.free; //clear buffers to help resolve memory leak
+
+//Clear all nodes in the server
+s.freeAll;
+
+//Avoids delay when the Recording button is pressed
+s.prepareForRecord;
+
+	//buffers to help resolve memory leak
+	/*a.free;
 	b.free;
-	e.free;
-	s.freeAll;
-	//Ensures it only opens once the server is working completely, and automatically opens server
-	s.prepareForRecord; //Avoid recording delay
+	e.free;*/
+
+
+
 
 //Creates the new window with title
 w = Window.new("MAPLE Lab Spectra Demonstration (Beta)", Rect.new(
@@ -20,10 +33,8 @@ w = Window.new("MAPLE Lab Spectra Demonstration (Beta)", Rect.new(
 	.front
 	.acceptsMouseOver_(true);
 
-//Module ID
+//ID Parameters
 ~module_ID = "spectra";
-
-//Inspector ID
 ~inspectorExists = 0;
 
 //Dirty bit used in GUI updating sync
@@ -62,65 +73,6 @@ StaticText(w,Rect(790,105+100,410,300-100))
 StaticText(w,Rect(10,105,380,25))
 .background_(Color(0,0,0,0.0));
 	*/
-
-
-/*
-//Axes
-
-	//Harmonic positions marker
-
-	~fsliderharm3 = Slider(w, Rect(410,360,380,20))
-	.background_(Color(0,0,0,0))
-	.value_(0.43121693121693)
-	.thumbSize_(0)
-	.knobColor_(Color(1,1,1,0))
-	.orientation_(\horizontal)
-	.action_({
-	arg obj;
-	var cf;
-		// cf = obj.value.linlin(0,1,0,1).postln;
-	});
-
-		~fsliderharm2 = Slider(w, Rect(410,360,380,20))
-	.background_(Color(0,0,0,0))
-	.value_(0.35185185185185)
-	.thumbSize_(0)
-	.knobColor_(Color(1,1,1,0)) //QGUI does not handle transparent sliders yet http://new-supercollider-mailing-lists-forums-use-these.2681727.n2.nabble.com/QSlider-background-alpha-0-0-not-transparent-td7590743.html
-	.orientation_(\horizontal)
-	.action_({
-	arg obj;
-	var cf;
-		// cf = obj.value.linlin(0,1,0,1).postln;
-	});
-
-	~fsliderharm1 = Slider(w, Rect(410,360,380,20))
-	.background_(Color(0,0,0,0))
-	.value_(0.22222222222222)
-	.thumbSize_(0)
-	.knobColor_(Color(1,1,1,0))
-	.orientation_(\horizontal)
-	.action_({
-	arg obj;
-	var cf;
-		// cf = obj.value.linlin(0,1,0,1).postln;
-	});
-
-
-	/*StaticText(w,Rect(430,380,2,20)) ////COMMENTED UNTIL COMPLETE
-	.background_(Color.white);*/
-
-
-
-StaticText(w,Rect(410,360,500,2))
-	.background_(Color.white);
-
-	// StaticText(w,Rect(0,622,500,33))
-	// .background_(Color(0,0,0,0.8)); //old dark bottom cover
-	*/
-
-
-
-
 
 //Aesthetic lines
 //Button CompositeViews for hiding and showing
