@@ -989,7 +989,12 @@ s.waitForBoot({
 				);
 
 				(
-					if(~menu2.value > ~harmonic_count, {~inspectorError.string_("The harmonic selected was above the number of harmonics being played. Please select a lower harmonic to deviate or increase the number of harmonics being played");~menu2.valueAction_(0); }, {"The harmonic selected is accepted".postln})
+					if(~menu2.value > ~harmonic_count, {
+							if(~inspectorExists == 1, {
+								~inspectorError.string_("The harmonic selected was above the number of harmonics being played. Please select a lower harmonic to deviate or increase the number of harmonics being played");
+							});
+							~menu2.valueAction_(0);
+						}, {"The harmonic selected is accepted".postln})
 				);
 
 snd = funcs2.at(menu2.value).play;
