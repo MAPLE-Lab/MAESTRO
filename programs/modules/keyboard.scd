@@ -319,69 +319,28 @@
 
 
 
-
-//
-// ///Knob for colour intensity
-// ~intensifier = 1;
-// ~knob = Knob.new(~keyboard, Rect(580, 1, 17, 17)).action_(~intensifier = ~knob.value.linlin(0,1,1,10));
-
-if(~module_ID == "spectra",
-		{
-		~knob_text = StaticText(~keyboard, Rect(0, 1, (420+20+20+620)-20, 17)).string_("Gain").stringColor_(Color.black).align_(\right);
-~knob_keyboard = Knob.new(~keyboard, Rect(580+430, 1, 17, 17)); //Knob version
-		// Slider(~keyboard, Rect(580, 1, 170, 17)); //Slider version
-~knob_keyboard.action_({
-			~knob.valueAction_(~knob_keyboard.value);
-			(
-			if(~knob_keyboard.value.linlin(0,1,0,1) == 1,
-				{~knob_keyboard.background_(Color.red)},{~knob_keyboard.background_(Color.white)})
-		);
-		});
-
-
-
-}); //This controls the value of the invisible knob on the Spectra
-
-//(if(obj.value.linlin(0,1,21,108) <= 98, {~d7.background_(Color(1,~color_array[98-1],~color_array[98-1]));}, {~d7.background_(Color.white)});)
-
 ~keyboard_CompositeView_White = CompositeView(~keyboard, Rect(27+1,175+1,5-1,5-1));
 
 ~deviant_fill = StaticText(~keyboard_CompositeView_White, Rect(0,0,3,3)).background_(Color.black);
 
-//Button to extend the bounds of the keyboard to show the additional higher frequencies
-~keyboardExtend = Button.new(~keyboard, Rect(17+570,2,50,15))
-.states_([
-	["Extend", Color.black, Color.grey],
-	["Retract", Color.black, Color.grey]
-])
-.action_({ arg obj;
-if(~keyboardExtend.value == 1,
-		{
-~keyboard.bounds_(Rect(~keyboard.bounds.left-560,~keyboard.bounds.top,420+20+20+620+560,190));
-			~keyboardExtendCover.background_(Color.clear);
-			~cSHARP8.background_(Color.black);
-		},{
-			~keyboard.bounds_(Rect(~keyboard.bounds.left+600,~keyboard.bounds.top,420+20+20+620,190));
 
-			~keyboardExtendCover.background_(Color.white);
-						~cSHARP8.background_(Color.clear);
 
-	});
-}
-);
-
-//To hide the extended keys
-~cSHARP8.background_(Color.clear);
-~keyboardExtendCover = StaticText(~keyboard, Rect((420+20+20+620)-19,18,50,170)).background_(Color.white);
 
 //Aesthetic lines
 // ~bar = StaticText(~keyboardOverlay, Rect(0,0,420+20+20+620,190)).background_(Color.red));
 
-~keyboardOverlay.drawFunc = {
+//(thisProcess.nowExecutingPath.asString.dirname +/+  "modules/spectra_screen.scd").load;
+
+
+(
+~keyboard_lines_retracted = UserView(~keyboard, Rect(0,0,
+	420+20+20+620+560,190));
+
+~keyboard_lines_retracted.drawFunc = {
 		Pen.use{
-		// Pen.line(19@19,(420+1+620+19)@(150+2+19));
-		//White keys bottom half
-		Pen.line(19.5@119,19.5@(150+2+19));
+
+//White keys bottom half
+Pen.line(19.5@119,19.5@(150+2+19));
 Pen.line(39.5@119,39.5@(150+2+19));
 Pen.line(59.5@119,59.5@(150+2+19));
 Pen.line(79.5@119,79.5@(150+2+19));
@@ -435,35 +394,7 @@ Pen.line(1019.5@119,1019.5@(150+2+19));
 Pen.line(1039.5@119,1039.5@(150+2+19));
 Pen.line(1059.5@119,1059.5@(150+2+19));
 
-		//Extended
-		Pen.line(1079.5@119,1079.5@(150+2+19));
-Pen.line(1099.5@119,1099.5@(150+2+19));
-Pen.line(1119.5@119,1119.5@(150+2+19));
-Pen.line(1139.5@119,1139.5@(150+2+19));
-Pen.line(1159.5@119,1159.5@(150+2+19));
-Pen.line(1179.5@119,1179.5@(150+2+19));
-Pen.line(1199.5@119,1199.5@(150+2+19));
-Pen.line(1219.5@119,1219.5@(150+2+19));
-Pen.line(1239.5@119,1239.5@(150+2+19));
-Pen.line(1259.5@119,1259.5@(150+2+19));
-Pen.line(1279.5@119,1279.5@(150+2+19));
-Pen.line(1299.5@119,1299.5@(150+2+19));
-Pen.line(1319.5@119,1319.5@(150+2+19));
-Pen.line(1339.5@119,1339.5@(150+2+19));
-Pen.line(1359.5@119,1359.5@(150+2+19));
-Pen.line(1379.5@119,1379.5@(150+2+19));
-Pen.line(1399.5@119,1399.5@(150+2+19));
-Pen.line(1419.5@119,1419.5@(150+2+19));
-Pen.line(1439.5@119,1439.5@(150+2+19));
-Pen.line(1459.5@119,1459.5@(150+2+19));
-Pen.line(1479.5@119,1479.5@(150+2+19));
-Pen.line(1499.5@119,1499.5@(150+2+19));
-Pen.line(1519.5@119,1519.5@(150+2+19));
-Pen.line(1539.5@119,1539.5@(150+2+19));
-Pen.line(1559.5@119,1559.5@(150+2+19));
-Pen.line(1579.5@119,1579.5@(150+2+19));
-Pen.line(1599.5@119,1599.5@(150+2+19));
-		Pen.line((1659.5-40)@119,(1659.5-40)@(150+2+19));
+
 
 
 //Top half
@@ -483,19 +414,10 @@ Pen.line(819.5@19,819.5@(150+2+19-52));
 Pen.line(899.5@19,899.5@(150+2+19-52));
 Pen.line(959.5@19,959.5@(150+2+19-52));
 Pen.line(1039.5@19,1039.5@(150+2+19-52));
-Pen.line((1099.5-50)@19,(1099.5-50)@(150+2+19-52));
+		Pen.line((1099.5-40)@19,(1099.5-40)@(150+2+19-52));
 
-		//Extended
 
-		Pen.line(1099.5@19,1099.5@(150+2+19-52));
-		Pen.line(1179.5@19,1179.5@(150+2+19-52));
-Pen.line(1239.5@19,1239.5@(150+2+19-52));
-Pen.line(1319.5@19,1319.5@(150+2+19-52));
-Pen.line(1379.5@19,1379.5@(150+2+19-52));
-Pen.line(1459.5@19,1459.5@(150+2+19-52));
-Pen.line(1519.5@19,1519.5@(150+2+19-52));
-Pen.line(1599.5@19,1599.5@(150+2+19-52));
-		Pen.line((1659.5-40)@19,(1659.5-40)@(150+2+19-52));
+
 
 		//Top border
 Pen.line(19@19,(420+1+620+19)@19);
@@ -557,34 +479,8 @@ Pen.line(989.5@19,989.5@(150+2+19-52));
 Pen.line(1009.5@19,1009.5@(150+2+19-52));
 Pen.line(1029.5@19,1029.5@(150+2+19-52));
 
-	//Extended
-		Pen.line(1069.5@19,1069.5@(150+2+19-52));
-Pen.line(1089.5@19,1089.5@(150+2+19-52));
-Pen.line(1109.5@19,1109.5@(150+2+19-52));
-Pen.line(1129.5@19,1129.5@(150+2+19-52));
-Pen.line(1149.5@19,1149.5@(150+2+19-52));
-Pen.line(1169.5@19,1169.5@(150+2+19-52));
-Pen.line(1189.5@19,1189.5@(150+2+19-52));
-Pen.line(1209.5@19,1209.5@(150+2+19-52));
-Pen.line(1229.5@19,1229.5@(150+2+19-52));
-Pen.line(1249.5@19,1249.5@(150+2+19-52));
-Pen.line(1269.5@19,1269.5@(150+2+19-52));
-Pen.line(1289.5@19,1289.5@(150+2+19-52));
-Pen.line(1309.5@19,1309.5@(150+2+19-52));
-Pen.line(1329.5@19,1329.5@(150+2+19-52));
-Pen.line(1349.5@19,1349.5@(150+2+19-52));
-Pen.line(1369.5@19,1369.5@(150+2+19-52));
-Pen.line(1389.5@19,1389.5@(150+2+19-52));
-Pen.line(1409.5@19,1409.5@(150+2+19-52));
-Pen.line(1429.5@19,1429.5@(150+2+19-52));
-Pen.line(1449.5@19,1449.5@(150+2+19-52));
-Pen.line(1469.5@19,1469.5@(150+2+19-52));
-Pen.line(1489.5@19,1489.5@(150+2+19-52));
-Pen.line(1509.5@19,1509.5@(150+2+19-52));
-Pen.line(1529.5@19,1529.5@(150+2+19-52));
-Pen.line(1549.5@19,1549.5@(150+2+19-52));
-Pen.line(1569.5@19,1569.5@(150+2+19-52));
-Pen.line(1589.5@19,1589.5@(150+2+19-52));
+
+		//Something?
 
 
 Pen.line(28@120,51@120);
@@ -624,7 +520,291 @@ Pen.line(968@120,991@120);
 Pen.line(988@120,1011@120);
 Pen.line(1008@120,1031@120);
 
-		//Extended
+
+		Pen.strokeColor = Color(0,0,0,0.5);
+			    Pen.width = 2;
+                Pen.stroke};
+        };
+);
+
+
+(
+~keyboard_lines_extended_A = UserView(~keyboard, Rect(0,190,
+	420+20+20+620+560,190));
+
+~keyboard_lines_extended_A.drawFunc = {
+		Pen.use{
+
+
+//White keys bottom half
+Pen.line(19.5@119,19.5@(150+2+19));
+Pen.line(39.5@119,39.5@(150+2+19));
+Pen.line(59.5@119,59.5@(150+2+19));
+Pen.line(79.5@119,79.5@(150+2+19));
+Pen.line(99.5@119,99.5@(150+2+19));
+Pen.line(119.5@119,119.5@(150+2+19));
+Pen.line(139.5@119,139.5@(150+2+19));
+Pen.line(159.5@119,159.5@(150+2+19));
+Pen.line(179.5@119,179.5@(150+2+19));
+Pen.line(199.5@119,199.5@(150+2+19));
+Pen.line(219.5@119,219.5@(150+2+19));
+Pen.line(239.5@119,239.5@(150+2+19));
+Pen.line(259.5@119,259.5@(150+2+19));
+Pen.line(279.5@119,279.5@(150+2+19));
+Pen.line(299.5@119,299.5@(150+2+19));
+Pen.line(319.5@119,319.5@(150+2+19));
+Pen.line(339.5@119,339.5@(150+2+19));
+Pen.line(359.5@119,359.5@(150+2+19));
+Pen.line(379.5@119,379.5@(150+2+19));
+Pen.line(399.5@119,399.5@(150+2+19));
+Pen.line(419.5@119,419.5@(150+2+19));
+Pen.line(439.5@119,439.5@(150+2+19));
+Pen.line(459.5@119,459.5@(150+2+19));
+Pen.line(479.5@119,479.5@(150+2+19));
+Pen.line(499.5@119,499.5@(150+2+19));
+Pen.line(519.5@119,519.5@(150+2+19));
+Pen.line(539.5@119,539.5@(150+2+19));
+Pen.line(559.5@119,559.5@(150+2+19));
+Pen.line(579.5@119,579.5@(150+2+19));
+Pen.line(599.5@119,599.5@(150+2+19));
+Pen.line(619.5@119,619.5@(150+2+19));
+Pen.line(639.5@119,639.5@(150+2+19));
+Pen.line(659.5@119,659.5@(150+2+19));
+Pen.line(679.5@119,679.5@(150+2+19));
+Pen.line(699.5@119,699.5@(150+2+19));
+Pen.line(719.5@119,719.5@(150+2+19));
+Pen.line(739.5@119,739.5@(150+2+19));
+Pen.line(759.5@119,759.5@(150+2+19));
+Pen.line(779.5@119,779.5@(150+2+19));
+Pen.line(799.5@119,799.5@(150+2+19));
+Pen.line(819.5@119,819.5@(150+2+19));
+Pen.line(839.5@119,839.5@(150+2+19));
+Pen.line(859.5@119,859.5@(150+2+19));
+Pen.line(879.5@119,879.5@(150+2+19));
+Pen.line(899.5@119,899.5@(150+2+19));
+Pen.line(919.5@119,919.5@(150+2+19));
+Pen.line(939.5@119,939.5@(150+2+19));
+Pen.line(959.5@119,959.5@(150+2+19));
+Pen.line(979.5@119,979.5@(150+2+19));
+Pen.line(999.5@119,999.5@(150+2+19));
+Pen.line(1019.5@119,1019.5@(150+2+19));
+Pen.line(1039.5@119,1039.5@(150+2+19));
+Pen.line(1059.5@119,1059.5@(150+2+19));
+
+
+
+
+//Top half
+Pen.line(19.5@19,19.5@(150+2+19-52));
+Pen.line(59.5@19,59.5@(150+2+19-52));
+Pen.line(119.5@19,119.5@(150+2+19-52));
+Pen.line(199.5@19,199.5@(150+2+19-52));
+Pen.line(259.5@19,259.5@(150+2+19-52));
+Pen.line(339.5@19,339.5@(150+2+19-52));
+Pen.line(399.5@19,399.5@(150+2+19-52));
+Pen.line(479.5@19,479.5@(150+2+19-52));
+Pen.line(539.5@19,539.5@(150+2+19-52));
+Pen.line(619.5@19,619.5@(150+2+19-52));
+Pen.line(679.5@19,679.5@(150+2+19-52));
+Pen.line(759.5@19,759.5@(150+2+19-52));
+Pen.line(819.5@19,819.5@(150+2+19-52));
+Pen.line(899.5@19,899.5@(150+2+19-52));
+Pen.line(959.5@19,959.5@(150+2+19-52));
+Pen.line(1039.5@19,1039.5@(150+2+19-52));
+
+		//Pen.line((1099.5-40)@19,(1099.5-40)@(150+2+19-52));
+
+
+
+
+		//Top border
+Pen.line(19@19,(420+1+620+19-10)@19);
+
+		//Bottom border
+Pen.line(19@(150+2+19),(420+1+620+19)@(150+2+19));
+
+
+		//Black keys
+Pen.line(29.5@19,29.5@(150+2+19-52));
+Pen.line(49.5@19,49.5@(150+2+19-52));
+Pen.line(69.5@19,69.5@(150+2+19-52));
+Pen.line(89.5@19,89.5@(150+2+19-52));
+Pen.line(109.5@19,109.5@(150+2+19-52));
+Pen.line(129.5@19,129.5@(150+2+19-52));
+Pen.line(149.5@19,149.5@(150+2+19-52));
+Pen.line(169.5@19,169.5@(150+2+19-52));
+Pen.line(189.5@19,189.5@(150+2+19-52));
+Pen.line(209.5@19,209.5@(150+2+19-52));
+Pen.line(229.5@19,229.5@(150+2+19-52));
+Pen.line(249.5@19,249.5@(150+2+19-52));
+Pen.line(269.5@19,269.5@(150+2+19-52));
+Pen.line(289.5@19,289.5@(150+2+19-52));
+Pen.line(309.5@19,309.5@(150+2+19-52));
+Pen.line(329.5@19,329.5@(150+2+19-52));
+Pen.line(349.5@19,349.5@(150+2+19-52));
+Pen.line(369.5@19,369.5@(150+2+19-52));
+Pen.line(389.5@19,389.5@(150+2+19-52));
+Pen.line(409.5@19,409.5@(150+2+19-52));
+Pen.line(429.5@19,429.5@(150+2+19-52));
+Pen.line(449.5@19,449.5@(150+2+19-52));
+Pen.line(469.5@19,469.5@(150+2+19-52));
+Pen.line(489.5@19,489.5@(150+2+19-52));
+Pen.line(509.5@19,509.5@(150+2+19-52));
+Pen.line(529.5@19,529.5@(150+2+19-52));
+Pen.line(549.5@19,549.5@(150+2+19-52));
+Pen.line(569.5@19,569.5@(150+2+19-52));
+Pen.line(589.5@19,589.5@(150+2+19-52));
+Pen.line(609.5@19,609.5@(150+2+19-52));
+Pen.line(629.5@19,629.5@(150+2+19-52));
+Pen.line(649.5@19,649.5@(150+2+19-52));
+Pen.line(669.5@19,669.5@(150+2+19-52));
+Pen.line(689.5@19,689.5@(150+2+19-52));
+Pen.line(709.5@19,709.5@(150+2+19-52));
+Pen.line(729.5@19,729.5@(150+2+19-52));
+Pen.line(749.5@19,749.5@(150+2+19-52));
+Pen.line(769.5@19,769.5@(150+2+19-52));
+Pen.line(789.5@19,789.5@(150+2+19-52));
+Pen.line(809.5@19,809.5@(150+2+19-52));
+Pen.line(829.5@19,829.5@(150+2+19-52));
+Pen.line(849.5@19,849.5@(150+2+19-52));
+Pen.line(869.5@19,869.5@(150+2+19-52));
+Pen.line(889.5@19,889.5@(150+2+19-52));
+Pen.line(909.5@19,909.5@(150+2+19-52));
+Pen.line(929.5@19,929.5@(150+2+19-52));
+Pen.line(949.5@19,949.5@(150+2+19-52));
+Pen.line(969.5@19,969.5@(150+2+19-52));
+Pen.line(989.5@19,989.5@(150+2+19-52));
+Pen.line(1009.5@19,1009.5@(150+2+19-52));
+Pen.line(1029.5@19,1029.5@(150+2+19-52));
+
+
+		//Something?
+
+
+Pen.line(28@120,51@120);
+Pen.line(68@120,91@120);
+Pen.line(88@120,111@120);
+Pen.line(128@120,151@120);
+Pen.line(148@120,171@120);
+Pen.line(168@120,191@120);
+Pen.line(208@120,231@120);
+Pen.line(228@120,251@120);
+Pen.line(268@120,291@120);
+Pen.line(288@120,311@120);
+Pen.line(308@120,331@120);
+Pen.line(348@120,371@120);
+Pen.line(368@120,391@120);
+Pen.line(408@120,431@120);
+Pen.line(428@120,451@120);
+Pen.line(448@120,471@120);
+Pen.line(488@120,511@120);
+Pen.line(508@120,531@120);
+Pen.line(548@120,571@120);
+Pen.line(568@120,591@120);
+Pen.line(588@120,611@120);
+Pen.line(628@120,651@120);
+Pen.line(648@120,671@120);
+Pen.line(688@120,711@120);
+Pen.line(708@120,731@120);
+Pen.line(728@120,751@120);
+Pen.line(768@120,791@120);
+Pen.line(788@120,811@120);
+Pen.line(828@120,851@120);
+Pen.line(848@120,871@120);
+Pen.line(868@120,891@120);
+Pen.line(908@120,931@120);
+Pen.line(928@120,951@120);
+Pen.line(968@120,991@120);
+Pen.line(988@120,1011@120);
+Pen.line(1008@120,1031@120);
+
+		Pen.strokeColor = Color(0,0,0,0.5);
+			    Pen.width = 2;
+                Pen.stroke};
+        };
+);
+
+
+(
+~keyboard_lines_extended_B = UserView(~keyboard, Rect(0,190,
+	420+20+20+620+560,190));
+
+~keyboard_lines_extended_B.drawFunc = {
+		Pen.use{
+
+		//White keys bottom half Extended
+		Pen.line(1079.5@119,1079.5@(150+2+19));
+Pen.line(1099.5@119,1099.5@(150+2+19));
+Pen.line(1119.5@119,1119.5@(150+2+19));
+Pen.line(1139.5@119,1139.5@(150+2+19));
+Pen.line(1159.5@119,1159.5@(150+2+19));
+Pen.line(1179.5@119,1179.5@(150+2+19));
+Pen.line(1199.5@119,1199.5@(150+2+19));
+Pen.line(1219.5@119,1219.5@(150+2+19));
+Pen.line(1239.5@119,1239.5@(150+2+19));
+Pen.line(1259.5@119,1259.5@(150+2+19));
+Pen.line(1279.5@119,1279.5@(150+2+19));
+Pen.line(1299.5@119,1299.5@(150+2+19));
+Pen.line(1319.5@119,1319.5@(150+2+19));
+Pen.line(1339.5@119,1339.5@(150+2+19));
+Pen.line(1359.5@119,1359.5@(150+2+19));
+Pen.line(1379.5@119,1379.5@(150+2+19));
+Pen.line(1399.5@119,1399.5@(150+2+19));
+Pen.line(1419.5@119,1419.5@(150+2+19));
+Pen.line(1439.5@119,1439.5@(150+2+19));
+Pen.line(1459.5@119,1459.5@(150+2+19));
+Pen.line(1479.5@119,1479.5@(150+2+19));
+Pen.line(1499.5@119,1499.5@(150+2+19));
+Pen.line(1519.5@119,1519.5@(150+2+19));
+Pen.line(1539.5@119,1539.5@(150+2+19));
+Pen.line(1559.5@119,1559.5@(150+2+19));
+Pen.line(1579.5@119,1579.5@(150+2+19));
+Pen.line(1599.5@119,1599.5@(150+2+19));
+
+		//White keys top half Extended
+Pen.line((1099.5-50)@19,(1099.5-50)@(150+2+19-52));
+		Pen.line(1099.5@19,1099.5@(150+2+19-52));
+		Pen.line(1179.5@19,1179.5@(150+2+19-52));
+Pen.line(1239.5@19,1239.5@(150+2+19-52));
+Pen.line(1319.5@19,1319.5@(150+2+19-52));
+Pen.line(1379.5@19,1379.5@(150+2+19-52));
+Pen.line(1459.5@19,1459.5@(150+2+19-52));
+Pen.line(1519.5@19,1519.5@(150+2+19-52));
+Pen.line(1599.5@19,1599.5@(150+2+19-52));
+Pen.line((1659.5-40)@19,(1659.5-40)@(150+2+19));
+
+
+	//Black keys Extended
+		Pen.line(1069.5@19,1069.5@(150+2+19-52));
+Pen.line(1089.5@19,1089.5@(150+2+19-52));
+Pen.line(1109.5@19,1109.5@(150+2+19-52));
+Pen.line(1129.5@19,1129.5@(150+2+19-52));
+Pen.line(1149.5@19,1149.5@(150+2+19-52));
+Pen.line(1169.5@19,1169.5@(150+2+19-52));
+Pen.line(1189.5@19,1189.5@(150+2+19-52));
+Pen.line(1209.5@19,1209.5@(150+2+19-52));
+Pen.line(1229.5@19,1229.5@(150+2+19-52));
+Pen.line(1249.5@19,1249.5@(150+2+19-52));
+Pen.line(1269.5@19,1269.5@(150+2+19-52));
+Pen.line(1289.5@19,1289.5@(150+2+19-52));
+Pen.line(1309.5@19,1309.5@(150+2+19-52));
+Pen.line(1329.5@19,1329.5@(150+2+19-52));
+Pen.line(1349.5@19,1349.5@(150+2+19-52));
+Pen.line(1369.5@19,1369.5@(150+2+19-52));
+Pen.line(1389.5@19,1389.5@(150+2+19-52));
+Pen.line(1409.5@19,1409.5@(150+2+19-52));
+Pen.line(1429.5@19,1429.5@(150+2+19-52));
+Pen.line(1449.5@19,1449.5@(150+2+19-52));
+Pen.line(1469.5@19,1469.5@(150+2+19-52));
+Pen.line(1489.5@19,1489.5@(150+2+19-52));
+Pen.line(1509.5@19,1509.5@(150+2+19-52));
+Pen.line(1529.5@19,1529.5@(150+2+19-52));
+Pen.line(1549.5@19,1549.5@(150+2+19-52));
+Pen.line(1569.5@19,1569.5@(150+2+19-52));
+Pen.line(1589.5@19,1589.5@(150+2+19-52));
+
+
+		//Bottom key black Extended
 		Pen.line(1048@120,1071@120);
 Pen.line(1068@120,1091@120);
 Pen.line(1108@120,1131@120);
@@ -647,24 +827,79 @@ Pen.line(1548@120,1571@120);
 Pen.line(1568@120,1591@120);
 
 		//Top border extension
-Pen.line((420+1+620+19)@19,(420+1+620+19+560)@19);
+Pen.line((420+1+620+19-10)@19,(420+1+620+19+560)@19);
 
 //Bottom border extension
-Pen.line(19@(150+2+19),(420+1+620+19+560)@(150+2+19));
+		Pen.line((420+1+620+19)@(150+2+19),(420+1+620+19+560)@(150+2+19));
 
-		// if(~keyboardExtend == 1,
-		// 	{
-		// 		//Top border extension
-		// 		Pen.line((420+1+620+19)@19,(420+1+620+19+600)@0);
-		//
-		// 		//Bottom border extension
-		// 		Pen.line(19@(150+2+19),(420+1+620+19)@(150+2+19));
-		// });
 
-		Pen.strokeColor = Color(0,0,0,0.5);
+		Pen.strokeColor = Color(0,0,0,0.25);
 			    Pen.width = 2;
                 Pen.stroke};
         };
+);
+
+//Button to extend the bounds of the keyboard to show the additional higher frequencies
+~keyboardExtend = Button.new(~keyboard, Rect(17+570,2,50,15))
+.states_([
+	["Extend", Color.black, Color.grey],
+	["Retract", Color.black, Color.grey]
+])
+.action_({ arg obj;
+if(~keyboardExtend.value == 1,
+		{
+			//Extend the Keyboard
+~keyboard.bounds_(Rect(~keyboard.bounds.left-560,~keyboard.bounds.top,420+20+20+620+560,190));
+			~keyboardExtendCover.background_(Color.clear);
+			~cSHARP8.background_(Color.black);
+
+			~keyboard_lines_retracted.bounds_(Rect(0,190,
+	420+20+20+620+560,190));
+			~keyboard_lines_extended_A.bounds_(Rect(0,0,
+	420+20+20+620+560,190));
+			~keyboard_lines_extended_B.bounds_(Rect(0,0,
+	420+20+20+620+560,190));
+
+
+		},{
+			//Retract the Keyboard
+			~keyboard.bounds_(Rect(~keyboard.bounds.left+600,~keyboard.bounds.top,420+20+20+620,190));
+
+			~keyboardExtendCover.background_(Color.white);
+						~cSHARP8.background_(Color.clear);
+
+			~keyboard_lines_retracted.bounds_(Rect(0,0,
+	420+20+20+620+560,190));
+			~keyboard_lines_extended_A.bounds_(Rect(0,190,
+	420+20+20+620+560,190));
+			~keyboard_lines_extended_B.bounds_(Rect(0,190,
+	420+20+20+620+560,190));
+
+	});
+}
+);
+
+//To hide the extended keys
+~cSHARP8.background_(Color.clear);
+~keyboardExtendCover = StaticText(~keyboard, Rect((420+20+20+620)-19,18,50,170)).background_(Color.white);
+
+//Knob
+if(~module_ID == "spectra",
+		{
+		~knob_text = StaticText(~keyboard, Rect(0+1000, 1, (420+20+20+620)-20-1000, 17)).string_("Gain").stringColor_(Color.black).align_(\right);
+~knob_keyboard = Knob.new(~keyboard, Rect(580+430, 1, 17, 17)); //Knob version
+		// Slider(~keyboard, Rect(580, 1, 170, 17)); //Slider version
+~knob_keyboard.action_({
+			~knob.valueAction_(~knob_keyboard.value);
+			(
+			if(~knob_keyboard.value.linlin(0,1,0,1) == 1,
+				{~knob_keyboard.background_(Color.red)},{~knob_keyboard.background_(Color.white)})
+		);
+		});
+
+
+
+}); //This controls the value of the invisible knob on the Spectra
 
 
 w.onClose_({a.free;

@@ -65,6 +65,34 @@ w.drawFunc = {
 (basePath +/+  "modules/spectra_screen.scd").load;
 );
 
+//Button CompositeViews for hiding and showing
+(
+~play_image_left = Image.new(basePath +/+ "images/big_button_media/red_left.png");
+~play_image_right = Image.new(basePath +/+ "images/big_button_media/red_right.png");
+~play_image_indent = Image.new(basePath +/+ "images/big_button_media/red_indent_white.png");
+
+~stop_image_left = Image.new(basePath +/+ "images/big_button_media/black_left.png");
+~stop_image_right = Image.new(basePath +/+ "images/big_button_media/black_right.png");
+~stop_image_indent = Image.new(basePath +/+ "images/big_button_media/black_indent_white.png");
+
+~play_UserView = UserView(w, Rect(250-(250/2),95,100,30));
+	~play_UserView.drawFunc_({
+		~play_image_left.drawInRect(Rect(0,0,100,30), Rect(0,0,200,60), 2, 1.0);
+		~play_image_right.drawInRect(Rect(0,0,100,30), Rect(0,0,200,60), 2, 1.0);
+		~play_image_indent.drawInRect(Rect(25,0,100,30), Rect(0,0,200,60), 2, 1.0);
+	});
+
+~stop_UserView = UserView(w, Rect(250-(250/2),95,100,30));
+	~stop_UserView.drawFunc_({
+		~stop_image_left.drawInRect(Rect(0,0,100,30), Rect(0,0,200,60), 2, 1.0);
+		~stop_image_right.drawInRect(Rect(0,0,100,30), Rect(0,0,200,60), 2, 1.0);
+		~stop_image_indent.drawInRect(Rect(25,0,100,30), Rect(0,0,200,60), 2, 1.0);
+	});
+
+	//~play_UserView.bounds_(Rect(400-(100/2),65,1,1)); //Hide the play button
+	~stop_UserView.bounds_(Rect(400-(100/2),65,1,1)); //Hide the stop button
+);
+
 //B. Add starting ID parameters
 (
 ~module_ID = "tuning";
@@ -663,20 +691,42 @@ s.waitForBoot({
  var menu, snd, funcs2, b;
 
 
- ~vinbutton = Button(w, Rect(250-(250/2),95,250,30))
+ ~vinbutton = Button(w, Rect(250-(250/2),95,100,30))
   .states_([
-				["            Click to Play # of Harmonics", Color.white, Color(0.7569,0.1373,0.1725,1)], ["            Click to Stop Sound", Color.white, Color.grey(0.251)]]);
+				[
+						""
+						//"            Click to Play # of Harmonics"
+						, Color.white,
+						Color.clear
+						//Color(0.7569,0.1373,0.1725,1)
+					], [
+
+						""
+						//"            Click to Stop Sound"
+						, Color.white,
+						Color.clear
+						//Color.grey(0.251)
+				]]);
 
 ~vinbutton.mouseDownAction_({ arg obj;
 				if(~vinbutton.value == 0, {
-					snd.postln;
+					//snd.postln;
+						~stop_UserView.bounds_(Rect(250-(250/2),95,100,30));
 							snd = funcs2.at(menu.value).play /*+ funcs2.at(menu2.value).postln*/;
-					snd.postln;
-	~fslider.valueAction_(~fslider.value); //This allows it to refresh real-time
-				s.makeBundle(3.0, //sound delay
-			{~dirtyBit = 4; ~dirtyBit/*.postln*/;~fslider.valueAction_(~fslider.value);});
 
-						},{x.free; /*~fslider.valueAction_(0.value.linlin(21,108,0,1));*/}
+
+					//snd.postln;
+	~fslider.valueAction_(~fslider.value); //This allows it to refresh real-time
+				/*s.makeBundle(3.0, //sound delay
+			{~dirtyBit = 4; ~dirtyBit/*.postln*/;~fslider.valueAction_(~fslider.value);});*/
+
+
+
+
+						},{
+												~stop_UserView.bounds_(Rect(250-(250/2),95,1,1));
+
+						x.free; /*~fslider.valueAction_(0.value.linlin(21,108,0,1));*/}
 			)})
   .action_({ arg mod;
 /*~menu2.allowsReselection;
@@ -706,17 +756,34 @@ menu = PopUpMenu(w, Rect(250-(250/2)+5,95+5,50,20));
 
 				[menu.value, menu.item, menu.action].postln; //These lines allow below allow the menu clicker to auto-set the choice selected (not requiring to click on-off the button to set the dropdown selection)
 
-				~vinbutton.valueAction_(0);
+			//	~vinbutton.valueAction_(0);
 				x.free;
 				//~vinbutton.valueAction_(1); //FOR SOME REASON THIS DOES NOT WORK NOW (UNKNOWN CAUSE FOR BREAK, NEEDS CONTINUED INVESTIGATION), current workaround is to just keep the big button off
 				//This gives a delay just enough so that the auto-playing works. Unknown why can't be set to immediately, as above used to work.
-				(
+				if(~vinbutton.value == 1, {
+
+						/*(
 AppClock.sched(0.01,{
     //"0.1 seconds after set, HELLO".postln;
-						~vinbutton.valueAction_(1);
+
+						~vinbutton.valueAction_(0);
+							//~stop_UserView.bounds_(Rect(250-(250/2),95,100,30));
     nil;
 });
+
+);*/
+
+					(
+AppClock.sched(0.05,{
+    //"0.1 seconds after set, HELLO".postln;
+
+						~vinbutton.valueAction_(1);
+							~stop_UserView.bounds_(Rect(250-(250/2),95,100,30));
+    nil;
+});
+
 );
+					});
 
 	// ~fslider.valueAction_(~fslider.value); //This allows it to refresh real-time
 /*				s.makeBundle(1.0, //sound delay

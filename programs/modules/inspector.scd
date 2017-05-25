@@ -9,9 +9,8 @@
 
 ~internalText = StaticText(~inspectorWindow,Rect(10,15,280,280))
 	.string_("
-WIP Version 2017-05-23-1530
+WIP Version 2017-05-24-2400
 Towards: Pre-release v0.1.3-beta
-
 ")
 .font_(Font("Helvetica", 12, false, true))
 .align_(\topLeft)
@@ -44,4 +43,20 @@ Towards: Pre-release v0.1.3-beta
 
 
 //Add the following code after the variable name of any object, but edit the section worded TEXTHERE:
-//.mouseOverAction_({~inspectorText.string_("TEXTHERE")}).mouseLeaveAction_({~inspectorText.string_(" ")});
+/*
+.mouseOverAction_({
+	if(~inspectorExists == 1, {
+		~inspectorText.string_("TEXTHERE")
+});})
+.mouseLeaveAction_({
+	if(~inspectorExists == 1, {
+		~inspectorText.string_(" ")
+});});
+*/
+
+//For error messages, replace ERRORHERE:
+/*
+if(~inspectorExists == 1, {
+								~inspectorError.string_("ERRORHERE");
+							});
+*/

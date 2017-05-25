@@ -76,27 +76,36 @@ StaticText(w,Rect(10,105,380,25))
 
 //Aesthetic lines
 //Button CompositeViews for hiding and showing
-~play_image = Image.new(basePath +/+ "images/play.png");
-~stop_image = Image.new(basePath +/+ "images/stop.png");
+(
+~play_image_left = Image.new(basePath +/+ "images/big_button_media/red_left.png");
+~play_image_right = Image.new(basePath +/+ "images/big_button_media/red_right.png");
+~play_image_indent = Image.new(basePath +/+ "images/big_button_media/red_indent_white.png");
 
-~play_UserView = UserView(w, Rect(400-(100/2),65,100,30));
-	~play_UserView.drawHook_({
-		~play_image.drawInRect(Rect(0,0,100,30), Rect(0,0,100,30), 2, 1.0);
+~stop_image_left = Image.new(basePath +/+ "images/big_button_media/black_left.png");
+~stop_image_right = Image.new(basePath +/+ "images/big_button_media/black_right.png");
+~stop_image_indent = Image.new(basePath +/+ "images/big_button_media/black_indent_white.png");
+
+~play_UserView = UserView(w, Rect(400-(100/2)-92,65,192,30));
+	~play_UserView.drawFunc_({
+		~play_image_left.drawInRect(Rect(0,0,100,30), Rect(0,0,200,60), 2, 1.0);
+		~play_image_right.drawInRect(Rect(35,0,100,30), Rect(0,0,200,60), 2, 1.0);
+		~play_image_indent.drawInRect(Rect(67,0,100,30), Rect(0,0,200,60), 2, 1.0);
 	});
 
-~stop_UserView = UserView(w, Rect(400-(100/2),65,100,30));
-	~stop_UserView.drawHook_({
-		~stop_image.drawInRect(Rect(0,0,100,30), Rect(0,0,100,30), 2, 1.0);
+~stop_UserView = UserView(w, Rect(400-(100/2)-92,65,192,30));
+	~stop_UserView.drawFunc_({
+		~stop_image_left.drawInRect(Rect(0,0,100,30), Rect(0,0,200,60), 2, 1.0);
+		~stop_image_right.drawInRect(Rect(35,0,100,30), Rect(0,0,200,60), 2, 1.0);
+		~stop_image_indent.drawInRect(Rect(67,0,100,30), Rect(0,0,200,60), 2, 1.0);
 	});
 
 	//~play_UserView.bounds_(Rect(400-(100/2),65,1,1)); //Hide the play button
-	~stop_UserView.bounds_(Rect(400-(100/2),65,1,1)); //Hide the stop button
+	~stop_UserView.bounds_(Rect(400-(100/2)-92,65,1,1)); //Hide the stop button
+);
 
-
-//~stop_CompositeView =
 
 //Play Forced sounds button
-~button = Button(w, Rect(400-(100/2),65,100,30))
+~button = Button(w, Rect(400-(100/2)-92,65,100+35,30))
 .states_([
 		[" ", Color.white, Color.clear], //Color(0.7569,0.1373,0.1725,1)],
 	[" ", Color.white, Color.clear] // Color.grey(0.251)]
@@ -136,14 +145,14 @@ StaticText(w,Rect(10,105,380,25))
 				z.free;
 				v.free;
 		t.free;
-~stop_UserView.bounds_(Rect(400-(100/2),65,100,30));
+~stop_UserView.bounds_(Rect(400-(100/2)-92,65,150,30));
 		},
 		{x.free; ~vinbutton.valueAction_(0);
 				(if(~j.value==1, {~j.value_(0)}));//Added so big button closes small buttons
 				(if(~l.value==1, {~l.value_(0)}));
 				(if(~k.value==1, {~k.value_(0)}));
 				(if(~r.value==1, {~r.value_(0)})); //Only Power require it as the other buttons are not two-state
-~stop_UserView.bounds_(Rect(400-(100/2),65,1,1));
+~stop_UserView.bounds_(Rect(400-(100/2)-92,65,1,1));
 			}
 	);
 });
