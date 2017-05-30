@@ -69,11 +69,11 @@ w.drawFunc = {
 (
 ~play_image_left = Image.new(basePath +/+ "images/big_button_media/red_left.png");
 ~play_image_right = Image.new(basePath +/+ "images/big_button_media/red_right.png");
-~play_image_indent = Image.new(basePath +/+ "images/big_button_media/red_indent_white.png");
+~play_image_indent = Image.new(basePath +/+ "images/big_button_media/red_indent_col.png");
 
 ~stop_image_left = Image.new(basePath +/+ "images/big_button_media/black_left.png");
 ~stop_image_right = Image.new(basePath +/+ "images/big_button_media/black_right.png");
-~stop_image_indent = Image.new(basePath +/+ "images/big_button_media/black_indent_white.png");
+~stop_image_indent = Image.new(basePath +/+ "images/big_button_media/black_indent_col.png");
 
 ~play_UserView = UserView(w, Rect(250-(250/2),95,100,30));
 	~play_UserView.drawFunc_({
@@ -748,6 +748,7 @@ s.waitForBoot({
 
 menu = PopUpMenu(w, Rect(250-(250/2)+5,95+5,50,20));
 			menu.items_(["1", "2", "3", "5", "8", "16"]);
+			menu.background_(Color(0.7569-0.1,0.1373-0.1,0.1725-0.1,1));
 			menu.font_(Font(\size, 12));
 			menu.allowsReselection_(true);
 			menu.valueAction_(4); //Starts the menu at position 4 (i.e. 8 harmonics)

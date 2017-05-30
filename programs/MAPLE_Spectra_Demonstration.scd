@@ -79,11 +79,11 @@ StaticText(w,Rect(10,105,380,25))
 (
 ~play_image_left = Image.new(basePath +/+ "images/big_button_media/red_left.png");
 ~play_image_right = Image.new(basePath +/+ "images/big_button_media/red_right.png");
-~play_image_indent = Image.new(basePath +/+ "images/big_button_media/red_indent_white.png");
+~play_image_indent = Image.new(basePath +/+ "images/big_button_media/red_indent_col.png");
 
 ~stop_image_left = Image.new(basePath +/+ "images/big_button_media/black_left.png");
 ~stop_image_right = Image.new(basePath +/+ "images/big_button_media/black_right.png");
-~stop_image_indent = Image.new(basePath +/+ "images/big_button_media/black_indent_white.png");
+~stop_image_indent = Image.new(basePath +/+ "images/big_button_media/black_indent_col.png");
 
 ~play_UserView = UserView(w, Rect(400-(100/2)-92,65,192,30));
 	~play_UserView.drawFunc_({
@@ -183,7 +183,16 @@ s.waitForBoot({
 	if(obj.value == 0,
 						{
     snd = funcs2.at(menu.value).play;
-						},{x.free; ~button.valueAction_(0); ~vinbutton.valueAction_(1);}
+
+							//menu.background_(Color.black)
+							//PROBLEM Menu is not global variable
+
+
+						},{x.free; ~button.valueAction_(0); ~vinbutton.valueAction_(1);
+
+						//menu.background_(Color.red)
+						//Menu
+						}
 			)})
   .action_({ arg mod;
     snd.release;
@@ -193,9 +202,15 @@ menu = PopUpMenu(w, Rect(260, 70-3, 100, 25)); //Moved to next to big button
 			menu.items_(["Sine", "Sawtooth", /*"Triangle",*/ "Square", "Instruments"]);
 			menu.font_(Font(\size, 12));
 			menu.value_(3);
+			menu.background_(Color(0.7569-0.1,0.1373-0.1,0.1725-0.1,1));
+			menu.stringColor_(Color.black);
 			menu.action = { arg menu;
 
 				// [menu.value, menu.item, menu.action].postln; //These lines allow below allow the menu clicker to auto-set the choice selected (not requiring to click on-off the button to set the dropdown selection)
+
+				menu.background_(Color.black);
+				menu.stringColor_(Color.white);
+
 ~vinbutton.valueAction_(0);
 				x.free;
 				~vinbutton.valueAction_(1);
@@ -329,6 +344,8 @@ l.free;
 					~l.valueAction_(0);
 				~k.valueAction_(0);
 								~j.valueAction_(0);
+					menu.background_(Color(0.7569-0.1,0.1373-0.1,0.1725-0.1,1));
+					menu.stringColor_(Color.black);
 				}
 
  ];
@@ -1032,7 +1049,14 @@ s.makeBundle(1.0, //sound delay -~knob.value.linlin(0,1,0,0.5)
 		x.isPlaying,
 		{x.set(\freq,cf)});
 
-	~numberBox.value_(obj.value.linlin(0,1,21,108));
+
+
+	//~numberBox.value_(obj.value.linlin(0,1,21,108));
+
+		~fundamental_freq = ((2**((-69+~fundamental_note)/12))*440);
+		~numberBox.value_(~fundamental_freq);
+
+
 		/*
 		~f1Box.value_(obj.value.linlin(0,1,40,75));
 		~f2Box.value_(obj.value.linexp(0,1,200,2000));
@@ -1070,15 +1094,16 @@ s.makeBundle(1.0, //sound delay -~knob.value.linlin(0,1,0,0.5)
 
 //Number box that can edit slider position
 ~numberBox = NumberBox(w,Rect(225,110,25,20))
-.value_(69)
-.clipLo_(21)
-.clipHi_(108)
-.font_(Font("nil",12))
+	.value_(440)
+	//.value_(69)
+//.clipLo_(21)
+//.clipHi_(108)
+.font_(Font("nil",7))
 .decimals_(0)
 .align_(\center)
 .action_({
 	arg obj;
-	~freqslider.valueAction_(obj.value.linlin(21,108,0,1))
+//	~freqslider.valueAction_(obj.value.linlin(21,108,0,1))
 });
 
 
@@ -1101,6 +1126,16 @@ s.makeBundle(1.0, //sound delay -~knob.value.linlin(0,1,0,0.5)
 ~volslider = Slider(w, Rect(50,145,20,230))
 	.background_(Color(0.0118,0.0118,0.0118,1))
 	.value_(0.1)
+	.mouseOverAction_({
+	if(~inspectorExists == 1, {
+		~inspectorText.string_(("Volume Slider status:
+Volume:"++~volslider.value).asString
+)
+});})
+.mouseLeaveAction_({
+	if(~inspectorExists == 1, {
+		~inspectorText.string_(" ")
+});})
 	.action_({
 	arg obj;
 	var cf;
@@ -1108,7 +1143,15 @@ s.makeBundle(1.0, //sound delay -~knob.value.linlin(0,1,0,0.5)
 		if(
 		x.isPlaying,
 		{x.set(\vol,cf)});
-	~numberVBox.value_(obj.value.linlin(0,1,0,1));
+	//~numberVBox.value_(obj.value.linlin(0,1,0,1));
+
+		// Update inspector (Currently does not work)
+		({
+	if(~inspectorExists == 1, {
+		~inspectorText.string_(("Volume Slider status:
+Volume:"++obj.value).asString
+)
+	});});
 
 })
 	.orientation_(\vertical);
@@ -1121,36 +1164,9 @@ s.makeBundle(1.0, //sound delay -~knob.value.linlin(0,1,0,0.5)
 .background_(Color(0,0,0,0.1))
 .stringColor_(Color.black);
 
-//Number box that can edit slider position
-~numberVBox = NumberBox(w,Rect(50,375,20,15))
-	.normalColor_(Color.white)
-	.background_(Color(0.0118,0.0118,0.0118,1))
-	.value_(0.1)
-.clipLo_(0)
-.clipHi_(1)
-.font_(Font("nil",7))
-.decimals_(1)
-.align_(\center)
-.action_({
-	arg obj;
-	~volslider.valueAction_(obj.value.linlin(0,1,0,1))
-});
 
-	//Labels
-~intensity = StaticText(w,Rect(12,377.5,40,15))
-.string_("Intensity")
-.font_(Font("nil", 8,true))
-.align_(\topLeft)
-.background_(Color(0,0,0,0))
-.stringColor_(Color.black);
 
-	~frequencyname = StaticText(w,Rect(12,392.5,50,15))
-.string_("Frequency")
-.font_(Font("nil", 8,true))
-.align_(\topLeft)
-.background_(Color(0,0,0,0))
-.stringColor_(Color.black);
-
+	///SOUND BLOCKS
 
 ///add sound to a buffer as an import - cello
 (
