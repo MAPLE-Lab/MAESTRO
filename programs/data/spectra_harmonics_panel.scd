@@ -4,7 +4,7 @@
 .background_(Color(0.8,0.8,0.8,0.75))
 	.value_(0.5) //is converted to 1
 	.orientation_(\vertical)
-/*.mouseOverAction_({
+.mouseOverAction_({
 	if(~inspectorExists == 1, {
 		~inspectorText.string_("Harmonic 1 Slider status:
 Pitch name:"+~note_name.string.asString++"
@@ -14,7 +14,7 @@ Intensity:"+~f1slider.value)
 .mouseLeaveAction_({
 	if(~inspectorExists == 1, {
 		~inspectorText.string_(" ")
-});})*/
+});})
 	.action_({
 	arg obj;
 	var cf;
