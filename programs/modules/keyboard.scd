@@ -1,13 +1,18 @@
 (
-~keyboard = Window.new("Keyboard", Rect(
+// Window for the Keyboard
+~keyboardWindow = Window.new("Keyboard", Rect(
 	Window.screenBounds.width/2-((420+20+20+620)/2),50,
 	420+20+20+620,190), false, true).front.background_(Color.grey(1)).userCanClose_(false);
 
-//Label for title
-~title =StaticText(~keyboard,Rect(0,0,(420+20+20+620),300))
+// Label for title
+~title =StaticText(~keyboardWindow,Rect(0,0,(420+20+20+620),300))
 .string_("Keyboard")
 .align_(\top)
 .font_(Font(["Helvetica"], 15, true));
+
+// Composite for all the drawing to be placed and thus allow octave shifting
+~octave_shift = 0;
+~keyboard = CompositeView(~keyboardWindow, Rect(~octave_shift*7*20,0, 420+20+20+620,190));
 
 //Keyboard visual
 //~outline = StaticText(~keyboard, Rect(20-1,20-1,420+1+620,150+2));
@@ -318,10 +323,13 @@
 ~keyboardOverlay = UserView(~keyboard, Rect(0,0,420+20+20+620+562,190));
 
 
-
+// Black dot for the harmonic motion
 ~keyboard_CompositeView_White = CompositeView(~keyboard, Rect(27+1,175+1,5-1,5-1));
 
 ~deviant_fill = StaticText(~keyboard_CompositeView_White, Rect(0,0,3,3)).background_(Color.black);
+
+//Start null
+~deviant_fill.background_(Color.clear);
 
 
 
@@ -839,6 +847,8 @@ Pen.line((420+1+620+19-10)@19,(420+1+620+19+560)@19);
         };
 );
 
+/* THE EXTEND/RETRACT HAS BEEN DISCONTINUED IN FAVOUR OF OCTAVE SHIFTING
+
 //Button to extend the bounds of the keyboard to show the additional higher frequencies
 ~keyboardExtend = Button.new(~keyboard, Rect(17+570,2,50,15))
 .states_([
@@ -883,11 +893,44 @@ if(~keyboardExtend.value == 1,
 ~cSHARP8.background_(Color.clear);
 ~keyboardExtendCover = StaticText(~keyboard, Rect((420+20+20+620)-19,18,50,170)).background_(Color.white);
 
+*/
+
+// These have to be active to draw correctly, as if it was extended
+~keyboard_lines_retracted.bounds_(Rect(0,190,
+	420+20+20+620+560,190));
+			~keyboard_lines_extended_A.bounds_(Rect(0,0,
+	420+20+20+620+560,190));
+			~keyboard_lines_extended_B.bounds_(Rect(0,0,
+	420+20+20+620+560,190));
+
+// Buttons to shift octave
+~keyboardShiftLeft = Button.new(~keyboardWindow, Rect(17+570,2,25,15))
+.string_(">")
+//.align_(\center) // SC doesn't seem to understand center?
+.action_({ arg obj;
+if(~octave_shift.value > -4,
+		{(
+~octave_shift = ~octave_shift-1;
+~keyboard.bounds_(Rect(~octave_shift*7*20,0, 420+20+20+620+542,190);
+	))		})
+});
+
+~keyboardShiftRight = Button.new(~keyboardWindow, Rect(17+570-120,2,25,15))
+.string_("<")
+//.align_(\center) // SC doesn't seem to understand center?
+.action_({ arg obj;
+if(~octave_shift.value < 0,
+		{(
+~octave_shift = ~octave_shift+1;
+~keyboard.bounds_(Rect(~octave_shift*7*20,0, 420+20+20+620+542,190);
+	))		})
+});
+
 //Knob
 if(~module_ID == "spectra",
 		{
-		~knob_text = StaticText(~keyboard, Rect(0+1000, 1, (420+20+20+620)-20-1000, 17)).string_("Gain").stringColor_(Color.black).align_(\right);
-~knob_keyboard = Knob.new(~keyboard, Rect(580+430, 1, 17, 17)); //Knob version
+		~knob_text = StaticText(~keyboardWindow, Rect(0+1000, 1, (420+20+20+620)-20-1000, 17)).string_("Gain").stringColor_(Color.black).align_(\right);
+~knob_keyboard = Knob.new(~keyboardWindow, Rect(580+430, 1, 17, 17)); //Knob version
 		// Slider(~keyboard, Rect(580, 1, 170, 17)); //Slider version
 ~knob_keyboard.action_({
 			~knob.valueAction_(~knob_keyboard.value);

@@ -1,7 +1,7 @@
 var obj = ~fslider;
 
-//Defines the greyness of the deviant-note indicator.
-~greyIntensity = 0.5;
+//Defines the greyness of the deviant-note indicator. Now moved to the TUNING module itself so that it can disappear when not playing.
+//~greyIntensity = 0.5;
 
 //White keys
 /*A0*/(if(obj.value.linlin(0,1,21,108) <= 21, {~a0.background_(Color(1,~color_array[21-1],~color_array[21-1]));~dot_a0.background_(Color.grey(~greyIntensity,~color_arrayMAN[21-1]))}, {~a0.background_(Color.white);~dot_a0.background_(Color(0,0,0,0))}););

@@ -149,6 +149,8 @@ w.drawFunc = {
 		~volslider.valueAction_(obj.value.linlin(0,1,0,1)) //Acts as an invisible change so even though it seems 1:1 it's really 1:4
 });
 
+
+
 	//TONIC FREQUENCY
 
 //Label for Freq.
@@ -180,8 +182,9 @@ x.set(\fundamental_note, obj.value.linlin(0,1,21,108););
 
 		~freqslider.valueAction_(~freqslider.value.linlin(0,1,0,1)); //Updates the deviation dot
 
-
+if(~vinbutton.value == 1, {
 		(basePath +/+  "data/tuning_arrays-1.scd").load; //This line MUST come before the functions affecting the Keyboard as the array values must exist to provide the data
+			}, {~color_array = Array.fill(200,1);});
 
 		(basePath +/+  "data/tuning_frequency_slider.scd").load; //This calls the naming function from another code block to help keep this program clean and modular
 
@@ -213,6 +216,10 @@ x.set(\fundamental_note, obj.value.linlin(0,1,21,108););
 	arg obj;
 	//~fslider.valueAction_(obj.value.linlin(21,108,0,1))
 });
+
+		// Cover to avoid editing
+~numberBox_Cover = StaticText(w,Rect(85+30,155,72-30,15))
+	.background_(Color.clear);
 
 
 
@@ -654,6 +661,7 @@ to 0", Color.white,Color(0.4824, 0.4863, 0.4863,1)]
 });
 
 
+
 	//Keyboard visualizer button
 		~key_vis = Button.new(w, Rect(250+75,330,60,25))
 	.states_([["", Color.black, Color.clear],["CLOSE", Color.white, Color(0,0,0,0.7)]])
@@ -669,7 +677,7 @@ arg obj;
 					~fslider.valueAction_(~fslider.value); //This allows it to refresh real-time
 		},{
 
-~keyboard.close;
+~keyboardWindow.close;
 					// ~keyboard_open = 1;
 		};);
 
@@ -690,6 +698,7 @@ s.waitForBoot({
 
  var menu, snd, funcs2, b;
 
+				menu = ~harmonics_menu; //Without having to recode everything, it allows the dropdown menu to be a global variable
 
  ~vinbutton = Button(w, Rect(250-(250/2),95,100,30))
   .states_([
@@ -710,23 +719,46 @@ s.waitForBoot({
 
 ~vinbutton.mouseDownAction_({ arg obj;
 				if(~vinbutton.value == 0, {
+
+						if(~key_vis == 1, {
+						~greyIntensity = 0.5;
+						~deviant_fill.background_(Color.black);
+						});
 					//snd.postln;
 						~stop_UserView.bounds_(Rect(250-(250/2),95,100,30));
-							snd = funcs2.at(menu.value).play /*+ funcs2.at(menu2.value).postln*/;
+
+						~harmonics_menu.background_(Color.black);
+						~harmonics_menu.stringColor_(Color.white);
+
+						// This line is necessary for sound generation bu SC is not happy with it:
+							snd = funcs2.at(~harmonics_menu.value).play /*+ funcs2.at(menu2.value).postln*/;
 
 
 					//snd.postln;
-	~fslider.valueAction_(~fslider.value); //This allows it to refresh real-time
+	//~fslider.valueAction_(~fslider.value); //This allows it to refresh real-time
 				/*s.makeBundle(3.0, //sound delay
 			{~dirtyBit = 4; ~dirtyBit/*.postln*/;~fslider.valueAction_(~fslider.value);});*/
-
-
 
 
 						},{
 												~stop_UserView.bounds_(Rect(250-(250/2),95,1,1));
 
-						x.free; /*~fslider.valueAction_(0.value.linlin(21,108,0,1));*/}
+
+	~harmonics_menu.background_(Color(0.7569-0.1,0.1373-0.1,0.1725-0.1,1));
+						~harmonics_menu.stringColor_(Color.black);
+
+						x.free; /*~fslider.valueAction_(0.value.linlin(21,108,0,1));*/
+
+
+						//Reset to base colours when not playing
+						if(~key_vis.value == 1, {
+						~color_array = Array.fill(200,1);
+							~greyIntensity = 1.0;
+							~deviant_fill.background_(Color.clear);
+						(basePath +/+  "data/tuning_keyboard_GUI_colours.scd").load;
+						});
+
+					}
 			)})
   .action_({ arg mod;
 /*~menu2.allowsReselection;
@@ -746,14 +778,65 @@ s.waitForBoot({
 
 			});
 
-menu = PopUpMenu(w, Rect(250-(250/2)+5,95+5,50,20));
-			menu.items_(["1", "2", "3", "5", "8", "16"]);
-			menu.background_(Color(0.7569-0.1,0.1373-0.1,0.1725-0.1,1));
-			menu.font_(Font(\size, 12));
-			menu.allowsReselection_(true);
-			menu.valueAction_(4); //Starts the menu at position 4 (i.e. 8 harmonics)
-			menu.action = { arg menu, menu2;
+~harmonics_menu = PopUpMenu(w, Rect(250-(250/2)+5,95+5,50,20));
+			~harmonics_menu.items_(["1", "2", "3", "5", "8", "16"]);
+			~harmonics_menu.background_(Color(0.7569-0.1,0.1373-0.1,0.1725-0.1,1));
+			~harmonics_menu.font_(Font(\size, 12));
+			~harmonics_menu.allowsReselection_(true);
+			~harmonics_menu.valueAction_(4); //Starts the menu at position 4 (i.e. 8 harmonics)
+			~harmonics_menu.action = { arg menu, menu2;
 
+					// Make the needed harmonics to be affected available
+(
+switch (~harmonics_menu.value,
+							0,{~menu2_hold_value = ~menu2.value;~menu2.items_(["--","1"]);(
+AppClock.sched(0.01,{
+   // "0.01 seconds after load, the Harmonic is set to 5".postln;
+			~menu2.valueAction_(~menu2_hold_value);
+    nil;
+});
+);},
+							1,{~menu2_hold_value = ~menu2.value;~menu2.items_(["--","1","2",]);(
+AppClock.sched(0.01,{
+   // "0.01 seconds after load, the Harmonic is set to 5".postln;
+			~menu2.valueAction_(~menu2_hold_value);
+    nil;
+});
+);},
+							2,{~menu2_hold_value = ~menu2.value;~menu2.items_(["--","1","2","3"]);(
+AppClock.sched(0.01,{
+   // "0.01 seconds after load, the Harmonic is set to 5".postln;
+			~menu2.valueAction_(~menu2_hold_value);
+    nil;
+});
+);},
+							3,{~menu2_hold_value = ~menu2.value;~menu2.items_(["--","1","2","3","4","5"]);(
+AppClock.sched(0.01,{
+   // "0.01 seconds after load, the Harmonic is set to 5".postln;
+			~menu2.valueAction_(~menu2_hold_value);
+    nil;
+});
+);},
+							4,{~menu2_hold_value = ~menu2.value;~menu2.items_(["--","1","2","3","4","5","6","7","8"]);(
+AppClock.sched(0.01,{
+   // "0.01 seconds after load, the Harmonic is set to 5".postln;
+			~menu2.valueAction_(~menu2_hold_value);
+    nil;
+});
+);},
+							5,{
+~menu2_hold_value = ~menu2.value;~menu2.items_(["--","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16"]);
+								(
+AppClock.sched(0.01,{
+   // "0.01 seconds after load, the Harmonic is set to 5".postln;
+			~menu2.valueAction_(~menu2_hold_value);
+    nil;
+});
+);
+							}
+					);
+				);
+					//~menu2.items_(["--","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16"]);
 
 				[menu.value, menu.item, menu.action].postln; //These lines allow below allow the menu clicker to auto-set the choice selected (not requiring to click on-off the button to set the dropdown selection)
 
@@ -792,6 +875,9 @@ AppClock.sched(0.05,{
 
 
 snd = funcs2.at(menu.value).play;
+
+
+
 
 			};
 
@@ -1041,7 +1127,11 @@ s.waitForBoot({
    });
 */
 ~menu2 = PopUpMenu(w, Rect(250-(250/2)+50,95+3+80+65+2,50,20));
-			~menu2.items_(["--","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16"]);
+
+
+//Switch function for how many to display (up to maximum) - this is above in the other dropdown; here it starts at 8 because the module opens with 8:
+			~menu2.items_(["--","1","2","3","4","5","6","7","8"/*,"9","10","11","12","13","14","15","16"*/]);
+
 			~menu2.font_(Font(\size, 12));
 			~menu2.allowsReselection_(true);
 			~menu2.action = { arg menu2;
@@ -1056,14 +1146,26 @@ s.waitForBoot({
 						{~coverComposite.visible = true}, {~coverComposite.visible = false});
 				);
 
-				(
-					if(~menu2.value > ~harmonic_count, {
+					//~menu2_hold_value = ~menu2.value;
+
+/*				(
+					if(~menu2.value > ~menu2_hold_value/*~harmonic_count*/, {
 							if(~inspectorExists == 1, {
 								~inspectorError.string_("The harmonic selected was above the number of harmonics being played. Please select a lower harmonic to deviate or increase the number of harmonics being played");
 							});
 							~menu2.valueAction_(0);
 						}, {"The harmonic selected is accepted".postln})
-				);
+				);*/
+
+					(
+						if(~menu2.value == nil, //Because now those higher values do not even exist, so ~menu2 is error-set to nil when its value is higher than possible (when switching from a higher set of harmonics played to this lower one)
+							{
+							if(~inspectorExists == 1, {
+								~inspectorError.string_("The harmonic selected was above the number of harmonics being played. Please select a lower harmonic to deviate or increase the number of harmonics being played");
+							});
+							~menu2.valueAction_(0);
+						})
+					);
 
 snd = funcs2.at(menu2.value).play;
 
@@ -1117,7 +1219,7 @@ Harmonic (mistuned) dropdown menu";
 			f.kill;
 			x.free; //shuts down window and scope
 			(if(~key_vis.value == 1, {
-				~keyboard.close;
+				~keyboardWindow.close;
 			}));
 			(if(~inspectorExists == 1, {
 				~inspectorWindow.close;
