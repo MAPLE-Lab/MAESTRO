@@ -1,3 +1,6 @@
+(
+var basePath = thisProcess.nowExecutingPath.asString.dirname;
+
 ///F1
 //Properties of the slider
 ~f1slider = Slider(w, Rect(70,145,20,230))
@@ -6,14 +9,18 @@
 	.orientation_(\vertical)
 .mouseOverAction_({
 	if(~inspectorExists == 1, {
-		~inspectorText.string_("Harmonic 1 Slider status:
+~slider_hover = 1;
+(basePath +/+  "spectra_harmonics_panel_hover_enter.scd").load;
+//~inspectorHarmonicsPanel.bounds_(Rect(10, 60, 280, 70));
+		/*~inspectorText.string_("Harmonic 1 Slider status:
 Pitch name:"+~note_name.string.asString++"
 Frequency:"+~fundamental_freq.value++"
-Intensity:"+~f1slider.value)
+Intensity:"+~f1slider.value)*/
 });})
 .mouseLeaveAction_({
 	if(~inspectorExists == 1, {
-		~inspectorText.string_(" ")
+		~inspectorText.string_(" ");
+		~inspectorHarmonicsPanel.bounds_(Rect(10+300, 60, 280, 70));
 });})
 	.action_({
 	arg obj;
@@ -23,7 +30,28 @@ Intensity:"+~f1slider.value)
 		x.isPlaying,
 		{x.set(\f1,cf)});
 	//~number1Box.value_(obj.value.linlin(0,1,0.0,2));
-		~freqslider.valueAction_(~fslider.value); //This allows it to refresh real-time
+		//~freqslider.valueAction_(~fslider.value); //This allows it to refresh real-time
+//	{
+//	if(~inspectorExists == 1, {
+
+/*(
+		if(~inspectorExists == 1, {~inspectorHarmonicsPanel_intensity_number.value_(
+			~f1slider.value
+		);};
+		);
+	);
+	*/
+		/*~inspectorText.string_("Harmonic 1 Slider status:
+Pitch name:"+~note_name.string.asString++"
+Frequency:"+~fundamental_freq.value++"
+Intensity:"+~f1slider.value)*/
+
+
+//});};
+
+
+(basePath +/+  "spectra_harmonics_panel_hover_enter.scd").load;
+
 
 s.makeBundle(1.0, //sound delay
 			{~dirtyBit = 5; ~dirtyBit.postln;~freqslider.valueAction_(~fslider.value);});
@@ -439,3 +467,4 @@ s.makeBundle(1.0, //sound delay
 .align_(\top)
 .background_(Color(0,0,0,0.1))
 .stringColor_(Color.black);
+)

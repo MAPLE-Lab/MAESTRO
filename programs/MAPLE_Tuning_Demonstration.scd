@@ -675,6 +675,12 @@ arg obj;
 					// ~keyboard_open = 0;
 	(basePath +/+  "modules/keyboard.scd").loadPaths; //This line allows all contact buttons to be updated automatically
 					~fslider.valueAction_(~fslider.value); //This allows it to refresh real-time
+
+					if(~vinbutton.value == 1, {
+						~greyIntensity = 0.5;
+						~deviant_fill.background_(Color.black);
+						});
+
 		},{
 
 ~keyboardWindow.close;
@@ -720,7 +726,7 @@ s.waitForBoot({
 ~vinbutton.mouseDownAction_({ arg obj;
 				if(~vinbutton.value == 0, {
 
-						if(~key_vis == 1, {
+						if(~key_vis.value == 1, {
 						~greyIntensity = 0.5;
 						~deviant_fill.background_(Color.black);
 						});
@@ -764,6 +770,8 @@ s.waitForBoot({
 /*~menu2.allowsReselection;
 				~menu2.value_(0);
 				~menu2.valueAction_(0);*/
+
+
     snd.release;
 				~fslider.valueAction_(~fslider.value); //This allows it to refresh real-time
 		s.makeBundle(1.0, //sound delay

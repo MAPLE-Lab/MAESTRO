@@ -892,7 +892,7 @@ s.makeBundle(1.0, //sound delay -~knob.value.linlin(0,1,0,0.5)
 ~volslider = Slider(w, Rect(50,145,20,230))
 	.background_(Color(0.0118,0.0118,0.0118,1))
 	.value_(0.1)
-	.mouseOverAction_({
+	/*.mouseOverAction_({
 	if(~inspectorExists == 1, {
 		~inspectorText.string_(("Volume Slider status:
 Volume:"++~volslider.value).asString
@@ -901,7 +901,7 @@ Volume:"++~volslider.value).asString
 .mouseLeaveAction_({
 	if(~inspectorExists == 1, {
 		~inspectorText.string_(" ")
-});})
+});})*/
 	.action_({
 	arg obj;
 	var cf;
