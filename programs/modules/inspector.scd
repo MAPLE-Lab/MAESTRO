@@ -3,9 +3,9 @@
 Window.new(
 	"Inspector",
 	Rect(
-		/*Window.screenBounds.width/2-150*/0,
-		Window.screenBounds.height/2-150+0,
-		300,
+		0,
+		Window.screenBounds.height/2+100,
+		300/*+400*/,
 		200),
 	false)
 .front
@@ -53,25 +53,27 @@ CompositeView(~inspectorWindow, Rect(10, 60, 280, 70)).background_(Color.grey(0.
 
 
 ~inspectorHarmonicsPanel_harmonic_text =
-StaticText(~inspectorHarmonicsPanel, Rect(0,0,150,15))
-.string_("Harmonic Number:")
+StaticText(~inspectorHarmonicsPanel, Rect(0,0,60,15))
+.string_("Harmonic:")
 .font_(Font("Helvetica", 12, false))
-.align_(\left);
+.align_(\left)
+//.background_(Color.red)
+;
 
 ~inspectorHarmonicsPanel_harmonic_number =
-NumberBox(~inspectorHarmonicsPanel, Rect(105,0,30,15))
+NumberBox(~inspectorHarmonicsPanel, Rect(55,0,20,15))
 .font_(Font("Helvetica", 11))
 .align_(\center);
 
 
 ~inspectorHarmonicsPanel_pitch_text =
-StaticText(~inspectorHarmonicsPanel, Rect(0,0+15,150,15))
-.string_("Pitch Name:")
+StaticText(~inspectorHarmonicsPanel, Rect(90,0,60,15))
+.string_("Pitch:")
 .font_(Font("Helvetica", 12, false))
 .align_(\left);
 
 ~inspectorHarmonicsPanel_pitch_number =
-StaticText(~inspectorHarmonicsPanel, Rect(105,0+15,30,15))
+StaticText(~inspectorHarmonicsPanel, Rect(120,0,25,15))
 .font_(Font("Helvetica", 11))
 .align_(\center)
 .string_(~note_name.string)
@@ -79,33 +81,29 @@ StaticText(~inspectorHarmonicsPanel, Rect(105,0+15,30,15))
 
 
 ~inspectorHarmonicsPanel_frequency_text =
-StaticText(~inspectorHarmonicsPanel, Rect(0,30,150,15))
-.string_("Frequency (Hz):")
+StaticText(~inspectorHarmonicsPanel, Rect(165,0,60,15))
+.string_("Freq.:")
 .font_(Font("Helvetica", 12, false))
 .align_(\left);
 
 ~inspectorHarmonicsPanel_frequency_number =
-NumberBox(~inspectorHarmonicsPanel, Rect(105,30,30,15))
+NumberBox(~inspectorHarmonicsPanel, Rect(197,0,55,15))
 .font_(Font("Helvetica", 11))
-.align_(\center);
+.align_(\center)
+.decimals_(2);
 
 
 ~inspectorHarmonicsPanel_intensity_text =
-StaticText(~inspectorHarmonicsPanel, Rect(0,45,150,15))
+StaticText(~inspectorHarmonicsPanel, Rect(0,20,50,15))
 .string_("Intensity:")
 .font_(Font("Helvetica", 12, false))
 .align_(\left);
 
 ~inspectorHarmonicsPanel_intensity_number =
-NumberBox(~inspectorHarmonicsPanel, Rect(105,45,30,15))
+NumberBox(~inspectorHarmonicsPanel, Rect(50,20,50,15))
 .font_(Font("Helvetica", 11))
-.align_(\center);
-
-
-
-
-
-
+.align_(\center)
+.maxDecimals_(4);
 );
 
 

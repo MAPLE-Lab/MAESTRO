@@ -67,7 +67,7 @@ acoustat(SOUNDFILE_read, wl = wl_value)
 # Based on the frequency bins, we display/calculate the time bins
 # This calculation still needs refining it seems, doesn't seem to make sense yet
 SOUNDFILE_duration <- (length(SOUNDFILE_read@left)/SOUNDFILE_read@samp.rate)
-time_bin_width <- (2.98/64)/(1024/number_of_freq_bins) 
+time_bin_width <- 2*(2.98/64)/(1024/number_of_freq_bins) 
 number_of_time_bins <- round(SOUNDFILE_duration/time_bin_width+0.5)
 
 

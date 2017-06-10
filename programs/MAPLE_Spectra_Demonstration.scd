@@ -2,6 +2,7 @@
 (
 //Provides code shorthand to call files in same or sub-folders.
 var basePath = thisProcess.nowExecutingPath.asString.dirname;
+~trace = basePath.asString;
 
 //Ensure all other windows are closed
 Window.closeAll;
@@ -208,17 +209,17 @@ s.waitForBoot({
    });
 
 ~synth_menu = PopUpMenu(w, Rect(260, 70-3, 100, 25)); //Moved to next to big button
-			~synth_menu.items_(["Sine", "Sawtooth", /*"Triangle",*/ "Square", "Instruments"]);
+			~synth_menu.items_(["Sine", "Square", "Sawtooth", /*"Triangle",*/ "Instruments"]);
 			~synth_menu.font_(Font(\size, 12));
-			~synth_menu.value_(3);
+
 			~synth_menu.background_(Color(0.7569-0.1,0.1373-0.1,0.1725-0.1,1));
 			~synth_menu.stringColor_(Color.black);
 			~synth_menu.action = { //arg menu;
 
 				// [menu.value, menu.item, menu.action].postln; //These lines allow below allow the menu clicker to auto-set the choice selected (not requiring to click on-off the button to set the dropdown selection)
 
-				~synth_menu.background_(Color.black);
-				~synth_menu.stringColor_(Color.white);
+			//	~synth_menu.background_(Color.black);
+			//	~synth_menu.stringColor_(Color.white);
 
 ~vinbutton.valueAction_(0);
 				x.free;
@@ -260,38 +261,17 @@ l.free;
 		~f15slider.valueAction_(0.value.linlin(0.0,2,0,1));
 		~f16slider.valueAction_(0.value.linlin(0.0,2,0,1));
 		x.free; ///NEED TO ADD OSC DELAY
-		~button.valueAction_(1);
+
+					if(~button.value == 1,
+						{~button.valueAction_(1)});
+
 					~l.valueAction_(0);
 				~k.valueAction_(0);
 								~j.valueAction_(0);
 					~instrumentsCover.bounds_(Rect(10,410+2,(790-10), 120));
 
 	},
-{ //saw
-		var variable;
-		variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
-		~freqslider.valueAction_(69.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
-		~volslider.valueAction_(0.8.value.linlin(0,1,0,1));
-		~f1slider.valueAction_(1.value.linlin(0.0,2,0,1));
-					~f2slider.valueAction_((0.5**1).value.linlin(0.0,2,0,1));
-					~f3slider.valueAction_((1/3**1).value.linlin(0.0,2,0,1));
-					~f4slider.valueAction_((1/4**1).value.linlin(0.0,2,0,1));
-					~f5slider.valueAction_((1/5**1).value.linlin(0.0,2,0,1));
-					~f6slider.valueAction_((1/6**1).value.linlin(0.0,2,0,1));
-					~f7slider.valueAction_((1/7**1).value.linlin(0.0,2,0,1));
-					~f8slider.valueAction_((1/8**1).value.linlin(0.0,2,0,1));
-					~f9slider.valueAction_((1/9**1).value.linlin(0.0,2,0,1));
-					~f10slider.valueAction_((1/10**1).value.linlin(0.0,2,0,1));
-					~f11slider.valueAction_((1/11**1).value.linlin(0.0,2,0,1));
-					~f12slider.valueAction_((1/12**1).value.linlin(0.0,2,0,1));
-					~f13slider.valueAction_((1/13**1).value.linlin(0.0,2,0,1));
-					~f14slider.valueAction_((1/14**1).value.linlin(0.0,2,0,1));
-					~f15slider.valueAction_((1/15**1).value.linlin(0.0,2,0,1));
-					~f16slider.valueAction_((1/16**1).value.linlin(0.0,2,0,1));
-		x.free; ///NEED TO ADD OSC DELAY
-		~button.valueAction_(1);
-					~instrumentsCover.bounds_(Rect(10,410+2,(790-10), 120));
-	},
+
 		/*		{//triangle
 		var variable;
 		variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
@@ -320,7 +300,7 @@ l.free;
 								~j.valueAction_(0);
 
 	},*/
-				{
+				{ //Square??
 		var variable;
 		variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
 		~freqslider.valueAction_(69.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
@@ -342,12 +322,42 @@ l.free;
 		~f15slider.valueAction_(0.07.value.linlin(0.0,2,0,1));
 		~f16slider.valueAction_(0.value.linlin(0.0,2,0,1));
 		x.free; ///NEED TO ADD OSC DELAY
-		~button.valueAction_(1);
+		if(~button.value == 1,
+						{~button.valueAction_(1)});
 					~l.valueAction_(0);
 				~k.valueAction_(0);
 								~j.valueAction_(0);
 					~instrumentsCover.bounds_(Rect(10,410+2,(790-10), 120));
 
+	},
+				{ //saw
+		var variable;
+		variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
+		~freqslider.valueAction_(69.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
+		~volslider.valueAction_(0.8.value.linlin(0,1,0,1));
+		~f1slider.valueAction_(1.value.linlin(0.0,2,0,1));
+					~f2slider.valueAction_((0.5**1).value.linlin(0.0,2,0,1));
+					~f3slider.valueAction_((1/3**1).value.linlin(0.0,2,0,1));
+					~f4slider.valueAction_((1/4**1).value.linlin(0.0,2,0,1));
+					~f5slider.valueAction_((1/5**1).value.linlin(0.0,2,0,1));
+					~f6slider.valueAction_((1/6**1).value.linlin(0.0,2,0,1));
+					~f7slider.valueAction_((1/7**1).value.linlin(0.0,2,0,1));
+					~f8slider.valueAction_((1/8**1).value.linlin(0.0,2,0,1));
+					~f9slider.valueAction_((1/9**1).value.linlin(0.0,2,0,1));
+					~f10slider.valueAction_((1/10**1).value.linlin(0.0,2,0,1));
+					~f11slider.valueAction_((1/11**1).value.linlin(0.0,2,0,1));
+					~f12slider.valueAction_((1/12**1).value.linlin(0.0,2,0,1));
+					~f13slider.valueAction_((1/13**1).value.linlin(0.0,2,0,1));
+					~f14slider.valueAction_((1/14**1).value.linlin(0.0,2,0,1));
+					~f15slider.valueAction_((1/15**1).value.linlin(0.0,2,0,1));
+					~f16slider.valueAction_((1/16**1).value.linlin(0.0,2,0,1));
+		x.free; ///NEED TO ADD OSC DELAY
+		if(~button.value == 1,
+						{~button.valueAction_(1)});
+					~l.valueAction_(0);
+				~k.valueAction_(0);
+								~j.valueAction_(0);
+					~instrumentsCover.bounds_(Rect(10,410+2,(790-10), 120));
 	},
 
 				{"instruments (harmonics panel)".postln;
@@ -371,9 +381,19 @@ l.free;
  p = CmdPeriod.add({ b.value_(0) }); // set button to 0 on hitting Cmd-period
  w.onClose_{ snd.release; CmdPeriod.removeAll }; // clean up when window is closed
 
-})
-	);
+});
 
+
+	// Start at Sine
+
+		 (
+		 	AppClock.sched(0.001,{
+				// "0.01 seconds after load, the Harmonic is set to 5".postln;
+		 		~synth_menu.valueAction_(0);
+		 		nil;
+		 	});
+		  );
+	);
 
 
 
@@ -868,7 +888,7 @@ s.makeBundle(1.0, //sound delay -~knob.value.linlin(0,1,0,0.5)
 	// 	//	~freqslider.valueAction_(obj.value.linlin(21,108,0,1))
 	// });
 
-// Cover to avoid editing
+// Cover to avoid editing frequency box
 ~numberBox_Cover = StaticText(w,Rect(225,110,25,20))
 	.background_(Color.clear);
 
@@ -1287,6 +1307,7 @@ SynthDef.new("sound", {
 		b.free;
 		e.free;
 		l.free;
+		~spectra_scope.kill; // Kills the FreqScopeView
 		// ~d.quit; causes issues if ~d doesn't exist before quitting, in any case ~d closes automatically because it is parented to the w window
 		// ~w2.close; //similar issue, but this does leave the oscilloscope open - workaround on splashscreen command
 		~scopebutton.valueAction_(0); //this works instead of closing the window as now the global variable is always available
@@ -1393,10 +1414,12 @@ arg obj;
         };
 
 
-	~instrumentsCover = StaticText(w, Rect(10,410+2,(790-10), 120)).background_(Color.white).string_("Select 'Instruments' from the dropdown menu to access these hidden instrument settings.").align_(\center);
+	~instrumentsCover = StaticText(w, Rect(10,410+2,(790-10), 120)).background_(Color.white).string_(""
+//Select 'Instruments' from the dropdown menu to access these hidden instrument settings.
+).align_(\center);
 
-	// On start, because Instruments is pre-selected
-	~instrumentsCover.bounds_(Rect(10,410+2,(790-10), 120-120));
+	/*// On start, because Instruments is pre-selected
+	~instrumentsCover.bounds_(Rect(10,410+2,(790-10), 120-120));*/ //Now Sine is pre-selected
 
 
 
@@ -1517,19 +1540,19 @@ s.makeBundle(1.0, //sound delay
 	.font_(Font("nil", 11));
 
 
-
-
-
 //Inspector button (remove upon Release)
 ~inspector = Button.new(w, Rect(10, 70, 20, 20))
-	.states_([["(i)", Color.white, Color.gray]])
+	.states_([["(i)", Color.white, Color.gray], ["(i)", Color.gray, Color.black]])
 	.font_(Font("nil", 10))
-	.mouseDownAction_
-	({
+	.action_
+	({ arg obj;
+		if(obj.value == 1, {
 		(basePath +/+  "modules/inspector.scd").loadPaths;
+		},
+		{
+~inspectorWindow.close;
+		});
 	});
-
-
 
 
 w.onClose_({

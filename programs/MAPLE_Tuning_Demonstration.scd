@@ -797,7 +797,8 @@ s.waitForBoot({
 					// Make the needed harmonics to be affected available
 (
 switch (~harmonics_menu.value,
-							0,{~menu2_hold_value = ~menu2.value;~menu2.items_(["--","1"]);(
+							0,{~menu2_hold_value = ~menu2.value;~menu2.items_(["--","1"]);
+								(
 AppClock.sched(0.01,{
    // "0.01 seconds after load, the Harmonic is set to 5".postln;
 			~menu2.valueAction_(~menu2_hold_value);
@@ -1210,11 +1211,16 @@ Harmonic (mistuned) dropdown menu";
 
 //Inspector button (remove upon Release)
 ~inspector = Button.new(w, Rect(10, 100, 20, 20))
-	.states_([["(i)", Color.white, Color.gray]])
+	.states_([["(i)", Color.white, Color.gray], ["(i)", Color.gray, Color.black]])
 	.font_(Font("nil", 10))
-	.mouseDownAction_
-	({
+	.action_
+	({ arg obj;
+		if(obj.value == 1, {
 		(basePath +/+  "modules/inspector.scd").loadPaths;
+		},
+		{
+~inspectorWindow.close;
+		});
 	});
 
 //Q. Quit function
@@ -1224,7 +1230,7 @@ Harmonic (mistuned) dropdown menu";
 	.font_(Font("nil", 12))
 	.mouseDownAction_({
 			w.close;
-			f.kill;
+			~spectra_scope.kill; // Kills the FreqScopeView
 			x.free; //shuts down window and scope
 			(if(~key_vis.value == 1, {
 				~keyboardWindow.close;

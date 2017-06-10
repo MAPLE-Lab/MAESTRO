@@ -1,4 +1,58 @@
 (
+~harmonics_panel = Array.fill(16, { arg i; i+1 });
+
+~harmonics_panel.do({ arg item, i;
+
+	~embed = "data/spectra_harmonics_panel_hover_enter.scd";
+
+	~empty = " ";
+
+// Compile it as a single function which is the executed, which finally sets the global variable names with their respective sliders
+	(
+		"~f"++item++"slider" + "=" + "Slider(w, Rect(" ++ i ++ "*20+70,145,20,230))"
+		++
+		"
+.background_(Color(0.8,0.8,0.8,0.75))
+.value_(0.5)
+.mouseOverAction_({
+if(~inspectorExists == 1, {"
+		++
+		"~slider_hover =" + item
+		++
+		"; (~trace.asString +/+ " ++ ~embed.asCompileString ++ ").load;
+});})
+.mouseLeaveAction_({
+	if(~inspectorExists == 1, {
+~inspectorText.string_(" ++ ~empty.asCompileString ++ ");
+		~inspectorHarmonicsPanel.bounds_(Rect(10+300, 60, 280, 70));
+});})
+	.action_({
+	arg obj;
+	var cf;
+	cf = obj.value.linlin(0,1,0.0,2).postln;
+		if(
+		x.isPlaying,
+{x.set("
+		++ "\\" ++ "f" ++ item ++
+",cf)});
+(~trace.asString +/+  " ++ ~embed.asCompileString ++").load;
+});
+"
+		+
+"
+~f" ++ item ++ "Label = StaticText(w,Rect(" ++ i ++ "*20+70,130,20,15))
+.string_(" ++ item.asCompileString ++")
+.font_(Font(" ++ nil.asCompileString ++ ", 12))
+.align_(" ++ "\\" ++ "top)
+.background_(Color(0,0,0,0.1))
+.stringColor_(Color.black);
+"
+	).postln.interpret;
+});
+);
+
+/*
+(
 var basePath = thisProcess.nowExecutingPath.asString.dirname;
 
 ///F1
@@ -6,16 +60,11 @@ var basePath = thisProcess.nowExecutingPath.asString.dirname;
 ~f1slider = Slider(w, Rect(70,145,20,230))
 .background_(Color(0.8,0.8,0.8,0.75))
 	.value_(0.5) //is converted to 1
-	.orientation_(\vertical)
+
 .mouseOverAction_({
 	if(~inspectorExists == 1, {
 ~slider_hover = 1;
 (basePath +/+  "spectra_harmonics_panel_hover_enter.scd").load;
-//~inspectorHarmonicsPanel.bounds_(Rect(10, 60, 280, 70));
-		/*~inspectorText.string_("Harmonic 1 Slider status:
-Pitch name:"+~note_name.string.asString++"
-Frequency:"+~fundamental_freq.value++"
-Intensity:"+~f1slider.value)*/
 });})
 .mouseLeaveAction_({
 	if(~inspectorExists == 1, {
@@ -29,45 +78,12 @@ Intensity:"+~f1slider.value)*/
 		if(
 		x.isPlaying,
 		{x.set(\f1,cf)});
-	//~number1Box.value_(obj.value.linlin(0,1,0.0,2));
-		//~freqslider.valueAction_(~fslider.value); //This allows it to refresh real-time
-//	{
-//	if(~inspectorExists == 1, {
-
-/*(
-		if(~inspectorExists == 1, {~inspectorHarmonicsPanel_intensity_number.value_(
-			~f1slider.value
-		);};
-		);
-	);
-	*/
-		/*~inspectorText.string_("Harmonic 1 Slider status:
-Pitch name:"+~note_name.string.asString++"
-Frequency:"+~fundamental_freq.value++"
-Intensity:"+~f1slider.value)*/
-
-
-//});};
-
 
 (basePath +/+  "spectra_harmonics_panel_hover_enter.scd").load;
 
 
-s.makeBundle(1.0, //sound delay
-			{~dirtyBit = 5; ~dirtyBit.postln;~freqslider.valueAction_(~fslider.value);});
-
-
-/*
-	{//Currently doesn't update
-	if(~inspectorExists == 1, {
-		~inspectorText.string_("Harmonic 1 Slider status:
-Pitch name:"+~note_name.string.asString++"
-Frequency:"+~fundamental_freq.value++"
-Intensity:"+~f1slider.value)
-});};*/
-
-
-
+//s.makeBundle(1.0, //sound delay
+	//		{~dirtyBit = 5; ~dirtyBit.postln;~freqslider.valueAction_(~fslider.value);});
 
 });
 //Label
@@ -468,3 +484,4 @@ s.makeBundle(1.0, //sound delay
 .background_(Color(0,0,0,0.1))
 .stringColor_(Color.black);
 )
+*/
