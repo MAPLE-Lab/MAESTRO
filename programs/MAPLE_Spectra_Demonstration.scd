@@ -443,6 +443,13 @@ l.free;
 		~stop_UserView.bounds_(Rect(400-(100/2)-92,65,1,1));
 				~synth_menu.background_(Color(0.7569-0.1,0.1373-0.1,0.1725-0.1,1));
 				~synth_menu.stringColor_(Color.black);
+
+	//Reset to base colours when not playing
+						if(~key_vis.value == 1, {
+						~color_array = Array.fill(200,1);
+						(basePath +/+  "data/spectra_keyboard_GUI_colours.scd").load;
+						});
+
 	});}); //Ensure ~button.value is value not valueAction to avoid loop and ensure this turns off big button properly
 
 	//FORCED trumpet preset
@@ -493,6 +500,12 @@ l.free;
 				~synth_menu.background_(Color(0.7569-0.1,0.1373-0.1,0.1725-0.1,1));
 				~synth_menu.stringColor_(Color.black);
 
+				//Reset to base colours when not playing
+						if(~key_vis.value == 1, {
+						~color_array = Array.fill(200,1);
+						(basePath +/+  "data/spectra_keyboard_GUI_colours.scd").load;
+						});
+
 	});});
 
 
@@ -540,6 +553,12 @@ l.free;
 				~stop_UserView.bounds_(Rect(400-(100/2)-92,65,1,1));
 				~synth_menu.background_(Color(0.7569-0.1,0.1373-0.1,0.1725-0.1,1));
 				~synth_menu.stringColor_(Color.black);
+
+				//Reset to base colours when not playing
+						if(~key_vis.value == 1, {
+						~color_array = Array.fill(200,1);
+						(basePath +/+  "data/spectra_keyboard_GUI_colours.scd").load;
+						});
 	});});
 
 	//FORCED horn preset
@@ -598,6 +617,12 @@ l.free;
 				~stop_UserView.bounds_(Rect(400-(100/2)-92,65,1,1));
 				~synth_menu.background_(Color(0.7569-0.1,0.1373-0.1,0.1725-0.1,1));
 				~synth_menu.stringColor_(Color.black);
+
+				//Reset to base colours when not playing
+						if(~key_vis.value == 1, {
+						~color_array = Array.fill(200,1);
+						(basePath +/+  "data/spectra_keyboard_GUI_colours.scd").load;
+						});
 	});});
 
 

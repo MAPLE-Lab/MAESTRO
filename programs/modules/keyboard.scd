@@ -1,10 +1,12 @@
 (
+var basePath = thisProcess.nowExecutingPath.asString.dirname;
+
 // Window for the Keyboard
 ~keyboardWindow = Window.new("Keyboard", Rect(
 	Window.screenBounds.width/2-((420+20+20+620)/2),50,
-	420+20+20+620,190), false, true).front.background_(Color.grey(1)).userCanClose_(false);
+	420+20+20+620,190), false, true).front.background_(Color.grey(1)).userCanClose_(true);
 
-// Label for title
+// Label for title // Necessary if remove the top part eventually to avoid confusion on closing - but maybe onClose it resets the key_vis button properly anyways so no need
 ~title =StaticText(~keyboardWindow,Rect(0,0,(420+20+20+620),300))
 .string_("Keyboard")
 .align_(\top)
@@ -307,17 +309,58 @@
 ~dot_aSHARP11 = StaticText(~keyboard, Rect(30+1540+7,20+90,5,5)).background_(Color(1,1,1,0)).string_("");
 
 
-//Middle C note
+//Lowest note
+~a1note = StaticText(~keyboard, Rect(20+0,20,19,150)).background_(Color.clear).string_("A1
+21").align_(\bottom).stringColor_(Color.black).font_(Font("Helvetica", 10));
+
+//Labelling every C note
+//C1
+~c1note = StaticText(~keyboard, Rect(20+40,20,19,150)).background_(Color.clear).string_("C1
+24").align_(\bottom).stringColor_(Color.black).font_(Font("Helvetica", 10));
+
+//C2
+~c2note = StaticText(~keyboard, Rect(20+180,20,19,150)).background_(Color.clear).string_("C2
+36").align_(\bottom).stringColor_(Color.black).font_(Font("Helvetica", 10));
+
+//C3
+~c3note = StaticText(~keyboard, Rect(20+180+140,20,19,150)).background_(Color.clear).string_("C3
+48").align_(\bottom).stringColor_(Color.black).font_(Font("Helvetica", 10));
+
+//Middle C note (C4)
 ~c4note = StaticText(~keyboard, Rect(20+460,20,19,150)).background_(Color.clear).string_("C4
 60").align_(\bottom).stringColor_(Color.black).font_(Font("Helvetica", 10));
 
-//Lowest note
-~a0note = StaticText(~keyboard, Rect(20+0,20,19,150)).background_(Color.clear).string_("A0
-21").align_(\bottom).stringColor_(Color.black).font_(Font("Helvetica", 10));
+//C5
+~c5note = StaticText(~keyboard, Rect(20+460+140,20,19,150)).background_(Color.clear).string_("C5
+72").align_(\bottom).stringColor_(Color.black).font_(Font("Helvetica", 10));
 
-//Highest note
+//C6
+~c6note = StaticText(~keyboard, Rect(20+460+280,20,19,150)).background_(Color.clear).string_("C6
+84").align_(\bottom).stringColor_(Color.black).font_(Font("Helvetica", 10));
+
+//C7
+~c7note = StaticText(~keyboard, Rect(20+460+420,20,19,150)).background_(Color.clear).string_("C7
+96").align_(\bottom).stringColor_(Color.black).font_(Font("Helvetica", 10));
+
+//Highest note (old, C8)
 ~c8note = StaticText(~keyboard, Rect(20+1020,20,19,150)).background_(Color.clear).string_("C8
 108").align_(\bottom).stringColor_(Color.black).font_(Font("Helvetica", 10));
+
+//C9
+~c9note = StaticText(~keyboard, Rect(20+1020+140,20,19,150)).background_(Color.clear).string_("C9
+120").align_(\bottom).stringColor_(Color.black).font_(Font("Helvetica", 10));
+
+//C10
+~c10note = StaticText(~keyboard, Rect(20+1020+280,20,19,150)).background_(Color.clear).string_("C10
+132").align_(\bottom).stringColor_(Color.black).font_(Font("Helvetica", 10));
+
+//C11
+~c11note = StaticText(~keyboard, Rect(20+1020+420,20,19,150)).background_(Color.clear).string_("C11
+144").align_(\bottom).stringColor_(Color.black).font_(Font("Helvetica", 10));
+
+//C12
+~c12note = StaticText(~keyboard, Rect(20+1020+560,20,19,150)).background_(Color.clear).string_("C12
+156").align_(\bottom).stringColor_(Color.black).font_(Font("Helvetica", 10));
 
 //Overlay
 ~keyboardOverlay = UserView(~keyboard, Rect(0,0,420+20+20+620+562,190));
@@ -331,14 +374,10 @@
 //Start null
 ~deviant_fill.background_(Color.clear);
 
-
-
-
 //Aesthetic lines
 // ~bar = StaticText(~keyboardOverlay, Rect(0,0,420+20+20+620,190)).background_(Color.red));
 
 //(thisProcess.nowExecutingPath.asString.dirname +/+  "modules/spectra_screen.scd").load;
-
 
 (
 ~keyboard_lines_retracted = UserView(~keyboard, Rect(0,0,
@@ -903,27 +942,32 @@ if(~keyboardExtend.value == 1,
 			~keyboard_lines_extended_B.bounds_(Rect(0,0,
 	420+20+20+620+560,190));
 
+
+
+
 // Buttons to shift octave
-~keyboardShiftLeft = Button.new(~keyboardWindow, Rect(17+570,2,25,15))
+~keyboardShiftRight = Button.new(~keyboardWindow, Rect(17+570+80,2,25,15))
 .string_(">")
 //.align_(\center) // SC doesn't seem to understand center?
 .action_({ arg obj;
 if(~octave_shift.value > -4,
 		{(
 ~octave_shift = ~octave_shift-1;
-~keyboard.bounds_(Rect(~octave_shift*7*20,0, 420+20+20+620+542,190);
-	))		})
+~keyboard.bounds_(Rect(~octave_shift*7*20,0, 420+20+20+620+542,190););
+			~keyboardMiniView_highlight.bounds_(Rect(0-~octave_shift*21,0,166,15))
+	)})
 });
 
-~keyboardShiftRight = Button.new(~keyboardWindow, Rect(17+570-120,2,25,15))
+~keyboardShiftLeft = Button.new(~keyboardWindow, Rect(17+570-120-80,2,25,15))
 .string_("<")
 //.align_(\center) // SC doesn't seem to understand center?
 .action_({ arg obj;
 if(~octave_shift.value < 0,
 		{(
 ~octave_shift = ~octave_shift+1;
-~keyboard.bounds_(Rect(~octave_shift*7*20,0, 420+20+20+620+542,190);
-	))		})
+~keyboard.bounds_(Rect(~octave_shift*7*20,0, 420+20+20+620+542,190););
+			~keyboardMiniView_highlight.bounds_(Rect(0-~octave_shift*21,0,166,15))
+	)})
 });
 
 //Knob
@@ -939,13 +983,27 @@ if(~module_ID == "spectra",
 				{~knob_keyboard.background_(Color.red)},{~knob_keyboard.background_(Color.white)})
 		);
 		});
-
-
-
 }); //This controls the value of the invisible knob on the Spectra
 
 
-w.onClose_({a.free;
+//Keyboard-mini-view
+(
+~keyboardMiniView = CompositeView(~keyboardWindow, Rect(((420+20+20+620)/2)-(250/2), 2, 250, 15)).background_(Color.red);
+
+~keyboardMiniView_UserView = UserView(~keyboardMiniView, Rect(0,0,250,15));
+~keyboard_image = Image.new(basePath.dirname +/+ "images/keyboard_mini_small.png");
+
+~keyboardMiniView_UserView.drawFunc = {
+		~keyboard_image.drawInRect(Rect(0,0,250,15), Rect(0,0,400,39), 2, 1.0);
+        };
+
+~keyboardMiniView_highlight = StaticText(~keyboardMiniView_UserView, Rect(0,0,166,15)).background_(Color.red(0.8,0.3))
+);
+
+
+~keyboardWindow.onClose_({
+	~key_vis.value_(0);
+	a.free;
 	~keyboard_open = 0;
 });
 )
