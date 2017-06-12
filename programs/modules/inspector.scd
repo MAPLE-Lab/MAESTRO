@@ -15,7 +15,7 @@ Window.new(
 
 ~internalText_WIP = StaticText(~inspectorWindow,Rect(10,15,280,280))
 	.string_("
-WIP Version 2017-06-11-1700
+WIP Version 2017-06-12-0300
 Towards: Pre-release v0.1.3-beta
 ")
 .font_(Font("Helvetica", 12, false, true))
@@ -106,7 +106,10 @@ NumberBox(~inspectorHarmonicsPanel, Rect(50,20,50,15))
 .maxDecimals_(4);
 );
 
-
+~inspectorWindow.onClose_({
+	~inspector.valueAction_(0); //Oddly, using valueAction instead of value loads the window opening faster
+	~inspectorExists = 0;
+});
 
 
 );

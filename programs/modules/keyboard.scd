@@ -1002,7 +1002,7 @@ if(~module_ID == "spectra",
 
 
 ~keyboardWindow.onClose_({
-	~key_vis.value_(0);
+	~key_vis.valueAction_(0); //Oddly, using valueAction instead of value loads the window opening faster
 	a.free;
 	~keyboard_open = 0;
 });
