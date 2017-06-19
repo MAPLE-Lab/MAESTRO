@@ -5,6 +5,8 @@
 
 	~embed = "data/spectra_harmonics_panel_hover_enter.scd";
 
+	~gui_embed = "data/spectra_keyboard_GUI_colours.scd";
+
 	~empty = " ";
 
 // Compile it as a single function which is the executed, which finally sets the global variable names with their respective sliders
@@ -36,6 +38,11 @@ if(~inspectorExists == 1, {"
 		++ "\\" ++ "f" ++ item ++
 ",cf)});
 (~trace.asString +/+  " ++ ~embed.asCompileString ++").load;
+
+// (~trace.asString +/+  " ++ ~gui_embed.asCompileString ++ ").load.postln; // Not sure yet why this does not auto-update
+
+~freqslider.valueAction_(~freqslider.value); // Work-around for updating
+
 });
 "
 		+

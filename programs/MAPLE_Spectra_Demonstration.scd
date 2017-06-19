@@ -240,7 +240,7 @@ l.free;
 				{ //sine
 		var variable;
 		variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
-		~freqslider.valueAction_(69.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
+		//~freqslider.valueAction_(69.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
 
 					//~volslider.valueAction_(1.value.linlin(0,1,0,1));
 
@@ -303,7 +303,7 @@ l.free;
 				{ //Square??
 		var variable;
 		variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
-		~freqslider.valueAction_(69.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
+		//~freqslider.valueAction_(69.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
 		//~volslider.valueAction_(1.value.linlin(0,1,0,1));
 					~f1slider.valueAction_(1.value.linlin(0.0,2,0,1));
 		~f2slider.valueAction_(0.value.linlin(0.0,2,0,1));
@@ -333,7 +333,7 @@ l.free;
 				{ //saw
 		var variable;
 		variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
-		~freqslider.valueAction_(69.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
+		//~freqslider.valueAction_(69.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
 		//~volslider.valueAction_(0.8.value.linlin(0,1,0,1));
 		~f1slider.valueAction_(1.value.linlin(0.0,2,0,1));
 					~f2slider.valueAction_((0.5**1).value.linlin(0.0,2,0,1));
@@ -770,10 +770,12 @@ l.free;
 /*GSHARP7*/(if(obj.value.linlin(0,1,21,108) ==104,{~note_name.string_("G#7");}););
 /*ASHARP7*/(if(obj.value.linlin(0,1,21,108) ==106,{~note_name.string_("A#7");}););
 
+		if(~key_vis.value == 1, {
 if(~button.value == 1, {
 (basePath +/+  "data/spectra_keyboard_GUI_colours.scd").load;
 			}, {~color_array = Array.fill(200,1);
 			(basePath +/+  "data/spectra_keyboard_GUI_colours.scd").load
+		});
 		});
 
 (
