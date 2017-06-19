@@ -15,7 +15,7 @@ Window.new(
 
 ~internalText_WIP = StaticText(~inspectorWindow,Rect(10,15,280,280))
 	.string_("
-WIP Version 2017-06-19-1430
+WIP Version 2017-06-12-0300
 Towards: Pre-release v0.1.3-beta
 ")
 .font_(Font("Helvetica", 12, false, true))
@@ -56,7 +56,9 @@ CompositeView(~inspectorWindow, Rect(10, 60, 280, 70)).background_(Color.grey(0.
 StaticText(~inspectorHarmonicsPanel, Rect(0,0,60,15))
 .string_("Harmonic:")
 .font_(Font("Helvetica", 12, false))
-.align_(\left);
+.align_(\left)
+//.background_(Color.red)
+;
 
 ~inspectorHarmonicsPanel_harmonic_number =
 NumberBox(~inspectorHarmonicsPanel, Rect(55,0,20,15))
@@ -76,7 +78,6 @@ StaticText(~inspectorHarmonicsPanel, Rect(120,0,25,15))
 .font_(Font("Helvetica", 11))
 .align_(\center)
 .string_(~note_name.string)
-.background_(Color.white)
 .background_(Color.grey(0.8));
 
 

@@ -242,7 +242,7 @@ l.free;
 		variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
 		~freqslider.valueAction_(69.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
 
-					~volslider.valueAction_(1.value.linlin(0,1,0,1));
+					//~volslider.valueAction_(1.value.linlin(0,1,0,1));
 
 					~f1slider.valueAction_(2.value.linlin(0.0,2,0,1));
 		~f2slider.valueAction_(0.value.linlin(0.0,2,0,1));
@@ -304,7 +304,7 @@ l.free;
 		var variable;
 		variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
 		~freqslider.valueAction_(69.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
-		~volslider.valueAction_(1.value.linlin(0,1,0,1));
+		//~volslider.valueAction_(1.value.linlin(0,1,0,1));
 					~f1slider.valueAction_(1.value.linlin(0.0,2,0,1));
 		~f2slider.valueAction_(0.value.linlin(0.0,2,0,1));
 		~f3slider.valueAction_(0.32.value.linlin(0.0,2,0,1));
@@ -334,7 +334,7 @@ l.free;
 		var variable;
 		variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
 		~freqslider.valueAction_(69.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
-		~volslider.valueAction_(0.8.value.linlin(0,1,0,1));
+		//~volslider.valueAction_(0.8.value.linlin(0,1,0,1));
 		~f1slider.valueAction_(1.value.linlin(0.0,2,0,1));
 					~f2slider.valueAction_((0.5**1).value.linlin(0.0,2,0,1));
 					~f3slider.valueAction_((1/3**1).value.linlin(0.0,2,0,1));
@@ -1338,6 +1338,10 @@ SynthDef.new("sound", {
 		~scopebutton.valueAction_(0); //this works instead of closing the window as now the global variable is always available
 		h.kill;
 
+		(if(~tech.value == 1, {
+		s.stopRecording; // Auto-stops recording if started
+		}));
+
 		(if(~key_vis.value == 1, {
 			~keyboardWindow.close;
 		}));
@@ -1448,17 +1452,6 @@ arg obj;
 
 
 
-/*
-			//TECHNICAL DETAILS
-		~tech = Button.new(w, Rect(10, 70, 20, 20))
-	.states_([["?", Color.white, Color.gray]])
-	.font_(Font("nil", 10))
-	.mouseDownAction_({
-(basePath +/+  "modules/technical_details.scd").loadPaths; //This line allows all contact buttons to be updated automatically
-
-		});
-*/
-
 //Record button - sends to Supercollider file
 	~tech = Button.new(w, Rect(35, 70, 85, 20))
 	.states_([
@@ -1494,7 +1487,7 @@ intensities", Color.white,Color(0.4824, 0.4863, 0.4863,1)]
 ])
 .font_(Font("nil", 6))
 .action_({
-		~volslider.valueAction_(0.2.value.linlin(0,1,0,1));
+		//~volslider.valueAction_(0.2.value.linlin(0,1,0,1));
 		~f1slider.valueAction_(1.value.linlin(0.0,2,0,1));
 		~f2slider.valueAction_(1.value.linlin(0.0,2,0,1));
 		~f3slider.valueAction_(1.value.linlin(0.0,2,0,1));

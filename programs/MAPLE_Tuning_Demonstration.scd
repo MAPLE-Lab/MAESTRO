@@ -1170,7 +1170,16 @@ s.waitForBoot({
 						if(~menu2.value == nil, //Because now those higher values do not even exist, so ~menu2 is error-set to nil when its value is higher than possible (when switching from a higher set of harmonics played to this lower one)
 							{
 							if(~inspectorExists == 1, {
-								~inspectorError.string_("The harmonic selected was above the number of harmonics being played. Please select a lower harmonic to deviate or increase the number of harmonics being played");
+								~inspectorError.string_("The harmonic selected for deviation was above the number of harmonics being played. Please select a lower harmonic to deviate or increase the number of harmonics being played.");
+
+									(
+AppClock.sched(10,{
+   // 5 seconds after error message appears, the error message goes away
+											~inspectorError.string_(" ");
+    nil;
+});
+);
+
 							});
 							~menu2.valueAction_(0);
 						})
@@ -1232,6 +1241,11 @@ Harmonic (mistuned) dropdown menu";
 			w.close;
 			~spectra_scope.kill; // Kills the FreqScopeView
 			x.free; //shuts down window and scope
+
+			(if(~record.value == 1, {
+			s.stopRecording; // Auto-stops recording if started
+			}));
+
 			(if(~key_vis.value == 1, {
 				~keyboardWindow.close;
 			}));
