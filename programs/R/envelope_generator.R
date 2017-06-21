@@ -1,22 +1,21 @@
 # Welcome to the R program to created data tables for MAESTRO (SuperCollider component)!
 
+# STEP 0 - SOURCE FUNCTIONS
+# This line loads all the functions from the "functions_R.R" R code file.
+# These functions are then called (with appropriate arguments) in all following code.
+filePath <- "~/Dropbox/MAPLE-Lab-Auditory-Exploration-Suite/programs/R"
+setwd(filePath)
+source("functions_R.R")
+
 # STEP 1 - PACKAGES
-# Load required packages
-library(lazyeval)
-library(plotly)
-library(seewave)
-library(tuneR)
-library(ggplot2)
-library(fftw)
-library(rgl)
-library(audio)
+# Loads required packages
+loadPackages()
 
 # STEP 2 - SET WORKING DIRECTORY
-# Set path to the source file
-# Currently does not work automatically
-# Change the path to your desired working directory
-# All files in this program will be saved there
-setwd("~/MAPLE-Lab-Auditory-Exploration-Suite/programs/R")
+# CHANGE the 'filePath' value to the directory appropriate to your computer.
+# All files in this program will be saved in the folder "R_working_files" within this directory.
+# "R_working_files" is a directory pre-made in MAESTRO.
+organizeDirectory(filePath)
 
 # STEP 3 - SELECT SOUND
 # Select the sound file to be analyzed
@@ -31,16 +30,7 @@ soundfile <- file.choose()
 # Therefore, if the sound is stereo, a message will appear and a new sound file will be generated saving only the LEFT channel
 # Input: The soundfile path
 # Output: If soundfile is mono, soundfileActive is the same file. If soundfile is stereo, a new WAVE file is generated, saved as soundfileMonoL.wav, to which soundActive is saved to.
-soundfileRead <- readWave(soundfile)
-if(soundfileRead@stereo) {
-  soundfileMonoL <- mono(soundfileRead, "left") # To save the right channel instead, change "left" to "right"
-  savewav(soundfileMonoL)
-  print("Re-runs script now using the newly created mono sound")
-  soundfileActive <- (paste0(getwd(), "/", "soundfileMonoL.wav"))
-} else {
-  soundfileActive <- soundfile
-}
-soundfileActiveRead <- readWave(soundfileActive)
+soundfileStereoCheck(soundfile)
 
 # STEP 5 - ANALYSIS PARAMETERS
 # Here the resolution of ferquency in the analysis can be changed.
@@ -141,6 +131,9 @@ timeArray.print <- paste0("[", timeRawArray.print, "]")
 # Input: All precalculated by previous functions.
 # Output: The exported CSV and TEXT files will be used by MAESTRO (SuperCollider component) to generate the synthesized sound.
 write.csv(harmonicMatrixScaled, file = "harmonicMatrixScaled.csv")
+
+
+##### filePathPrint <- paste0(filePath, "/R_working_files")
 
 for(i in 1:numberOfHarmonics) {
   temp_harmonicMatrixScaled_print_name = paste("harmonicMatrixScaled", i, "array.print.txt", sep = ".")
