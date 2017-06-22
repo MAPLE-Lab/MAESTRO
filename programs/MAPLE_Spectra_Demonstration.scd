@@ -1340,9 +1340,9 @@ SynthDef.new("sound", {
 		~scopebutton.valueAction_(0); //this works instead of closing the window as now the global variable is always available
 		h.kill;
 
-		(if(~tech.value == 1, {
-		s.stopRecording; // Auto-stops recording if started
-		}));
+		(if(~record.value == 1, {
+			s.stopRecording; // Auto-stops recording if started
+			}));
 
 		(if(~key_vis.value == 1, {
 			~keyboardWindow.close;
@@ -1455,7 +1455,10 @@ arg obj;
 
 
 //Record button - sends to Supercollider file
-	~tech = Button.new(w, Rect(35, 70, 85, 20))
+~record_button_bounds_array = [35, 70, 85, 20];
+(basePath +/+  "modules/record_button.scd").load;
+
+	/*~tech = Button.new(w, Rect(35, 70, 85, 20))
 	.states_([
 	["Start Recording", Color.white,Color(0.4824, 0.4863, 0.4863,1)],
 	["Stop Recording", Color.white, Color.grey(0.251)]
@@ -1473,7 +1476,7 @@ arg obj;
 				}
 	);
 }
-		);
+		);*/
 
 
 

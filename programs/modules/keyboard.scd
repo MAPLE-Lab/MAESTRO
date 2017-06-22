@@ -14,11 +14,24 @@ var basePath = thisProcess.nowExecutingPath.asString.dirname;
 
 // Composite for all the drawing to be placed and thus allow octave shifting
 ~octave_shift = 0;
-~keyboard = CompositeView(~keyboardWindow, Rect(~octave_shift*7*20,0, 420+20+20+620,190));
+~keyboard = CompositeView(~keyboardWindow, Rect(~octave_shift*7*20,0, 420+20+20+620+50,190));
 
 //Keyboard visual
 //~outline = StaticText(~keyboard, Rect(20-1,20-1,420+1+620,150+2));
 //~outline.background = Color.black;
+
+
+
+//3D Effect buttons
+StaticText.new(~keyboard, Rect(20,165,1055,500)).background_(Color.grey(0.88)); // Bottom edge of 3D keys
+StaticText.new(~keyboard, Rect(20,175,1055,500)).background_(Color.grey(0.55)); // Bottom of keyboard
+StaticText.new(~keyboard, Rect(-10,18,35,500)).background_(Color.grey(0.35)); // Left border
+StaticText.new(~keyboard, Rect(1055,18,820,500)).background_(Color.grey(0.35)); // Right border
+StaticText.new(~keyboard, Rect(20,172,6,30)).background_(Color.grey(0.25)); // Left shaded edge
+StaticText.new(~keyboard, Rect(1055,172,6,30)).background_(Color.grey(0.25)); // Right shaded edge
+//StaticText.new(~keyboard, Rect(1055+6,172,560,2)).background_(Color.grey(0.25)); // Extended shaded bottom
+//StaticText.new(~keyboard, Rect(1055+6+560,18,6,156)).background_(Color.grey(0.25));
+
 
 //White keys
 ~a0 = StaticText(~keyboard, Rect(20+0,20,19,150)).background_(Color.white).string_("").align_(\bottom).stringColor_(Color(0.4824, 0.4863, 0.4863));
@@ -765,6 +778,12 @@ Pen.line(968@120,991@120);
 Pen.line(988@120,1011@120);
 Pen.line(1008@120,1031@120);
 
+
+		// 3D Effect to give impression of the keyboard's edges and the extension on the right
+		Pen.line(19.5@(150+2+19+0),(19.5+10)@(150+2+19+5)); // Left angle
+		Pen.line((19.5+10)@(150+2+19+5),(19.5+1030)@(150+2+19+5)); // Bottom of the 3D
+		Pen.line((19.5+1030+10)@(150+2+19),(19.5+1030)@(150+2+19+5));
+
 		Pen.strokeColor = Color(0,0,0,0.5);
 			    Pen.width = 2;
                 Pen.stroke};
@@ -953,7 +972,7 @@ if(~keyboardExtend.value == 1,
 if(~octave_shift.value > -4,
 		{(
 ~octave_shift = ~octave_shift-1;
-~keyboard.bounds_(Rect(~octave_shift*7*20,0, 420+20+20+620+542,190););
+~keyboard.bounds_(Rect(~octave_shift*7*20,0, 420+20+20+620+542+50,190););
 			~keyboardMiniView_highlight.bounds_(Rect(0-~octave_shift*21,0,166,15))
 	)})
 });
@@ -965,7 +984,7 @@ if(~octave_shift.value > -4,
 if(~octave_shift.value < 0,
 		{(
 ~octave_shift = ~octave_shift+1;
-~keyboard.bounds_(Rect(~octave_shift*7*20,0, 420+20+20+620+542,190););
+~keyboard.bounds_(Rect(~octave_shift*7*20,0, 420+20+20+620+542+50,190););
 			~keyboardMiniView_highlight.bounds_(Rect(0-~octave_shift*21,0,166,15))
 	)})
 });
@@ -997,9 +1016,13 @@ if(~module_ID == "spectra",
 		~keyboard_image.drawInRect(Rect(0,0,250,15), Rect(0,0,400,39), 2, 1.0);
         };
 
-~keyboardMiniView_highlight = StaticText(~keyboardMiniView_UserView, Rect(0,0,166,15)).background_(Color.red(0.8,0.3))
+/*
+~keyboardMiniView_greyout = StaticText(~keyboardMiniView_UserView, Rect(166,0,250-166,15)).background_(Color.grey(0.9,0.8))
 );
+*/
 
+~keyboardMiniView_highlight = StaticText(~keyboardMiniView_UserView, Rect(0,0,166,15)).background_(Color.grey(0.2,0.5))
+);
 
 ~keyboardWindow.onClose_({
 	~key_vis.valueAction_(0); //Oddly, using valueAction instead of value loads the window opening faster
