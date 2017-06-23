@@ -3,6 +3,8 @@ var obj = ~fslider;
 //Defines the greyness of the deviant-note indicator. Now moved to the TUNING module itself so that it can disappear when not playing.
 //~greyIntensity = 0.5;
 
+~black_key_opacity = 0.3;
+
 //White keys
 /*A0*/(if(obj.value.linlin(0,1,21,108) <= 21, {~a0.background_(Color(1,~color_array[21-1],~color_array[21-1]));~dot_a0.background_(Color.grey(~greyIntensity,~color_arrayMAN[21-1]))}, {~a0.background_(Color.white);~dot_a0.background_(Color(0,0,0,0))}););
 /*B0*/(if(obj.value.linlin(0,1,21,108) <= 23, {~b0.background_(Color(1,~color_array[23-1],~color_array[23-1]));~dot_b0.background_(Color.grey(~greyIntensity,~color_arrayMAN[23-1]))}, {~b0.background_(Color.white);~dot_b0.background_(Color(0,0,0,0))}););
@@ -89,7 +91,7 @@ var obj = ~fslider;
 /*C12*/(if(obj.value.linlin(0,1,21,108) <= 156, {~c12.background_(Color(1,~color_array[156-1],~color_array[156-1]));~dot_c12.background_(Color.grey(~greyIntensity,~color_arrayMAN[156-1]))}, {~c12.background_(Color.white);~dot_c12.background_(Color(0,0,0,0))}););
 
 //Black keys
-/*ASHARP0*/(if(obj.value.linlin(0,1,21,108) <=22,{if(~color_array[22-1]<1,{~aSHARP0.background_(Color(1,~color_array[22-1],~color_array[22-1]));~dot_aSHARP0.background_(Color(1,1,1,~color_arrayMAN[22-1]));},{~aSHARP0.background_(Color.black); ~dot_aSHARP0.background_(Color(1,1,1,0))})},{~aSHARP0.background_(Color.black);~dot_aSHARP0.background_(Color(1,1,1,0))}););
+/*ASHARP0*/(if(obj.value.linlin(0,1,21,108) <=22,{if(~color_array[22-1]<1,{~aSHARP0.background_(Color(1,~color_array[22-1],~color_array[22-1]));~dot_aSHARP0.background_(Color(1,1,1,~color_arrayMAN[22-1]));},{~aSHARP0.background_(Color.blue); ~dot_aSHARP0.background_(Color(1,1,1,0))})},{~aSHARP0.background_(Color.black);~dot_aSHARP0.background_(Color(1,1,1,0))}););
 /*CSHARP1*/(if(obj.value.linlin(0,1,21,108) <=25,{if(~color_array[25-1]<1,{~cSHARP1.background_(Color(1,~color_array[25-1],~color_array[25-1]));~dot_cSHARP1.background_(Color(1,1,1,~color_arrayMAN[25-1]));},{~cSHARP1.background_(Color.black); ~dot_cSHARP1.background_(Color(1,1,1,0))})},{~cSHARP1.background_(Color.black);~dot_cSHARP1.background_(Color(1,1,1,0))}););
 /*DSHARP1*/(if(obj.value.linlin(0,1,21,108) <=27,{if(~color_array[27-1]<1,{~dSHARP1.background_(Color(1,~color_array[27-1],~color_array[27-1]));~dot_dSHARP1.background_(Color(1,1,1,~color_arrayMAN[27-1]));},{~dSHARP1.background_(Color.black); ~dot_dSHARP1.background_(Color(1,1,1,0))})},{~dSHARP1.background_(Color.black);~dot_dSHARP1.background_(Color(1,1,1,0))}););
 /*FSHARP1*/(if(obj.value.linlin(0,1,21,108) <=30,{if(~color_array[30-1]<1,{~fSHARP1.background_(Color(1,~color_array[30-1],~color_array[30-1]));~dot_fSHARP1.background_(Color(1,1,1,~color_arrayMAN[30-1]));},{~fSHARP1.background_(Color.black); ~dot_fSHARP1.background_(Color(1,1,1,0))})},{~fSHARP1.background_(Color.black);~dot_fSHARP1.background_(Color(1,1,1,0))}););
