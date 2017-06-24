@@ -1016,12 +1016,10 @@ if(~module_ID == "spectra",
 		~keyboard_image.drawInRect(Rect(0,0,250,15), Rect(0,0,400,39), 2, 1.0);
         };
 
-/*
-~keyboardMiniView_greyout = StaticText(~keyboardMiniView_UserView, Rect(166,0,250-166,15)).background_(Color.grey(0.9,0.8))
-);
-*/
 
-~keyboardMiniView_highlight = StaticText(~keyboardMiniView_UserView, Rect(0,0,166,15)).background_(Color.grey(0.2,0.5))
+~keyboardMiniView_greyout = StaticText(~keyboardMiniView_UserView, Rect(166,0,250-166,15)).background_(Color.grey(0.9,0.8));
+
+~keyboardMiniView_highlight = StaticText(~keyboardMiniView_UserView, Rect(0,0,166,15)).background_(Color.grey(0.2,0.5));
 );
 
 ~keyboardWindow.onClose_({
