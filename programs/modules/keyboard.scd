@@ -1017,7 +1017,7 @@ if(~module_ID == "spectra",
         };
 
 
-~keyboardMiniView_greyout = StaticText(~keyboardMiniView_UserView, Rect(166,0,250-166,15)).background_(Color.grey(0.9,0.8));
+~keyboardMiniView_greyout = StaticText(~keyboardMiniView_UserView, Rect(163,0,250-163,15)).background_(Color.grey(0.9,0.8));
 
 ~keyboardMiniView_highlight = StaticText(~keyboardMiniView_UserView, Rect(0,0,166,15)).background_(Color.grey(0.2,0.5));
 );

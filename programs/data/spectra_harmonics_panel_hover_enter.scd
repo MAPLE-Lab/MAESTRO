@@ -31,7 +31,7 @@
 
 	););
 
-	~octave = ((~fundamental_note+~harmonic_adder[~slider_hover-1])/12).asInteger-1;
+		~octave = ((~fundamental_note+~harmonic_adder[~slider_hover-1])/12).asInteger-1+1; //Added +1 after the -1 because now starts on A1 instead of A0 (nomenclature)
 
 	~pitch_name = (~temp_name++~octave).asString.postln;
 );

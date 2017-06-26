@@ -1155,6 +1155,13 @@ u = Button(w, Rect(525, 457.5, 90, 26))
 	.states_([["Horn", Color.white, Color(0.7569,0.1373,0.1725,1)]])
 	.font_(Font("nil", 14))
 	.action_({
+		~freqslider.valueAction_(60.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
+
+		//keyboard_colour_change_array.scd
+		(if(~key_vis.value == 1, {
+			~call_keyNoteColorChangeFunction.value;
+		},{"Open the Keyboard to see changing key colours.".postln}););
+
 	l.free;
 			l = Synth.new(\importhorn_synth, [\out, 0, \bufnum, o.bufnum]);
 		x.free;
@@ -1423,6 +1430,9 @@ arg obj;
 		};);
 
 		});
+
+// Load the functions used to change the keyboard when a SYNTH or RECORDING is played by button:
+	(basePath +/+  "data/keyboard_colour_change_array.scd").load;
 
 
 
