@@ -66,15 +66,15 @@ AppClock.sched(0.0,{ arg time; var keyCol;
 	//[integer, keyArray[integer]].postln;
 	//~testBox.background_(Color.red(keyArray[integer]));
 
-//("~" ++ keyPitchName).asString.interpret.background_(Color(1,1-keyArray[integer],1-keyArray[integer])); // Direct-approach, works
+("~" ++ keyPitchName).asString.interpret.background_(Color(1,1-keyArray[integer],1-keyArray[integer])); // Direct-approach, works
 
 			//keyHarmonicID.postln;
-			~color_array[harmonicMIDINN-1] = 1-keyArray[integer]; // Set the value
+			//~color_array[harmonicMIDINN-1] = 1-keyArray[integer]; // Set the value
 
-			[keyHarmonicNumber, harmonicMIDINN, keyHarmonicID, ~color_array[harmonicMIDINN-1]].postln;
+			//[keyHarmonicNumber, harmonicMIDINN, keyHarmonicID, ~color_array[harmonicMIDINN-1]].postln;
 
 			// Call to update keyboard
-			(~trace +/+  "data/spectra_keyboard_GUI_colours_for_synth.scd").load;
+			//(~trace +/+  "data/spectra_keyboard_GUI_colours_for_synth.scd").load;
 
 	// End code
 	if(integer == (keyArray.size-1), {
