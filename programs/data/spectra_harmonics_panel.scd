@@ -31,7 +31,7 @@ if(~inspectorExists == 1, {"
 	.action_({
 	arg obj;
 	var cf;
-	cf = obj.value.linlin(0,1,0.0,2).postln;
+	cf = obj.value.linlin(0,1,0.0,2); //.postln;
 		if(
 		x.isPlaying,
 {x.set("

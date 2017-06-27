@@ -19,8 +19,43 @@
 			//keyArray[integer].postln;
 
 
-			("~f" ++ keyHarmonicNumber ++ "slider").interpret.valueAction_(keyArray[integer]);
+			("~f" ++ keyHarmonicNumber ++ "slider").interpret.value_(keyArray[integer]); // Avoid valueAction to reduce lag
 
+			// But to set a sound value need to use this line:
+			if(
+				x.isPlaying,
+				{x.set(
+
+					("\\" ++ "f" ++ keyHarmonicNumber).interpret, keyArray[integer].value.linlin(0,1,0,2);
+
+			)});
+
+
+			// Time control
+			integer = integer + 1;
+			if(integer < keyArray.size, {
+				(~timeInterval.interpret);},{
+				//("Data for Harmonic" + keyHarmonicNumber + "completed.").asString.postln;
+				//~button.valueAction_(0);
+				nil});
+		});
+	);
+};
+
+
+
+
+~keyNoteColorChangeFunction_soundTimer = {
+	var keyArray, integer;
+
+	(
+		integer = 0;
+
+		AppClock.sched(0.0,{ arg time; var keyCol;
+
+			keyArray = ~harmonicsDataArray[0];
+
+~freqslider.valueAction_(~freqslider.value); // Work-around for updating
 
 			// Time control
 			integer = integer + 1;
@@ -31,6 +66,7 @@
 				nil});
 		});
 	);
+
 };
 
 
@@ -40,6 +76,7 @@
 		//(item).postln;
 		~keyNoteColorChangeFunction_dataUse.value(item+1); // Starts with keyHarmonicNumber:1
 		});
+	~keyNoteColorChangeFunction_soundTimer.value(); // Starts the timer
 };
 
 //~call_keyNoteColorChangeFunction.value(harmonicAmount:#);
@@ -47,4 +84,4 @@
 // So far this begins to lag after 8 harmonics
 // This manipulates the sliders of the harmonics panel in SPECTRA, which affects the sound played and the keyboard colours
 
-//~call_keyNoteColorChangeFunction.value(harmonicAmount:8)
+//~call_keyNoteColorChangeFunction.value(harmonicAmount:1)
