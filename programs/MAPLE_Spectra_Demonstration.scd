@@ -1158,18 +1158,21 @@ u = Button(w, Rect(525, 457.5, 90, 26))
 		~freqslider.valueAction_(60.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
 
 		//keyboard_colour_change_array.scd
-		(if(~key_vis.value == 1, {
-			~call_keyNoteColorChangeFunction.value;
-		},{"Open the Keyboard to see changing key colours.".postln}););
+		//(if(~key_vis.value == 1, {
+
+			~keyNoteColorChangeFunction_dataLoad.value(instrument:"horn-fix");
+			~call_keyNoteColorChangeFunction.value(harmonicAmount:16);
+
+		//},{"Open the Keyboard to see changing key colours.".postln}););
 
 	l.free;
-			l = Synth.new(\importhorn_synth, [\out, 0, \bufnum, o.bufnum]);
+		//	l = Synth.new(\importhorn_synth, [\out, 0, \bufnum, o.bufnum]);
 		x.free;
 		y.free;
 		z.free;
 		t.free;
 		v.free;
-		~button.valueAction_(0);
+		~button.valueAction_(1);
 				~l.valueAction_(0);
 				~j.valueAction_(0);
 				~r.valueAction_(0);
@@ -1197,14 +1200,17 @@ r = Button(w, Rect(430, 457.5, 90, 26))
 	.font_(Font("nil", 14))
 	.action_({
 		l.free;
+~freqslider.valueAction_(60.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
+		~keyNoteColorChangeFunction_dataLoad.value(instrument:"flute");
+			~call_keyNoteColorChangeFunction.value(harmonicAmount:16);
 
-		l = Synth.new(\importflute_synth, [\out, 0, \bufnum, k.bufnum]);
+		//l = Synth.new(\importflute_synth, [\out, 0, \bufnum, k.bufnum]);
 		x.free;
 		y.free;
 		z.free;
 				t.free;
 		v.free;
-		~button.valueAction_(0);
+		~button.valueAction_(1);
 				~l.valueAction_(0);
 				~j.valueAction_(0);
 				~r.valueAction_(0);
@@ -1230,14 +1236,17 @@ SynthDef("importflute_synth",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1
 	.font_(Font("nil", 14))
 	.action_({
 			l.free;
+~freqslider.valueAction_(60.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
+		~keyNoteColorChangeFunction_dataLoad.value(instrument:"trumpet");
+			~call_keyNoteColorChangeFunction.value(harmonicAmount:16);
 
-		l = Synth.new(\importhorn_synth, [\out, 0, \bufnum, e.bufnum]);
+		//l = Synth.new(\importhorn_synth, [\out, 0, \bufnum, e.bufnum]);
 		x.free;
 		y.free;
 		z.free;
 				t.free;
 		v.free;
-		~button.valueAction_(0);
+		~button.valueAction_(1);
 				~l.valueAction_(0);
 				~j.valueAction_(0);
 				~r.valueAction_(0);
@@ -1264,13 +1273,18 @@ r = Button(w, Rect(240, 457.5, 90, 26))
 	.font_(Font("nil", 14))
 	.action_({
 			l.free;
-		l = Synth.new(\importhorn_synth, [\out, 0, \bufnum, f.bufnum]);
+
+		~freqslider.valueAction_(60.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
+		~keyNoteColorChangeFunction_dataLoad.value(instrument:"cello");
+			~call_keyNoteColorChangeFunction.value(harmonicAmount:16);
+
+		// l = Synth.new(\importhorn_synth, [\out, 0, \bufnum, f.bufnum]);
 		x.free;
 		y.free;
 		z.free;
 				t.free;
 		v.free;
-		~button.valueAction_(0);
+		~button.valueAction_(1);
 				~l.valueAction_(0);
 				~j.valueAction_(0);
 				~r.valueAction_(0);
@@ -1278,14 +1292,6 @@ r = Button(w, Rect(240, 457.5, 90, 26))
 				~vinbutton.valueAction_(0);
 
 	});
-
-
-
-
-
-
-
-
 
 
 
@@ -1432,7 +1438,8 @@ arg obj;
 		});
 
 // Load the functions used to change the keyboard when a SYNTH or RECORDING is played by button:
-	(basePath +/+  "data/keyboard_colour_change_array.scd").load;
+	(basePath +/+  "data/keyboard_colour_change_array_load.scd").load;
+	(basePath +/+  "data/keyboard_colour_change_array_fast.scd").load;
 
 
 

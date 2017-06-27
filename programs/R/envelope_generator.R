@@ -5,7 +5,7 @@
 # These functions are then called (with appropriate arguments) in all following code.
 filePath <- "~/Dropbox/MAPLE-Lab-Auditory-Exploration-Suite/programs/R"
 frequencyResolution <- 4 # 4 is a good value with a frequency resolution of ~20Hz. 5 increases frequency resolution to ~10Hz.
-thresholdValue <- 0 # Set at 0 all noise is captured; however, in top-down analysis (where the user selects the harmonics), this is not a problem and improves audio synthesis
+thresholdValue <- 0.1 # Set at 0 all noise is captured; however, in top-down analysis (where the user selects the harmonics), this is not a problem and improves audio synthesis
 # STEP 3 - SELECT SOUND
 # Select the sound file to be analyzed
 # Usage: Opens pop-up window for the user to select the sound file they want to analyze
@@ -88,7 +88,7 @@ plotMAESTRO() # Time Warning: This could take a minute or longer depending on th
 # Output: The exported TEXT files will be used by MAESTRO (SuperCollider component) to generate the synthesized sound.
 
 # The time array
-timeArray()
+# timeArray()
 
 # Full print of two files, the harmonics table and the time array:
 exportMAESTRO()

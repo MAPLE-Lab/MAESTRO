@@ -105,7 +105,7 @@ isolateHarmonics <- function() {
   
   harmonicMatrix <- soundMatrixThresholdNamedTransposed[,harmonicColSeq[1:numberOfHarmonics]]
   
-  maximumValue <- max(harmonicMatrix, na.rm = TRUE)
+  maximumValue <<- max(harmonicMatrix, na.rm = TRUE)
   scaleFunction <- (function(x) x/maximumValue)
   harmonicMatrixScaled <- harmonicMatrix # Creates a duplicate matrix
   harmonicMatrixScaled[] <- vapply(harmonicMatrix, scaleFunction, numeric(1)) # Scales all values to be between 0-1.
@@ -167,7 +167,7 @@ plotMAESTRO <- function() {
   test_bind <- eval(parse(text=paste0("rbind(", temp_total_names, ")")))
 
   # Use the combined data for the plot
-  p <- plot_ly(test_bind, x = ~time, y = ~harmonic, z = ~intensity, type = 'scatter3d', mode = 'lines', color = ~harmonic)
+  p <- plot_ly(test_bind, x = ~time, y = ~harmonic, z = ~intensity, type = 'scatter3d', mode = 'lines', color = ~harmonic) # group_by(); color = I("black")
   p
   
 }
@@ -189,12 +189,12 @@ exportMAESTRO <- function() { #CSV = FALSE, TAB = TRUE) { NOTE: In the future pe
   #setwd(filePathPrint)
   dataFileName_harmonicMatrixScaled <- paste0(filePathPrint, "/harmonicMatrixScaled.txt")
   #dataFileName_timeRawArray <- paste0(filePathPrint, "/timeRawArray.txt")
-  dataFileName_timeArray <- paste0(filePathPrint, "/timeArray.txt")
+  #dataFileName_timeArray <- paste0(filePathPrint, "/timeArray.txt")
   
   write.table(t(harmonicMatrixScaled), file = dataFileName_harmonicMatrixScaled, sep="\t")
   #write.table(timeRawArray, file = dataFileName_timeRawArray)
   
-  write(timeArrayPrint, file = dataFileName_timeArray) # NOTE: Ideally won't need in future if SC can read the time (row) names, or just generate based of some values of time interval
+  #write(timeArrayPrint, file = dataFileName_timeArray) # NOTE: Ideally won't need in future if SC can read the time (row) names, or just generate based of some values of time interval
 }
 
 # If this source file of functions ("functions_R.R") has finished loading into the "envelope_generator.R", print the follow line
