@@ -19,7 +19,7 @@
 			//keyArray[integer].postln;
 
 
-			("~f" ++ keyHarmonicNumber ++ "slider").interpret.value_(keyArray[integer]); // Avoid valueAction to reduce lag
+			("~f" ++ keyHarmonicNumber ++ "slider").interpret.value_(keyArray[integer]); // Avoid valueAction to reduce lag so it's not calling to update  freq/GUI redundantly
 
 			// But to set a sound value need to use this line:
 			if(
@@ -33,10 +33,14 @@
 
 			// Time control
 			integer = integer + 1;
-			if(integer < keyArray.size, {
+			if(and(integer < keyArray.size, ~haltKey == 0), {
 				(~timeInterval.interpret);},{
 				//("Data for Harmonic" + keyHarmonicNumber + "completed.").asString.postln;
 				//~button.valueAction_(0);
+				//~hornSynthButton.valueAction_(0);
+				//~spectraZeroSliders.value();
+				//"halted".postln;
+				("~f" ++ keyHarmonicNumber ++ "slider").interpret.value_(0);
 				nil});
 		});
 	);
@@ -59,10 +63,14 @@
 
 			// Time control
 			integer = integer + 1;
-			if(integer < keyArray.size, {
+			if(and(integer < keyArray.size, ~haltKey == 0), {
 				(~timeInterval.interpret);},{
 				//("Data for Harmonic" + keyHarmonicNumber + "completed.").asString.postln;
 				~button.valueAction_(0);
+				~hornSynthButton.valueAction_(0);
+				~fluteSynthButton.valueAction_(0);
+				~trumpetSynthButton.valueAction_(0);
+				~celloSynthButton.valueAction_(0);
 				nil});
 		});
 	);
@@ -85,3 +93,4 @@
 // This manipulates the sliders of the harmonics panel in SPECTRA, which affects the sound played and the keyboard colours
 
 //~call_keyNoteColorChangeFunction.value(harmonicAmount:1)
+

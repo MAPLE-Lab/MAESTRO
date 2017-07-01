@@ -54,7 +54,7 @@ if(~inspectorExists == 1, {"
 .background_(Color(0,0,0,0.1))
 .stringColor_(Color.black);
 "
-	).postln.interpret;
+	).interpret;
 });
 );
 

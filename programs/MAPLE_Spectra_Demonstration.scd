@@ -14,15 +14,7 @@ s.waitForBoot({
 s.freeAll;
 
 //Avoids delay when the Recording button is pressed
-s.prepareForRecord;
-
-	//buffers to help resolve memory leak
-	/*a.free;
-	b.free;
-	e.free;*/
-
-
-
+// s.prepareForRecord;
 
 //Creates the new window with title
 w = Window.new("MAPLE Lab Spectra Demonstration (Beta)", Rect.new(
@@ -51,6 +43,9 @@ w = Window.new("MAPLE Lab Spectra Demonstration (Beta)", Rect.new(
 //Load the spectra now that all the above parameters have been set:
 (basePath +/+  "modules/spectra_screen.scd").load;
 );
+
+// Load Spectra-specific functions
+	(basePath +/+  "data/spectra_specific_data/spectra_button_functions.scd").load; // Button controls
 
 //Label for paragraph
 ~para = StaticText(w,Rect(10,10,790,80))
@@ -996,12 +991,17 @@ SynthDef("import1",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1;
 
 
 //Play a sound... cello preset
-q = Button(w, Rect(240, 497.5, 90, 26))
-	.states_([["Cello", Color.white, Color(0.7569,0.1373,0.1725,1)]])
+~celloAudioButton = q = Button(w, Rect(240, 497.5, 90, 26))
+	.states_([["Cello", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Cello", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({
-		y.free;
-			y = Synth.new(\import1, [\out, 0, \bufnum, a.bufnum]);
+		arg obj;
+		~spectraAudioButtonAction.value(obj:obj, instrument:"cello");
+
+		/*if(obj.value == 1, {
+
+		//y.free;
+	~celloAudioSynth = 	y = Synth.new(\import1, [\out, 0, \bufnum, a.bufnum]);
 		x.free;
 		z.free;
 		v.free;
@@ -1014,6 +1014,9 @@ q = Button(w, Rect(240, 497.5, 90, 26))
 				~r.valueAction_(0);
 				~k.valueAction_(0);
 				~vinbutton.valueAction_(0);
+		}, {
+		y.free;
+		});*/
 		});
 
 
@@ -1032,11 +1035,14 @@ SynthDef("import3",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1;
 
 
 //Play a sound... trumpet preset
-e = Button(w, Rect(335, 497.5, 90, 26))
-	.states_([["Trumpet", Color.white, Color(0.7569,0.1373,0.1725,1)]])
+~trumpetAudioButton = e = Button(w, Rect(335, 497.5, 90, 26))
+	.states_([["Trumpet", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Trumpet", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({
-		v.free;
+		arg obj;
+~spectraAudioButtonAction.value(obj:obj, instrument:"trumpet");
+
+		/*v.free;
 		v = Synth.new(\import3, [\out, 0, \bufnum, c.bufnum]);
 		x.free;
 		y.free;
@@ -1049,7 +1055,7 @@ e = Button(w, Rect(335, 497.5, 90, 26))
 				~j.valueAction_(0);
 				~r.valueAction_(0);
 				~k.valueAction_(0);
-				~vinbutton.valueAction_(0);
+				~vinbutton.valueAction_(0);*/
 
 
 		// s.sendMsg("/s_new", "import3", v = s.nextNodeID, 1, 1);
@@ -1078,11 +1084,14 @@ SynthDef("import2",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1;
 
 
 //Play a sound... flute preset
-r = Button(w, Rect(430, 497.5, 90, 26))
-	.states_([["Flute", Color.white, Color(0.7569,0.1373,0.1725,1)]])
+~fluteAudioButton = r = Button(w, Rect(430, 497.5, 90, 26))
+	.states_([["Flute", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Flute", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({
-		z.free;
+		arg obj;
+~spectraAudioButtonAction.value(obj:obj, instrument:"flute");
+
+		/*z.free;
 			z = Synth.new(\import2, [\out, 0, \bufnum, b.bufnum]);
 		x.free;
 		y.free;
@@ -1095,7 +1104,7 @@ r = Button(w, Rect(430, 497.5, 90, 26))
 				~j.valueAction_(0);
 				~r.valueAction_(0);
 				~k.valueAction_(0);
-				~vinbutton.valueAction_(0);
+				~vinbutton.valueAction_(0);*/
 		});
 
 
@@ -1114,11 +1123,14 @@ SynthDef("import5",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1;
 
 
 //Play a sound... horn preset
-f = Button(w, Rect(525, 497.5, 90, 26))
-	.states_([["Horn", Color.white, Color(0.7569,0.1373,0.1725,1)]])
+~hornAudioButton = f = Button(w, Rect(525, 497.5, 90, 26))
+	.states_([["Horn", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Horn", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({
-t.free;
+		arg obj;
+~spectraAudioButtonAction.value(obj:obj, instrument:"horn");
+
+/*t.free;
 			t = Synth.new(\import5, [\out, 0, \bufnum, q.bufnum]);
 		x.free;
 		y.free;
@@ -1131,37 +1143,35 @@ t.free;
 				~j.valueAction_(0);
 				~r.valueAction_(0);
 				~k.valueAction_(0);
-				~vinbutton.valueAction_(0);
+				~vinbutton.valueAction_(0);*/
 		});
 
 
 ///////SYNTHS
-///add sound to a buffer as an import - horn
-(
-o = Buffer.read(s, basePath +/+ "audio/horn_synth_cut_new.wav");
-
-SynthDef("importhorn_synth",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1;
-	var rate;
-			rate = 1.0; //using rate because it was slightly out of tune (too high pitched)
-	Out.ar(out,
-		Pan2.ar(PlayBuf.ar(1,bufnum, BufRateScale.kr(bufnum)*rate, trigger, BufFrames.ir(bufnum)*startPos, loop=0),0.0)
-	);
-}).add;
-);
-
 
 //Play a sound... horn preset
-u = Button(w, Rect(525, 457.5, 90, 26))
-	.states_([["Horn", Color.white, Color(0.7569,0.1373,0.1725,1)]])
+	~hornSynthButton = u = Button(w, Rect(525, 457.5, 90, 26))
+	.states_([["Horn", Color.white, Color(0.7569,0.1373,0.1725,1)],["Horn", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
-	.action_({
+	.action_({ arg obj;
+		~haltKey = 1;
+	//	if(~hornSynthButton.value != 0, {~hornSynthButton.valueAction_(0);});
+		if(~fluteSynthButton.value != 0, {~fluteSynthButton.valueAction_(0);});
+		if(~trumpetSynthButton.value != 0, {~trumpetSynthButton.valueAction_(0);});
+		if(~celloSynthButton.value != 0, {~celloSynthButton.valueAction_(0);});
+
+		~spectraSynthButtonAction.value(obj:obj, instrument:"horn-fix", harmonicAmount:16, fundamentalNote:60);
+		/*if(obj.value == 1, {
+
 		~freqslider.valueAction_(60.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
 
 		//keyboard_colour_change_array.scd
 		//(if(~key_vis.value == 1, {
 
+			~haltKey = 0;
 			~keyNoteColorChangeFunction_dataLoad.value(instrument:"horn-fix");
 			~call_keyNoteColorChangeFunction.value(harmonicAmount:16);
+
 
 		//},{"Open the Keyboard to see changing key colours.".postln}););
 
@@ -1178,27 +1188,31 @@ u = Button(w, Rect(525, 457.5, 90, 26))
 				~r.valueAction_(0);
 				~k.valueAction_(0);
 				~vinbutton.valueAction_(0);
+		},{
+		~button.valueAction_(0);
+
+			~haltKey = 1;
+		});*/
 		});
 
 
 ///add sound to a buffer as an import - flute
-(
-k = Buffer.read(s, basePath +/+ "audio/flute_synth-2.wav");
 
-SynthDef("importflute_synth",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1;
-	var rate;
-			rate = 1.0; //using rate because it was slightly out of tune (too high pitched)
-	Out.ar(out,
-		Pan2.ar(PlayBuf.ar(1,bufnum, BufRateScale.kr(bufnum)*rate, trigger, BufFrames.ir(bufnum)*startPos, loop=0),0.0)
-	);
-}).add;
-);
-
-
-r = Button(w, Rect(430, 457.5, 90, 26))
-	.states_([["Flute", Color.white, Color(0.7569,0.1373,0.1725,1)]])
+~fluteSynthButton = r = Button(w, Rect(430, 457.5, 90, 26))
+	.states_([["Flute", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Flute", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({
+arg obj;
+
+		~haltKey = 1;
+		if(~hornSynthButton.value != 0, {~hornSynthButton.valueAction_(0);});
+	//	if(~fluteSynthButton.value != 0, {~fluteSynthButton.valueAction_(0);});
+		if(~trumpetSynthButton.value != 0, {~trumpetSynthButton.valueAction_(0);});
+		if(~celloSynthButton.value != 0, {~celloSynthButton.valueAction_(0);});
+
+		~spectraSynthButtonAction.value(obj:obj, instrument:"flute", harmonicAmount:16, fundamentalNote:60);
+
+		/*
 		l.free;
 ~freqslider.valueAction_(60.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
 		~keyNoteColorChangeFunction_dataLoad.value(instrument:"flute");
@@ -1215,26 +1229,25 @@ r = Button(w, Rect(430, 457.5, 90, 26))
 				~j.valueAction_(0);
 				~r.valueAction_(0);
 				~k.valueAction_(0);
-				~vinbutton.valueAction_(0);
+				~vinbutton.valueAction_(0);*/
 
 	});
 
-	(
-e = Buffer.read(s, basePath +/+ "audio/trumpet_synth.wav");
 
-SynthDef("importflute_synth",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1;
-	var rate;
-			rate = 1.0; //using rate because it was slightly out of tune (too high pitched)
-	Out.ar(out,
-		Pan2.ar(PlayBuf.ar(1,bufnum, BufRateScale.kr(bufnum)*rate, trigger, BufFrames.ir(bufnum)*startPos, loop=0),0.0)
-	);
-}).add;
-);
+	/// Trumpet
 
-	r = Button(w, Rect(335, 457.5, 90, 26))
-	.states_([["Trumpet", Color.white, Color(0.7569,0.1373,0.1725,1)]])
+~trumpetSynthButton = r = Button(w, Rect(335, 457.5, 90, 26))
+	.states_([["Trumpet", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Trumpet", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({
+		arg obj;
+		~haltKey = 1;
+		if(~hornSynthButton.value != 0, {~hornSynthButton.valueAction_(0);});
+		if(~fluteSynthButton.value != 0, {~fluteSynthButton.valueAction_(0);});
+	//	if(~trumpetSynthButton.value != 0, {~trumpetSynthButton.valueAction_(0);});
+		if(~celloSynthButton.value != 0, {~celloSynthButton.valueAction_(0);});
+		~spectraSynthButtonAction.value(obj:obj, instrument:"trumpet", harmonicAmount:16, fundamentalNote:60);
+		/*
 			l.free;
 ~freqslider.valueAction_(60.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
 		~keyNoteColorChangeFunction_dataLoad.value(instrument:"trumpet");
@@ -1251,28 +1264,25 @@ SynthDef("importflute_synth",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1
 				~j.valueAction_(0);
 				~r.valueAction_(0);
 				~k.valueAction_(0);
-				~vinbutton.valueAction_(0);
+				~vinbutton.valueAction_(0);*/
 
 	});
 
+// Cello
 
-(
-f = Buffer.read(s, basePath +/+ "audio/cello_synth.wav");
-
-SynthDef("importflute_synth",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1;
-	var rate;
-			rate = 1.0; //using rate because it was slightly out of tune (too high pitched)
-	Out.ar(out,
-		Pan2.ar(PlayBuf.ar(1,bufnum, BufRateScale.kr(bufnum)*rate, trigger, BufFrames.ir(bufnum)*startPos, loop=0),0.0)
-	);
-}).add;
-);
-
-r = Button(w, Rect(240, 457.5, 90, 26))
-	.states_([["Cello", Color.white, Color(0.7569,0.1373,0.1725,1)]])
+~celloSynthButton = r = Button(w, Rect(240, 457.5, 90, 26))
+	.states_([["Cello", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Cello", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({
-			l.free;
+		arg obj;
+		~haltKey = 1;
+		if(~hornSynthButton.value != 0, {~hornSynthButton.valueAction_(0);});
+		if(~fluteSynthButton.value != 0, {~fluteSynthButton.valueAction_(0);});
+		if(~trumpetSynthButton.value != 0, {~trumpetSynthButton.valueAction_(0);});
+	//	if(~celloSynthButton.value != 0, {~celloSynthButton.valueAction_(0);});
+		~spectraSynthButtonAction.value(obj:obj, instrument:"cello", harmonicAmount:16, fundamentalNote:60);
+
+		/*	l.free;
 
 		~freqslider.valueAction_(60.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
 		~keyNoteColorChangeFunction_dataLoad.value(instrument:"cello");
@@ -1289,7 +1299,7 @@ r = Button(w, Rect(240, 457.5, 90, 26))
 				~j.valueAction_(0);
 				~r.valueAction_(0);
 				~k.valueAction_(0);
-				~vinbutton.valueAction_(0);
+				~vinbutton.valueAction_(0);*/
 
 	});
 
