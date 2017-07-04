@@ -65,7 +65,7 @@ soundAnalysis(file=soundfileActive, wl = wlValue, thresholdValue = thresholdValu
 # Input: The numberOfHarmonics and the fundamentalFreq values.
 # Outpit: A data table with only the rows of the desired harmonics.
 numberOfHarmonics <- 16 # This value can be changed as necessary.
-fundamentalFreq <- 261.63 # In Hz.
+fundamentalFreq <- 261.63 # In Hz. (261.63 ~ middle C (C4))
 
 isolateHarmonics() # Uses many arguments, so currently does not allow changes to arguments for simplicity of use
 # Time Warning: This could take a minute or longer depending on the amount of data

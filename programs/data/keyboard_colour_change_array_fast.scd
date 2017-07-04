@@ -37,7 +37,7 @@
 				(~timeInterval.interpret);},{
 				//("Data for Harmonic" + keyHarmonicNumber + "completed.").asString.postln;
 				//~button.valueAction_(0);
-				//~hornSynthButton.valueAction_(0);
+				//~hornDynamicButton.valueAction_(0);
 				//~spectraZeroSliders.value();
 				//"halted".postln;
 				("~f" ++ keyHarmonicNumber ++ "slider").interpret.value_(0);
@@ -67,10 +67,10 @@
 				(~timeInterval.interpret);},{
 				//("Data for Harmonic" + keyHarmonicNumber + "completed.").asString.postln;
 				~button.valueAction_(0);
-				~hornSynthButton.valueAction_(0);
-				~fluteSynthButton.valueAction_(0);
-				~trumpetSynthButton.valueAction_(0);
-				~celloSynthButton.valueAction_(0);
+				~hornDynamicButton.valueAction_(0);
+				~fluteDynamicButton.valueAction_(0);
+				~trumpetDynamicButton.valueAction_(0);
+				~celloDynamicButton.valueAction_(0);
 				nil});
 		});
 	);

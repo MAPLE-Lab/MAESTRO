@@ -4,7 +4,10 @@
 // (basePath +/+  "modules/spectra_screen.scd").load;
 
 // Remove any residual FreqScope
-~spectra_scope.kill;
+// (only if the FreqScope has been created previously, using the IF structure)
+if(~spectra_scope != nil, {
+	~spectra_scope.kill;
+});
 
 //Define variable values for the spectra composite view
 ~spectraScreenComposite_bounds_left = ~spectraScreenComposite_bounds_array[0];
