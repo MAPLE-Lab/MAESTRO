@@ -46,6 +46,7 @@ w = Window.new("MAPLE Lab Spectra Demonstration (Beta)", Rect.new(
 
 // Load Spectra-specific functions
 	(basePath +/+  "data/spectra_specific_data/spectra_button_functions.scd").load; // Button controls
+	(basePath +/+  "data/spectra_specific_data/spectra_harmonic_slider_functions.scd").load; // Shortcut to setting intensities
 
 //Label for paragraph
 ~para = StaticText(w,Rect(10,10,790,80))
@@ -138,17 +139,24 @@ StaticText(w,Rect(10,105,380,25))
 			).register;
 				l.free;
 
-				if(~fluteAudioButton.value == 1, {~fluteAudioButton.valueAction_(0)}); //z.free;
+				~spectraFreeAudioAll.value;
+
+				/*if(~fluteAudioButton.value == 1, {~fluteAudioButton.valueAction_(0)}); //z.free;
 				if(~trumpetAudioButton.value == 1, {~trumpetAudioButton.valueAction_(0)}); //v.free;
 				if(~hornAudioButton.value == 1, {~hornAudioButton.valueAction_(0)}); //t.free;
-				if(~celloAudioButton.value == 1, {~celloAudioButton.valueAction_(0)}); //y.free;
-~stop_UserView.bounds_(Rect(400-(100/2)-92,65,150,30));
+				if(~celloAudioButton.value == 1, {~celloAudioButton.valueAction_(0)}); //y.free;*/
+
+				~stop_UserView.bounds_(Rect(400-(100/2)-92,65,150,30));
 				~synth_menu.background_(Color.black);
 				~synth_menu.stringColor_(Color.white);
 		},
 		{~synth_menu.background_(Color(0.7569-0.1,0.1373-0.1,0.1725-0.1,1));
 				~synth_menu.stringColor_(Color.black);
-				x.free; ~vinbutton.valueAction_(0);
+
+				if(x.isPlaying, {x.free;});//x.free;
+
+				~vinbutton.valueAction_(0);
+
 				(if(~j.value==1, {~j.value_(0)}));//Added so big button closes small buttons
 				(if(~l.value==1, {~l.value_(0)}));
 				(if(~k.value==1, {~k.value_(0)}));
@@ -234,22 +242,9 @@ l.free;
 
 					//~volslider.valueAction_(1.value.linlin(0,1,0,1));
 
-					~f1slider.valueAction_(2.value.linlin(0.0,2,0,1));
-		~f2slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f3slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f4slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f5slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f6slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f7slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f8slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f9slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f10slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f11slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f12slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f13slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f14slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f15slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f16slider.valueAction_(0.value.linlin(0.0,2,0,1));
+
+					~fNsliderAction.value(intensityArray:[2]);
+
 		x.free; ///NEED TO ADD OSC DELAY
 
 					if(~button.value == 1,
@@ -375,62 +370,63 @@ l.free;
 
 
 		// Start the dropdown menu at Sine
-		(
-			AppClock.sched(0.001,{
-				// "0.01 seconds after load, the Harmonic is set to 5".postln;
-				~synth_menu.valueAction_(0);
-				nil;
-			});
-		);
+		AppClock.sched(0.001,{
+			~synth_menu.valueAction_(0);
+			//nil;
+		});
+
 	);
 
 
 
-	// Power Presets
+	// Power Spectra Buttons
 
-~celloPowerButton = ~j = Button(w, Rect(240, 417.5, 90, 26))
+	~celloPowerButton = ~j = Button(w, Rect(240, 417.5, 90, 26))
 	.states_([["Cello", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Cello", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
-	.mouseDownAction_({
+	.action_({
 
 		arg obj;
-	if(obj.value == 0,
-		{
-		var variable;
-		variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
-		~freqslider.valueAction_(60.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
-		~volslider.valueAction_(0.5.value.linlin(0,1,0,1));
-		~f1slider.valueAction_(0.09.value.linlin(0.0,2,0,1));
-		~f2slider.valueAction_(0.39.value.linlin(0.0,2,0,1));
-		~f3slider.valueAction_(0.63.value.linlin(0.0,2,0,1));
-		~f4slider.valueAction_(0.53.value.linlin(0.0,2,0,1));
-		~f5slider.valueAction_(0.06.value.linlin(0.0,2,0,1));
-		~f6slider.valueAction_(0.1.value.linlin(0.0,2,0,1));
-		~f7slider.valueAction_(0.19.value.linlin(0.0,2,0,1));
-		~f8slider.valueAction_(0.11.value.linlin(0.0,2,0,1));
-		~f9slider.valueAction_(0.03.value.linlin(0.0,2,0,1));
-		~f10slider.valueAction_(0.05.value.linlin(0.0,2,0,1));
-		~f11slider.valueAction_(0.03.value.linlin(0.0,2,0,1));
-		~f12slider.valueAction_(0.02.value.linlin(0.0,2,0,1));
-		~f13slider.valueAction_(0.01.value.linlin(0.0,2,0,1));
-		~f14slider.valueAction_(0.01.value.linlin(0.0,2,0,1));
-		~f15slider.valueAction_(0.02.value.linlin(0.0,2,0,1));
-		~f16slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		x.free; ///requires OSC delay?
-l.free;
 
-				~spectraFreeAudioAll.value;
+		~spectraPowerButtonAction.value(obj:obj, instrument:"cello", fundamentalNote:60);
+
+		/*if(obj.value == 1,
+			{
+				//var variable;
+				//variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
+
+				// Free any other Power sounds
+				~spectraFreePowerSpecify.value(instrument:"trumpet");//~l.valueAction_(0);
+				~spectraFreePowerSpecify.value(instrument:"flute");//~k.valueAction_(0);
+				~spectraFreePowerSpecify.value(instrument:"horn");//~r.valueAction_(0);
+
+				// Free any Dynamic sounds
+				~spectraFreeDynamicAll.value;
+
+								~spectraFreeAudioAll.value;
+
+				~freqslider.valueAction_(60.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
+				~volslider.valueAction_(0.5.value.linlin(0,1,0,1));
 
 
-				~button.valueAction_(1);
 
-				~spectraFreePowerSpecify.value(instrument:trumpet);//~l.valueAction_(0);
-				~k.valueAction_(0);
-				~r.valueAction_(0);
+			x.free; ///requires OSC delay? // Clears previous sound
+
+			//	l.free;
+
+				AppClock.sched(0.05, { // The delay is to ensure the Dynamic Spectra can finish before this activates; otherwise the sliders will be set to 0 because the 0 setting overprioritizes or comes after this Power set
+					"AppClock for Power Spectra sent message after 0.05s.".postln;
+					obj.value_(1); // The Power button seems to be reset to 0 coming off of Dynamic
+						~fNsliderAction.value(instrument:"cello");
+					~button.valueAction_(1); // Must come AFTER the harmonic sliders are set
+					nil;
+				});
+
 
 				~vinbutton.valueAction_(0);
-
-	}, {x.free; ~j.valueAction_(1);~button.value_(0);
+			}, {x.free;
+				//~j.valueAction_(1);
+				~button.value_(0);
 
 		~stop_UserView.bounds_(Rect(400-(100/2)-92,65,1,1));
 				~synth_menu.background_(Color(0.7569-0.1,0.1373-0.1,0.1725-0.1,1));
@@ -442,54 +438,59 @@ l.free;
 						(basePath +/+  "data/spectra_keyboard_GUI_colours.scd").load;
 						});
 
-	});}); //Ensure ~button.value is value not valueAction to avoid loop and ensure this turns off big button properly
+	});*/
+
+	}); //Ensure ~button.value is value not valueAction to avoid loop and ensure this turns off big button properly
 
 	//FORCED trumpet preset
 ~trumpetPowerButton = ~l = Button(w, Rect(335, 417.5, 90, 26))
 	.states_([["Trumpet", Color.white, Color(0.7569,0.1373,0.1725,1)],["Trumpet", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
-	.mouseDownAction_({
+	.action_({
 
 		arg obj;
-	if(obj.value == 0,
+
+		~spectraPowerButtonAction.value(obj:obj, instrument:"trumpet", fundamentalNote:60);
+
+	/*if(obj.value == 1,
 		{
-		var variable;
-		variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
-		~freqslider.valueAction_(60.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
-				~volslider.valueAction_(0.7.value.linlin(0,1,0,1));
-		~f1slider.valueAction_(0.05.value.linlin(0.0,2,0,1));
-		~f2slider.valueAction_(0.13.value.linlin(0.0,2,0,1));
-		~f3slider.valueAction_(0.24.value.linlin(0.0,2,0,1));
-		~f4slider.valueAction_(0.36.value.linlin(0.0,2,0,1));
-		~f5slider.valueAction_(0.49.value.linlin(0.0,2,0,1));
-		~f6slider.valueAction_(0.37.value.linlin(0.0,2,0,1));
-		~f7slider.valueAction_(0.29.value.linlin(0.0,2,0,1));
-		~f8slider.valueAction_(0.15.value.linlin(0.0,2,0,1));
-		~f9slider.valueAction_(0.17.value.linlin(0.0,2,0,1));
-		~f10slider.valueAction_(0.12.value.linlin(0.0,2,0,1));
-		~f11slider.valueAction_(0.11.value.linlin(0.0,2,0,1));
-		~f12slider.valueAction_(0.08.value.linlin(0.0,2,0,1));
-		~f13slider.valueAction_(0.05.value.linlin(0.0,2,0,1));
-		~f14slider.valueAction_(0.03.value.linlin(0.0,2,0,1));
-		~f15slider.valueAction_(0.02.value.linlin(0.0,2,0,1));
-		~f16slider.valueAction_(0.01.value.linlin(0.0,2,0,1));
-		x.free;
-				l.free;
+		//var variable;
+		//variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
+
+				// Free any other Power sounds
+				~spectraFreePowerSpecify.value(instrument:"flute");//~k.valueAction_(0);
+				~spectraFreePowerSpecify.value(instrument:"cello");//~j.valueAction_(0);
+				~spectraFreePowerSpecify.value(instrument:"horn");//~r.valueAction_(0);
+
+				// Free any Dynamic sounds
+				~spectraFreeDynamicAll.value;
 
 				~spectraFreeAudioAll.value;
 
-				/*if(~fluteAudioButton.value == 1, {~fluteAudioButton.valueAction_(0)}); //z.free;
-				if(~trumpetAudioButton.value == 1, {~trumpetAudioButton.valueAction_(0)}); //v.free;
-				if(~hornAudioButton.value == 1, {~hornAudioButton.valueAction_(0)}); //t.free;
-				if(~celloAudioButton.value == 1, {~celloAudioButton.valueAction_(0)}); //y.free;*/
-		~button.valueAction_(1);
-					~k.valueAction_(0);
-				~j.valueAction_(0);
-				~r.valueAction_(0);
-								~vinbutton.valueAction_(0);
+				~freqslider.valueAction_(60.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
+				~volslider.valueAction_(0.7.value.linlin(0,1,0,1));
+
+
+
+				x.free; // Clears previous sound
+
+	//			l.free;
+
+				AppClock.sched(0.05, { // The delay is to ensure the Dynamic Spectra can finish before this activates; otherwise the sliders will be set to 0 because the 0 setting overprioritizes or comes after this Power set
+					"AppClock for Power Spectra sent message after 0.05s.".postln;
+					obj.value_(1); // The Power button seems to be reset to 0 coming off of Dynamic
+					~fNsliderAction.value(instrument:"trumpet");
+					~button.valueAction_(1); // Must come AFTER the harmonic sliders are set
+					nil;
+				});
+
+
+				~vinbutton.valueAction_(0);
 
 	}, {
-				x.free; ~l.valueAction_(1);~button.value_(0);
+				x.free;
+				//~l.valueAction_(1);
+				~button.value_(0);
 
 ~stop_UserView.bounds_(Rect(400-(100/2)-92,65,1,1));
 				~synth_menu.background_(Color(0.7569-0.1,0.1373-0.1,0.1725-0.1,1));
@@ -501,53 +502,60 @@ l.free;
 						(basePath +/+  "data/spectra_keyboard_GUI_colours.scd").load;
 						});
 
-	});});
+	});*/
+
+	});
 
 
 //FORCED flute preset
 ~flutePowerButton = ~k = Button(w, Rect(430, 417.5, 90, 26))
 	.states_([["Flute", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Flute", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
-	.mouseDownAction_({
+	.action_({ // Must be "action" and not "mouseDownAction" to avoid code not working
 
 		arg obj;
-	if(obj.value == 0,
+
+~spectraPowerButtonAction.value(obj:obj, instrument:"flute", fundamentalNote:72);
+
+	/*if(obj.value == 1,
 		{
-		var variable;
-		variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
-		~freqslider.valueAction_(72.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
-				~volslider.valueAction_(1.value.linlin(0,1,0,1));
-		~f1slider.valueAction_(0.33.value.linlin(0.0,2,0,1));
-		~f2slider.valueAction_(0.20.value.linlin(0.0,2,0,1));
-		~f3slider.valueAction_(0.17.value.linlin(0.0,2,0,1));
-		~f4slider.valueAction_(0.11.value.linlin(0.0,2,0,1));
-		~f5slider.valueAction_(0.01.value.linlin(0.0,2,0,1));
-		~f6slider.valueAction_(0.01.value.linlin(0.0,2,0,1));
-		~f7slider.valueAction_(0.015.value.linlin(0.0,2,0,1));
-		~f8slider.valueAction_(0.015.value.linlin(0.0,2,0,1));
-		~f9slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f10slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f11slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f12slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f13slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f14slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f15slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f16slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		x.free;
-				l.free;
+		//var variable;
+		//variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
+
+				// Free any other Power sounds
+					~spectraFreePowerSpecify.value(instrument:"horn");//~r.valueAction_(0);
+				~spectraFreePowerSpecify.value(instrument:"cello");//~j.valueAction_(0);
+				~spectraFreePowerSpecify.value(instrument:"trumpet");//~l.valueAction_(0);
+
+				// Free any Dynamic sounds
+				~spectraFreeDynamicAll.value;
 
 				~spectraFreeAudioAll.value;
 
-				/*if(~fluteAudioButton.value == 1, {~fluteAudioButton.valueAction_(0)}); //z.free;
-				if(~trumpetAudioButton.value == 1, {~trumpetAudioButton.valueAction_(0)}); //v.free;
-				if(~hornAudioButton.value == 1, {~hornAudioButton.valueAction_(0)}); //t.free;
-				if(~celloAudioButton.value == 1, {~celloAudioButton.valueAction_(0)}); //y.free;*/
-	~button.valueAction_(1);
-				~l.valueAction_(0);
-				~j.valueAction_(0);
-				~r.valueAction_(0);
+
+				~freqslider.valueAction_(72.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
+				~volslider.valueAction_(0.8.value.linlin(0,1,0,1));
+
+
+
+	x.free; // Clears previous sound
+		//		l.free;
+
+
+				AppClock.sched(0.05, { // The delay is to ensure the Dynamic Spectra can finish before this activates; otherwise the sliders will be set to 0 because the 0 setting overprioritizes or comes after this Power set
+					"AppClock for Power Spectra sent message after 0.05s.".postln;
+					obj.value_(1); // The Power button seems to be reset to 0 coming off of Dynamic
+						~fNsliderAction.value(instrument:"flute");
+					~button.valueAction_(1); // Must come AFTER the harmonic sliders are set
+					nil;
+				});
+
+
+
 				~vinbutton.valueAction_(0);
-	}, {x.free; ~k.valueAction_(1);~button.value_(0);
+	}, {x.free;
+				//~k.valueAction_(1);
+				~button.value_(0); // Must be "value" and not "valueAction" to avoid a loop of commands
 				~stop_UserView.bounds_(Rect(400-(100/2)-92,65,1,1));
 				~synth_menu.background_(Color(0.7569-0.1,0.1373-0.1,0.1725-0.1,1));
 				~synth_menu.stringColor_(Color.black);
@@ -557,77 +565,28 @@ l.free;
 						~color_array = Array.fill(200,1);
 						(basePath +/+  "data/spectra_keyboard_GUI_colours.scd").load;
 						});
-	});});
+	});*/
+
+	});
 
 	//FORCED horn preset
-~hornPowerButton = ~r = Button(w, Rect(525, 417.5, 90, 26))
+	~hornPowerButton = ~r = Button(w, Rect(525, 417.5, 90, 26))
 	.states_([["Horn", Color.white, Color(0.7569,0.1373,0.1725,1)],["Horn", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
-	.mouseDownAction_({
+	.action_({
 
 		arg obj;
-	if(obj.value == 0,
-		{
-		var variable;
-		variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
-		~freqslider.valueAction_(60.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
-				~volslider.valueAction_(0.4.value.linlin(0,1,0,1));
-		~f1slider.valueAction_(1.4134615384615
+				/*	// Free any other Power sounds
+			~spectraFreePowerSpecify.value(instrument:"flute");//~k.valueAction_(0);
+			~spectraFreePowerSpecify.value(instrument:"cello");//~j.valueAction_(0);
+			~spectraFreePowerSpecify.value(instrument:"trumpet");//~l.valueAction_(0);*/
 
-.value.linlin(0.0,2,0,1));
-		~f2slider.valueAction_(1.6634615384615
-.value.linlin(0.0,2,0,1));
-		~f3slider.valueAction_(0.77884615384615
+		~spectraPowerButtonAction.value(obj:obj, instrument:"horn", fundamentalNote:60);
 
-.value.linlin(0.0,2,0,1));
-		~f4slider.valueAction_(0.41346153846154
-
-.value.linlin(0.0,2,0,1));
-		~f5slider.valueAction_(0.20192307692308
-
-.value.linlin(0.0,2,0,1));
-		~f6slider.valueAction_(0.076923076923077
-.value.linlin(0.0,2,0,1));
-		~f7slider.valueAction_(0.038461538461538
-.value.linlin(0.0,2,0,1));
-		~f8slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f9slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f10slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f11slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f12slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f13slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f14slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f15slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f16slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		x.free;
-				l.free;
-
-				~spectraFreeAudioAll.value;
-
-				/*if(~fluteAudioButton.value == 1, {~fluteAudioButton.valueAction_(0)}); //z.free;
-				if(~trumpetAudioButton.value == 1, {~trumpetAudioButton.valueAction_(0)}); //v.free;
-				if(~hornAudioButton.value == 1, {~hornAudioButton.valueAction_(0)}); //t.free;
-				if(~celloAudioButton.value == 1, {~celloAudioButton.valueAction_(0)}); //y.free;*/
-	~button.valueAction_(1);
-			~k.valueAction_(0);
-				~j.valueAction_(0);
-		~l.valueAction_(0);
-								~vinbutton.valueAction_(0);
-
-	}, {x.free; ~r.valueAction_(1);~button.value_(0);
-				~stop_UserView.bounds_(Rect(400-(100/2)-92,65,1,1));
-				~synth_menu.background_(Color(0.7569-0.1,0.1373-0.1,0.1725-0.1,1));
-				~synth_menu.stringColor_(Color.black);
-
-				//Reset to base colours when not playing
-						if(~key_vis.value == 1, {
-						~color_array = Array.fill(200,1);
-						(basePath +/+  "data/spectra_keyboard_GUI_colours.scd").load;
-						});
-	});});
+	});
 
 		//Label for Forced Choice
-~labelPower = StaticText(w,Rect(10,420,380,20))
+~labelPower = StaticText(w,Rect(10,420,150,20))
 	.string_("Power Spectra")
 .font_(Font("nil", 18))
 .align_(\topLeft)

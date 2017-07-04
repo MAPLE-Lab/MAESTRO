@@ -1,48 +1,144 @@
-// Power
-~spectraFreePowerSpecify = {
-	arg instrument;
-	if(("~" ++ instrument ++ "PowerButton").interpret.value == 1, {("~" ++ instrument ++ "PowerButton").interpret.valueAction_(0)});
-};
-
-
 // Sets all harmonic sliders to 0.
 // Call using: ~spectraZeroSliders.value()
 ~spectraZeroSliders = {
 	16.do({
 		arg i;
-		("~f" ++ (i+1) ++ "slider").interpret.valueAction_(0).postln;
+		("~f" ++ (i+1) ++ "slider").interpret.valueAction_(0); //.postln;
 	});
 };
 
-// Common synth button action function
+
+// Power
+~spectraPowerButtonAction = {
+	arg obj, instrument, fundamentalNote;
+	if(obj.value == 1,
+		{
+			//var variable;
+			//variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
+
+			// Free any Dynamic sounds
+			//~spectraFreeDynamicAll.value; // ATTENTION
+			~haltKey = 1;
+
+			~spectraFreeAudioAll.value;
+
+			~spectraFreePowerAll.value;
+
+			~vinbutton.valueAction_(0);
+
+			~freqslider.valueAction_(fundamentalNote.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
+			~volslider.valueAction_(0.4.value.linlin(0,1,0,1));
+
+			x.free; // Clears previous sound
+
+			// l.free; // Unknown purpose
+
+
+			AppClock.sched(0.05, { // The delay is to ensure the Dynamic Spectra can finish before this activates; otherwise the sliders will be set to 0 because the 0 setting overprioritizes or comes after this Power set
+				"AppClock for Power Spectra sent message after 0.05s.".postln;
+				obj.value_(1); // The Power button seems to be reset to 0 coming off of Dynamic
+				~fNsliderAction.value(instrument:instrument);
+				~button.valueAction_(1); // Must come AFTER the harmonic sliders are set
+				nil;
+			});
+
+		}, {
+			x.free;
+			~button.value_(0);
+			~stop_UserView.bounds_(Rect(400-(100/2)-92,65,1,1));
+			~synth_menu.background_(Color(0.7569-0.1,0.1373-0.1,0.1725-0.1,1));
+			~synth_menu.stringColor_(Color.black);
+
+			//Reset to base colours when not playing
+			if(~key_vis.value == 1, {
+				~color_array = Array.fill(200,1);
+				(~trace +/+  "data/spectra_keyboard_GUI_colours.scd").load;
+			});
+	});
+};
+
+~spectraFreePowerSpecify = {
+	arg instrument;
+	if(("~" ++ instrument ++ "PowerButton").interpret.value == 1, {("~" ++ instrument ++ "PowerButton").interpret.valueAction_(0)});
+};
+
+~spectraFreePowerAll = {
+	if(~celloPowerButton.value == 1, {~celloPowerButton.valueAction_(0)});
+	if(~trumpetPowerButton.value == 1, {~trumpetPowerButton.valueAction_(0)});
+	if(~flutePowerButton.value == 1, {~flutePowerButton.valueAction_(0)});
+	if(~hornPowerButton.value == 1, {~hornPowerButton.valueAction_(0)});
+};
+
+
+
+
+// Common Dynamic button action function
 // Plays and stops the sound. Arguments give the fundamental note (as a MIDI number), the instrument selected and the number of harmonic to use. "obj" is the standard object used in multi-state Button arguments, so it has kept the same name for consistency.
+
 ~spectraDynamicButtonAction = {
 	arg obj, instrument, harmonicAmount, fundamentalNote;
 
+	"START Button clicked.".postln;
+
 	if(obj.value == 1, {
+
+		"obj.value == 1".postln;
+
+		~button.value.postln;
+		~haltKey.postln;
+
 		~freqslider.valueAction_(fundamentalNote.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
 		~haltKey = 0;
-		~keyNoteColorChangeFunction_dataLoad.value(instrument);
-		~call_keyNoteColorChangeFunction.value(harmonicAmount);
+		~haltKey.postln;
+		~button.value.postln;
+		"0, 0".postln;
 
-		if(x.isPlaying, {x.free;});
+				if(x.isPlaying, {x.free;});
 		if(~celloAudioButton.value == 1, {~celloAudioButton.valueAction_(0)});
 		if(~trumpetAudioButton.value == 1, {~trumpetAudioButton.valueAction_(0)});
 		if(~fluteAudioButton.value == 1, {~fluteAudioButton.valueAction_(0)});
 		if(~hornAudioButton.value == 1, {~hornAudioButton.valueAction_(0)});
 
-		~button.valueAction_(1);
-		~l.valueAction_(0);
-		~j.valueAction_(0);
-		~r.valueAction_(0);
-		~k.valueAction_(0);
+
+		~keyNoteColorChangeFunction_dataLoad.value(instrument);
+		~call_keyNoteColorChangeFunction.value(harmonicAmount);
+
+
+		~spectraFreePowerAll.value;
+
+
+		~button.value.postln;
+		~button.valueAction_(1).postln;
+		~button.value.postln;
+
 		~vinbutton.valueAction_(0);
 	},{
-		~button.valueAction_(0);
+		"obj.value == 0".postln;
+
+		"~haltKey".postln;
+		~haltKey.postln;
+		"~button".postln;
+		~button.value.postln;
+
+		~button.valueAction_(0); // ATTENTION
+		~button.value.postln;
+
 		~haltKey = 1;
+		~haltKey.postln;
+		"END Button off.".postln;
 	});
 
 };
+
+
+~spectraFreeDynamicAll = {
+	if(~fluteDynamicButton.value == 1, {~fluteDynamicButton.valueAction_(0)});
+	if(~trumpetDynamicButton.value == 1, {~trumpetDynamicButton.valueAction_(0)});
+	if(~hornDynamicButton.value == 1, {~hornDynamicButton.valueAction_(0)});
+	if(~celloDynamicButton.value == 1, {~celloDynamicButton.valueAction_(0)});
+};
+
+
 
 // Actions commands for the Audio Recordings two-state buttons.
 
@@ -52,13 +148,16 @@
 
 	if(obj.value == 1, {
 
-		// Free all other sounds
+		// Free all other Audio sounds
 		switch(instrument,
 			"cello", {~trumpetAudioButton.valueAction_(0); ~fluteAudioButton.valueAction_(0); ~hornAudioButton.valueAction_(0);},
 			"trumpet", {~celloAudioButton.valueAction_(0); ~fluteAudioButton.valueAction_(0); ~hornAudioButton.valueAction_(0);},
 			"flute", {~celloAudioButton.valueAction_(0); ~trumpetAudioButton.valueAction_(0); ~hornAudioButton.valueAction_(0);},
 			"horn", {~celloAudioButton.valueAction_(0); ~trumpetAudioButton.valueAction_(0); ~fluteAudioButton.valueAction_(0);},
 		);
+
+		// Free any Dynamic sounds
+		~spectraFreeDynamicAll.value;
 
 
 		// This gives a numeric Integer clock, counting up every 0.1s, starting from when the sound is played
@@ -109,12 +208,15 @@
 		s.sendBundle(1, ["/n_free", v.free]);//sound ends, at least frees up memory space
 		);*/
 
-		~button.valueAction_(0);
+		~button.valueAction_(0); // Ensures harmonic panel and Power Spectra sounds are not playing
 
+		~spectraFreePowerAll.value;
+		/*
 		~l.valueAction_(0);
 		~j.valueAction_(0);
 		~r.valueAction_(0);
-		~k.valueAction_(0);
+		~k.valueAction_(0);*/
+
 		~vinbutton.valueAction_(0);
 
 		switch(instrument,
