@@ -2,7 +2,7 @@
 // ~keyNoteColorChangeFunction_dataUse.value(keyHarmonicNumber:#)
 // where # can be any number where that harmonic's data exists in the data table (usually 1-16)
 ~keyNoteColorChangeFunction_dataUse = {
-	arg keyHarmonicNumber;
+	arg keyHarmonicNumber, instrument;
 	var keyArray, integer;
 
 	// Get the data specific to the harmonic being used (keyHarmonicNumber)
@@ -10,7 +10,7 @@
 	//keyArray.postln;
 
 
-	// Time dynamics
+	// Time-changing intensity dynamics
 	(
 		integer = 0;
 
@@ -33,7 +33,10 @@
 
 			// Time control
 			integer = integer + 1;
-			if(and(integer < keyArray.size, ~haltKey == 0), {
+			if(and(integer < keyArray.size,
+				//~haltKey == 0
+				("~" ++ instrument ++ "AudioHaltKey == 0").interpret
+			), {
 				(~timeInterval.interpret);},{
 				//("Data for Harmonic" + keyHarmonicNumber + "completed.").asString.postln;
 				//~button.valueAction_(0);
@@ -52,6 +55,7 @@
 
 
 ~keyNoteColorChangeFunction_soundTimer = {
+	arg instrument;
 	var keyArray, integer;
 
 	(
@@ -65,17 +69,35 @@
 
 			// Time control
 			integer = integer + 1;
-			if(and(integer < keyArray.size, ~haltKey == 0), {
+			if(and(integer < keyArray.size,
+				//~haltKey == 0
+				("~" ++ instrument ++ "AudioHaltKey == 0").interpret
+			), {
 				(~timeInterval.interpret);},{
 				//("Data for Harmonic" + keyHarmonicNumber + "completed.").asString.postln;
 
-				~button.valueAction_(0); // ATTENTION
+				//~button.valueAction_(0); // ATTENTION
 
 				/*~hornDynamicButton.valueAction_(0);
 				~fluteDynamicButton.valueAction_(0);
 				~trumpetDynamicButton.valueAction_(0);
 				~celloDynamicButton.valueAction_(0);*/
-				~spectraFreeDynamicAll.value;
+				//~spectraFreeDynamicAll.value;
+
+				("~" ++ instrument ++ "DynamicButton.value_(0)").interpret; // Using .value so that the user can pick between any Dynamic Spectra buttons without having to out-click
+
+				("~" ++ instrument ++ "AudioHaltKey = 1").interpret.postln;
+		[("~" ++ instrument ++ "AudioHaltKey").asString, ("~" ++ instrument ++ "AudioHaltKey").interpret].postln;
+
+
+				if(and((~celloAudioHaltKey + ~trumpetAudioHaltKey + ~fluteAudioHaltKey + ~hornAudioHaltKey) >= 3, ~spectraPowerButtonStatus == 0), {
+			~button.valueAction_(0);
+		});
+
+				/*AppClock.sched(0.01, {
+				("~" ++ instrument ++ "AudioHaltKey == 1").interpret;
+					[("~" ++ instrument ++ "AudioHaltKey").asString, ("~" ++ instrument ++ "AudioHaltKey").interpret].postln;
+				});*/
 
 				nil});
 		});
@@ -85,12 +107,12 @@
 
 
 ~call_keyNoteColorChangeFunction = {
-	arg harmonicAmount;
+	arg harmonicAmount, instrument;
 	harmonicAmount.do({ arg item;
 		//(item).postln;
-		~keyNoteColorChangeFunction_dataUse.value(item+1); // Starts with keyHarmonicNumber:1
+		~keyNoteColorChangeFunction_dataUse.value(keyHarmonicNumber:(item+1), instrument:instrument); // Starts with keyHarmonicNumber:1
 		});
-	~keyNoteColorChangeFunction_soundTimer.value(); // Starts the timer
+	~keyNoteColorChangeFunction_soundTimer.value(instrument:instrument); // Starts the timer
 };
 
 //~call_keyNoteColorChangeFunction.value(harmonicAmount:#);

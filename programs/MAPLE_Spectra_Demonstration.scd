@@ -160,7 +160,11 @@ StaticText(w,Rect(10,105,380,25))
 				(if(~j.value==1, {~j.value_(0)}));//Added so big button closes small buttons
 				(if(~l.value==1, {~l.value_(0)}));
 				(if(~k.value==1, {~k.value_(0)}));
-				(if(~r.value==1, {~r.value_(0)})); //Only Power require it as the other buttons are not two-state
+				(if(~r.value==1, {~r.value_(0)}));
+
+~spectraFreeDynamicAll.value;
+
+
 ~stop_UserView.bounds_(Rect(400-(100/2)-92,65,1,1));
 
 			//Reset to base colours when not playing
@@ -381,192 +385,46 @@ l.free;
 
 	// Power Spectra Buttons
 
+	~spectraPowerButtonStatus = 0; // Starts all off
+
+	//FORCED cello preset
 	~celloPowerButton = ~j = Button(w, Rect(240, 417.5, 90, 26))
 	.states_([["Cello", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Cello", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({
-
 		arg obj;
+		~spectraFreePowerSpecifyValueOnly.value(instrument:"trumpet");
+		~spectraFreePowerSpecifyValueOnly.value(instrument:"horn");
+		~spectraFreePowerSpecifyValueOnly.value(instrument:"flute");
 
 		~spectraPowerButtonAction.value(obj:obj, instrument:"cello", fundamentalNote:60);
-
-		/*if(obj.value == 1,
-			{
-				//var variable;
-				//variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
-
-				// Free any other Power sounds
-				~spectraFreePowerSpecify.value(instrument:"trumpet");//~l.valueAction_(0);
-				~spectraFreePowerSpecify.value(instrument:"flute");//~k.valueAction_(0);
-				~spectraFreePowerSpecify.value(instrument:"horn");//~r.valueAction_(0);
-
-				// Free any Dynamic sounds
-				~spectraFreeDynamicAll.value;
-
-								~spectraFreeAudioAll.value;
-
-				~freqslider.valueAction_(60.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
-				~volslider.valueAction_(0.5.value.linlin(0,1,0,1));
-
-
-
-			x.free; ///requires OSC delay? // Clears previous sound
-
-			//	l.free;
-
-				AppClock.sched(0.05, { // The delay is to ensure the Dynamic Spectra can finish before this activates; otherwise the sliders will be set to 0 because the 0 setting overprioritizes or comes after this Power set
-					"AppClock for Power Spectra sent message after 0.05s.".postln;
-					obj.value_(1); // The Power button seems to be reset to 0 coming off of Dynamic
-						~fNsliderAction.value(instrument:"cello");
-					~button.valueAction_(1); // Must come AFTER the harmonic sliders are set
-					nil;
-				});
-
-
-				~vinbutton.valueAction_(0);
-			}, {x.free;
-				//~j.valueAction_(1);
-				~button.value_(0);
-
-		~stop_UserView.bounds_(Rect(400-(100/2)-92,65,1,1));
-				~synth_menu.background_(Color(0.7569-0.1,0.1373-0.1,0.1725-0.1,1));
-				~synth_menu.stringColor_(Color.black);
-
-	//Reset to base colours when not playing
-						if(~key_vis.value == 1, {
-						~color_array = Array.fill(200,1);
-						(basePath +/+  "data/spectra_keyboard_GUI_colours.scd").load;
-						});
-
-	});*/
-
 	}); //Ensure ~button.value is value not valueAction to avoid loop and ensure this turns off big button properly
 
 	//FORCED trumpet preset
-~trumpetPowerButton = ~l = Button(w, Rect(335, 417.5, 90, 26))
+	~trumpetPowerButton = ~l = Button(w, Rect(335, 417.5, 90, 26))
 	.states_([["Trumpet", Color.white, Color(0.7569,0.1373,0.1725,1)],["Trumpet", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({
-
 		arg obj;
+		~spectraFreePowerSpecifyValueOnly.value(instrument:"cello");
+		~spectraFreePowerSpecifyValueOnly.value(instrument:"horn");
+		~spectraFreePowerSpecifyValueOnly.value(instrument:"flute");
 
 		~spectraPowerButtonAction.value(obj:obj, instrument:"trumpet", fundamentalNote:60);
-
-	/*if(obj.value == 1,
-		{
-		//var variable;
-		//variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
-
-				// Free any other Power sounds
-				~spectraFreePowerSpecify.value(instrument:"flute");//~k.valueAction_(0);
-				~spectraFreePowerSpecify.value(instrument:"cello");//~j.valueAction_(0);
-				~spectraFreePowerSpecify.value(instrument:"horn");//~r.valueAction_(0);
-
-				// Free any Dynamic sounds
-				~spectraFreeDynamicAll.value;
-
-				~spectraFreeAudioAll.value;
-
-				~freqslider.valueAction_(60.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
-				~volslider.valueAction_(0.7.value.linlin(0,1,0,1));
-
-
-
-				x.free; // Clears previous sound
-
-	//			l.free;
-
-				AppClock.sched(0.05, { // The delay is to ensure the Dynamic Spectra can finish before this activates; otherwise the sliders will be set to 0 because the 0 setting overprioritizes or comes after this Power set
-					"AppClock for Power Spectra sent message after 0.05s.".postln;
-					obj.value_(1); // The Power button seems to be reset to 0 coming off of Dynamic
-					~fNsliderAction.value(instrument:"trumpet");
-					~button.valueAction_(1); // Must come AFTER the harmonic sliders are set
-					nil;
-				});
-
-
-				~vinbutton.valueAction_(0);
-
-	}, {
-				x.free;
-				//~l.valueAction_(1);
-				~button.value_(0);
-
-~stop_UserView.bounds_(Rect(400-(100/2)-92,65,1,1));
-				~synth_menu.background_(Color(0.7569-0.1,0.1373-0.1,0.1725-0.1,1));
-				~synth_menu.stringColor_(Color.black);
-
-				//Reset to base colours when not playing
-						if(~key_vis.value == 1, {
-						~color_array = Array.fill(200,1);
-						(basePath +/+  "data/spectra_keyboard_GUI_colours.scd").load;
-						});
-
-	});*/
-
 	});
 
 
-//FORCED flute preset
-~flutePowerButton = ~k = Button(w, Rect(430, 417.5, 90, 26))
+	//FORCED flute preset
+	~flutePowerButton = ~k = Button(w, Rect(430, 417.5, 90, 26))
 	.states_([["Flute", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Flute", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({ // Must be "action" and not "mouseDownAction" to avoid code not working
-
 		arg obj;
+		~spectraFreePowerSpecifyValueOnly.value(instrument:"trumpet");
+		~spectraFreePowerSpecifyValueOnly.value(instrument:"horn");
+		~spectraFreePowerSpecifyValueOnly.value(instrument:"cello");
 
-~spectraPowerButtonAction.value(obj:obj, instrument:"flute", fundamentalNote:72);
-
-	/*if(obj.value == 1,
-		{
-		//var variable;
-		//variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
-
-				// Free any other Power sounds
-					~spectraFreePowerSpecify.value(instrument:"horn");//~r.valueAction_(0);
-				~spectraFreePowerSpecify.value(instrument:"cello");//~j.valueAction_(0);
-				~spectraFreePowerSpecify.value(instrument:"trumpet");//~l.valueAction_(0);
-
-				// Free any Dynamic sounds
-				~spectraFreeDynamicAll.value;
-
-				~spectraFreeAudioAll.value;
-
-
-				~freqslider.valueAction_(72.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
-				~volslider.valueAction_(0.8.value.linlin(0,1,0,1));
-
-
-
-	x.free; // Clears previous sound
-		//		l.free;
-
-
-				AppClock.sched(0.05, { // The delay is to ensure the Dynamic Spectra can finish before this activates; otherwise the sliders will be set to 0 because the 0 setting overprioritizes or comes after this Power set
-					"AppClock for Power Spectra sent message after 0.05s.".postln;
-					obj.value_(1); // The Power button seems to be reset to 0 coming off of Dynamic
-						~fNsliderAction.value(instrument:"flute");
-					~button.valueAction_(1); // Must come AFTER the harmonic sliders are set
-					nil;
-				});
-
-
-
-				~vinbutton.valueAction_(0);
-	}, {x.free;
-				//~k.valueAction_(1);
-				~button.value_(0); // Must be "value" and not "valueAction" to avoid a loop of commands
-				~stop_UserView.bounds_(Rect(400-(100/2)-92,65,1,1));
-				~synth_menu.background_(Color(0.7569-0.1,0.1373-0.1,0.1725-0.1,1));
-				~synth_menu.stringColor_(Color.black);
-
-				//Reset to base colours when not playing
-						if(~key_vis.value == 1, {
-						~color_array = Array.fill(200,1);
-						(basePath +/+  "data/spectra_keyboard_GUI_colours.scd").load;
-						});
-	});*/
-
+		~spectraPowerButtonAction.value(obj:obj, instrument:"flute", fundamentalNote:72);
 	});
 
 	//FORCED horn preset
@@ -574,15 +432,12 @@ l.free;
 	.states_([["Horn", Color.white, Color(0.7569,0.1373,0.1725,1)],["Horn", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({
-
 		arg obj;
-				/*	// Free any other Power sounds
-			~spectraFreePowerSpecify.value(instrument:"flute");//~k.valueAction_(0);
-			~spectraFreePowerSpecify.value(instrument:"cello");//~j.valueAction_(0);
-			~spectraFreePowerSpecify.value(instrument:"trumpet");//~l.valueAction_(0);*/
+		~spectraFreePowerSpecifyValueOnly.value(instrument:"trumpet");
+		~spectraFreePowerSpecifyValueOnly.value(instrument:"cello");
+		~spectraFreePowerSpecifyValueOnly.value(instrument:"flute");
 
 		~spectraPowerButtonAction.value(obj:obj, instrument:"horn", fundamentalNote:60);
-
 	});
 
 		//Label for Forced Choice
@@ -624,11 +479,7 @@ l.free;
 //Properties of the slider
 ~freqslider = Slider(w, Rect(250,110,140,20))
 	.background_(Color(0.8,0.8,0.8,0.75)).value_(48/87)
-	.step_(1/(108-21)) //Math of linexp: y=100e^(kx)
-	//y1(1)=1000=y3(1) and y2(0)=100=y3(0) and y3=100e^(kx) what is k?
-	//hence: ln(y3/100)/x = k -->ln(1000/100)/1 = k = 2.3025 (using y2 makes no sense but should...)
-	//--> k = ln(10) EXACTLY
-	//new is k=ln(8)
+	.step_(1/(108-21))
 	.action_({
 	arg obj;
 	var cf;
@@ -851,10 +702,6 @@ s.makeBundle(1.0, //sound delay -~knob.value.linlin(0,1,0,0.5)
 		~f15Box.value_(obj.value.linexp(0,1,1500,15000));
 		~f16Box.value_(obj.value.linexp(0,1,1600,16000));
 		*/
-
-		/* ~fsliderharm1.valueAction_(obj.value.linlin(0,1,0.065,0.495));//must be linlin because a slider to slider is using the same exact values (no transformation required)
-		 ~fsliderharm2.valueAction_(obj.value.linlin(0,1,0.19047619047619,0.63));
-				~fsliderharm3.valueAction_(obj.value.linlin(0,1,0.26190476190476,0.705)); */
 })
 	.orientation_(\horizontal);
 
@@ -1040,18 +887,35 @@ Volume:"++obj.value).asString
 
 	// Dynamic Spectra
 
+	// Set all starting AudioHaltKeys to 1
+	// This is used for an IF statement in spectra_button_functions
+	// where turning off a small button only allows turnning off the big button IF Sum = 4
+	~celloAudioHaltKey = 1;
+	~trumpetAudioHaltKey = 1;
+	~fluteAudioHaltKey = 1;
+	~hornAudioHaltKey = 1;
+
 	// Horn Dynamic
 	~hornDynamicButton = u = Button(w, Rect(525, 457.5, 90, 26))
 	.states_([["Horn", Color.white, Color(0.7569,0.1373,0.1725,1)],["Horn", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({ arg obj;
-		~haltKey = 1;
+		//~haltKey = 1;
 		//	if(~hornDynamicButton.value != 0, {~hornDynamicButton.valueAction_(0);});
-		if(~fluteDynamicButton.value != 0, {~fluteDynamicButton.valueAction_(0);});
-		if(~trumpetDynamicButton.value != 0, {~trumpetDynamicButton.valueAction_(0);});
-		if(~celloDynamicButton.value != 0, {~celloDynamicButton.valueAction_(0);});
+		if(~fluteDynamicButton.value != 0, {
+			//~fluteDynamicButton.valueAction_(0);
+			~fluteAudioHaltKey = 1;
+		});
+		if(~trumpetDynamicButton.value != 0, {
+			//~trumpetDynamicButton.valueAction_(0);
+			~trumpetAudioHaltKey = 1;
+		});
+		if(~celloDynamicButton.value != 0, {
+			//~celloDynamicButton.valueAction_(0);
+			~celloAudioHaltKey = 1;
+		});
 
-		~spectraDynamicButtonAction.value(obj:obj, instrument:"horn-fix", harmonicAmount:16, fundamentalNote:60);
+		~spectraDynamicButtonAction.value(obj:obj, instrument:"horn", harmonicAmount:16, fundamentalNote:60);
 	});
 
 	// Flute Dynamic
@@ -1061,11 +925,20 @@ Volume:"++obj.value).asString
 	.action_({
 		arg obj;
 
-		~haltKey = 1;
-		if(~hornDynamicButton.value != 0, {~hornDynamicButton.valueAction_(0);});
+		//~haltKey = 1;
+		if(~hornDynamicButton.value != 0, {
+			//~hornDynamicButton.valueAction_(0);
+			~hornAudioHaltKey = 1;
+		});
 		//	if(~fluteDynamicButton.value != 0, {~fluteDynamicButton.valueAction_(0);});
-		if(~trumpetDynamicButton.value != 0, {~trumpetDynamicButton.valueAction_(0);});
-		if(~celloDynamicButton.value != 0, {~celloDynamicButton.valueAction_(0);});
+		if(~trumpetDynamicButton.value != 0, {
+			//~trumpetDynamicButton.valueAction_(0);
+			~trumpetAudioHaltKey = 1;
+		});
+		if(~celloDynamicButton.value != 0, {
+			//~celloDynamicButton.valueAction_(0);
+			~celloAudioHaltKey = 1;
+		});
 
 		~spectraDynamicButtonAction.value(obj:obj, instrument:"flute", harmonicAmount:16, fundamentalNote:72);
 	});
@@ -1076,11 +949,20 @@ Volume:"++obj.value).asString
 	.font_(Font("nil", 14))
 	.action_({
 		arg obj;
-		~haltKey = 1;
-		if(~hornDynamicButton.value != 0, {~hornDynamicButton.valueAction_(0);});
-		if(~fluteDynamicButton.value != 0, {~fluteDynamicButton.valueAction_(0);});
-		//	if(~trumpetDynamicButton.value != 0, {~trumpetDynamicButton.valueAction_(0);});
-		if(~celloDynamicButton.value != 0, {~celloDynamicButton.valueAction_(0);});
+		//~haltKey = 1;
+		if(~hornDynamicButton.value != 0, {
+			//~hornDynamicButton.valueAction_(0);
+			~hornAudioHaltKey = 1;
+		});
+		//	if(~fluteDynamicButton.value != 0, {~fluteDynamicButton.valueAction_(0);});
+		if(~fluteDynamicButton.value != 0, {
+			//~trumpetDynamicButton.valueAction_(0);
+			~fluteAudioHaltKey = 1;
+		});
+		if(~celloDynamicButton.value != 0, {
+			//~celloDynamicButton.valueAction_(0);
+			~celloAudioHaltKey = 1;
+		});
 
 		~spectraDynamicButtonAction.value(obj:obj, instrument:"trumpet", harmonicAmount:16, fundamentalNote:60);
 	});
@@ -1091,12 +973,21 @@ Volume:"++obj.value).asString
 	.font_(Font("nil", 14))
 	.action_({
 		arg obj;
-		~haltKey = 1;
+		//~haltKey = 1;
 
-		if(~hornDynamicButton.value != 0, {~hornDynamicButton.valueAction_(0);});
-		if(~fluteDynamicButton.value != 0, {~fluteDynamicButton.valueAction_(0);});
-		if(~trumpetDynamicButton.value != 0, {~trumpetDynamicButton.valueAction_(0);});
-		//	if(~celloDynamicButton.value != 0, {~celloDynamicButton.valueAction_(0);});
+		if(~hornDynamicButton.value != 0, {
+			//~hornDynamicButton.valueAction_(0);
+			~hornAudioHaltKey = 1;
+		});
+		//	if(~fluteDynamicButton.value != 0, {~fluteDynamicButton.valueAction_(0);});
+		if(~trumpetDynamicButton.value != 0, {
+			//~trumpetDynamicButton.valueAction_(0);
+			~trumpetAudioHaltKey = 1;
+		});
+		if(~fluteDynamicButton.value != 0, {
+			//~fluteDynamicButton.valueAction_(0);
+			~fluteAudioHaltKey = 1;
+		});
 
 		~spectraDynamicButtonAction.value(obj:obj, instrument:"cello", harmonicAmount:16, fundamentalNote:60);
 	});

@@ -13,16 +13,20 @@
 	arg obj, instrument, fundamentalNote;
 	if(obj.value == 1,
 		{
+
 			//var variable;
 			//variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
 
 			// Free any Dynamic sounds
 			//~spectraFreeDynamicAll.value; // ATTENTION
-			~haltKey = 1;
+			//~haltKey = 1;
 
 			~spectraFreeAudioAll.value;
+//~spectraFreeDynamicAll.value;
+			~spectraFreeDynamicAllKeyMethod.value; // This method uses the HaltKeys directly and thus does not cause the ~button to reset to 0 every time it is used
+		//	~spectraFreePowerAll.value;
 
-			~spectraFreePowerAll.value;
+			~spectraPowerButtonStatus = 1;
 
 			~vinbutton.valueAction_(0);
 
@@ -44,7 +48,8 @@
 
 		}, {
 			x.free;
-			~button.value_(0);
+			~spectraPowerButtonStatus = 0;
+			~button.value_(0); // Must be .value instead of .valueAction so can go directly from one button to another
 			~stop_UserView.bounds_(Rect(400-(100/2)-92,65,1,1));
 			~synth_menu.background_(Color(0.7569-0.1,0.1373-0.1,0.1725-0.1,1));
 			~synth_menu.stringColor_(Color.black);
@@ -60,6 +65,11 @@
 ~spectraFreePowerSpecify = {
 	arg instrument;
 	if(("~" ++ instrument ++ "PowerButton").interpret.value == 1, {("~" ++ instrument ++ "PowerButton").interpret.valueAction_(0)});
+};
+
+~spectraFreePowerSpecifyValueOnly = {
+	arg instrument;
+	if(("~" ++ instrument ++ "PowerButton").interpret.value == 1, {("~" ++ instrument ++ "PowerButton").interpret.value_(0)});
 };
 
 ~spectraFreePowerAll = {
@@ -78,53 +88,76 @@
 ~spectraDynamicButtonAction = {
 	arg obj, instrument, harmonicAmount, fundamentalNote;
 
-	"START Button clicked.".postln;
+	"START of button action".postln;
 
 	if(obj.value == 1, {
 
-		"obj.value == 1".postln;
+		(instrument + "obj.value == 1").postln;
 
-		~button.value.postln;
-		~haltKey.postln;
+		//~button.value.postln;
+		//~haltKey.postln;
 
 		~freqslider.valueAction_(fundamentalNote.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
 		~haltKey = 0;
-		~haltKey.postln;
-		~button.value.postln;
-		"0, 0".postln;
+		("~" ++ instrument ++ "AudioHaltKey = 0").interpret.postln;
+		[("~" ++ instrument ++ "AudioHaltKey").asString, ("~" ++ instrument ++ "AudioHaltKey").interpret].postln;
 
-				if(x.isPlaying, {x.free;});
-		if(~celloAudioButton.value == 1, {~celloAudioButton.valueAction_(0)});
+		/*~haltKey.postln;
+		~button.value.postln;
+		"0, 0".postln;*/
+
+		if(x.isPlaying, {x.free;});
+		~spectraFreeAudioAll.value;
+		/*if(~celloAudioButton.value == 1, {~celloAudioButton.valueAction_(0)});
 		if(~trumpetAudioButton.value == 1, {~trumpetAudioButton.valueAction_(0)});
 		if(~fluteAudioButton.value == 1, {~fluteAudioButton.valueAction_(0)});
-		if(~hornAudioButton.value == 1, {~hornAudioButton.valueAction_(0)});
+		if(~hornAudioButton.value == 1, {~hornAudioButton.valueAction_(0)});*/
 
-
-		~keyNoteColorChangeFunction_dataLoad.value(instrument);
-		~call_keyNoteColorChangeFunction.value(harmonicAmount);
-
+		~keyNoteColorChangeFunction_dataLoad.value(instrument:instrument);
+		~call_keyNoteColorChangeFunction.value(harmonicAmount:harmonicAmount, instrument:instrument);
 
 		~spectraFreePowerAll.value;
 
-
-		~button.value.postln;
+		//~button.value.postln;
 		~button.valueAction_(1).postln;
-		~button.value.postln;
+		//~button.value.postln;
 
 		~vinbutton.valueAction_(0);
-	},{
-		"obj.value == 0".postln;
 
-		"~haltKey".postln;
+		["Sum of keys", (~celloAudioHaltKey + ~trumpetAudioHaltKey + ~fluteAudioHaltKey + ~hornAudioHaltKey)].postln;
+	},{
+		(instrument + "obj.value == 0").postln;
+
+		/*"~haltKey".postln;
 		~haltKey.postln;
 		"~button".postln;
-		~button.value.postln;
+		~button.value.postln;*/
 
-		~button.valueAction_(0); // ATTENTION
-		~button.value.postln;
+		//~button.valueAction_(0); // ATTENTION
+		//~button.value.postln;
 
-		~haltKey = 1;
-		~haltKey.postln;
+		//~haltKey = 1;
+		("~" ++ instrument ++ "AudioHaltKey = 1").interpret.postln;
+		//("~" ++ instrument ++ "AudioHaltKey == 1").interpret.postln;
+		[("~" ++ instrument ++ "AudioHaltKey").asString, ("~" ++ instrument ++ "AudioHaltKey").interpret].postln;
+
+		/*AppClock.sched(1, {
+				("~" ++ instrument ++ "AudioHaltKey = 0").interpret;
+					[("~" ++ instrument ++ "AudioHaltKey").asString, ("~" ++ instrument ++ "AudioHaltKey").interpret].postln;
+				});*/
+
+				["Sum of keys", (~celloAudioHaltKey + ~trumpetAudioHaltKey + ~fluteAudioHaltKey + ~hornAudioHaltKey)].postln;
+
+		if(
+			and(
+				(~celloAudioHaltKey + ~trumpetAudioHaltKey + ~fluteAudioHaltKey + ~hornAudioHaltKey) >= 3
+				, ~spectraPowerButtonStatus == 0)
+		, {
+			~button.valueAction_(0);
+
+		});
+
+		//~haltKey.postln;
 		"END Button off.".postln;
 	});
 
@@ -138,6 +171,13 @@
 	if(~celloDynamicButton.value == 1, {~celloDynamicButton.valueAction_(0)});
 };
 
+
+~spectraFreeDynamicAllKeyMethod = {
+	if(~fluteDynamicButton.value == 1, {~fluteAudioHaltKey = 1});
+	if(~trumpetDynamicButton.value == 1, {~trumpetAudioHaltKey = 1});
+	if(~hornDynamicButton.value == 1, {~hornAudioHaltKey = 1});
+	if(~celloDynamicButton.value == 1, {~celloAudioHaltKey = 1});
+};
 
 
 // Actions commands for the Audio Recordings two-state buttons.
@@ -220,10 +260,10 @@
 		~vinbutton.valueAction_(0);
 
 		switch(instrument,
-			"cello", {AppClock.sched(2.4, {if(howLongPlaying > 21, {~celloAudioButton.valueAction_(0); "Cello audio finished.".postln});})},
-			"trumpet", {AppClock.sched(4, {if(howLongPlaying > 38, {~trumpetAudioButton.valueAction_(0); "Trumpet audio finished.".postln});})},
-			"flute", {AppClock.sched(3, {if(howLongPlaying > 28, {~fluteAudioButton.valueAction_(0); "Flute audio finished.".postln});})},
-			"horn", {AppClock.sched(3, {if(howLongPlaying > 28, {~hornAudioButton.valueAction_(0); "Horn audio finished.".postln});})}
+			"cello", {AppClock.sched(2.4, {if(howLongPlaying > 23, {~celloAudioButton.valueAction_(0); "Cello audio finished.".postln});})},
+			"trumpet", {AppClock.sched(4, {if(howLongPlaying > 39, {~trumpetAudioButton.valueAction_(0); "Trumpet audio finished.".postln});})},
+			"flute", {AppClock.sched(3, {if(howLongPlaying > 29, {~fluteAudioButton.valueAction_(0); "Flute audio finished.".postln});})},
+			"horn", {AppClock.sched(3, {if(howLongPlaying > 29, {~hornAudioButton.valueAction_(0); "Horn audio finished.".postln});})}
 		);
 
 	}, {
