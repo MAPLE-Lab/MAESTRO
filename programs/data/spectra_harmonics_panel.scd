@@ -17,16 +17,14 @@
 .background_(Color(0.8,0.8,0.8,0.75))
 .value_(0.5)
 .mouseOverAction_({
-if(~inspectorExists == 1, {"
-		++
-		"~slider_hover =" + item
+		~slider_hover =" + item
 		++
 		"; (~trace.asString +/+ " ++ ~embed.asCompileString ++ ").load;
-});})
+})
 .mouseLeaveAction_({
 	if(~inspectorExists == 1, {
 ~inspectorText.string_(" ++ ~empty.asCompileString ++ ");
-		~inspectorHarmonicsPanel.bounds_(Rect(10+300, 60, 280, 70));
+		// ~inspectorHarmonicsPanel.bounds_(Rect(10+300, 60, 280, 70));
 });})
 	.action_({
 	arg obj;

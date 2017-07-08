@@ -26,6 +26,14 @@ if(~spectra_scope != nil, {
 //Set the decibel range of the spectra
 ~spectra_db = 70;
 
+// Create black background
+StaticText.new(~composite, Rect(
+	0,
+	0,
+	~spectraScreenComposite_bounds_width,
+	~spectraScreenComposite_bounds_height
+)).background_(Color.yellow);
+
 //Creates the spectra
 ~spectra_scope = f = h = FreqScopeView.new(~composite, Rect.new(0,0,~spectraScreenComposite_bounds_width,~spectraScreenComposite_bounds_height));
 
@@ -61,7 +69,7 @@ if(~module_ID == "spectra",
 });
 
 //x-axis (Frequency) label
-StaticText(~composite,Rect(10,~spectraScreenComposite_bounds_height-33,100,15))
+StaticText(~composite,Rect(10,~spectraScreenComposite_bounds_height-33-15,100,15))
 .string_("Frequency")
 .align_(\topLeft)
 .stringColor_(Color.white)
@@ -70,28 +78,46 @@ StaticText(~composite,Rect(10,~spectraScreenComposite_bounds_height-33,100,15))
 //Starting variable values for the sliders
 ~spectra_width = ~spectraScreenComposite_bounds_width;
 ~spectra_height = ~spectraScreenComposite_bounds_height;
+~spectraShiftHorizontal = 0;
 
 //Sliders to scale the spectra
 ~spectra_x = Slider(~composite, Rect(
 	0,
-	~spectraScreenComposite_bounds_height-15,
+	~spectraScreenComposite_bounds_height-30,
 	~spectraScreenComposite_bounds_width,
 	15))
 .value_(0)
 .action_({
 	~spectra_width = ~spectra_x.value.linlin(0,1,~spectraScreenComposite_bounds_width,~spectraScreenComposite_bounds_width*10);
-	~spectra_scope.bounds_(Rect.new(0,0,~spectra_width,~spectra_height));
+	~spectra_scope.bounds_(Rect.new(~spectraShiftHorizontal,0,~spectra_width,~spectra_height));
+
+			~sliderDataPost.value;
+
 	});
 
 ~spectra_y = Slider(~composite, Rect(
 	~spectraScreenComposite_bounds_width-15,
 	0,
 	15,
-	~spectraScreenComposite_bounds_height-15))
+	~spectraScreenComposite_bounds_height-15-15))
 .value_(0.5)
 .action_({
 	~spectra_db = ~spectra_y.value.linlin(0,1,0,140);
 	~spectra_scope.dbRange_(~spectra_db);
+	});
+
+~spectra_xShift = Slider(~composite, Rect(
+	0,
+	~spectraScreenComposite_bounds_height-15,
+	~spectraScreenComposite_bounds_width,
+	15))
+.value_(1)
+.background_(Color.blue)
+.action_({
+	~spectraShiftHorizontal = ~spectra_xShift.value.linlin(0,1,-700,0);
+	~spectra_scope.bounds_(Rect.new(~spectraShiftHorizontal,0,~spectra_width,~spectra_height));
+
+	~sliderDataPost.value;
 	});
 
 //Button to change between Log to Linear view
@@ -166,14 +192,82 @@ if(~module_ID == "spectra",{
 //If all 16 harmonics are being played, the functions follows a reasonable curve (from trial and error testing) based on the fundamental frequency; however, because the maximum frequency cannot be higher than the 16th harmonic, this formula allows the auto-adjustment of the scaling regardless of whether it is the 16th harmonic or less.
 ~sixteenth_of_max_freq = ~max_freq/16;
 
+	if(~module_ID == "spectra",{
+		// For Spectra:
+		~freqSurrogateVar = ((~energyTruncated.size+1)*~fundamental_freq)/16;
+	},{
+		~freqSurrogateVar = ((~harmonic_count+1)*~fundamental_freq)/16;
+	});
+
 //4. Calculate the position of ~spectra_x to autoscale the screen
 if(~spectra_scope.freqMode == 1,{
 
 		//If the spectra is set to Log view
-		~spectra_x.valueAction = 2 ** ((-0.01)*(~sixteenth_of_max_freq+310));
+		//~spectra_x.valueAction = 2 ** ((-0.01)*(~freqSurrogateVar+310));
+
+		if(~freqSurrogateVar > 90, {
+			// Above 90Hz
+
+			if(~freqSurrogateVar < 1900, {
+				// Between 90Hz and 1900Hz
+
+				~spectra_xShift.valueAction =(-log(~freqSurrogateVar-70))*(0.4)+1.5
+
+
+				if(~freqSurrogateVar < 290, {
+					// Between 90Hz and 290Hz
+					~spectra_x.valueAction =0.013*sqrt(~freqSurrogateVar/10-9.276)+0.07;
+				},{
+					// Between 290Hz and 1900Hz
+					~spectra_x.valueAction = ~freqSurrogateVar*0.00001+0.125;
+				});
+
+
+			},{
+				// Above 1900Hz
+				~spectra_xShift.valueAction = 0;
+
+				if(~freqSurrogateVar < 2900, {
+					// Between 1900Hz and 2900Hz
+					~spectra_x.valueAction = 0.198;
+				},{
+					// Above 2900Hz
+					~spectra_x.valueAction = 0.207;
+				});
+			});
+
+		},{
+			// Less than 90Hz
+			~spectra_x.valueAction = 1;
+			~spectra_xShift.valueAction = -~freqSurrogateVar*0.001+0.155;
+		});
+
+
 	},{
 		//If the spectra is set to Linear view
-		~spectra_x.valueAction = 2 ** ((-0.008)*(~sixteenth_of_max_freq-110));
+
+		/*
+		~eq1 = 2 ** ((-0.01)*(~freqSurrogateVar-140));
+		~eq2 = (-0.00085)*(~freqSurrogateVar-1330);
+
+		~spectra_x.valueAction = (~eq1*0.85)+(~eq2*0.15);
+		*/
+
+		if(~freqSurrogateVar > 150, {
+			//  150Hz or higher
+			if(~freqSurrogateVar < 1400, {
+				// Between 150Hz and 1400 Hz
+				~spectra_x.valueAction = (3.1-log(~freqSurrogateVar-139))*(0.5)
+			}, {
+				// Above 1400 Hz
+				~spectra_x.valueAction = 0
+			}
+			);
+		}, {
+			// Less than 150Hz
+			~spectra_x.valueAction = 1
+		});
+
 	});
 };);
 

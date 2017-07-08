@@ -65,7 +65,10 @@
 
 			keyArray = ~harmonicsDataArray[0];
 
-~freqslider.valueAction_(~freqslider.value); // Work-around for updating
+			~freqslider.valueAction_(~freqslider.value); // Work-around for updating the keyboard GUI
+
+			(~trace +/+ "data/spectra_harmonics_panel_hover_enter.scd").load; // Updating live the Information panel underneath the Harmonics panel
+
 
 			// Time control
 			integer = integer + 1;
@@ -90,7 +93,7 @@
 		[("~" ++ instrument ++ "AudioHaltKey").asString, ("~" ++ instrument ++ "AudioHaltKey").interpret].postln;
 
 
-				if(and((~celloAudioHaltKey + ~trumpetAudioHaltKey + ~fluteAudioHaltKey + ~hornAudioHaltKey) >= 3, ~spectraPowerButtonStatus == 0), {
+				if(and((~celloAudioHaltKey + ~trumpetAudioHaltKey + ~fluteAudioHaltKey + ~hornAudioHaltKey) == 4, ~spectraPowerButtonStatus == 0), {
 			~button.valueAction_(0);
 		});
 

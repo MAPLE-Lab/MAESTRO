@@ -33,10 +33,9 @@
 			~freqslider.valueAction_(fundamentalNote.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
 			~volslider.valueAction_(0.4.value.linlin(0,1,0,1));
 
-			x.free; // Clears previous sound
+			if(x.isPlaying, {x.free}); // Clears previous sound
 
 			// l.free; // Unknown purpose
-
 
 			AppClock.sched(0.05, { // The delay is to ensure the Dynamic Spectra can finish before this activates; otherwise the sliders will be set to 0 because the 0 setting overprioritizes or comes after this Power set
 				"AppClock for Power Spectra sent message after 0.05s.".postln;

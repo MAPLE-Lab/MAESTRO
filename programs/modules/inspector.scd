@@ -44,7 +44,7 @@ Towards: Pre-release v0.1.3-beta
 .background_(Color(1,1,1,0))
 .stringColor_(Color(0.8,0,0,1));
 
-(
+/*( // Moved to SPECTRA directly under the panel
 // CompositeView for the SPECTRA Harmonics Panel
 ~inspectorHarmonicsPanel =
 CompositeView(~inspectorWindow, Rect(10, 60, 280, 70)).background_(Color.grey(0.85));
@@ -106,7 +106,7 @@ NumberBox(~inspectorHarmonicsPanel, Rect(50,20,50,15))
 .align_(\center)
 .maxDecimals_(4)
 .background_(Color.grey(0.8));
-);
+);*/
 
 ~inspectorWindow.onClose_({
 	~inspector.valueAction_(0); //Oddly, using valueAction instead of value loads the window opening faster

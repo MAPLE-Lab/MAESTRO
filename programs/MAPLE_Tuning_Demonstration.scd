@@ -18,7 +18,7 @@ s.waitForBoot({
 var basePath = thisProcess.nowExecutingPath.asString.dirname;
 
 //Avoids delay when the Recording button is pressed
-s.prepareForRecord;
+//s.prepareForRecord;
 
 //A. Create window and aesthetics
 (

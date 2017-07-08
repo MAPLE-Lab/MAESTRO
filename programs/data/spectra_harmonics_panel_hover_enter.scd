@@ -1,6 +1,6 @@
 (
-		if(~inspectorExists == 1, {
-	~inspectorHarmonicsPanel.bounds_(Rect(10, 60, 280, 70));
+// if(~inspectorExists == 1, { // No longer needs this IF, as it is now directly in the SPECTRA
+// ~inspectorHarmonicsPanel.bounds_(Rect(10, 60, 280, 70));
 
 	~harmonic_in_effect = ("~f"++~slider_hover++"slider").asString;
 
@@ -44,6 +44,5 @@
 
 //thisFunction.value.postln; // This breaks SC
 
-};
-		);
+// };);
 	);

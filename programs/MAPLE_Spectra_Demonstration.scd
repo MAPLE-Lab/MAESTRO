@@ -223,15 +223,35 @@ s.waitForBoot({
 			//	~synth_menu.background_(Color.black);
 			//	~synth_menu.stringColor_(Color.white);
 
-~vinbutton.valueAction_(0);
-				x.free;
-				~vinbutton.valueAction_(1);
-snd = funcs2.at(~synth_menu.value).play;
+//~vinbutton.valueAction_(0);
+				if(x.isPlaying, {x.free});
+//				~vinbutton.valueAction_(1);
+
+								//~spectraFreePowerAll.value; // Not necessary, and conflicts with the ~button.value
+				~spectraFreeAudioAll.value;
+
+				~spectraPowerButtonStatus = 4 - (~celloAudioHaltKey + ~trumpetAudioHaltKey + ~fluteAudioHaltKey + ~hornAudioHaltKey);
+
+				if(~spectraPowerButtonStatus > 0, { // If any Dynamic Spectra are playing
+
+					~spectraFreeDynamicAllKeyMethod.value; // Halt the Dynamic Spectra but do not affect the ~button
+
+					AppClock.sched(0.05, { // The delay is to ensure the Dynamic Spectra can finish before this activates; otherwise the sliders will be set to 0 because the 0 setting overprioritizes or comes after this Power set
+				"AppClock for Dropdown Menu sent message after 0.05s.".postln;
+				// The Power button seems to be reset to 0 coming off of Dynamic
+
+						snd = funcs2.at(~synth_menu.value).value; // Changed from .play to .value to allow the ~instrumentsCover.bounds command to work without an error message
+
+				nil;
+			});
+
+				}, { // If no Dynamic Spectra are playing, the change can be immediate (i.e. no AppClock delay necessary)
+
+				snd = funcs2.at(~synth_menu.value).value; // Changed from .play to .value to allow the ~instrumentsCover.bounds command to work without an error message
+				});
 l.free;
-				if(~fluteAudioButton.value == 1, {~fluteAudioButton.valueAction_(0)}); //z.free;
-				if(~trumpetAudioButton.value == 1, {~trumpetAudioButton.valueAction_(0)}); //v.free;
-				if(~hornAudioButton.value == 1, {~hornAudioButton.valueAction_(0)}); //t.free;
-				if(~celloAudioButton.value == 1, {~celloAudioButton.valueAction_(0)}); //y.free;
+
+
 
 				// x.set(menu.action);
 
@@ -240,25 +260,23 @@ l.free;
 
  funcs2 = [
 				{ //sine
-		var variable;
-		variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
+
 		//~freqslider.valueAction_(69.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
 
 					//~volslider.valueAction_(1.value.linlin(0,1,0,1));
 
 
+
+
+
 					~fNsliderAction.value(intensityArray:[2]);
 
-		x.free; ///NEED TO ADD OSC DELAY
+					if(x.isPlaying, {x.free}); ///NEED TO ADD OSC DELAY
 
 					if(~button.value == 1,
 						{~button.valueAction_(1)});
 
-					~l.valueAction_(0);
-				~k.valueAction_(0);
-								~j.valueAction_(0);
-					~instrumentsCover.bounds_(Rect(10,410+2,(790-10), 120));
-
+		~instrumentsCover.bounds_(Rect(10,410+2,(790-10), 120));
 	},
 
 		/*		{//triangle
@@ -290,10 +308,10 @@ l.free;
 
 	},*/
 				{ //Square??
-		var variable;
-		variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
+
 		//~freqslider.valueAction_(69.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
 		//~volslider.valueAction_(1.value.linlin(0,1,0,1));
+
 					~f1slider.valueAction_(1.value.linlin(0.0,2,0,1));
 		~f2slider.valueAction_(0.value.linlin(0.0,2,0,1));
 		~f3slider.valueAction_(0.32.value.linlin(0.0,2,0,1));
@@ -310,18 +328,21 @@ l.free;
 		~f14slider.valueAction_(0.value.linlin(0.0,2,0,1));
 		~f15slider.valueAction_(0.07.value.linlin(0.0,2,0,1));
 		~f16slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		x.free; ///NEED TO ADD OSC DELAY
-		if(~button.value == 1,
+
+			if(x.isPlaying, {x.free});  ///NEED TO ADD OSC DELAY
+
+					if(~button.value == 1,
 						{~button.valueAction_(1)});
-					~l.valueAction_(0);
+
+					/*~l.valueAction_(0);
 				~k.valueAction_(0);
-								~j.valueAction_(0);
+								~j.valueAction_(0);*/
+
 					~instrumentsCover.bounds_(Rect(10,410+2,(790-10), 120));
 
 	},
 				{ //saw
-		var variable;
-		variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
+
 		//~freqslider.valueAction_(69.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
 		//~volslider.valueAction_(0.8.value.linlin(0,1,0,1));
 		~f1slider.valueAction_(1.value.linlin(0.0,2,0,1));
@@ -340,25 +361,33 @@ l.free;
 					~f14slider.valueAction_((1/14**1).value.linlin(0.0,2,0,1));
 					~f15slider.valueAction_((1/15**1).value.linlin(0.0,2,0,1));
 					~f16slider.valueAction_((1/16**1).value.linlin(0.0,2,0,1));
-		x.free; ///NEED TO ADD OSC DELAY
-		if(~button.value == 1,
+
+					if(x.isPlaying, {x.free});  ///NEED TO ADD OSC DELAY
+
+					if(~button.value == 1,
 						{~button.valueAction_(1)});
-					~l.valueAction_(0);
+
+					/*~l.valueAction_(0);
 				~k.valueAction_(0);
-								~j.valueAction_(0);
+								~j.valueAction_(0);*/
+
 					~instrumentsCover.bounds_(Rect(10,410+2,(790-10), 120));
 	},
 
-				{"instruments (harmonics panel)".postln;
-					x.free; ///NEED TO ADD OSC DELAY
-		~button.valueAction_(0);
-					~l.valueAction_(0);
+				{//"Instruments (harmonics panel)".postln;
+						if(x.isPlaying, {x.free});  ///NEED TO ADD OSC DELAY
+
+					~button.valueAction_(0); // Automatically start in the off position
+
+					/*~l.valueAction_(0);
 				~k.valueAction_(0);
-								~j.valueAction_(0);
+								~j.valueAction_(0);*/
+
 					~synth_menu.background_(Color(0.7569-0.1,0.1373-0.1,0.1725-0.1,1));
 					~synth_menu.stringColor_(Color.black);
 
 					~reset.valueAction_(0); // Resets the intensities when set to Instruments.
+
 					~instrumentsCover.bounds_(Rect(10,410+2,(790-10), 120-120));
 				}
 
@@ -483,6 +512,8 @@ l.free;
 	.action_({
 	arg obj;
 	var cf;
+
+
 	cf = obj.value.linlin(0,1,21,108); //.postln;
 		~fundamental_note = obj.value.linlin(0,1,21,108);
 		~fundamental_note; //.postln;
@@ -1028,8 +1059,71 @@ SynthDef.new("sound", {
 
 
 
-	/////////////////SLIDERS
+	// Harmonic Panel
+	// 16 Sliders
 (basePath +/+  "data/spectra_harmonics_panel.scd").load; //This calls the naming function from another code block to help keep this program clean and modular
+
+	// Adapted from previous ~inspector:
+	(
+// CompositeView for the SPECTRA Harmonics Panel
+~inspectorHarmonicsPanel =
+CompositeView(w, Rect(70-20,145+230+10,20*16+20,30)).background_(Color.clear);
+
+~inspectorHarmonicsPanel_harmonic_text =
+StaticText(~inspectorHarmonicsPanel, Rect(0,0,60,15))
+.string_("Harmonic:")
+.font_(Font("Helvetica", 12, false))
+.align_(\left);
+
+~inspectorHarmonicsPanel_harmonic_number =
+NumberBox(~inspectorHarmonicsPanel, Rect(55,0,20,15))
+.font_(Font("Helvetica", 11))
+.align_(\center)
+.background_(Color.grey(0.8));
+
+
+~inspectorHarmonicsPanel_pitch_text =
+StaticText(~inspectorHarmonicsPanel, Rect(90,0,60,15))
+.string_("Pitch:")
+.font_(Font("Helvetica", 12, false))
+.align_(\left);
+
+~inspectorHarmonicsPanel_pitch_number =
+StaticText(~inspectorHarmonicsPanel, Rect(120,0,25,15))
+.font_(Font("Helvetica", 11))
+.align_(\center)
+.string_(~note_name.string)
+.background_(Color.white)
+.background_(Color.grey(0.8));
+
+
+~inspectorHarmonicsPanel_frequency_text =
+StaticText(~inspectorHarmonicsPanel, Rect(160,0,60,15))
+.string_("Freq.:")
+.font_(Font("Helvetica", 12, false))
+.align_(\left);
+
+~inspectorHarmonicsPanel_frequency_number =
+NumberBox(~inspectorHarmonicsPanel, Rect(193,0,40,15))
+.font_(Font("Helvetica", 11))
+.align_(\center)
+.decimals_(0)
+.background_(Color.grey(0.8));
+
+
+~inspectorHarmonicsPanel_intensity_text =
+StaticText(~inspectorHarmonicsPanel, Rect(245,0,50,15))
+.string_("Intensity:")
+.font_(Font("Helvetica", 12, false))
+.align_(\left);
+
+~inspectorHarmonicsPanel_intensity_number =
+NumberBox(~inspectorHarmonicsPanel, Rect(294,0,45,15))
+.font_(Font("Helvetica", 11))
+.align_(\center)
+.maxDecimals_(4)
+.background_(Color.grey(0.8));
+);
 
 
 ~quit = Button.new(w, Rect(760,65,30,30))
@@ -1209,8 +1303,10 @@ intensities", Color.white,Color(0.4824, 0.4863, 0.4863,1)]
 ])
 .font_(Font("nil", 6))
 .action_({
+		~fNsliderAction.value(intensityArray:[]);
+
 		//~volslider.valueAction_(0.2.value.linlin(0,1,0,1));
-		~f1slider.valueAction_(1.value.linlin(0.0,2,0,1));
+		/*~f1slider.valueAction_(1.value.linlin(0.0,2,0,1));
 		~f2slider.valueAction_(1.value.linlin(0.0,2,0,1));
 		~f3slider.valueAction_(1.value.linlin(0.0,2,0,1));
 		~f4slider.valueAction_(1.value.linlin(0.0,2,0,1));
@@ -1225,7 +1321,7 @@ intensities", Color.white,Color(0.4824, 0.4863, 0.4863,1)]
 		~f13slider.valueAction_(1.value.linlin(0.0,2,0,1));
 		~f14slider.valueAction_(1.value.linlin(0.0,2,0,1));
 		~f15slider.valueAction_(1.value.linlin(0.0,2,0,1));
-		~f16slider.valueAction_(1.value.linlin(0.0,2,0,1));
+		~f16slider.valueAction_(1.value.linlin(0.0,2,0,1));*/
 
 });
 
