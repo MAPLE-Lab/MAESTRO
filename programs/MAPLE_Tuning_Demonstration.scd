@@ -200,6 +200,11 @@ if(~vinbutton.value == 1, {
 ~fundamental_freq = ((2**((-69+~fundamental_note)/12))*440);
 		~numberfBox.value_(~fundamental_freq);
 
+				if(~spectraButton.value == 1,{
+			//{~spectraButton.valueAction_(1);}); // Automatically updates the Autoscaling
+			~spectra_scopeAutoscaleFunction.value;}) // Bypass the Button system entirely to reduce CPU load
+
+
 })
 	.orientation_(\horizontal);
 

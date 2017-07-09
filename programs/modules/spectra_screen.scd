@@ -32,7 +32,7 @@ StaticText.new(~composite, Rect(
 	0,
 	~spectraScreenComposite_bounds_width,
 	~spectraScreenComposite_bounds_height
-)).background_(Color.yellow);
+)).background_(Color.black);
 
 //Creates the spectra
 ~spectra_scope = f = h = FreqScopeView.new(~composite, Rect.new(0,0,~spectraScreenComposite_bounds_width,~spectraScreenComposite_bounds_height));
@@ -81,18 +81,38 @@ StaticText(~composite,Rect(10,~spectraScreenComposite_bounds_height-33-15,100,15
 ~spectraShiftHorizontal = 0;
 
 //Sliders to scale the spectra
+~spectra_xLabel = StaticText(~composite, Rect(
+	0,
+	~spectraScreenComposite_bounds_height-30+1,
+	~spectraScreenComposite_bounds_width-10,
+	15))
+.string_("Scale of Spectra")
+.align_(\right)
+.stringColor_(Color.white)
+.font_(Font("Helvetica", 8));
+
+~spectra_xShiftLabel = StaticText(~composite, Rect(
+	0,
+	~spectraScreenComposite_bounds_height-30+15+1,
+	~spectraScreenComposite_bounds_width-10,
+	15))
+.string_("Horizontal Shift of Spectra")
+.align_(\right)
+.stringColor_(Color.white)
+.font_(Font("Helvetica", 8));
+
 ~spectra_x = Slider(~composite, Rect(
 	0,
 	~spectraScreenComposite_bounds_height-30,
 	~spectraScreenComposite_bounds_width,
 	15))
 .value_(0)
+.background_(Color.grey(0.75,0)) // Sliders cannot do alpha 0, but can do alpha 0.25
 .action_({
 	~spectra_width = ~spectra_x.value.linlin(0,1,~spectraScreenComposite_bounds_width,~spectraScreenComposite_bounds_width*10);
 	~spectra_scope.bounds_(Rect.new(~spectraShiftHorizontal,0,~spectra_width,~spectra_height));
 
-			~sliderDataPost.value;
-
+			//~sliderDataPost.value;
 	});
 
 ~spectra_y = Slider(~composite, Rect(
@@ -112,13 +132,20 @@ StaticText(~composite,Rect(10,~spectraScreenComposite_bounds_height-33-15,100,15
 	~spectraScreenComposite_bounds_width,
 	15))
 .value_(1)
-.background_(Color.blue)
+.background_(Color.grey(0.25,0))
 .action_({
 	~spectraShiftHorizontal = ~spectra_xShift.value.linlin(0,1,-700,0);
 	~spectra_scope.bounds_(Rect.new(~spectraShiftHorizontal,0,~spectra_width,~spectra_height));
 
-	~sliderDataPost.value;
+	//~sliderDataPost.value;
 	});
+
+// Function to see the values of the sliders (currently not in use but is fully functional if needed for troubleshooting)
+~sliderDataPost = {
+	["~spectra_x", ~spectra_x.value].postln;
+	["~spectra_xShift", ~spectra_xShift.value].postln;
+	["~spectra_y", ~spectra_y.value].postln;
+};
 
 //Button to change between Log to Linear view
 ~spectraButton = Button(w, Rect(
@@ -145,10 +172,25 @@ StaticText(~composite,Rect(10,~spectraScreenComposite_bounds_height-33-15,100,15
 		~spectraAutoscale_bounds_array[2],
 		~spectraAutoscale_bounds_array[3]))
 .states_([
-		["Autoscale", Color.white,Color(0.4824, 0.4863, 0.4863,1)]]
+	["Autoscale Off", Color.white,Color(0.4824, 0.4863, 0.4863,1)],
+	["Autoscale On", Color.white, Color(0,0,0,1)]
+]
 	)
 .font_(Font("nil", 12))
 .action_({
+	arg obj;
+
+	if(obj.value == 1,  {
+
+~spectra_scopeAutoscaleFunction.value;
+
+	});
+
+
+};);
+
+// The autoscale function
+~spectra_scopeAutoscaleFunction = {
 
 //The following sequence of code calculates how the ~spectra_x slider should move to fit all played harmonics on screen
 
@@ -208,10 +250,54 @@ if(~spectra_scope.freqMode == 1,{
 		if(~freqSurrogateVar > 90, {
 			// Above 90Hz
 
-			if(~freqSurrogateVar < 1900, {
+			if(~freqSurrogateVar < 900, {
+					// Between 90Hz and 900Hz
+
+
+					if(~freqSurrogateVar < 115, {
+						// Between 90Hz and 115Hz
+						~spectra_xShift.valueAction = (log10(~freqSurrogateVar-70))*(-0.39)+1.5;
+					},{
+						// Between 115Hz and 1200Hz
+
+						// In SC, log = ln, and log10 = log_10. In Excel, LOG = log_10
+						~spectra_xShift.valueAction = (log10(~freqSurrogateVar-70))*(-0.375)+1.5;
+					});
+
+
+					if(~freqSurrogateVar < 290, {
+						// Between 90Hz and 290Hz
+						~spectra_x.valueAction =0.013*sqrt(~freqSurrogateVar/10-9.276)+0.07;
+					},{
+						// Between 290Hz and 900Hz
+						~spectra_x.valueAction = ~freqSurrogateVar*0.00001+0.125;
+					});
+
+
+
+
+					/* When it used to be < 1900Hz
 				// Between 90Hz and 1900Hz
 
-				~spectra_xShift.valueAction =(-log(~freqSurrogateVar-70))*(0.4)+1.5
+
+				if(~freqSurrogateVar < 1200, {
+					// Between 90Hz and 1200Hz
+
+					if(~freqSurrogateVar < 115, {
+						// Between 90Hz and 115Hz
+						~spectra_xShift.valueAction = (log10(~freqSurrogateVar-70))*(-0.39)+1.5;
+					},{
+						// Between 115Hz and 1200Hz
+
+				~spectra_xShift.valueAction = (log10(~freqSurrogateVar-70))*(-0.375)+1.5;
+				// In SC, log = ln, and log10 = log_10. In Excel, LOG = log_10
+					});
+
+
+				},{
+					// Between 1200Hz and 1900Hz
+					~spectra_xShift.valueAction = (log10(~freqSurrogateVar-70))*(-0.4)+1.5;
+				});
 
 
 				if(~freqSurrogateVar < 290, {
@@ -220,26 +306,28 @@ if(~spectra_scope.freqMode == 1,{
 				},{
 					// Between 290Hz and 1900Hz
 					~spectra_x.valueAction = ~freqSurrogateVar*0.00001+0.125;
-				});
+				});*/
 
 
 			},{
-				// Above 1900Hz
-				~spectra_xShift.valueAction = 0;
+				// Above 900Hz
+					~spectra_xShift.valueAction = 0.530726257;
+					~spectra_x.valueAction = 0.092178771;
 
-				if(~freqSurrogateVar < 2900, {
+				/*if(~freqSurrogateVar < 2900, {
 					// Between 1900Hz and 2900Hz
 					~spectra_x.valueAction = 0.198;
 				},{
 					// Above 2900Hz
 					~spectra_x.valueAction = 0.207;
-				});
+				});*/
+
 			});
 
 		},{
 			// Less than 90Hz
-			~spectra_x.valueAction = 1;
-			~spectra_xShift.valueAction = -~freqSurrogateVar*0.001+0.155;
+			~spectra_xShift.valueAction = 1;
+			~spectra_x.valueAction = ~freqSurrogateVar*(-0.0015)+0.155;
 		});
 
 
@@ -253,11 +341,13 @@ if(~spectra_scope.freqMode == 1,{
 		~spectra_x.valueAction = (~eq1*0.85)+(~eq2*0.15);
 		*/
 
+		~spectra_xShift.valueAction = 1;
+
 		if(~freqSurrogateVar > 150, {
 			//  150Hz or higher
 			if(~freqSurrogateVar < 1400, {
 				// Between 150Hz and 1400 Hz
-				~spectra_x.valueAction = (3.1-log(~freqSurrogateVar-139))*(0.5)
+				~spectra_x.valueAction = (3.1-log10(~freqSurrogateVar-139))*(0.5)
 			}, {
 				// Above 1400 Hz
 				~spectra_x.valueAction = 0
@@ -269,7 +359,7 @@ if(~spectra_scope.freqMode == 1,{
 		});
 
 	});
-};);
+		};
 
 //Activate this line of code for a width and top representation of the screen position (for WIP coding help)
 //~thingy = StaticText.new(~composite, Rect(10,0,500,50)).background_(Color.red);

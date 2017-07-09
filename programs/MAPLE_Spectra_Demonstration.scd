@@ -513,7 +513,6 @@ l.free;
 	arg obj;
 	var cf;
 
-
 	cf = obj.value.linlin(0,1,21,108); //.postln;
 		~fundamental_note = obj.value.linlin(0,1,21,108);
 		~fundamental_note; //.postln;
@@ -733,6 +732,14 @@ s.makeBundle(1.0, //sound delay -~knob.value.linlin(0,1,0,0.5)
 		~f15Box.value_(obj.value.linexp(0,1,1500,15000));
 		~f16Box.value_(obj.value.linexp(0,1,1600,16000));
 		*/
+
+
+
+			if(~spectraButton.value == 1,{
+			//{~spectraButton.valueAction_(1);}); // Automatically updates the Autoscaling
+			~spectra_scopeAutoscaleFunction.value;}) // Bypass the Button system entirely to reduce CPU load
+
+
 })
 	.orientation_(\horizontal);
 
@@ -1061,7 +1068,8 @@ SynthDef.new("sound", {
 
 	// Harmonic Panel
 	// 16 Sliders
-(basePath +/+  "data/spectra_harmonics_panel.scd").load; //This calls the naming function from another code block to help keep this program clean and modular
+
+	(basePath +/+  "data/spectra_harmonics_panel.scd").load; //This calls the naming function from another code block to help keep this program clean and modular
 
 	// Adapted from previous ~inspector:
 	(
@@ -1092,7 +1100,7 @@ StaticText(~inspectorHarmonicsPanel, Rect(90,0,60,15))
 StaticText(~inspectorHarmonicsPanel, Rect(120,0,25,15))
 .font_(Font("Helvetica", 11))
 .align_(\center)
-.string_(~note_name.string)
+.string_(~note_name.asString)
 .background_(Color.white)
 .background_(Color.grey(0.8));
 
@@ -1124,6 +1132,7 @@ NumberBox(~inspectorHarmonicsPanel, Rect(294,0,45,15))
 .maxDecimals_(4)
 .background_(Color.grey(0.8));
 );
+
 
 
 ~quit = Button.new(w, Rect(760,65,30,30))

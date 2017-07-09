@@ -31,7 +31,7 @@
 
 	););
 
-		~octave = ((~fundamental_note+~harmonic_adder[~slider_hover-1])/12).asInteger-1+1; //Added +1 after the -1 because now starts on A1 instead of A0 (nomenclature)
+		~octave = ((~fundamental_note+~harmonic_adder[~slider_hover-1])/12).asInteger-1; //Added +1 after the -1 because now starts on A1 instead of A0 (nomenclature) - UPDATE July 9 - removed the +1
 
 	~pitch_name = (~temp_name++~octave).asString;//.postln;
 );
@@ -41,6 +41,7 @@
 	~inspectorHarmonicsPanel_intensity_number.value_(~harmonic_in_effect.interpret.value);
 
 	~inspectorHarmonicsPanel_frequency_number.value_(~fundamental_freq*~slider_hover);
+
 
 //thisFunction.value.postln; // This breaks SC
 
