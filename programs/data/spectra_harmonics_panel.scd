@@ -19,7 +19,8 @@
 .mouseOverAction_({
 		~slider_hover =" + item
 		++
-		"; (~trace.asString +/+ " ++ ~embed.asCompileString ++ ").load;
+		"; ~inspectorHarmonicsPanelUpdate.value;
+//(~trace.asString +/+ " ++ ~embed.asCompileString ++ ").load;
 })
 .mouseLeaveAction_({
 	if(~inspectorExists == 1, {
@@ -35,7 +36,9 @@
 {x.set("
 		++ "\\" ++ "f" ++ item ++
 ",cf)});
-(~trace.asString +/+  " ++ ~embed.asCompileString ++").load;
+
+//(~trace.asString +/+  " ++ ~embed.asCompileString ++").load;
+~inspectorHarmonicsPanelUpdate.value; // Replaces the previous .load line, could reduce CPU load
 
 // (~trace.asString +/+  " ++ ~gui_embed.asCompileString ++ ").load.postln; // Not sure yet why this does not auto-update
 

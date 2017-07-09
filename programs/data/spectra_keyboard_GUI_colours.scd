@@ -6,6 +6,7 @@ if(~button.value == 0, {~color_array = Array.fill(200,1)});
 
 	obj = ~freqslider;
 
+~black_key_opacity = 0.5;
 
 /*A0*/(if(obj.value.linlin(0,1,21,108) <= 21, {~a0.background_(Color(1,~color_array[21-1],~color_array[21-1]));}, {~a0.background_(Color.white)}););
 /*B0*/(if(obj.value.linlin(0,1,21,108) <= 23, {~b0.background_(Color(1,~color_array[23-1],~color_array[23-1]));}, {~b0.background_(Color.white)}););
@@ -172,26 +173,26 @@ if(~button.value == 0, {~color_array = Array.fill(200,1)});
 /*ASHARP7*/(if(obj.value.linlin(0,1,21,108) <=106,{if(~color_array[106-1]<1,{~aSHARP7.background_(Color(1,~color_array[106-1],~color_array[106-1]));},{~aSHARP7.background_(Color.black)})},{~aSHARP7.background_(Color.black)}););
 
 // Extended
-/*CSHARP8*/(if(obj.value.linlin(0,1,21,108) <=109,{if(~color_array[109-1]<1,{~cSHARP8.background_(Color(1,~color_array[109-1],~color_array[109-1]));},{~cSHARP8.background_(Color.black)})},{~cSHARP8.background_(Color.black)}););
-/*DSHARP8*/(if(obj.value.linlin(0,1,21,108) <=111,{if(~color_array[111-1]<1,{~dSHARP8.background_(Color(1,~color_array[111-1],~color_array[111-1]));},{~dSHARP8.background_(Color.black)})},{~dSHARP8.background_(Color.black)}););
-/*FSHARP8*/(if(obj.value.linlin(0,1,21,108) <=114,{if(~color_array[114-1]<1,{~fSHARP8.background_(Color(1,~color_array[114-1],~color_array[114-1]));},{~fSHARP8.background_(Color.black)})},{~fSHARP8.background_(Color.black)}););
-/*GSHARP8*/(if(obj.value.linlin(0,1,21,108) <=116,{if(~color_array[116-1]<1,{~gSHARP8.background_(Color(1,~color_array[116-1],~color_array[116-1]));},{~gSHARP8.background_(Color.black)})},{~gSHARP8.background_(Color.black)}););
-/*ASHARP8*/(if(obj.value.linlin(0,1,21,108) <=118,{if(~color_array[118-1]<1,{~aSHARP8.background_(Color(1,~color_array[118-1],~color_array[118-1]));},{~aSHARP8.background_(Color.black)})},{~aSHARP8.background_(Color.black)}););
-/*CSHARP9*/(if(obj.value.linlin(0,1,21,108) <=121,{if(~color_array[121-1]<1,{~cSHARP9.background_(Color(1,~color_array[121-1],~color_array[121-1]));},{~cSHARP9.background_(Color.black)})},{~cSHARP9.background_(Color.black)}););
-/*DSHARP9*/(if(obj.value.linlin(0,1,21,108) <=123,{if(~color_array[123-1]<1,{~dSHARP9.background_(Color(1,~color_array[123-1],~color_array[123-1]));},{~dSHARP9.background_(Color.black)})},{~dSHARP9.background_(Color.black)}););
-/*FSHARP9*/(if(obj.value.linlin(0,1,21,108) <=126,{if(~color_array[126-1]<1,{~fSHARP9.background_(Color(1,~color_array[126-1],~color_array[126-1]));},{~fSHARP9.background_(Color.black)})},{~fSHARP9.background_(Color.black)}););
-/*GSHARP9*/(if(obj.value.linlin(0,1,21,108) <=128,{if(~color_array[128-1]<1,{~gSHARP9.background_(Color(1,~color_array[128-1],~color_array[128-1]));},{~gSHARP9.background_(Color.black)})},{~gSHARP9.background_(Color.black)}););
-/*ASHARP9*/(if(obj.value.linlin(0,1,21,108) <=130,{if(~color_array[130-1]<1,{~aSHARP9.background_(Color(1,~color_array[130-1],~color_array[130-1]));},{~aSHARP9.background_(Color.black)})},{~aSHARP9.background_(Color.black)}););
-/*CSHARP10*/(if(obj.value.linlin(0,1,21,108) <=133,{if(~color_array[133-1]<1,{~cSHARP10.background_(Color(1,~color_array[133-1],~color_array[133-1]));},{~cSHARP10.background_(Color.black)})},{~cSHARP10.background_(Color.black)}););
-/*DSHARP10*/(if(obj.value.linlin(0,1,21,108) <=135,{if(~color_array[135-1]<1,{~dSHARP10.background_(Color(1,~color_array[135-1],~color_array[135-1]));},{~dSHARP10.background_(Color.black)})},{~dSHARP10.background_(Color.black)}););
-/*FSHARP10*/(if(obj.value.linlin(0,1,21,108) <=138,{if(~color_array[138-1]<1,{~fSHARP10.background_(Color(1,~color_array[138-1],~color_array[138-1]));},{~fSHARP10.background_(Color.black)})},{~fSHARP10.background_(Color.black)}););
-/*GSHARP10*/(if(obj.value.linlin(0,1,21,108) <=140,{if(~color_array[140-1]<1,{~gSHARP10.background_(Color(1,~color_array[140-1],~color_array[140-1]));},{~gSHARP10.background_(Color.black)})},{~gSHARP10.background_(Color.black)}););
-/*ASHARP10*/(if(obj.value.linlin(0,1,21,108) <=142,{if(~color_array[142-1]<1,{~aSHARP10.background_(Color(1,~color_array[142-1],~color_array[142-1]));},{~aSHARP10.background_(Color.black)})},{~aSHARP10.background_(Color.black)}););
-/*CSHARP11*/(if(obj.value.linlin(0,1,21,108) <=145,{if(~color_array[145-1]<1,{~cSHARP11.background_(Color(1,~color_array[145-1],~color_array[145-1]));},{~cSHARP11.background_(Color.black)})},{~cSHARP11.background_(Color.black)}););
-/*DSHARP11*/(if(obj.value.linlin(0,1,21,108) <=147,{if(~color_array[147-1]<1,{~dSHARP11.background_(Color(1,~color_array[147-1],~color_array[147-1]));},{~dSHARP11.background_(Color.black)})},{~dSHARP11.background_(Color.black)}););
-/*FSHARP11*/(if(obj.value.linlin(0,1,21,108) <=150,{if(~color_array[150-1]<1,{~fSHARP11.background_(Color(1,~color_array[150-1],~color_array[150-1]));},{~fSHARP11.background_(Color.black)})},{~fSHARP11.background_(Color.black)}););
-/*GSHARP11*/(if(obj.value.linlin(0,1,21,108) <=152,{if(~color_array[152-1]<1,{~gSHARP11.background_(Color(1,~color_array[152-1],~color_array[152-1]));},{~gSHARP11.background_(Color.black)})},{~gSHARP11.background_(Color.black)}););
-/*ASHARP11*/(if(obj.value.linlin(0,1,21,108) <=154,{if(~color_array[154-1]<1,{~aSHARP11.background_(Color(1,~color_array[154-1],~color_array[154-1]));},{~aSHARP11.background_(Color.black)})},{~aSHARP11.background_(Color.black)}););
+/*CSHARP8*/(if(obj.value.linlin(0,1,21,108) <=109,{if(~color_array[109-1]<1,{~cSHARP8.background_(Color(1,~color_array[109-1],~color_array[109-1]));},{~cSHARP8.background_(Color.grey(~black_key_opacity))})},{~cSHARP8.background_(Color.grey(~black_key_opacity))}););
+/*DSHARP8*/(if(obj.value.linlin(0,1,21,108) <=111,{if(~color_array[111-1]<1,{~dSHARP8.background_(Color(1,~color_array[111-1],~color_array[111-1]));},{~dSHARP8.background_(Color.grey(~black_key_opacity))})},{~dSHARP8.background_(Color.grey(~black_key_opacity))}););
+/*FSHARP8*/(if(obj.value.linlin(0,1,21,108) <=114,{if(~color_array[114-1]<1,{~fSHARP8.background_(Color(1,~color_array[114-1],~color_array[114-1]));},{~fSHARP8.background_(Color.grey(~black_key_opacity))})},{~fSHARP8.background_(Color.grey(~black_key_opacity))}););
+/*GSHARP8*/(if(obj.value.linlin(0,1,21,108) <=116,{if(~color_array[116-1]<1,{~gSHARP8.background_(Color(1,~color_array[116-1],~color_array[116-1]));},{~gSHARP8.background_(Color.grey(~black_key_opacity))})},{~gSHARP8.background_(Color.grey(~black_key_opacity))}););
+/*ASHARP8*/(if(obj.value.linlin(0,1,21,108) <=118,{if(~color_array[118-1]<1,{~aSHARP8.background_(Color(1,~color_array[118-1],~color_array[118-1]));},{~aSHARP8.background_(Color.grey(~black_key_opacity))})},{~aSHARP8.background_(Color.grey(~black_key_opacity))}););
+/*CSHARP9*/(if(obj.value.linlin(0,1,21,108) <=121,{if(~color_array[121-1]<1,{~cSHARP9.background_(Color(1,~color_array[121-1],~color_array[121-1]));},{~cSHARP9.background_(Color.grey(~black_key_opacity))})},{~cSHARP9.background_(Color.grey(~black_key_opacity))}););
+/*DSHARP9*/(if(obj.value.linlin(0,1,21,108) <=123,{if(~color_array[123-1]<1,{~dSHARP9.background_(Color(1,~color_array[123-1],~color_array[123-1]));},{~dSHARP9.background_(Color.grey(~black_key_opacity))})},{~dSHARP9.background_(Color.grey(~black_key_opacity))}););
+/*FSHARP9*/(if(obj.value.linlin(0,1,21,108) <=126,{if(~color_array[126-1]<1,{~fSHARP9.background_(Color(1,~color_array[126-1],~color_array[126-1]));},{~fSHARP9.background_(Color.grey(~black_key_opacity))})},{~fSHARP9.background_(Color.grey(~black_key_opacity))}););
+/*GSHARP9*/(if(obj.value.linlin(0,1,21,108) <=128,{if(~color_array[128-1]<1,{~gSHARP9.background_(Color(1,~color_array[128-1],~color_array[128-1]));},{~gSHARP9.background_(Color.grey(~black_key_opacity))})},{~gSHARP9.background_(Color.grey(~black_key_opacity))}););
+/*ASHARP9*/(if(obj.value.linlin(0,1,21,108) <=130,{if(~color_array[130-1]<1,{~aSHARP9.background_(Color(1,~color_array[130-1],~color_array[130-1]));},{~aSHARP9.background_(Color.grey(~black_key_opacity))})},{~aSHARP9.background_(Color.grey(~black_key_opacity))}););
+/*CSHARP10*/(if(obj.value.linlin(0,1,21,108) <=133,{if(~color_array[133-1]<1,{~cSHARP10.background_(Color(1,~color_array[133-1],~color_array[133-1]));},{~cSHARP10.background_(Color.grey(~black_key_opacity))})},{~cSHARP10.background_(Color.grey(~black_key_opacity))}););
+/*DSHARP10*/(if(obj.value.linlin(0,1,21,108) <=135,{if(~color_array[135-1]<1,{~dSHARP10.background_(Color(1,~color_array[135-1],~color_array[135-1]));},{~dSHARP10.background_(Color.grey(~black_key_opacity))})},{~dSHARP10.background_(Color.grey(~black_key_opacity))}););
+/*FSHARP10*/(if(obj.value.linlin(0,1,21,108) <=138,{if(~color_array[138-1]<1,{~fSHARP10.background_(Color(1,~color_array[138-1],~color_array[138-1]));},{~fSHARP10.background_(Color.grey(~black_key_opacity))})},{~fSHARP10.background_(Color.grey(~black_key_opacity))}););
+/*GSHARP10*/(if(obj.value.linlin(0,1,21,108) <=140,{if(~color_array[140-1]<1,{~gSHARP10.background_(Color(1,~color_array[140-1],~color_array[140-1]));},{~gSHARP10.background_(Color.grey(~black_key_opacity))})},{~gSHARP10.background_(Color.grey(~black_key_opacity))}););
+/*ASHARP10*/(if(obj.value.linlin(0,1,21,108) <=142,{if(~color_array[142-1]<1,{~aSHARP10.background_(Color(1,~color_array[142-1],~color_array[142-1]));},{~aSHARP10.background_(Color.grey(~black_key_opacity))})},{~aSHARP10.background_(Color.grey(~black_key_opacity))}););
+/*CSHARP11*/(if(obj.value.linlin(0,1,21,108) <=145,{if(~color_array[145-1]<1,{~cSHARP11.background_(Color(1,~color_array[145-1],~color_array[145-1]));},{~cSHARP11.background_(Color.grey(~black_key_opacity))})},{~cSHARP11.background_(Color.grey(~black_key_opacity))}););
+/*DSHARP11*/(if(obj.value.linlin(0,1,21,108) <=147,{if(~color_array[147-1]<1,{~dSHARP11.background_(Color(1,~color_array[147-1],~color_array[147-1]));},{~dSHARP11.background_(Color.grey(~black_key_opacity))})},{~dSHARP11.background_(Color.grey(~black_key_opacity))}););
+/*FSHARP11*/(if(obj.value.linlin(0,1,21,108) <=150,{if(~color_array[150-1]<1,{~fSHARP11.background_(Color(1,~color_array[150-1],~color_array[150-1]));},{~fSHARP11.background_(Color.grey(~black_key_opacity))})},{~fSHARP11.background_(Color.grey(~black_key_opacity))}););
+/*GSHARP11*/(if(obj.value.linlin(0,1,21,108) <=152,{if(~color_array[152-1]<1,{~gSHARP11.background_(Color(1,~color_array[152-1],~color_array[152-1]));},{~gSHARP11.background_(Color.grey(~black_key_opacity))})},{~gSHARP11.background_(Color.grey(~black_key_opacity))}););
+/*ASHARP11*/(if(obj.value.linlin(0,1,21,108) <=154,{if(~color_array[154-1]<1,{~aSHARP11.background_(Color(1,~color_array[154-1],~color_array[154-1]));},{~aSHARP11.background_(Color.grey(~black_key_opacity))})},{~aSHARP11.background_(Color.grey(~black_key_opacity))}););
 
 
 			~dirtyBit = 1;

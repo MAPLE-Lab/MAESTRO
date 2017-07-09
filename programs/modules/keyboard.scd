@@ -240,26 +240,26 @@ StaticText.new(~keyboard, Rect(1055,172,6,30)).background_(Color.grey(0.25)); //
 ~aSHARP7 = StaticText(~keyboard, Rect(30+980,20,19,100)).background_(Color.black).string_("");
 
 //Extended black keys
-~cSHARP8 = StaticText(~keyboard, Rect(30+1020,20,19,100)).background_(Color.black).string_("");
-~dSHARP8 = StaticText(~keyboard, Rect(30+1040,20,19,100)).background_(Color.black).string_("");
-~fSHARP8 = StaticText(~keyboard, Rect(30+1080,20,19,100)).background_(Color.black).string_("");
-~gSHARP8 = StaticText(~keyboard, Rect(30+1100,20,19,100)).background_(Color.black).string_("");
-~aSHARP8 = StaticText(~keyboard, Rect(30+1120,20,19,100)).background_(Color.black).string_("");
-~cSHARP9 = StaticText(~keyboard, Rect(30+1160,20,19,100)).background_(Color.black).string_("");
-~dSHARP9 = StaticText(~keyboard, Rect(30+1180,20,19,100)).background_(Color.black).string_("");
-~fSHARP9 = StaticText(~keyboard, Rect(30+1220,20,19,100)).background_(Color.black).string_("");
-~gSHARP9 = StaticText(~keyboard, Rect(30+1240,20,19,100)).background_(Color.black).string_("");
-~aSHARP9 = StaticText(~keyboard, Rect(30+1260,20,19,100)).background_(Color.black).string_("");
-~cSHARP10 = StaticText(~keyboard, Rect(30+1300,20,19,100)).background_(Color.black).string_("");
-~dSHARP10 = StaticText(~keyboard, Rect(30+1320,20,19,100)).background_(Color.black).string_("");
-~fSHARP10 = StaticText(~keyboard, Rect(30+1360,20,19,100)).background_(Color.black).string_("");
-~gSHARP10 = StaticText(~keyboard, Rect(30+1380,20,19,100)).background_(Color.black).string_("");
-~aSHARP10 = StaticText(~keyboard, Rect(30+1400,20,19,100)).background_(Color.black).string_("");
-~cSHARP11 = StaticText(~keyboard, Rect(30+1440,20,19,100)).background_(Color.black).string_("");
-~dSHARP11 = StaticText(~keyboard, Rect(30+1460,20,19,100)).background_(Color.black).string_("");
-~fSHARP11 = StaticText(~keyboard, Rect(30+1500,20,19,100)).background_(Color.black).string_("");
-~gSHARP11 = StaticText(~keyboard, Rect(30+1520,20,19,100)).background_(Color.black).string_("");
-~aSHARP11 = StaticText(~keyboard, Rect(30+1540,20,19,100)).background_(Color.black).string_("");
+~cSHARP8 = StaticText(~keyboard, Rect(30+1020,20,19,100)).background_(Color.grey(~black_key_opacity)).string_("");
+~dSHARP8 = StaticText(~keyboard, Rect(30+1040,20,19,100)).background_(Color.grey(~black_key_opacity)).string_("");
+~fSHARP8 = StaticText(~keyboard, Rect(30+1080,20,19,100)).background_(Color.grey(~black_key_opacity)).string_("");
+~gSHARP8 = StaticText(~keyboard, Rect(30+1100,20,19,100)).background_(Color.grey(~black_key_opacity)).string_("");
+~aSHARP8 = StaticText(~keyboard, Rect(30+1120,20,19,100)).background_(Color.grey(~black_key_opacity)).string_("");
+~cSHARP9 = StaticText(~keyboard, Rect(30+1160,20,19,100)).background_(Color.grey(~black_key_opacity)).string_("");
+~dSHARP9 = StaticText(~keyboard, Rect(30+1180,20,19,100)).background_(Color.grey(~black_key_opacity)).string_("");
+~fSHARP9 = StaticText(~keyboard, Rect(30+1220,20,19,100)).background_(Color.grey(~black_key_opacity)).string_("");
+~gSHARP9 = StaticText(~keyboard, Rect(30+1240,20,19,100)).background_(Color.grey(~black_key_opacity)).string_("");
+~aSHARP9 = StaticText(~keyboard, Rect(30+1260,20,19,100)).background_(Color.grey(~black_key_opacity)).string_("");
+~cSHARP10 = StaticText(~keyboard, Rect(30+1300,20,19,100)).background_(Color.grey(~black_key_opacity)).string_("");
+~dSHARP10 = StaticText(~keyboard, Rect(30+1320,20,19,100)).background_(Color.grey(~black_key_opacity)).string_("");
+~fSHARP10 = StaticText(~keyboard, Rect(30+1360,20,19,100)).background_(Color.grey(~black_key_opacity)).string_("");
+~gSHARP10 = StaticText(~keyboard, Rect(30+1380,20,19,100)).background_(Color.grey(~black_key_opacity)).string_("");
+~aSHARP10 = StaticText(~keyboard, Rect(30+1400,20,19,100)).background_(Color.grey(~black_key_opacity)).string_("");
+~cSHARP11 = StaticText(~keyboard, Rect(30+1440,20,19,100)).background_(Color.grey(~black_key_opacity)).string_("");
+~dSHARP11 = StaticText(~keyboard, Rect(30+1460,20,19,100)).background_(Color.grey(~black_key_opacity)).string_("");
+~fSHARP11 = StaticText(~keyboard, Rect(30+1500,20,19,100)).background_(Color.grey(~black_key_opacity)).string_("");
+~gSHARP11 = StaticText(~keyboard, Rect(30+1520,20,19,100)).background_(Color.grey(~black_key_opacity)).string_("");
+~aSHARP11 = StaticText(~keyboard, Rect(30+1540,20,19,100)).background_(Color.grey(~black_key_opacity)).string_("");
 
 //Black dots
 ~dot_aSHARP0 = StaticText(~keyboard, Rect(30+0+7,20+90,5,5)).background_(Color(1,1,1,0)).string_("");

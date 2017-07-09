@@ -1,4 +1,5 @@
-(
+~inspectorHarmonicsPanelUpdate = {
+
 // if(~inspectorExists == 1, { // No longer needs this IF, as it is now directly in the SPECTRA
 // ~inspectorHarmonicsPanel.bounds_(Rect(10, 60, 280, 70));
 
@@ -46,4 +47,5 @@
 //thisFunction.value.postln; // This breaks SC
 
 // };);
-	);
+
+};

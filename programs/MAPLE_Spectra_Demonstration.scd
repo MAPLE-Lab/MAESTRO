@@ -47,6 +47,7 @@ w = Window.new("MAPLE Lab Spectra Demonstration (Beta)", Rect.new(
 // Load Spectra-specific functions
 	(basePath +/+  "data/spectra_specific_data/spectra_button_functions.scd").load; // Button controls
 	(basePath +/+  "data/spectra_specific_data/spectra_harmonic_slider_functions.scd").load; // Shortcut to setting intensities
+	(basePath +/+  "data/spectra_harmonics_panel_hover_enter.scd").load; // Load the function for updating the information panel below the harmonics panel
 
 //Label for paragraph
 ~para = StaticText(w,Rect(10,10,790,80))
@@ -714,31 +715,13 @@ s.makeBundle(1.0, //sound delay -~knob.value.linlin(0,1,0,0.5)
 		~numberBox.value_(~fundamental_freq);
 
 
-		/*
-		~f1Box.value_(obj.value.linlin(0,1,40,75));
-		~f2Box.value_(obj.value.linexp(0,1,200,2000));
-		~f3Box.value_(obj.value.linexp(0,1,300,3000));
-		~f4Box.value_(obj.value.linexp(0,1,400,4000));
-		~f5Box.value_(obj.value.linexp(0,1,500,5000));
-		~f6Box.value_(obj.value.linexp(0,1,600,6000));
-		~f7Box.value_(obj.value.linexp(0,1,700,7000));
-		~f8Box.value_(obj.value.linexp(0,1,800,8000));
-		~f9Box.value_(obj.value.linexp(0,1,900,9000));
-		~f10Box.value_(obj.value.linexp(0,1,1000,10000));
-		~f11Box.value_(obj.value.linexp(0,1,1100,11000));
-		~f12Box.value_(obj.value.linexp(0,1,1200,12000));
-		~f13Box.value_(obj.value.linexp(0,1,1300,13000));
-		~f14Box.value_(obj.value.linexp(0,1,1400,14000));
-		~f15Box.value_(obj.value.linexp(0,1,1500,15000));
-		~f16Box.value_(obj.value.linexp(0,1,1600,16000));
-		*/
-
-
 
 			if(~spectraButton.value == 1,{
 			//{~spectraButton.valueAction_(1);}); // Automatically updates the Autoscaling
-			~spectra_scopeAutoscaleFunction.value;}) // Bypass the Button system entirely to reduce CPU load
+			~spectra_scopeAutoscaleFunction.value;}); // Bypass the Button system entirely to reduce CPU load
 
+		~inspectorHarmonicsPanelUpdate.value;
+		// Updates the information panel
 
 })
 	.orientation_(\horizontal);
