@@ -165,15 +165,44 @@ StaticText(~composite,Rect(10,~spectraScreenComposite_bounds_height-33-15,100,15
 		{~spectra_scope.freqMode_(1);})
 });
 
+
+// Button toggle design
+
+~spectrButtonBackground = StaticText(w, Rect(
+		~spectraAutoscale_bounds_array[0]+5,
+		~spectraAutoscale_bounds_array[1]+5,
+		~spectraAutoscale_bounds_array[2]-5,
+		~spectraAutoscale_bounds_array[3]-5-5))
+.background_(Color.grey(0.8));
+
+~spectrButtonBackground = StaticText(w, Rect(
+		~spectraAutoscale_bounds_array[0]+5,
+		~spectraAutoscale_bounds_array[1]+5,
+		~spectraAutoscale_bounds_array[2]-5,
+		~spectraAutoscale_bounds_array[3]-5-5))
+.string_("OFF       ")
+.font_(Font(nil, 8))
+.align_(\right);
+
+~spectrButtonBackground = StaticText(w, Rect(
+		~spectraAutoscale_bounds_array[0]+5,
+		~spectraAutoscale_bounds_array[1]+5,
+		~spectraAutoscale_bounds_array[2]-5,
+		~spectraAutoscale_bounds_array[3]-5-5))
+.string_("       ON")
+.font_(Font(nil, 8))
+.align_(\left)
+.stringColor_(Color.white);
+
 //Button to auto-scale
 ~spectraButton = Button(w, Rect(
-		~spectraAutoscale_bounds_array[0],
-		~spectraAutoscale_bounds_array[1],
-		~spectraAutoscale_bounds_array[2],
-		~spectraAutoscale_bounds_array[3]))
+		~spectraAutoscale_bounds_array[0]+2,
+		~spectraAutoscale_bounds_array[1]+2,
+		~spectraAutoscale_bounds_array[2]-50-2,
+		~spectraAutoscale_bounds_array[3]-2-2))
 .states_([
-	["Autoscale Off", Color.white,Color(0.4824, 0.4863, 0.4863,1)],
-	["Autoscale On", Color.white, Color(0,0,0,1)]
+	["Autoscale", Color.black,Color(0.4824, 0.4863, 0.4863,1)],
+	["Autoscale", Color.white, Color(0.4824, 0.4863, 0.4863,1)]
 ]
 	)
 .font_(Font("nil", 12))
@@ -184,7 +213,23 @@ StaticText(~composite,Rect(10,~spectraScreenComposite_bounds_height-33-15,100,15
 
 ~spectra_scopeAutoscaleFunction.value;
 
-	});
+
+		// Set to ON toggle position
+		~spectraButton.bounds_(Rect(
+		~spectraAutoscale_bounds_array[0]+50+2,
+		~spectraAutoscale_bounds_array[1]+2,
+		~spectraAutoscale_bounds_array[2]-50-2,
+		~spectraAutoscale_bounds_array[3]-2-2));
+
+	},{
+		// Reset to OFF toggle position
+	~spectraButton.bounds_(Rect(
+		~spectraAutoscale_bounds_array[0]+2,
+		~spectraAutoscale_bounds_array[1]+2,
+		~spectraAutoscale_bounds_array[2]-50-2,
+		~spectraAutoscale_bounds_array[3]-2-2));
+	}
+	);
 
 
 };);
@@ -334,20 +379,13 @@ if(~spectra_scope.freqMode == 1,{
 	},{
 		//If the spectra is set to Linear view
 
-		/*
-		~eq1 = 2 ** ((-0.01)*(~freqSurrogateVar-140));
-		~eq2 = (-0.00085)*(~freqSurrogateVar-1330);
-
-		~spectra_x.valueAction = (~eq1*0.85)+(~eq2*0.15);
-		*/
-
 		~spectra_xShift.valueAction = 1;
 
 		if(~freqSurrogateVar > 150, {
 			//  150Hz or higher
 			if(~freqSurrogateVar < 1400, {
 				// Between 150Hz and 1400 Hz
-				~spectra_x.valueAction = (3.1-log10(~freqSurrogateVar-139))*(0.5)
+				~spectra_x.valueAction = (2.9-log10(~freqSurrogateVar-139))*(0.5)
 			}, {
 				// Above 1400 Hz
 				~spectra_x.valueAction = 0

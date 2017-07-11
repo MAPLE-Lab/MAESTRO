@@ -1064,27 +1064,27 @@ CompositeView(w, Rect(70-20,145+230+10,20*16+20,30)).background_(Color.clear);
 StaticText(~inspectorHarmonicsPanel, Rect(0,0,60,15))
 .string_("Harmonic:")
 .font_(Font("Helvetica", 12, false))
-.align_(\left);
+.align_(\left)
+				.stringColor_(Color.grey(0.4));
 
 ~inspectorHarmonicsPanel_harmonic_number =
-NumberBox(~inspectorHarmonicsPanel, Rect(55,0,20,15))
+NumberBox(~inspectorHarmonicsPanel, Rect(57,0,20,15))
 .font_(Font("Helvetica", 11))
 .align_(\center)
 .background_(Color.grey(0.8));
-
 
 ~inspectorHarmonicsPanel_pitch_text =
 StaticText(~inspectorHarmonicsPanel, Rect(90,0,60,15))
 .string_("Pitch:")
 .font_(Font("Helvetica", 12, false))
-.align_(\left);
+.align_(\left)
+		.stringColor_(Color.grey(0.4));
 
 ~inspectorHarmonicsPanel_pitch_number =
-StaticText(~inspectorHarmonicsPanel, Rect(120,0,25,15))
+StaticText(~inspectorHarmonicsPanel, Rect(122,0,25,15))
 .font_(Font("Helvetica", 11))
 .align_(\center)
 .string_(~note_name.asString)
-.background_(Color.white)
 .background_(Color.grey(0.8));
 
 
@@ -1092,7 +1092,8 @@ StaticText(~inspectorHarmonicsPanel, Rect(120,0,25,15))
 StaticText(~inspectorHarmonicsPanel, Rect(160,0,60,15))
 .string_("Freq.:")
 .font_(Font("Helvetica", 12, false))
-.align_(\left);
+.align_(\left)
+		.stringColor_(Color.grey(0.4));
 
 ~inspectorHarmonicsPanel_frequency_number =
 NumberBox(~inspectorHarmonicsPanel, Rect(193,0,40,15))
@@ -1106,7 +1107,8 @@ NumberBox(~inspectorHarmonicsPanel, Rect(193,0,40,15))
 StaticText(~inspectorHarmonicsPanel, Rect(245,0,50,15))
 .string_("Intensity:")
 .font_(Font("Helvetica", 12, false))
-.align_(\left);
+.align_(\left)
+		.stringColor_(Color.grey(0.4));
 
 ~inspectorHarmonicsPanel_intensity_number =
 NumberBox(~inspectorHarmonicsPanel, Rect(294,0,45,15))
@@ -1298,23 +1300,6 @@ intensities", Color.white,Color(0.4824, 0.4863, 0.4863,1)]
 		~fNsliderAction.value(intensityArray:[]);
 
 		//~volslider.valueAction_(0.2.value.linlin(0,1,0,1));
-		/*~f1slider.valueAction_(1.value.linlin(0.0,2,0,1));
-		~f2slider.valueAction_(1.value.linlin(0.0,2,0,1));
-		~f3slider.valueAction_(1.value.linlin(0.0,2,0,1));
-		~f4slider.valueAction_(1.value.linlin(0.0,2,0,1));
-		~f5slider.valueAction_(1.value.linlin(0.0,2,0,1));
-		~f6slider.valueAction_(1.value.linlin(0.0,2,0,1));
-		~f7slider.valueAction_(1.value.linlin(0.0,2,0,1));
-		~f8slider.valueAction_(1.value.linlin(0.0,2,0,1));
-		~f9slider.valueAction_(1.value.linlin(0.0,2,0,1));
-		~f10slider.valueAction_(1.value.linlin(0.0,2,0,1));
-		~f11slider.valueAction_(1.value.linlin(0.0,2,0,1));
-		~f12slider.valueAction_(1.value.linlin(0.0,2,0,1));
-		~f13slider.valueAction_(1.value.linlin(0.0,2,0,1));
-		~f14slider.valueAction_(1.value.linlin(0.0,2,0,1));
-		~f15slider.valueAction_(1.value.linlin(0.0,2,0,1));
-		~f16slider.valueAction_(1.value.linlin(0.0,2,0,1));*/
-
 });
 
 	/*
