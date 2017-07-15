@@ -123,7 +123,7 @@ plotMAESTRO <- function() {
   
   # FOR Loop to process all harmonics, creates data frame of the form:
   # "time"  "intensity" "harmonic"
-  # Name of files are of the form "plotsHarmonicData.i" where i = 1:numberOfHarmonics
+  # Output: Data tables where the name of files are of the form "plotsHarmonicData.i" where i = 1:numberOfHarmonics
   for(i in 1:numberOfHarmonics) {
     #print(i)
     
@@ -147,7 +147,7 @@ plotMAESTRO <- function() {
   # Combine all the data
   for(i in 2:numberOfHarmonics) {
     
-    plotsHarmonicData.1 # Known at minimum there is the 1st harmonic used
+    #plotsHarmonicData.1 # Known at minimum there is the 1st harmonic used
     
     temp_lister_name <- paste0("plotsHarmonicData.", i)
     
@@ -167,7 +167,51 @@ plotMAESTRO <- function() {
   test_bind <- eval(parse(text=paste0("rbind(", temp_total_names, ")")))
 
   # Use the combined data for the plot
-  p <- plot_ly(test_bind, x = ~time, y = ~harmonic, z = ~intensity, type = 'scatter3d', mode = 'lines', color = ~harmonic) # group_by(); color = I("black")
+  #p <- plot_ly(test_bind, x = ~time, y = ~harmonic, z = ~intensity, type = 'scatter3d', mode = 'lines', color = ~harmonic, opacity = 1, text = "TEXT") # group_by(); color = I("black")
+  
+  test_bind_subset = test_bind[1:(numberOfTimeBins+(numberOfHarmonics-1)*numberOfTimeBins),]
+  test_bind_subset_blank <- test_bind_subset # Creates a duplicate matrix
+  test_bind_subset_blank[,"intensity"] <- 0
+  mesh3d_data_points = rbind(test_bind_subset,test_bind_subset_blank)
+  
+  n = numberOfTimeBins*numberOfHarmonics
+  
+  p <- plot_ly(
+  ) %>% add_trace(type = 'mesh3d',
+                  x = mesh3d_data_points[,"time"],
+                  y = mesh3d_data_points[,"harmonic"],
+                  z = mesh3d_data_points[,"intensity"],
+                  
+                  i = c(((1:(n-1))-1),
+                        (((n+1):(2*n-1))-1)),
+                  j = c(((2:n)-1),
+                        ((2:n)-1)),
+                  k = c((((n+1):(2*n-1))-1),
+                        (((n+1):(2*n-1)))),
+                  
+                  delaunayaxis = "z", # The axis on which the surface is 'projected' onto, if i,j,k are not provided
+                  intensity = 0, colors = 'white', opacity = 0.5,
+                  showscale = FALSE,
+                  lightposition = list(x = 0, y = 0, z = 0),
+                  lighting = list(specular = 0, fresnel = 0, ambient = 1), flatshading = FALSE # flatshading TRUE causes artifacts to appear
+                  #scene = list(xaxis = list(visible = FALSE))
+                  ) %>% add_trace(
+                    data = test_bind, x = ~time, y = ~harmonic, z = ~intensity, 
+                    type = 'scatter3d', 
+                    mode = "lines+markers", color = ~harmonic, opacity = 1, # This opacity sets the opacity of the fillcolor as well, though not used as a separate set of mesh3ds are used
+                    showlegend = FALSE,
+                    projection = list(x = list(show = TRUE, scale = 0.5)),
+                    line = list(width = 1, color = "black"),
+                    marker = list(symbol = "circle-open", size = 1.5)
+                  ) %>% layout(
+                    title = "MAESTRO Sound Analysis",
+                    scene = list(
+                      xaxis = list(title = "Time (s)"),
+                      yaxis = list(title = "Harmonic Number", range = c(0,16)), # Does not seem to work if in reverse direction (i.e. 16,0)
+                      zaxis = list(title = "Relative Intensity")
+                    )
+                    )
+  
   p
   
 }
