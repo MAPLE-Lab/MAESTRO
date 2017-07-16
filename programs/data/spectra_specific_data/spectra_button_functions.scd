@@ -98,8 +98,18 @@
 
 		~freqslider.valueAction_(fundamentalNote.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
 		~haltKey = 0;
-		("~" ++ instrument ++ "AudioHaltKey = 0").interpret.postln;
-		[("~" ++ instrument ++ "AudioHaltKey").asString, ("~" ++ instrument ++ "AudioHaltKey").interpret].postln;
+
+		if(~instrumentGroupWoodwindsDropdown.item == "Clarinet", {
+			// For clarinet expansion
+			~fluteAudioHaltKey = 0;
+			["~fluteAudioHaltKey", ~fluteAudioHaltKey].postln;
+		},{
+			// As usual before the instrument expansion
+			("~" ++ instrument ++ "AudioHaltKey = 0").interpret.postln;
+			[("~" ++ instrument ++ "AudioHaltKey").asString, ("~" ++ instrument ++ "AudioHaltKey").interpret].postln;
+		});
+
+
 
 		/*~haltKey.postln;
 		~button.value.postln;
@@ -136,9 +146,21 @@
 		//~button.value.postln;
 
 		//~haltKey = 1;
-		("~" ++ instrument ++ "AudioHaltKey = 1").interpret.postln;
-		//("~" ++ instrument ++ "AudioHaltKey == 1").interpret.postln;
-		[("~" ++ instrument ++ "AudioHaltKey").asString, ("~" ++ instrument ++ "AudioHaltKey").interpret].postln;
+				//("~" ++ instrument ++ "AudioHaltKey == 1").interpret.postln;
+
+
+
+		if(~instrumentGroupWoodwindsDropdown.item == "Clarinet", {
+			// For clarinet expansion
+			~fluteAudioHaltKey = 1;
+			["~fluteAudioHaltKey", ~fluteAudioHaltKey].postln;
+		},{
+			// As usual before the instrument expansion
+			("~" ++ instrument ++ "AudioHaltKey = 1").interpret.postln;
+			[("~" ++ instrument ++ "AudioHaltKey").asString, ("~" ++ instrument ++ "AudioHaltKey").interpret].postln;
+		});
+
+
 
 		/*AppClock.sched(1, {
 				("~" ++ instrument ++ "AudioHaltKey = 0").interpret;

@@ -3,6 +3,10 @@
 // if(~inspectorExists == 1, { // No longer needs this IF, as it is now directly in the SPECTRA
 // ~inspectorHarmonicsPanel.bounds_(Rect(10, 60, 280, 70));
 
+	if(and(~harmonic_in_effect != nil, ~harmonic_in_effect != "~fnilslider"), {
+	~previous_harmonic_in_effect = ~harmonic_in_effect;
+	});
+
 	~harmonic_in_effect = ("~f"++~slider_hover++"slider").asString;
 
 	~inspectorHarmonicsPanel_harmonic_number.value_(~slider_hover);
@@ -39,10 +43,20 @@
 
 	~inspectorHarmonicsPanel_pitch_number.string_(~pitch_name.asString);
 
-	~inspectorHarmonicsPanel_intensity_number.value_(~harmonic_in_effect.interpret.value);
+	if(~f1slider.value != 0, {
+	~inspectorHarmonicsPanel_intensity_number.value_(~harmonic_in_effect.interpret.value/~f1slider.value);
+	},{
+		// If the first harmonic has an intensity of 0, it would cause +inf error, therefore we say it is 1
+		~inspectorHarmonicsPanel_intensity_number.value_(~harmonic_in_effect.interpret.value)
+	});
 
 	~inspectorHarmonicsPanel_frequency_number.value_(~fundamental_freq*~slider_hover);
 
+	~harmonic_in_effect.interpret.background_(Color.grey(0.7));
+
+	if(and(~harmonic_in_effect != ~previous_harmonic_in_effect, ~previous_harmonic_in_effect != nil), {
+	~previous_harmonic_in_effect.interpret.background_(Color.grey(0.8));
+	});
 
 //thisFunction.value.postln; // This breaks SC
 

@@ -20,7 +20,7 @@ s.freeAll;
 w = Window.new("MAPLE Lab Spectra Demonstration (Beta)", Rect.new(
 	Window.screenBounds.width/2-400,
 	Window.screenBounds.height/2-50,
-	800,530),false)
+	800,570),false)
 	.background_(Color.white)
 	.userCanClose_(false)
 	.front
@@ -48,6 +48,7 @@ w = Window.new("MAPLE Lab Spectra Demonstration (Beta)", Rect.new(
 	(basePath +/+  "data/spectra_specific_data/spectra_button_functions.scd").load; // Button controls
 	(basePath +/+  "data/spectra_specific_data/spectra_harmonic_slider_functions.scd").load; // Shortcut to setting intensities
 	(basePath +/+  "data/spectra_harmonics_panel_hover_enter.scd").load; // Load the function for updating the information panel below the harmonics panel
+	~lowerButtons = 40; // For Button heights
 
 //Label for paragraph
 ~para = StaticText(w,Rect(10,10,790,80))
@@ -212,7 +213,7 @@ s.waitForBoot({
    });
 
 ~synth_menu = PopUpMenu(w, Rect(260, 70-3, 100, 25)); //Moved to next to big button
-			~synth_menu.items_(["Sine", "Square", "Sawtooth", /*"Triangle",*/ "Instruments"]);
+			~synth_menu.items_(["Sine", "Square", "Sawtooth", /*"Triangle",*/ "Instruments", "Custom"]);
 			~synth_menu.font_(Font(\size, 12));
 
 			~synth_menu.background_(Color(0.7569-0.1,0.1373-0.1,0.1725-0.1,1));
@@ -277,7 +278,7 @@ l.free;
 					if(~button.value == 1,
 						{~button.valueAction_(1)});
 
-		~instrumentsCover.bounds_(Rect(10,410+2,(790-10), 120));
+		~instrumentsCover.bounds_(Rect(10,410+2,(790-10), 120+~lowerButtons));
 	},
 
 		/*		{//triangle
@@ -339,7 +340,7 @@ l.free;
 				~k.valueAction_(0);
 								~j.valueAction_(0);*/
 
-					~instrumentsCover.bounds_(Rect(10,410+2,(790-10), 120));
+					~instrumentsCover.bounds_(Rect(10,410+2,(790-10), 120+~lowerButtons));
 
 	},
 				{ //saw
@@ -372,7 +373,7 @@ l.free;
 				~k.valueAction_(0);
 								~j.valueAction_(0);*/
 
-					~instrumentsCover.bounds_(Rect(10,410+2,(790-10), 120));
+					~instrumentsCover.bounds_(Rect(10,410+2,(790-10), 120+~lowerButtons));
 	},
 
 				{//"Instruments (harmonics panel)".postln;
@@ -389,7 +390,11 @@ l.free;
 
 					~reset.valueAction_(0); // Resets the intensities when set to Instruments.
 
-					~instrumentsCover.bounds_(Rect(10,410+2,(790-10), 120-120));
+					~instrumentsCover.bounds_(Rect(10,410+2,(790-10), 0));
+				},
+				{// Custom
+					"Custom".postln;
+
 				}
 
  ];
@@ -402,9 +407,9 @@ l.free;
 
 });
 
-
-		// Start the dropdown menu at Sine
+		// Start the dropdown menu at Sine // Instruments for testing now
 		AppClock.sched(0.001,{
+			~slider_hover = 1;
 			~synth_menu.valueAction_(0);
 			//nil;
 		});
@@ -418,7 +423,7 @@ l.free;
 	~spectraPowerButtonStatus = 0; // Starts all off
 
 	//FORCED cello preset
-	~celloPowerButton = ~j = Button(w, Rect(240, 417.5, 90, 26))
+	~celloPowerButton = ~j = Button(w, Rect(240, 417.5+~lowerButtons, 90, 26))
 	.states_([["Cello", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Cello", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({
@@ -431,7 +436,7 @@ l.free;
 	}); //Ensure ~button.value is value not valueAction to avoid loop and ensure this turns off big button properly
 
 	//FORCED trumpet preset
-	~trumpetPowerButton = ~l = Button(w, Rect(335, 417.5, 90, 26))
+	~trumpetPowerButton = ~l = Button(w, Rect(335, 417.5+~lowerButtons, 90, 26))
 	.states_([["Trumpet", Color.white, Color(0.7569,0.1373,0.1725,1)],["Trumpet", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({
@@ -445,8 +450,8 @@ l.free;
 
 
 	//FORCED flute preset
-	~flutePowerButton = ~k = Button(w, Rect(430, 417.5, 90, 26))
-	.states_([["Flute", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Flute", Color.white, Color(0,0,0,1)]])
+	~flutePowerButton = ~k = Button(w, Rect(430, 417.5+~lowerButtons, 90, 26))
+	.states_([[">", Color.white, Color(0.7569,0.1373,0.1725,1)], [">", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({ // Must be "action" and not "mouseDownAction" to avoid code not working
 		arg obj;
@@ -458,7 +463,7 @@ l.free;
 	});
 
 	//FORCED horn preset
-	~hornPowerButton = ~r = Button(w, Rect(525, 417.5, 90, 26))
+	~hornPowerButton = ~r = Button(w, Rect(525, 417.5+~lowerButtons, 90, 26))
 	.states_([["Horn", Color.white, Color(0.7569,0.1373,0.1725,1)],["Horn", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({
@@ -470,8 +475,16 @@ l.free;
 		~spectraPowerButtonAction.value(obj:obj, instrument:"horn", fundamentalNote:60);
 	});
 
+			//Label for Select Instrument
+~labelPower = StaticText(w,Rect(10,420,160,20))
+	.string_("Select Instrument")
+.font_(Font("nil", 18))
+.align_(\topLeft)
+.background_(Color(0,0,0,0))
+.stringColor_(Color.black);
+
 		//Label for Forced Choice
-~labelPower = StaticText(w,Rect(10,420,150,20))
+~labelPower = StaticText(w,Rect(10,420+~lowerButtons,150,20))
 	.string_("Power Spectra")
 .font_(Font("nil", 18))
 .align_(\topLeft)
@@ -479,7 +492,7 @@ l.free;
 .stringColor_(Color.black);
 
 	//Label for Moving
-~labelDynamic = StaticText(w,Rect(10,460,380,30))
+~labelDynamic = StaticText(w,Rect(10,460+~lowerButtons,380,30))
 	.string_("Dynamic Spectra")
 .font_(Font("nil", 18))
 .align_(\topLeft)
@@ -487,7 +500,7 @@ l.free;
 .stringColor_(Color.black);
 
 //Label for Realistic
-~labelAudio = StaticText(w,Rect(10,500,380,30))
+~labelAudio = StaticText(w,Rect(10,500+~lowerButtons,380,30))
 	.string_("Audio Recordings")
 .font_(Font("nil", 18))
 .align_(\topLeft)
@@ -501,6 +514,20 @@ l.free;
 .align_(\topLeft)
 .background_(Color(0,0,0,0))
 .stringColor_(Color.black);
+
+
+	// Select Instrument Section
+
+	// Woodwind Group
+
+	~instrumentGroupWoodwindsLabel = StaticText(w, Rect(430, 410, 90, 15))
+	.string_("Woodwinds")
+	.background_(Color.clear)
+	.align_(\center)
+	.font_(Font(nil,10));
+
+	~instrumentGroupWoodwindsDropdown = PopUpMenu(w, Rect(430, 425, 90, 20))
+	.items_(["Flute", "Clarinet"]);
 
 
 
@@ -833,7 +860,7 @@ Volume:"++obj.value).asString
 	}).add;
 
 	// Cello Button
-	~celloAudioButton = q = Button(w, Rect(240, 497.5, 90, 26))
+	~celloAudioButton = q = Button(w, Rect(240, 497.5+~lowerButtons, 90, 26))
 	.states_([["Cello", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Cello", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({
@@ -854,7 +881,7 @@ Volume:"++obj.value).asString
 	}).add;
 
 	// Trumpet Button
-	~trumpetAudioButton = e = Button(w, Rect(335, 497.5, 90, 26))
+	~trumpetAudioButton = e = Button(w, Rect(335, 497.5+~lowerButtons, 90, 26))
 	.states_([["Trumpet", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Trumpet", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({
@@ -875,8 +902,8 @@ Volume:"++obj.value).asString
 	}).add;
 
 	// Flute Button
-	~fluteAudioButton = r = Button(w, Rect(430, 497.5, 90, 26))
-	.states_([["Flute", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Flute", Color.white, Color(0,0,0,1)]])
+	~fluteAudioButton = r = Button(w, Rect(430, 497.5+~lowerButtons, 90, 26))
+	.states_([[">", Color.white, Color(0.7569,0.1373,0.1725,1)], [">", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({
 		arg obj;
@@ -897,7 +924,7 @@ Volume:"++obj.value).asString
 	}).add;
 
 	// Horn Button
-	~hornAudioButton = f = Button(w, Rect(525, 497.5, 90, 26))
+	~hornAudioButton = f = Button(w, Rect(525, 497.5+~lowerButtons, 90, 26))
 	.states_([["Horn", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Horn", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({
@@ -917,7 +944,7 @@ Volume:"++obj.value).asString
 	~hornAudioHaltKey = 1;
 
 	// Horn Dynamic
-	~hornDynamicButton = u = Button(w, Rect(525, 457.5, 90, 26))
+	~hornDynamicButton = u = Button(w, Rect(525, 457.5+~lowerButtons, 90, 26))
 	.states_([["Horn", Color.white, Color(0.7569,0.1373,0.1725,1)],["Horn", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({ arg obj;
@@ -940,8 +967,8 @@ Volume:"++obj.value).asString
 	});
 
 	// Flute Dynamic
-	~fluteDynamicButton = r = Button(w, Rect(430, 457.5, 90, 26))
-	.states_([["Flute", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Flute", Color.white, Color(0,0,0,1)]])
+	~fluteDynamicButton = r = Button(w, Rect(430, 457.5+~lowerButtons, 90, 26))
+	.states_([[">", Color.white, Color(0.7569,0.1373,0.1725,1)], [">", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({
 		arg obj;
@@ -961,11 +988,17 @@ Volume:"++obj.value).asString
 			~celloAudioHaltKey = 1;
 		});
 
+		if(~instrumentGroupWoodwindsDropdown.value == 0, {
+			// Flute
 		~spectraDynamicButtonAction.value(obj:obj, instrument:"flute", harmonicAmount:16, fundamentalNote:72);
+		},{
+			// Clarinet
+~spectraDynamicButtonAction.value(obj:obj, instrument:"clarinet", harmonicAmount:16, fundamentalNote:60);
+		});
 	});
 
 	// Trumpet Dynamic
-	~trumpetDynamicButton = r = Button(w, Rect(335, 457.5, 90, 26))
+	~trumpetDynamicButton = r = Button(w, Rect(335, 457.5+~lowerButtons, 90, 26))
 	.states_([["Trumpet", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Trumpet", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({
@@ -989,7 +1022,7 @@ Volume:"++obj.value).asString
 	});
 
 	// Cello Dynamic
-	~celloDynamicButton = r = Button(w, Rect(240, 457.5, 90, 26))
+	~celloDynamicButton = r = Button(w, Rect(240, 457.5+~lowerButtons, 90, 26))
 	.states_([["Cello", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Cello", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({
@@ -1058,7 +1091,7 @@ SynthDef.new("sound", {
 	(
 // CompositeView for the SPECTRA Harmonics Panel
 ~inspectorHarmonicsPanel =
-CompositeView(w, Rect(70-20,145+230+10,20*16+20,30)).background_(Color.clear);
+CompositeView(w, Rect(10,145+230+10,20*16+20+60,20)).background_(Color.clear);
 
 ~inspectorHarmonicsPanel_harmonic_text =
 StaticText(~inspectorHarmonicsPanel, Rect(0,0,60,15))
@@ -1104,14 +1137,14 @@ NumberBox(~inspectorHarmonicsPanel, Rect(193,0,40,15))
 
 
 ~inspectorHarmonicsPanel_intensity_text =
-StaticText(~inspectorHarmonicsPanel, Rect(245,0,50,15))
-.string_("Intensity:")
+StaticText(~inspectorHarmonicsPanel, Rect(245,0,115,15))
+		.string_("Rel. Intensity (I/f1):")
 .font_(Font("Helvetica", 12, false))
 .align_(\left)
 		.stringColor_(Color.grey(0.4));
 
 ~inspectorHarmonicsPanel_intensity_number =
-NumberBox(~inspectorHarmonicsPanel, Rect(294,0,45,15))
+NumberBox(~inspectorHarmonicsPanel, Rect(294+55,0,45,15))
 .font_(Font("Helvetica", 11))
 .align_(\center)
 .maxDecimals_(4)
@@ -1250,7 +1283,7 @@ arg obj;
         };
 
 
-	~instrumentsCover = StaticText(w, Rect(10,410+2,(790-10), 120)).background_(Color.white).string_(""
+	~instrumentsCover = StaticText(w, Rect(10,410+2,(790-10), 120+~lowerButtons)).background_(Color.white).string_(""
 //Select 'Instruments' from the dropdown menu to access these hidden instrument settings.
 ).align_(\center);
 

@@ -147,61 +147,143 @@ StaticText(~composite,Rect(10,~spectraScreenComposite_bounds_height-33-15,100,15
 	["~spectra_y", ~spectra_y.value].postln;
 };
 
+// View button toggle design
+StaticText(w, Rect(
+		~spectraButton_bounds_array[0]+1,
+		~spectraButton_bounds_array[1]+1,
+		~spectraButton_bounds_array[2]-1,
+		~spectraButton_bounds_array[3]-2))
+.background_(Color.grey(0.8));
+
+StaticText(w, Rect(
+		~spectraButton_bounds_array[0]+5,
+		~spectraButton_bounds_array[1]+5,
+		~spectraButton_bounds_array[2]-5,
+		~spectraButton_bounds_array[3]-5-5))
+.string_("Log.  ")
+.font_(Font(nil, 8))
+.align_(\right);
+
+StaticText(w, Rect(
+		~spectraButton_bounds_array[0]+5,
+		~spectraButton_bounds_array[1]+5,
+		~spectraButton_bounds_array[2]-5,
+		~spectraButton_bounds_array[3]-5-5))
+.string_("Lin.            ")
+.font_(Font(nil, 8))
+.align_(\right);
+
+~spectraViewButtonToggleKnob = Button(w, Rect(
+		~spectraButton_bounds_array[0]+~spectraButton_bounds_array[2]-50,
+		~spectraButton_bounds_array[1]+1,
+		25,
+		~spectraButton_bounds_array[3]-2))
+.action_({
+
+	if(~spectraViewButton.value == 0, {
+		~spectraViewButton.valueAction_(1)
+	},{
+		~spectraViewButton.valueAction_(0)
+	});
+
+});
+
 //Button to change between Log to Linear view
-~spectraButton = Button(w, Rect(
+~spectraViewButton = Button(w, Rect(
 		~spectraButton_bounds_array[0],
 		~spectraButton_bounds_array[1],
-		~spectraButton_bounds_array[2],
+		~spectraButton_bounds_array[2]-50,
 		~spectraButton_bounds_array[3]))
 .states_([
-		["Log View", Color.white,Color(0.4824, 0.4863, 0.4863,1)],
-		["Linear View", Color.white,Color(0.4824, 0.4863, 0.4863,1)]]
+		["View Mode", Color.white,Color(0.4824, 0.4863, 0.4863,1)],
+		["View Mode", Color.white,Color(0.4824, 0.4863, 0.4863,1)]]
 	)
 .font_(Font("nil", 12))
 .action_({
 	arg obj;
+
 	if(obj.value == 1,
 		{~spectra_scope.freqMode_(0);},
-		{~spectra_scope.freqMode_(1);})
+		{~spectra_scope.freqMode_(1);});
+
+	if(obj.value == 1,  {
+
+		// Set to ON toggle position
+		~spectraViewButtonToggleKnob.bounds_(Rect(
+		~spectraButton_bounds_array[0]+~spectraButton_bounds_array[2]-50+25,
+		~spectraButton_bounds_array[1]+1,
+		25,
+		~spectraButton_bounds_array[3]-2));
+	},{
+		// Reset to OFF toggle position
+		~spectraViewButtonToggleKnob.bounds_(Rect(
+		~spectraButton_bounds_array[0]+~spectraButton_bounds_array[2]-50,
+		~spectraButton_bounds_array[1]+1,
+		25,
+		~spectraButton_bounds_array[3]-2));
+	}
+	);
+
+
+	//~spectra_scopeAutoscaleFunction.value; // If uncommented, automatically updates the Autoscale
+
+	if(~spectraAutoscaleButton.value == 1, {
+		~spectra_scopeAutoscaleFunction.value;});
+
 });
 
 
-// Button toggle design
-
-~spectrButtonBackground = StaticText(w, Rect(
-		~spectraAutoscale_bounds_array[0]+5,
-		~spectraAutoscale_bounds_array[1]+5,
-		~spectraAutoscale_bounds_array[2]-5,
-		~spectraAutoscale_bounds_array[3]-5-5))
+// Autoscale button toggle design
+StaticText(w, Rect(
+		~spectraAutoscale_bounds_array[0]+1,
+		~spectraAutoscale_bounds_array[1]+1,
+		~spectraAutoscale_bounds_array[2]-1,
+		~spectraAutoscale_bounds_array[3]-2))
 .background_(Color.grey(0.8));
 
-~spectrButtonBackground = StaticText(w, Rect(
+StaticText(w, Rect(
 		~spectraAutoscale_bounds_array[0]+5,
 		~spectraAutoscale_bounds_array[1]+5,
 		~spectraAutoscale_bounds_array[2]-5,
 		~spectraAutoscale_bounds_array[3]-5-5))
-.string_("OFF       ")
+.string_("OFF  ")
 .font_(Font(nil, 8))
 .align_(\right);
 
-~spectrButtonBackground = StaticText(w, Rect(
+StaticText(w, Rect(
 		~spectraAutoscale_bounds_array[0]+5,
 		~spectraAutoscale_bounds_array[1]+5,
 		~spectraAutoscale_bounds_array[2]-5,
 		~spectraAutoscale_bounds_array[3]-5-5))
-.string_("       ON")
-.font_(Font(nil, 8))
-.align_(\left)
-.stringColor_(Color.white);
+.string_("ON            ")
+.font_(Font(nil, 8, true))
+.align_(\right)
+.stringColor_(Color.black);
+
+~spectraAutoscaleButtonToggleKnob = Button(w, Rect(
+		~spectraAutoscale_bounds_array[0]+~spectraAutoscale_bounds_array[2]-50,
+		~spectraAutoscale_bounds_array[1]+1,
+		25,
+		~spectraAutoscale_bounds_array[3]-2))
+.action_({
+
+	if(~spectraAutoscaleButton.value == 0, {
+		~spectraAutoscaleButton.valueAction_(1)
+	},{
+		~spectraAutoscaleButton.valueAction_(0)
+	});
+
+});
+
 
 //Button to auto-scale
-~spectraButton = Button(w, Rect(
-		~spectraAutoscale_bounds_array[0]+2,
-		~spectraAutoscale_bounds_array[1]+2,
-		~spectraAutoscale_bounds_array[2]-50-2,
-		~spectraAutoscale_bounds_array[3]-2-2))
+~spectraAutoscaleButton = Button(w, Rect(
+		~spectraAutoscale_bounds_array[0],
+		~spectraAutoscale_bounds_array[1],
+		~spectraAutoscale_bounds_array[2]-50,
+		~spectraAutoscale_bounds_array[3]))
 .states_([
-	["Autoscale", Color.black,Color(0.4824, 0.4863, 0.4863,1)],
+	["Autoscale", Color.white,Color(0.4824, 0.4863, 0.4863,1)],
 	["Autoscale", Color.white, Color(0.4824, 0.4863, 0.4863,1)]
 ]
 	)
@@ -215,19 +297,30 @@ StaticText(~composite,Rect(10,~spectraScreenComposite_bounds_height-33-15,100,15
 
 
 		// Set to ON toggle position
-		~spectraButton.bounds_(Rect(
+		~spectraAutoscaleButtonToggleKnob.bounds_(Rect(
+		~spectraAutoscale_bounds_array[0]+~spectraAutoscale_bounds_array[2]-50+25,
+		~spectraAutoscale_bounds_array[1]+1,
+		25,
+		~spectraAutoscale_bounds_array[3]-2));
+
+		/*~spectraButton.bounds_(Rect(
 		~spectraAutoscale_bounds_array[0]+50+2,
 		~spectraAutoscale_bounds_array[1]+2,
 		~spectraAutoscale_bounds_array[2]-50-2,
-		~spectraAutoscale_bounds_array[3]-2-2));
+		~spectraAutoscale_bounds_array[3]-2-2));*/
 
 	},{
 		// Reset to OFF toggle position
-	~spectraButton.bounds_(Rect(
+		~spectraAutoscaleButtonToggleKnob.bounds_(Rect(
+		~spectraAutoscale_bounds_array[0]+~spectraAutoscale_bounds_array[2]-50,
+		~spectraAutoscale_bounds_array[1]+1,
+		25,
+		~spectraAutoscale_bounds_array[3]-2));
+	/*~spectraButton.bounds_(Rect(
 		~spectraAutoscale_bounds_array[0]+2,
 		~spectraAutoscale_bounds_array[1]+2,
 		~spectraAutoscale_bounds_array[2]-50-2,
-		~spectraAutoscale_bounds_array[3]-2-2));
+		~spectraAutoscale_bounds_array[3]-2-2));*/
 	}
 	);
 

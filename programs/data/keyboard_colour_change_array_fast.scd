@@ -19,6 +19,7 @@
 			//keyArray[integer].postln;
 
 
+
 			("~f" ++ keyHarmonicNumber ++ "slider").interpret.value_(keyArray[integer]); // Avoid valueAction to reduce lag so it's not calling to update  freq/GUI redundantly
 
 			// But to set a sound value need to use this line:
@@ -29,6 +30,11 @@
 					("\\" ++ "f" ++ keyHarmonicNumber).interpret, keyArray[integer].value.linlin(0,1,0,2);
 
 			)});
+
+
+
+			// Instrument expansion
+			~clarinetAudioHaltKey = ~fluteAudioHaltKey;
 
 
 			// Time control
@@ -69,6 +75,8 @@
 
 			(~trace +/+ "data/spectra_harmonics_panel_hover_enter.scd").load; // Updating live the Information panel underneath the Harmonics panel
 
+			// Instrument expansion
+			~clarinetAudioHaltKey = ~fluteAudioHaltKey;
 
 			// Time control
 			integer = integer + 1;
@@ -87,10 +95,23 @@
 				~celloDynamicButton.valueAction_(0);*/
 				//~spectraFreeDynamicAll.value;
 
-				("~" ++ instrument ++ "DynamicButton.value_(0)").interpret; // Using .value so that the user can pick between any Dynamic Spectra buttons without having to out-click
+
+
+				// Instrument expansion
+
+				if(~instrumentGroupWoodwindsDropdown.item == "Clarinet", {
+					// For clarinet expansion
+					~fluteDynamicButton.value_(0);
+
+					~fluteAudioHaltKey = 1;
+					[("~" ++ instrument ++ "AudioHaltKey").asString, ("~" ++ instrument ++ "AudioHaltKey").interpret].postln;
+				},{
+					// As usual before the instrument expansion
+					("~" ++ instrument ++ "DynamicButton.value_(0)").interpret; // Using .value so that the user can pick between any Dynamic Spectra buttons without having to out-click
 
 				("~" ++ instrument ++ "AudioHaltKey = 1").interpret.postln;
 		[("~" ++ instrument ++ "AudioHaltKey").asString, ("~" ++ instrument ++ "AudioHaltKey").interpret].postln;
+				});
 
 
 				if(and((~celloAudioHaltKey + ~trumpetAudioHaltKey + ~fluteAudioHaltKey + ~hornAudioHaltKey) == 4, ~spectraPowerButtonStatus == 0), {

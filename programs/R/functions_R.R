@@ -204,11 +204,16 @@ plotMAESTRO <- function() {
                     line = list(width = 1, color = "black"),
                     marker = list(symbol = "circle-open", size = 1.5)
                   ) %>% layout(
-                    title = "MAESTRO Sound Analysis",
+                    font = list(family = "Times New Roman"),
+                    #title = "MAESTRO Sound Analysis",
                     scene = list(
-                      xaxis = list(title = "Time (s)"),
-                      yaxis = list(title = "Harmonic Number", range = c(0,16)), # Does not seem to work if in reverse direction (i.e. 16,0)
-                      zaxis = list(title = "Relative Intensity")
+                      camera = list(
+                        eye = list(x=-2,y=-1,z=1)
+                          ),
+                      
+                      xaxis = list(title = "Time (s)", visible = TRUE, range = c(0,soundfileDuration), showline = TRUE),
+                      yaxis = list(title = "Harmonic", visible = TRUE, type = "linear", dtick = 1, tickangle = 0), # Does not seem to work if in reverse direction (i.e. 16,0) #range = c(0,16), mirror = TRUE
+                      zaxis = list(title = "Intensity", range = c(0,1))
                     )
                     )
   

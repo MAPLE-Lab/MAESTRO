@@ -1,4 +1,5 @@
 (
+
 ~harmonics_panel = Array.fill(16, { arg i; i+1 });
 
 ~harmonics_panel.do({ arg item, i;
@@ -21,6 +22,11 @@
 		++
 		"; ~inspectorHarmonicsPanelUpdate.value;
 //(~trace.asString +/+ " ++ ~embed.asCompileString ++ ").load;
+
+if(~harmonic_in_effect != nil, {
+~harmonic_in_effect.interpret.background_(Color.grey(0.7));
+});
+
 })
 .mouseLeaveAction_({
 	if(~inspectorExists == 1, {
@@ -42,7 +48,12 @@
 
 // (~trace.asString +/+  " ++ ~gui_embed.asCompileString ++ ").load.postln; // Not sure yet why this does not auto-update
 
+
+~setToCustomFunction.value;
+
 ~freqslider.valueAction_(~freqslider.value); // Work-around for updating
+
+
 
 });
 "
@@ -54,6 +65,9 @@
 .align_(" ++ "\\" ++ "top)
 .background_(Color(0,0,0,0.1))
 .stringColor_(Color.black);
+
+//~setToCustomFunction.value;
+
 "
 	).interpret;
 });
