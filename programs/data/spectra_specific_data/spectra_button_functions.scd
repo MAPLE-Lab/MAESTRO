@@ -230,7 +230,10 @@
 			if(
 				or(~celloAudioButton.value == 1,
 					or(~trumpetAudioButton.value == 1,
-						or(~fluteAudioButton.value == 1, ~hornAudioButton.value == 1,)
+						or(~fluteAudioButton.value == 1,
+							or(~hornAudioButton.value == 1,
+								~voice_tenorAudioButton.value == 1)
+							)
 					)
 				),
 
@@ -243,6 +246,7 @@
 			"trumpet", {~trumpetAudioSynth = v = Synth.new(\trumpetAudio, [\out, 0, \bufnum, ~trumpetAudioBuffer.bufnum]);},
 			"flute", {~fluteAudioSynth = 	z = Synth.new(\fluteAudio, [\out, 0, \bufnum, ~fluteAudioBuffer.bufnum]);},
 			"horn", {~hornAudioSynth = 	t = Synth.new(\hornAudio, [\out, 0, \bufnum, ~hornAudioBuffer.bufnum]);},
+			"voice_tenor", {~voice_tenorAudioSynth = Synth.new(\hornAudio, [\out, 0, \bufnum, ~voice_tenorAudioBuffer.bufnum]);}
 		);
 
 		/*
@@ -284,7 +288,8 @@
 			"cello", {AppClock.sched(2.4, {if(howLongPlaying > 23, {~celloAudioButton.valueAction_(0); "Cello audio finished.".postln});})},
 			"trumpet", {AppClock.sched(4, {if(howLongPlaying > 39, {~trumpetAudioButton.valueAction_(0); "Trumpet audio finished.".postln});})},
 			"flute", {AppClock.sched(3, {if(howLongPlaying > 29, {~fluteAudioButton.valueAction_(0); "Flute audio finished.".postln});})},
-			"horn", {AppClock.sched(3, {if(howLongPlaying > 29, {~hornAudioButton.valueAction_(0); "Horn audio finished.".postln});})}
+			"horn", {AppClock.sched(3, {if(howLongPlaying > 29, {~hornAudioButton.valueAction_(0); "Horn audio finished.".postln});})},
+			"voice_tenor", {AppClock.sched(1.5, {if(howLongPlaying > 14, {~voice_tenorAudioButton.valueAction_(0); "Tenor audio finished.".postln});})}
 		);
 
 	}, {

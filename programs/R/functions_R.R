@@ -205,7 +205,8 @@ plotMAESTRO <- function() {
                     marker = list(symbol = "circle-open", size = 1.5)
                   ) %>% layout(
                     font = list(family = "Times New Roman"),
-                    #title = "MAESTRO Sound Analysis",
+                    title = paste("Fundamental frequency is", fundamentalFreq, "Hz"),
+                      #"MAESTRO Sound Analysis",
                     scene = list(
                       camera = list(
                         eye = list(x=-2,y=-1,z=1)

@@ -35,13 +35,15 @@ var basePath = thisProcess.nowExecutingPath.asString.dirname;
 	);
 
 //Load graphics elements
-~maple_icon = Image.new(basePath +/+ "images/mapleICON-small.png");
+~house_icon = Image.new(basePath +/+ "images/house-small.png");
+			~maple_icon = Image.new(basePath +/+ "images/mapleICON-small.png");
 ~keyboard_image = Image.new(basePath +/+ "images/keyboard_small.png");
 
 //All graphics (aesthetic lines and image positions)
 w.drawFunc = {
 		//Images underneath buttons
-		~maple_icon.drawInRect(Rect(465,95,30,30), Rect(0,0,30,30), 2, 1.0); // only a section
+		~house_icon.drawInRect(Rect(460,95,30,30), Rect(0,0,30,30), 2, 1.0);
+			~maple_icon.drawInRect(Rect(460,12,30,30), Rect(0,0,30,30), 2, 1.0);
 		~keyboard_image.drawInRect(Rect(250+75,330,60,25), Rect(0,0,60,25), 2, 1.0);
 
 		//Draw lines

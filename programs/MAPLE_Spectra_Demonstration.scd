@@ -49,9 +49,10 @@ w = Window.new("MAPLE Lab Spectra Demonstration (Beta)", Rect.new(
 	(basePath +/+  "data/spectra_specific_data/spectra_harmonic_slider_functions.scd").load; // Shortcut to setting intensities
 	(basePath +/+  "data/spectra_harmonics_panel_hover_enter.scd").load; // Load the function for updating the information panel below the harmonics panel
 	~lowerButtons = 40; // For Button heights
+	(basePath +/+  "data/spectra_specific_data/spectra_set_to_custom_functions.scd").load; // Any change from a preset goes to Custom name
 
 //Label for paragraph
-~para = StaticText(w,Rect(10,10,790,80))
+~para = StaticText(w,Rect(10,10,790-50,80))
 	.string_("Welcome to the MAPLE Lab Spectra Demonstration (Beta)! Using the parameters below, you can examine timbre of sounds. Select the fundamental frequency and the intensity of each harmonic. Use the Play/Mute button to start and stop the sound. To explore how power spectra are not representative of real instruments, try playing a dynamic spectra sound.")
 .font_(Font("nil", 12))
 .align_(\topLeft)
@@ -137,6 +138,34 @@ StaticText(w,Rect(10,105,380,25))
 						\f15, ~f15slider.value.linlin(0,1,0.0,2),
 						\f16, ~f16slider.value.linlin(0,1,0.0,2),
 
+						\p1, ~soundPhaseArray[0],
+						\p2, ~soundPhaseArray[1],
+						\p3, ~soundPhaseArray[2],
+						\p4, ~soundPhaseArray[3],
+						\p5, ~soundPhaseArray[4],
+						\p6, ~soundPhaseArray[5],
+						\p7, ~soundPhaseArray[6],
+						\p8, ~soundPhaseArray[7],
+						\p9, ~soundPhaseArray[8],
+						\p10, ~soundPhaseArray[9],
+						\p11, ~soundPhaseArray[10],
+						\p12, ~soundPhaseArray[11],
+						\p13, ~soundPhaseArray[12],
+						\p14, ~soundPhaseArray[13],
+						\p15, ~soundPhaseArray[14],
+						\p16, ~soundPhaseArray[15]
+
+						/*if(
+						x.isPlaying,
+						{
+							16.do({
+								arg i;
+								(
+						"\\" ++ "p" ++ (i+1) ++ ", ~soundPhaseArray[" ++ (i) ++ "],"
+								).postln;
+							});
+					});*/
+
 				]
 			).register;
 				l.free;
@@ -212,8 +241,60 @@ s.waitForBoot({
     snd.release;
    });
 
+
+			// Button to quickly change the Phase of the sound so that it can create a triangle wave
+
+			~soundPhaseArrayButtonLabel = StaticText(w, Rect(410,70-10,70,20))
+			.string_("Harmonic Phases")
+			.align_(\center)
+			.font_(Font(nil, 8));
+
+			~soundPhaseArrayButton = Button(w, Rect(410,70+5,70,20))
+			.states_([
+				["All Pi", Color.white, Color.grey(0.75)],
+				["Triangle", Color.white, Color.grey(0.25)],
+				["All 0", Color.white, Color.grey(0.5)]
+			])
+			.action_({
+				arg obj;
+
+				switch(obj.value,
+
+					0, {~soundPhaseArray = [pi,pi,pi,pi,pi,pi,pi,pi,pi,pi,pi,pi,pi,pi,pi,pi]},
+					1, {~soundPhaseArray = [1,1,0,0,1,1,0,0,1,1,0,0,1,1,0,0]*pi;},
+					2, {~soundPhaseArray = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]},
+				);
+
+				/*if(obj.value == 0,
+					{~soundPhaseArray = [pi,pi,pi,pi,pi,pi,pi,pi,pi,pi,pi,pi,pi,pi,pi,pi]},
+					{~soundPhaseArray = [1,1,0,0,1,1,0,0,1,1,0,0,1,1,0,0]*pi;}
+			);*/
+
+if(x.isPlaying, {
+x.set(
+						\p1, ~soundPhaseArray[0],
+						\p2, ~soundPhaseArray[1],
+						\p3, ~soundPhaseArray[2],
+						\p4, ~soundPhaseArray[3],
+						\p5, ~soundPhaseArray[4],
+						\p6, ~soundPhaseArray[5],
+						\p7, ~soundPhaseArray[6],
+						\p8, ~soundPhaseArray[7],
+						\p9, ~soundPhaseArray[8],
+						\p10, ~soundPhaseArray[9],
+						\p11, ~soundPhaseArray[10],
+						\p12, ~soundPhaseArray[11],
+						\p13, ~soundPhaseArray[12],
+						\p14, ~soundPhaseArray[13],
+						\p15, ~soundPhaseArray[14],
+						\p16, ~soundPhaseArray[15]
+					);
+				});
+
+			});
+
 ~synth_menu = PopUpMenu(w, Rect(260, 70-3, 100, 25)); //Moved to next to big button
-			~synth_menu.items_(["Sine", "Square", "Sawtooth", /*"Triangle",*/ "Instruments", "Custom"]);
+			~synth_menu.items_(["Sine", "Square", "Triangle", "Sawtooth", "Rev. Sawtooth", "Instruments", "Custom"]);
 			~synth_menu.font_(Font(\size, 12));
 
 			~synth_menu.background_(Color(0.7569-0.1,0.1373-0.1,0.1725-0.1,1));
@@ -249,9 +330,23 @@ s.waitForBoot({
 
 				}, { // If no Dynamic Spectra are playing, the change can be immediate (i.e. no AppClock delay necessary)
 
+					/*if(~synth_menu.item == "Triangle", {
+							~soundPhaseArray = Array.fill(16, {
+								arg i, j;
+
+								if((i+1)%4 > 1, {j = 1},{j = 0});
+
+								j*pi;
+							});
+						},{
+							~soundPhaseArray = [pi,pi,pi,pi,pi,pi,pi,pi,pi,pi,pi,pi,pi,pi,pi,pi];
+
+						});*/
+
+
 				snd = funcs2.at(~synth_menu.value).value; // Changed from .play to .value to allow the ~instrumentsCover.bounds command to work without an error message
 				});
-l.free;
+//l.free;
 
 
 
@@ -267,13 +362,10 @@ l.free;
 
 					//~volslider.valueAction_(1.value.linlin(0,1,0,1));
 
-
-
-
-
+					~soundPhaseArrayButton.valueAction_(2);
 					~fNsliderAction.value(intensityArray:[2]);
 
-					if(x.isPlaying, {x.free}); ///NEED TO ADD OSC DELAY
+					if(x.isPlaying, {x.free}); // Must be before the button set to 1
 
 					if(~button.value == 1,
 						{~button.valueAction_(1)});
@@ -281,12 +373,59 @@ l.free;
 		~instrumentsCover.bounds_(Rect(10,410+2,(790-10), 120+~lowerButtons));
 	},
 
-		/*		{//triangle
-		var variable;
-		variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
-		~freqslider.valueAction_(440.value.explin(100,1000,0,1)); //only need to affect slider to affect the number box and true sound value
-		~volslider.valueAction_(1.value.linlin(0,1,0,1));
-		~f1slider.valueAction_(1.00.value.linlin(0.0,2,0,1));
+
+				{ //Square
+
+		//~freqslider.valueAction_(69.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
+		//~volslider.valueAction_(1.value.linlin(0,1,0,1));
+
+					~soundPhaseArrayButton.valueAction_(2);
+					~fNsliderAction.value(intensityArray:[ 0.5, 0, 0.16, 0, 0.09, 0, 0.065, 0, 0.055, 0, 0.04, 0, 0.03, 0, 0.035, 0 ]*2);
+
+
+			if(x.isPlaying, {x.free});  // Must be before the button set to 1
+
+					if(~button.value == 1,
+						{~button.valueAction_(1)});
+
+					/*~l.valueAction_(0);
+				~k.valueAction_(0);
+								~j.valueAction_(0);*/
+
+					~instrumentsCover.bounds_(Rect(10,410+2,(790-10), 120+~lowerButtons));
+
+	},
+
+				{//triangle
+
+					~triangleIntensityArray = Array.fill(16, {
+						arg i, j, k, value;
+						j = i+1;
+						k = j**2;
+
+						if(odd(j), {
+							value = 1/k;
+						},{
+							value = 0;
+						});
+					});
+
+					/*~soundPhaseArray = Array.fill(16, {
+								arg i, j;
+
+								if((i+1)%4 > 1, {j = 1},{j = 0});
+
+								j*pi;
+							});*/
+
+					~soundPhaseArrayButton.valueAction_(1);
+					~fNsliderAction.value(intensityArray:~triangleIntensityArray*2);
+
+	//	~freqslider.valueAction_(440.value.explin(100,1000,0,1)); //only need to affect slider to affect the number box and true sound value
+		//~volslider.valueAction_(1.value.linlin(0,1,0,1));
+
+
+		/*~f1slider.valueAction_(1.00.value.linlin(0.0,2,0,1));
 		~f2slider.valueAction_(0.value.linlin(0.0,2,0,1));
 		~f3slider.valueAction_(0.32.value.linlin(0.0,2,0,1));
 		~f4slider.valueAction_(0.value.linlin(0.0,2,0,1));
@@ -301,37 +440,9 @@ l.free;
 		~f13slider.valueAction_(0.value.linlin(0.0,2,0,1));
 		~f14slider.valueAction_(0.value.linlin(0.0,2,0,1));
 		~f15slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f16slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		x.free; ///NEED TO ADD OSC DELAY
-		~button.valueAction_(1);
-					~l.valueAction_(0);
-				~k.valueAction_(0);
-								~j.valueAction_(0);
+		~f16slider.valueAction_(0.value.linlin(0.0,2,0,1));*/
 
-	},*/
-				{ //Square??
-
-		//~freqslider.valueAction_(69.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
-		//~volslider.valueAction_(1.value.linlin(0,1,0,1));
-
-					~f1slider.valueAction_(1.value.linlin(0.0,2,0,1));
-		~f2slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f3slider.valueAction_(0.32.value.linlin(0.0,2,0,1));
-		~f4slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f5slider.valueAction_(0.18.value.linlin(0.0,2,0,1));
-		~f6slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f7slider.valueAction_(0.13.value.linlin(0.0,2,0,1));
-		~f8slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f9slider.valueAction_(0.11.value.linlin(0.0,2,0,1));
-		~f10slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f11slider.valueAction_(0.08.value.linlin(0.0,2,0,1));
-		~f12slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f13slider.valueAction_(0.06.value.linlin(0.0,2,0,1));
-		~f14slider.valueAction_(0.value.linlin(0.0,2,0,1));
-		~f15slider.valueAction_(0.07.value.linlin(0.0,2,0,1));
-		~f16slider.valueAction_(0.value.linlin(0.0,2,0,1));
-
-			if(x.isPlaying, {x.free});  ///NEED TO ADD OSC DELAY
+				if(x.isPlaying, {x.free});  // Must be before the button set to 1
 
 					if(~button.value == 1,
 						{~button.valueAction_(1)});
@@ -343,28 +454,51 @@ l.free;
 					~instrumentsCover.bounds_(Rect(10,410+2,(790-10), 120+~lowerButtons));
 
 	},
-				{ //saw
+
+				{ // Sawtooth
 
 		//~freqslider.valueAction_(69.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
 		//~volslider.valueAction_(0.8.value.linlin(0,1,0,1));
-		~f1slider.valueAction_(1.value.linlin(0.0,2,0,1));
-					~f2slider.valueAction_((0.5**1).value.linlin(0.0,2,0,1));
-					~f3slider.valueAction_((1/3**1).value.linlin(0.0,2,0,1));
-					~f4slider.valueAction_((1/4**1).value.linlin(0.0,2,0,1));
-					~f5slider.valueAction_((1/5**1).value.linlin(0.0,2,0,1));
-					~f6slider.valueAction_((1/6**1).value.linlin(0.0,2,0,1));
-					~f7slider.valueAction_((1/7**1).value.linlin(0.0,2,0,1));
-					~f8slider.valueAction_((1/8**1).value.linlin(0.0,2,0,1));
-					~f9slider.valueAction_((1/9**1).value.linlin(0.0,2,0,1));
-					~f10slider.valueAction_((1/10**1).value.linlin(0.0,2,0,1));
-					~f11slider.valueAction_((1/11**1).value.linlin(0.0,2,0,1));
-					~f12slider.valueAction_((1/12**1).value.linlin(0.0,2,0,1));
-					~f13slider.valueAction_((1/13**1).value.linlin(0.0,2,0,1));
-					~f14slider.valueAction_((1/14**1).value.linlin(0.0,2,0,1));
-					~f15slider.valueAction_((1/15**1).value.linlin(0.0,2,0,1));
-					~f16slider.valueAction_((1/16**1).value.linlin(0.0,2,0,1));
 
-					if(x.isPlaying, {x.free});  ///NEED TO ADD OSC DELAY
+
+
+					/*~sawIntensityArray = Array.fill(16, {
+						arg i, j, value;
+						j = i+1;
+						value = 1/j;
+					});*/
+
+					~soundPhaseArrayButton.valueAction_(0);
+					~fNsliderAction.value(intensityArray:[ 0.5, 0.25, 0.16666666666667, 0.125, 0.1, 0.083333333333333, 0.071428571428571, 0.0625, 0.055555555555556, 0.05, 0.045454545454545, 0.041666666666667, 0.038461538461538, 0.035714285714286, 0.033333333333333, 0.03125 ]*2/*~sawIntensityArray*/);
+
+					if(x.isPlaying, {x.free});  // Must be before the button set to 1
+
+					if(~button.value == 1,
+						{~button.valueAction_(1)});
+
+					/*~l.valueAction_(0);
+				~k.valueAction_(0);
+								~j.valueAction_(0);*/
+
+					~instrumentsCover.bounds_(Rect(10,410+2,(790-10), 120+~lowerButtons));
+	},
+				{ // Reverse Sawtooth - same as Sawtooth except phase is 0
+
+		//~freqslider.valueAction_(69.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
+		//~volslider.valueAction_(0.8.value.linlin(0,1,0,1));
+
+
+
+					/*~sawIntensityArray = Array.fill(16, {
+						arg i, j, value;
+						j = i+1;
+						value = 1/j;
+					});*/
+
+					~soundPhaseArrayButton.valueAction_(2);
+					~fNsliderAction.value(intensityArray:[ 0.5, 0.25, 0.16666666666667, 0.125, 0.1, 0.083333333333333, 0.071428571428571, 0.0625, 0.055555555555556, 0.05, 0.045454545454545, 0.041666666666667, 0.038461538461538, 0.035714285714286, 0.033333333333333, 0.03125 ]*2/*~sawIntensityArray*/);
+
+					if(x.isPlaying, {x.free});  // Must be before the button set to 1
 
 					if(~button.value == 1,
 						{~button.valueAction_(1)});
@@ -377,7 +511,10 @@ l.free;
 	},
 
 				{//"Instruments (harmonics panel)".postln;
-						if(x.isPlaying, {x.free});  ///NEED TO ADD OSC DELAY
+
+					if(x.isPlaying, {x.free});
+
+
 
 					~button.valueAction_(0); // Automatically start in the off position
 
@@ -389,11 +526,13 @@ l.free;
 					~synth_menu.stringColor_(Color.black);
 
 					~reset.valueAction_(0); // Resets the intensities when set to Instruments.
+					~soundPhaseArrayButton.valueAction_(2); // Change back phase to 0
 
 					~instrumentsCover.bounds_(Rect(10,410+2,(790-10), 0));
 				},
 				{// Custom
-					"Custom".postln;
+
+
 
 				}
 
@@ -410,7 +549,7 @@ l.free;
 		// Start the dropdown menu at Sine // Instruments for testing now
 		AppClock.sched(0.001,{
 			~slider_hover = 1;
-			~synth_menu.valueAction_(0);
+			~synth_menu.valueAction_(5);
 			//nil;
 		});
 
@@ -424,7 +563,7 @@ l.free;
 
 	//FORCED cello preset
 	~celloPowerButton = ~j = Button(w, Rect(240, 417.5+~lowerButtons, 90, 26))
-	.states_([["Cello", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Cello", Color.white, Color(0,0,0,1)]])
+	.states_([["Strings", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Strings", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({
 		arg obj;
@@ -437,7 +576,7 @@ l.free;
 
 	//FORCED trumpet preset
 	~trumpetPowerButton = ~l = Button(w, Rect(335, 417.5+~lowerButtons, 90, 26))
-	.states_([["Trumpet", Color.white, Color(0.7569,0.1373,0.1725,1)],["Trumpet", Color.white, Color(0,0,0,1)]])
+	.states_([["Brass", Color.white, Color(0.7569,0.1373,0.1725,1)],["Brass", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({
 		arg obj;
@@ -451,7 +590,7 @@ l.free;
 
 	//FORCED flute preset
 	~flutePowerButton = ~k = Button(w, Rect(430, 417.5+~lowerButtons, 90, 26))
-	.states_([[">", Color.white, Color(0.7569,0.1373,0.1725,1)], [">", Color.white, Color(0,0,0,1)]])
+	.states_([["Woodwind", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Woodwind", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({ // Must be "action" and not "mouseDownAction" to avoid code not working
 		arg obj;
@@ -464,7 +603,7 @@ l.free;
 
 	//FORCED horn preset
 	~hornPowerButton = ~r = Button(w, Rect(525, 417.5+~lowerButtons, 90, 26))
-	.states_([["Horn", Color.white, Color(0.7569,0.1373,0.1725,1)],["Horn", Color.white, Color(0,0,0,1)]])
+	.states_([["Percussion", Color.white, Color(0.7569,0.1373,0.1725,1)],["Percussion", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({
 		arg obj;
@@ -474,6 +613,22 @@ l.free;
 
 		~spectraPowerButtonAction.value(obj:obj, instrument:"horn", fundamentalNote:60);
 	});
+
+	//FORCED tenor preset
+	~voice_tenorPowerButton = Button(w, Rect(620, 417.5+~lowerButtons, 90, 26))
+	.states_([["Voice", Color.white, Color(0.7569,0.1373,0.1725,1)],["Voice", Color.white, Color(0,0,0,1)]])
+	.font_(Font("nil", 14))
+	.action_({
+		arg obj;
+		~spectraFreePowerSpecifyValueOnly.value(instrument:"trumpet");
+		~spectraFreePowerSpecifyValueOnly.value(instrument:"cello");
+		~spectraFreePowerSpecifyValueOnly.value(instrument:"flute");
+
+		//~spectraPowerButtonAction.value(obj:obj, instrument:"voice_tenor", fundamentalNote:51);
+
+		"No data currently available. This is a proof of concept for the button design."
+	});
+
 
 			//Label for Select Instrument
 ~labelPower = StaticText(w,Rect(10,420,160,20))
@@ -518,6 +673,30 @@ l.free;
 
 	// Select Instrument Section
 
+	// Strings Group
+
+	~instrumentGroupStringsLabel = StaticText(w, Rect(240, 410, 90, 15))
+	.string_("Strings")
+	.background_(Color.clear)
+	.align_(\center)
+	.font_(Font(nil,10));
+
+	~instrumentGroupStringsDropdown = PopUpMenu(w, Rect(240, 425, 90, 20))
+	.items_(["Cello", "Violin"]);
+
+
+	// Brass Group
+
+	~instrumentGroupBrassLabel = StaticText(w, Rect(335, 410, 90, 15))
+	.string_("Brass")
+	.background_(Color.clear)
+	.align_(\center)
+	.font_(Font(nil,10));
+
+	~instrumentGroupBrassDropdown = PopUpMenu(w, Rect(335, 425, 90, 20))
+	.items_(["Horn", "Trumpet"]);
+
+
 	// Woodwind Group
 
 	~instrumentGroupWoodwindsLabel = StaticText(w, Rect(430, 410, 90, 15))
@@ -528,6 +707,30 @@ l.free;
 
 	~instrumentGroupWoodwindsDropdown = PopUpMenu(w, Rect(430, 425, 90, 20))
 	.items_(["Flute", "Clarinet"]);
+
+
+	// Percussion Group
+
+	~instrumentGroupPercussionLabel = StaticText(w, Rect(525, 410, 90, 15))
+	.string_("Percussion")
+	.background_(Color.clear)
+	.align_(\center)
+	.font_(Font(nil,10));
+
+	~instrumentGroupPercussionDropdown = PopUpMenu(w, Rect(525, 425, 90, 20))
+	.items_(["Marimba", "Piano"]);
+
+
+	// Voices Group
+
+	~instrumentGroupPercussionLabel = StaticText(w, Rect(620, 410, 90, 15))
+	.string_("Voices")
+	.background_(Color.clear)
+	.align_(\center)
+	.font_(Font(nil,10));
+
+	~instrumentGroupPercussionDropdown = PopUpMenu(w, Rect(620, 425, 90, 20))
+	.items_(["Tenor", "Soprano"]);
 
 
 
@@ -743,7 +946,7 @@ s.makeBundle(1.0, //sound delay -~knob.value.linlin(0,1,0,0.5)
 
 
 
-			if(~spectraButton.value == 1,{
+			if(~spectraAutoscaleButton.value == 1,{
 			//{~spectraButton.valueAction_(1);}); // Automatically updates the Autoscaling
 			~spectra_scopeAutoscaleFunction.value;}); // Bypass the Button system entirely to reduce CPU load
 
@@ -861,7 +1064,7 @@ Volume:"++obj.value).asString
 
 	// Cello Button
 	~celloAudioButton = q = Button(w, Rect(240, 497.5+~lowerButtons, 90, 26))
-	.states_([["Cello", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Cello", Color.white, Color(0,0,0,1)]])
+	.states_([["Strings", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Strings", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({
 		arg obj;
@@ -882,7 +1085,7 @@ Volume:"++obj.value).asString
 
 	// Trumpet Button
 	~trumpetAudioButton = e = Button(w, Rect(335, 497.5+~lowerButtons, 90, 26))
-	.states_([["Trumpet", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Trumpet", Color.white, Color(0,0,0,1)]])
+	.states_([["Brass", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Brass", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({
 		arg obj;
@@ -903,7 +1106,7 @@ Volume:"++obj.value).asString
 
 	// Flute Button
 	~fluteAudioButton = r = Button(w, Rect(430, 497.5+~lowerButtons, 90, 26))
-	.states_([[">", Color.white, Color(0.7569,0.1373,0.1725,1)], [">", Color.white, Color(0,0,0,1)]])
+	.states_([["Woodwind", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Woodwind", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({
 		arg obj;
@@ -925,11 +1128,32 @@ Volume:"++obj.value).asString
 
 	// Horn Button
 	~hornAudioButton = f = Button(w, Rect(525, 497.5+~lowerButtons, 90, 26))
-	.states_([["Horn", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Horn", Color.white, Color(0,0,0,1)]])
+	.states_([["Percussion", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Percussion", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({
 		arg obj;
 		~spectraAudioButtonAction.value(obj:obj, instrument:"horn");
+	});
+
+	// Tenor Audio Recording
+	// Tenor Buffer
+	~voice_tenorAudioBuffer = Buffer.read(s, basePath +/+ "audio/voice_tenor.wav");
+
+	SynthDef("voice_tenorAudio",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1;
+		var rate;
+		rate = 1.0; //using rate because it was slightly out of tune (too high pitched)
+		Out.ar(out,
+			Pan2.ar(PlayBuf.ar(1,bufnum, BufRateScale.kr(bufnum)*rate, trigger, BufFrames.ir(bufnum)*startPos, loop=0),0.0)
+		);
+	}).add;
+
+	// Tenor Button
+	~voice_tenorAudioButton = Button(w, Rect(620, 497.5+~lowerButtons, 90, 26))
+	.states_([["Voice", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Voice", Color.white, Color(0,0,0,1)]])
+	.font_(Font("nil", 14))
+	.action_({
+		arg obj;
+		~spectraAudioButtonAction.value(obj:obj, instrument:"voice_tenor");
 	});
 
 
@@ -945,7 +1169,7 @@ Volume:"++obj.value).asString
 
 	// Horn Dynamic
 	~hornDynamicButton = u = Button(w, Rect(525, 457.5+~lowerButtons, 90, 26))
-	.states_([["Horn", Color.white, Color(0.7569,0.1373,0.1725,1)],["Horn", Color.white, Color(0,0,0,1)]])
+	.states_([["Percussion", Color.white, Color(0.7569,0.1373,0.1725,1)],["Percussion", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({ arg obj;
 		//~haltKey = 1;
@@ -968,7 +1192,7 @@ Volume:"++obj.value).asString
 
 	// Flute Dynamic
 	~fluteDynamicButton = r = Button(w, Rect(430, 457.5+~lowerButtons, 90, 26))
-	.states_([[">", Color.white, Color(0.7569,0.1373,0.1725,1)], [">", Color.white, Color(0,0,0,1)]])
+	.states_([["Woodwind", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Woodwind", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({
 		arg obj;
@@ -999,7 +1223,7 @@ Volume:"++obj.value).asString
 
 	// Trumpet Dynamic
 	~trumpetDynamicButton = r = Button(w, Rect(335, 457.5+~lowerButtons, 90, 26))
-	.states_([["Trumpet", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Trumpet", Color.white, Color(0,0,0,1)]])
+	.states_([["Brass", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Brass", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({
 		arg obj;
@@ -1023,7 +1247,7 @@ Volume:"++obj.value).asString
 
 	// Cello Dynamic
 	~celloDynamicButton = r = Button(w, Rect(240, 457.5+~lowerButtons, 90, 26))
-	.states_([["Cello", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Cello", Color.white, Color(0,0,0,1)]])
+	.states_([["Strings", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Strings", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({
 		arg obj;
@@ -1046,39 +1270,72 @@ Volume:"++obj.value).asString
 		~spectraDynamicButtonAction.value(obj:obj, instrument:"cello", harmonicAmount:16, fundamentalNote:60);
 	});
 
+	// Tenor Dynamic
+	~voice_tenorDynamicButton = r = Button(w, Rect(620, 457.5+~lowerButtons, 90, 26))
+	.states_([["Voice", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Voice", Color.white, Color(0,0,0,1)]])
+	.font_(Font("nil", 14))
+	.action_({
+		arg obj;
+		//~haltKey = 1;
+
+		if(~hornDynamicButton.value != 0, {
+			//~hornDynamicButton.valueAction_(0);
+			~hornAudioHaltKey = 1;
+		});
+		//	if(~fluteDynamicButton.value != 0, {~fluteDynamicButton.valueAction_(0);});
+		if(~trumpetDynamicButton.value != 0, {
+			//~trumpetDynamicButton.valueAction_(0);
+			~trumpetAudioHaltKey = 1;
+		});
+		if(~fluteDynamicButton.value != 0, {
+			//~fluteDynamicButton.valueAction_(0);
+			~fluteAudioHaltKey = 1;
+		});
+
+		~spectraDynamicButtonAction.value(obj:obj, instrument:"voice_tenor", harmonicAmount:16, fundamentalNote:51);
+	});
+
+
 
 //Define the slider sounds to be played
-(
+~soundSynthDef_call = {
+	(
+		//~soundPhaseArray = [pi,pi,pi,pi,pi,pi,pi,pi,pi,pi,pi,pi,pi,pi,pi,pi];
+
 SynthDef.new("sound", {
-			arg vol = 0.2, freq = 21, phase = pi, f1,f2,f3,f4,f5,f6,f7,f8,f9,f10,f11,f12,f13,f14,f15,f16;
-	var mul, signal, freqU;
+			arg vol = 0.2, freq = 21, f1,f2,f3,f4,f5,f6,f7,f8,f9,f10,f11,f12,f13,f14,f15,f16,
+				p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p12,p13,p14,p15,p16;
+	var mul, signal, freqU, phase = ~soundPhaseArray;
 
 			mul = XLine.kr(0.01,1,0.01,0.1); //Ramps sound onset so not so harsh
 
 			freqU = ((2**((-69+freq)/12))*440);
 
 	signal =
-	SinOsc.ar(freqU, phase, vol*mul*f1) +
-	SinOsc.ar(freqU*2, phase, vol*mul*f2) +
-	SinOsc.ar(freqU*3, phase, vol*mul*f3) +
-	SinOsc.ar(freqU*4, phase, vol*mul*f4) +
-	SinOsc.ar(freqU*5, phase, vol*mul*f5) +
-	SinOsc.ar(freqU*6, phase, vol*mul*f6)+
-	SinOsc.ar(freqU*7, phase, vol*mul*f7)+
-	SinOsc.ar(freqU*8, phase, vol*mul*f8)+
-	SinOsc.ar(freqU*9, phase, vol*mul*f9)+
-	SinOsc.ar(freqU*10, phase, vol*mul*f10)+
-	SinOsc.ar(freqU*11, phase, vol*mul*f11)+
-	SinOsc.ar(freqU*12, phase, vol*mul*f12)+
-	SinOsc.ar(freqU*13, phase, vol*mul*f13)+
-	SinOsc.ar(freqU*14, phase, vol*mul*f14)+
-	SinOsc.ar(freqU*15, phase, vol*mul*f15)+
-	SinOsc.ar(freqU*16, phase, vol*mul*f16)
-	;
+				SinOsc.ar(freqU, p1, vol*mul*f1) +
+				SinOsc.ar(freqU*2, p2, vol*mul*f2) +
+				SinOsc.ar(freqU*3, p3, vol*mul*f3) +
+				SinOsc.ar(freqU*4, p4, vol*mul*f4) +
+				SinOsc.ar(freqU*5, p5, vol*mul*f5) +
+				SinOsc.ar(freqU*6, p6, vol*mul*f6)+
+				SinOsc.ar(freqU*7, p7, vol*mul*f7)+
+				SinOsc.ar(freqU*8, p8, vol*mul*f8)+
+				SinOsc.ar(freqU*9, p9, vol*mul*f9)+
+				SinOsc.ar(freqU*10, p10, vol*mul*f10)+
+				SinOsc.ar(freqU*11, p11, vol*mul*f11)+
+				SinOsc.ar(freqU*12, p12, vol*mul*f12)+
+				SinOsc.ar(freqU*13, p13, vol*mul*f13)+
+				SinOsc.ar(freqU*14, p14, vol*mul*f14)+
+				SinOsc.ar(freqU*15, p15, vol*mul*f15)+
+				SinOsc.ar(freqU*16, p16, vol*mul*f16)
+				;
 
 	Out.ar([0,1], signal); //sends to busses 1 & 2 (stereo), and plays the var "signal"
 }).add;
 );
+	};
+
+	~soundSynthDef_call.value;
 
 
 
@@ -1193,7 +1450,7 @@ NumberBox(~inspectorHarmonicsPanel, Rect(294+55,0,45,15))
 	["Close Oscilloscope", Color.white, Color.grey(0.251)]*/
 ])
 .font_(Font("nil", 12))
-.mouseDownAction_({
+	.mouseDownAction_({ // This still seems to cause an Error message of "cycle_" - July 17 2017
 	/*arg obj;
 	if(obj.value == 1,
 		{*/
@@ -1264,13 +1521,16 @@ arg obj;
 
 
 
-	~i = Image.new(basePath +/+ "images/mapleICON-small.png");
+	~house_icon = Image.new(basePath +/+ "images/house-small.png");
+	~maple_icon = Image.new(basePath +/+ "images/mapleICON-small.png");
 ~keyboard_image = Image.new(basePath +/+ "images/keyboard_small.png");
 
 //Aesthetic lines
 	w.drawFunc = {
-		~i.drawInRect(Rect(760,65,30,30), Rect(0,0,30,30), 2, 1.0);
+		~house_icon.drawInRect(Rect(760,65,30,30), Rect(0,0,30,30), 2, 1.0);
+		~maple_icon.drawInRect(Rect(760,15,30,30), Rect(0,0,30,30), 2, 1.0);
 		~keyboard_image.drawInRect(Rect(575,70,60,25), Rect(0,0,60,25), 2, 1.0);
+		Pen.line(10@530,790@530); //Sixth line
 		Pen.line(10@490,790@490); //Fifth line
 		Pen.line(10@450,790@450); //Fourth line
 		Pen.line(10@410,790@410); //Third line
