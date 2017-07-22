@@ -176,7 +176,7 @@ plotMAESTRO <- function() {
   
   n = numberOfTimeBins*numberOfHarmonics
   
-  p <- plot_ly(
+  plot.angle <- plot_ly(
   ) %>% add_trace(type = 'mesh3d',
                   x = mesh3d_data_points[,"time"],
                   y = mesh3d_data_points[,"harmonic"],
@@ -218,7 +218,73 @@ plotMAESTRO <- function() {
                     )
                     )
   
-  p
+  plot.forward3d <- plot_ly(
+  ) %>% add_trace(type = 'mesh3d',
+                  x = mesh3d_data_points[,"time"],
+                  y = mesh3d_data_points[,"harmonic"],
+                  z = mesh3d_data_points[,"intensity"],
+                  
+                  i = c(((1:(n-1))-1),
+                        (((n+1):(2*n-1))-1)),
+                  j = c(((2:n)-1),
+                        ((2:n)-1)),
+                  k = c((((n+1):(2*n-1))-1),
+                        (((n+1):(2*n-1)))),
+                  
+                  delaunayaxis = "z", # The axis on which the surface is 'projected' onto, if i,j,k are not provided
+                  intensity = 0, colors = 'white', opacity = 0.5,
+                  showscale = FALSE,
+                  lightposition = list(x = 0, y = 0, z = 0),
+                  lighting = list(specular = 0, fresnel = 0, ambient = 1), flatshading = FALSE # flatshading TRUE causes artifacts to appear
+                  #scene = list(xaxis = list(visible = FALSE))
+  ) %>% add_trace(
+    data = test_bind, x = ~time, y = ~harmonic, z = ~intensity, 
+    type = 'scatter3d', 
+    mode = "lines+markers", color = ~harmonic, opacity = 1, # This opacity sets the opacity of the fillcolor as well, though not used as a separate set of mesh3ds are used
+    showlegend = FALSE,
+    projection = list(x = list(show = TRUE, scale = 0.5)),
+    line = list(width = 1, color = "black"),
+    marker = list(symbol = "circle-open", size = 1.5)
+  ) %>% layout(
+    font = list(family = "Times New Roman"),
+    title = paste("Fundamental frequency is", fundamentalFreq, "Hz"),
+    #"MAESTRO Sound Analysis",
+    scene = list(
+      camera = list(
+        eye = list(x=-3,y=0,z=0)
+      ),
+      
+      xaxis = list(title = "Time (s)", visible = TRUE, range = c(0,soundfileDuration), showline = TRUE),
+      yaxis = list(title = "Harmonic", visible = TRUE, type = "linear", dtick = 1, tickangle = 0), # Does not seem to work if in reverse direction (i.e. 16,0) #range = c(0,16), mirror = TRUE
+      zaxis = list(title = "Intensity", range = c(0,1))
+    )
+  )
+  
+  name<-substr(soundfile,nchar(getwd())+nchar("audio/"),nchar(soundfile)-4) # Create instrument name from the .wav file selected
+  
+  plot.bar <- plot_ly() %>% add_bars(
+    data = harmonicMatrixScaled, 
+    x = format(round(as.numeric(colnames(harmonicMatrixScaled)), 0), nsmall = 0), # Reduces x-axis labels to 2 decimal points
+    y = colMeans(harmonicMatrixScaled),
+    color = I("black"),
+    width = 0.2,
+    orientation = "v"
+    ) %>% layout(
+      title = paste(toupper(substr(name, 1, 1)), substr(name, 2, nchar(name)), sep=""), # Convert title to title case
+      xaxis = list(
+        categoryorder = "array", categoryarray = colnames(harmonicMatrixScaled),
+        title = "Frequency (Hz)",
+        tickfont = list(family = "Arial", size = 8), # A sans-serif font is easier to read small
+        tickangle = 45
+        ),
+      yaxis = list(
+        title = "Intensity"
+      )
+      )
+  
+  #plot.angle
+  #plot.forward3d
+  plot.bar
   
 }
 
