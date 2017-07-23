@@ -80,8 +80,10 @@ isolateHarmonics() # Uses many arguments, so currently does not allow changes to
 #}
 
 # STEP 8 - PLOT
-plotMAESTRO() # Time Warning: This could take a minute or longer depending on the amount of data
-
+# Time Warning: This could take a minute or longer depending on the amount of data
+# Can only draw one at a time
+plotMAESTRO.3d(view.x = -3, view.y = -1, view.z = 1) # Arguments control the 3D camera's angle
+plotMAESTRO.bars()
 
 # STEP 9 - EXPORT files
 # Input: All precalculated by previous functions.
