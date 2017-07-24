@@ -562,7 +562,7 @@ x.set(
 	~spectraPowerButtonStatus = 0; // Starts all off
 
 	//FORCED cello preset
-	~celloPowerButton = ~j = Button(w, Rect(240, 417.5+~lowerButtons, 90, 26))
+	~stringsPowerButton = ~celloPowerButton = ~j = Button(w, Rect(240, 417.5+~lowerButtons, 90, 26))
 	.states_([["Strings", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Strings", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({
@@ -723,13 +723,13 @@ x.set(
 
 	// Voices Group
 
-	~instrumentGroupPercussionLabel = StaticText(w, Rect(620, 410, 90, 15))
+	~instrumentGroupVoicesLabel = StaticText(w, Rect(620, 410, 90, 15))
 	.string_("Voices")
 	.background_(Color.clear)
 	.align_(\center)
 	.font_(Font(nil,10));
 
-	~instrumentGroupPercussionDropdown = PopUpMenu(w, Rect(620, 425, 90, 20))
+	~instrumentGroupVoicesDropdown = PopUpMenu(w, Rect(620, 425, 90, 20))
 	.items_(["Tenor", "Soprano"]);
 
 
@@ -1052,23 +1052,46 @@ Volume:"++obj.value).asString
 
 	// Cello Audio Recording
 	// Cello Buffer
-	~celloAudioBuffer = a = Buffer.read(s, basePath +/+ "audio/cello-2.wav");
+	~celloAudioBuffer = a = Buffer.read(s, basePath +/+ "audio/cello-2.wav"); // Can it be renamed to cello.wav?
 
 	SynthDef("celloAudio",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1;
 		var rate;
-		rate = 1.0; //using rate because it was slightly out of tune (too high pitched)
+		rate = 1.0; // Can be used to affect pitch/speed of playback
+		Out.ar(out,
+			Pan2.ar(PlayBuf.ar(1,bufnum, BufRateScale.kr(bufnum)*rate, trigger, BufFrames.ir(bufnum)*startPos, loop=0),0.0)
+		);
+	}).add;
+
+	// Violin Buffer
+	~violinAudioBuffer = Buffer.read(s, basePath +/+ "audio/violin.wav");
+
+	SynthDef("violinAudio",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1;
+		var rate;
+		rate = 1.0; // Can be used to affect pitch/speed of playback
 		Out.ar(out,
 			Pan2.ar(PlayBuf.ar(1,bufnum, BufRateScale.kr(bufnum)*rate, trigger, BufFrames.ir(bufnum)*startPos, loop=0),0.0)
 		);
 	}).add;
 
 	// Cello Button
-	~celloAudioButton = q = Button(w, Rect(240, 497.5+~lowerButtons, 90, 26))
+	~stringsAudioButton = ~celloAudioButton = q = Button(w, Rect(240, 497.5+~lowerButtons, 90, 26))
 	.states_([["Strings", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Strings", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({
 		arg obj;
+
+		switch(~instrumentGroupStringsDropdown.item,
+			"Cello", {~spectraAudioButtonAction.value(obj:obj, instrument:"cello", instrumentGroup:"strings");},
+			"Violin", {~spectraAudioButtonAction.value(obj:obj, instrument:"violin", instrumentGroup:"strings");}
+		);
+
+		/*if(~instrumentGroupStringsDropdown.item == "Cello", {
 		~spectraAudioButtonAction.value(obj:obj, instrument:"cello");
+		});
+
+		if(~instrumentGroupStringsDropdown.item == "Violin", {
+		~spectraAudioButtonAction.value(obj:obj, instrument:"cello");
+		});*/
 	});
 
 	// Trumpet Audio Recording
@@ -1083,38 +1106,6 @@ Volume:"++obj.value).asString
 		);
 	}).add;
 
-	// Trumpet Button
-	~trumpetAudioButton = e = Button(w, Rect(335, 497.5+~lowerButtons, 90, 26))
-	.states_([["Brass", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Brass", Color.white, Color(0,0,0,1)]])
-	.font_(Font("nil", 14))
-	.action_({
-		arg obj;
-		~spectraAudioButtonAction.value(obj:obj, instrument:"trumpet");
-	});
-
-	// Trumpet Audio Recording
-	// Flute Buffer
-	~fluteAudioBuffer = b = Buffer.read(s, basePath +/+ "audio/flute.wav");
-
-	SynthDef("fluteAudio",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1;
-		var rate;
-		rate = 1.0; //using rate because it was slightly out of tune (too high pitched)
-		Out.ar(out,
-			Pan2.ar(PlayBuf.ar(1,bufnum, BufRateScale.kr(bufnum)*rate, trigger, BufFrames.ir(bufnum)*startPos, loop=0),0.0)
-		);
-	}).add;
-
-	// Flute Button
-	~fluteAudioButton = r = Button(w, Rect(430, 497.5+~lowerButtons, 90, 26))
-	.states_([["Woodwind", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Woodwind", Color.white, Color(0,0,0,1)]])
-	.font_(Font("nil", 14))
-	.action_({
-		arg obj;
-		~spectraAudioButtonAction.value(obj:obj, instrument:"flute");
-	});
-
-
-	// Horn Audio Recording
 	// Horn Buffer
 	~hornAudioBuffer = q = Buffer.read(s, basePath +/+ "audio/horn.wav");
 
@@ -1126,16 +1117,99 @@ Volume:"++obj.value).asString
 		);
 	}).add;
 
-	// Horn Button
-	~hornAudioButton = f = Button(w, Rect(525, 497.5+~lowerButtons, 90, 26))
+	// Trumpet Button
+	~brassAudioButton = ~trumpetAudioButton = e = Button(w, Rect(335, 497.5+~lowerButtons, 90, 26))
+	.states_([["Brass", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Brass", Color.white, Color(0,0,0,1)]])
+	.font_(Font("nil", 14))
+	.action_({
+		arg obj;
+
+		switch(~instrumentGroupBrassDropdown.item,
+			"Horn", {~spectraAudioButtonAction.value(obj:obj, instrument:"horn", instrumentGroup:"brass");},
+			"Trumpet", {~spectraAudioButtonAction.value(obj:obj, instrument:"trumpet", instrumentGroup:"brass");}
+		);
+
+		/*~spectraAudioButtonAction.value(obj:obj, instrument:"trumpet");*/
+	});
+
+	// Flue Audio Recording
+	// Flute Buffer
+	~fluteAudioBuffer = b = Buffer.read(s, basePath +/+ "audio/flute.wav");
+
+	SynthDef("fluteAudio",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1;
+		var rate;
+		rate = 1.0; //using rate because it was slightly out of tune (too high pitched)
+		Out.ar(out,
+			Pan2.ar(PlayBuf.ar(1,bufnum, BufRateScale.kr(bufnum)*rate, trigger, BufFrames.ir(bufnum)*startPos, loop=0),0.0)
+		);
+	}).add;
+
+	// Clarinet Buffer
+	~clarinetAudioBuffer = b = Buffer.read(s, basePath +/+ "audio/clarinet.wav");
+
+	SynthDef("clarinetAudio",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1;
+		var rate;
+		rate = 1.0; //using rate because it was slightly out of tune (too high pitched)
+		Out.ar(out,
+			Pan2.ar(PlayBuf.ar(1,bufnum, BufRateScale.kr(bufnum)*rate, trigger, BufFrames.ir(bufnum)*startPos, loop=0),0.0)
+		);
+	}).add;
+
+	// Flute Button
+	~woodwindsAudioButton = ~fluteAudioButton = r = Button(w, Rect(430, 497.5+~lowerButtons, 90, 26))
+	.states_([["Woodwind", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Woodwind", Color.white, Color(0,0,0,1)]])
+	.font_(Font("nil", 14))
+	.action_({
+		arg obj;
+
+		switch(~instrumentGroupWoodwindsDropdown.item,
+			"Flute", {~spectraAudioButtonAction.value(obj:obj, instrument:"flute", instrumentGroup:"woodwinds");},
+			"Clarinet", {~spectraAudioButtonAction.value(obj:obj, instrument:"clarinet", instrumentGroup:"woodwinds");}
+		);
+
+		// ~spectraAudioButtonAction.value(obj:obj, instrument:"flute");
+	});
+
+
+	// Percussion Audio Recordings
+	// Marimba Buffer
+	~marimbaAudioBuffer = Buffer.read(s, basePath +/+ "audio/marimba.wav");
+
+	SynthDef("marimbaAudio",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1;
+		var rate;
+		rate = 1.0; //using rate because it was slightly out of tune (too high pitched)
+		Out.ar(out,
+			Pan2.ar(PlayBuf.ar(1,bufnum, BufRateScale.kr(bufnum)*rate, trigger, BufFrames.ir(bufnum)*startPos, loop=0),0.0)
+		);
+	}).add;
+
+	// Piano Buffer
+	~pianoAudioBuffer = Buffer.read(s, basePath +/+ "audio/piano.wav");
+
+	SynthDef("pianoAudio",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1;
+		var rate;
+		rate = 1.0; //using rate because it was slightly out of tune (too high pitched)
+		Out.ar(out,
+			Pan2.ar(PlayBuf.ar(1,bufnum, BufRateScale.kr(bufnum)*rate, trigger, BufFrames.ir(bufnum)*startPos, loop=0),0.0)
+		);
+	}).add;
+
+	// Percussion Button
+	~percussionAudioButton = ~hornAudioButton = f = Button(w, Rect(525, 497.5+~lowerButtons, 90, 26))
 	.states_([["Percussion", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Percussion", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({
 		arg obj;
-		~spectraAudioButtonAction.value(obj:obj, instrument:"horn");
+
+		switch(~instrumentGroupPercussionDropdown.item,
+			"Marimba", {~spectraAudioButtonAction.value(obj:obj, instrument:"marimba", instrumentGroup:"percussion");},
+			"Piano", {~spectraAudioButtonAction.value(obj:obj, instrument:"piano", instrumentGroup:"percussion");}
+		);
+
+		// ~spectraAudioButtonAction.value(obj:obj, instrument:"horn");
 	});
 
-	// Tenor Audio Recording
+	// Voice Audio Recordings
 	// Tenor Buffer
 	~voice_tenorAudioBuffer = Buffer.read(s, basePath +/+ "audio/voice_tenor.wav");
 
@@ -1147,13 +1221,30 @@ Volume:"++obj.value).asString
 		);
 	}).add;
 
+	// Tenor Buffer
+	~voice_sopranoAudioBuffer = Buffer.read(s, basePath +/+ "audio/voice_soprano.wav");
+
+	SynthDef("voice_sopranoAudio",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1;
+		var rate;
+		rate = 1.0; //using rate because it was slightly out of tune (too high pitched)
+		Out.ar(out,
+			Pan2.ar(PlayBuf.ar(1,bufnum, BufRateScale.kr(bufnum)*rate, trigger, BufFrames.ir(bufnum)*startPos, loop=0),0.0)
+		);
+	}).add;
+
 	// Tenor Button
-	~voice_tenorAudioButton = Button(w, Rect(620, 497.5+~lowerButtons, 90, 26))
+	~voicesAudioButton = ~voice_tenorAudioButton = Button(w, Rect(620, 497.5+~lowerButtons, 90, 26))
 	.states_([["Voice", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Voice", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({
 		arg obj;
-		~spectraAudioButtonAction.value(obj:obj, instrument:"voice_tenor");
+
+		switch(~instrumentGroupVoicesDropdown.item,
+			"Tenor", {~spectraAudioButtonAction.value(obj:obj, instrument:"voice_tenor", instrumentGroup:"voices");},
+			"Soprano", {~spectraAudioButtonAction.value(obj:obj, instrument:"voice_soprano", instrumentGroup:"voices");}
+		);
+
+		// ~spectraAudioButtonAction.value(obj:obj, instrument:"voice_tenor");
 	});
 
 
@@ -1350,12 +1441,16 @@ SynthDef.new("sound", {
 ~inspectorHarmonicsPanel =
 CompositeView(w, Rect(10,145+230+10,20*16+20+60,20)).background_(Color.clear);
 
+		~inspectorHarmonicsPanel_harmonic_box =
+		StaticText(~inspectorHarmonicsPanel, Rect(0,0,60,15))
+		.background_(Color.grey(0.9));
+
 ~inspectorHarmonicsPanel_harmonic_text =
 StaticText(~inspectorHarmonicsPanel, Rect(0,0,60,15))
 .string_("Harmonic:")
 .font_(Font("Helvetica", 12, false))
 .align_(\left)
-				.stringColor_(Color.grey(0.4));
+				.stringColor_(Color.grey(0));
 
 ~inspectorHarmonicsPanel_harmonic_number =
 NumberBox(~inspectorHarmonicsPanel, Rect(57,0,20,15))
@@ -1363,12 +1458,16 @@ NumberBox(~inspectorHarmonicsPanel, Rect(57,0,20,15))
 .align_(\center)
 .background_(Color.grey(0.8));
 
+		~inspectorHarmonicsPanel_pitch_box =
+		StaticText(~inspectorHarmonicsPanel, Rect(90,0,55,15))
+		.background_(Color.grey(0.9));
+
 ~inspectorHarmonicsPanel_pitch_text =
 StaticText(~inspectorHarmonicsPanel, Rect(90,0,60,15))
 .string_("Pitch:")
 .font_(Font("Helvetica", 12, false))
 .align_(\left)
-		.stringColor_(Color.grey(0.4));
+		.stringColor_(Color.grey(0));
 
 ~inspectorHarmonicsPanel_pitch_number =
 StaticText(~inspectorHarmonicsPanel, Rect(122,0,25,15))
@@ -1377,13 +1476,16 @@ StaticText(~inspectorHarmonicsPanel, Rect(122,0,25,15))
 .string_(~note_name.asString)
 .background_(Color.grey(0.8));
 
+		~inspectorHarmonicsPanel_frequency_box =
+		StaticText(~inspectorHarmonicsPanel, Rect(160,0,55,15))
+		.background_(Color.grey(0.9));
 
 ~inspectorHarmonicsPanel_frequency_text =
 StaticText(~inspectorHarmonicsPanel, Rect(160,0,60,15))
 .string_("Freq.:")
 .font_(Font("Helvetica", 12, false))
 .align_(\left)
-		.stringColor_(Color.grey(0.4));
+		.stringColor_(Color.grey(0));
 
 ~inspectorHarmonicsPanel_frequency_number =
 NumberBox(~inspectorHarmonicsPanel, Rect(193,0,40,15))
@@ -1393,12 +1495,16 @@ NumberBox(~inspectorHarmonicsPanel, Rect(193,0,40,15))
 .background_(Color.grey(0.8));
 
 
+		~inspectorHarmonicsPanel_intensity_box =
+		StaticText(~inspectorHarmonicsPanel, Rect(245,0,130,15))
+		.background_(Color.grey(0.9));
+
 ~inspectorHarmonicsPanel_intensity_text =
 StaticText(~inspectorHarmonicsPanel, Rect(245,0,115,15))
 		.string_("Rel. Intensity (I/f1):")
 .font_(Font("Helvetica", 12, false))
 .align_(\left)
-		.stringColor_(Color.grey(0.4));
+		.stringColor_(Color.grey(0));
 
 ~inspectorHarmonicsPanel_intensity_number =
 NumberBox(~inspectorHarmonicsPanel, Rect(294+55,0,45,15))
@@ -1406,6 +1512,11 @@ NumberBox(~inspectorHarmonicsPanel, Rect(294+55,0,45,15))
 .align_(\center)
 .maxDecimals_(4)
 .background_(Color.grey(0.8));
+
+
+		~inspectorHarmonicsPanel_cover =
+		StaticText(~inspectorHarmonicsPanel, Rect(0,0,20*16+20+60,20)).background_(Color.clear); // Stops the user from attempting to edit these information panel values (as they would have no effect and be only confusing)
+
 );
 
 

@@ -23,7 +23,7 @@ var basePath = thisProcess.nowExecutingPath.asString.dirname;
 //A. Create window and aesthetics
 (
 //Positions the note name text
-~note_name_bounds_array = [(85-23+30-5),155,27,15];
+~note_name_bounds_array = [(85-23+30-5),155+150,27,15];
 
 //Create the module's master window
 ~master_window_bounds_array = [Window.screenBounds.width/2-250, Window.screenBounds.height/2-50, 500, 570];
@@ -48,8 +48,8 @@ w.drawFunc = {
 
 		//Draw lines
 		Pen.use{
-			Pen.line(10@240,490@240);
-			Pen.line(10@175,490@175);
+			Pen.line(10@280,490@280);
+			Pen.line(10@220,490@220);
 			Pen.line(10@330,490@330);
 			Pen.line(10@130,490@130);
 			Pen.line(10@90,490@90);
@@ -112,7 +112,7 @@ w.drawFunc = {
 //Properties of the slider
 	~volume_value = 1.2;
 
-~volslider = Slider(w, Rect(160,140,330,15))
+~volslider = Slider(w, Rect(160,140+150,330,15))
 	.background_(Color(0.0118,0.0118,0.0118,1))
 	.value_(0.3)
 	.action_({
@@ -129,7 +129,7 @@ w.drawFunc = {
 	.orientation_(\horizontal);
 
 //Label for Vol.
-~volLabel = StaticText(w,Rect(10,143,70,15))
+~volLabel = StaticText(w,Rect(10,143+150,70,15))
 .string_("Volume")
 .font_(Font("nil", 8, italic:false))
 .align_(\topRight)
@@ -137,7 +137,7 @@ w.drawFunc = {
 .stringColor_(Color.black);
 
 //Number box that can edit slider position
-~numberVBox = NumberBox(w,Rect(85,140,72,15))
+~numberVBox = NumberBox(w,Rect(85,140+150,72,15))
 	.normalColor_(Color.white)
 	.background_(Color(0.0118,0.0118,0.0118,1))
 	.value_(0.3)
@@ -156,7 +156,7 @@ w.drawFunc = {
 	//TONIC FREQUENCY
 
 //Label for Freq.
-~fLabel = StaticText(w,Rect(10-10,158,80,25))
+~fLabel = StaticText(w,Rect(10-10,158+150,80,25))
 .string_("Fundamental")
 .font_(Font("nil", 8))
 .align_(\topRight)
@@ -166,7 +166,7 @@ w.drawFunc = {
 
 
 //Properties of the slider
-~fslider = Slider(w, Rect(160,155,330,15))
+~fslider = Slider(w, Rect(160,155+150,330,15))
 	.background_(Color(0.8,0.8,0.8,0.75)).value_(48/87)
 	.step_(1/(108-21)) //Math: 108-21 = 87; 69-21 = 48; 48/87 =
 	.action_({
@@ -212,7 +212,7 @@ if(~vinbutton.value == 1, {
 
 	//Number box that can edit slider position (NO LONGER BECAUSE NOW NOT SET TO FREQUENCY, NEEDS MATH OTHERWISE)
 //Displays the frequency
-~numberfBox = NumberBox(w,Rect(85+30,155,72-30,15))
+~numberfBox = NumberBox(w,Rect(85+30,155+150,72-30,15))
 .value_(440)
 //.clipLo_(21)
 //.clipHi_(108)
@@ -225,7 +225,7 @@ if(~vinbutton.value == 1, {
 });
 
 		// Cover to avoid editing
-~numberBox_Cover = StaticText(w,Rect(85+30,155,72-30,15))
+~numberBox_Cover = StaticText(w,Rect(85+30,155+150,72-30,15))
 	.background_(Color.clear);
 
 
@@ -243,7 +243,7 @@ if(~vinbutton.value == 1, {
 
 
 //Label for Focus tone
-~label2 = StaticText(w,Rect(10,177+65+2,480,80))
+~label2 = StaticText(w,Rect(10,177+65+2-110,480,80))
 	.string_("Harmonic (mistuned)")
 .font_(Font("nil", 16))
 .align_(\topLeft)
@@ -251,7 +251,7 @@ if(~vinbutton.value == 1, {
 .stringColor_(Color.black);
 
 //Label for Other tones
-~label1 = StaticText(w,Rect(10,270-90,480,80))
+~label1 = StaticText(w,Rect(10,270-90+45,480,80))
 	.string_("Harmonics (tuned)")
 .font_(Font("nil", 16))
 .align_(\topLeft)
@@ -365,7 +365,7 @@ SynthDef.new("sound", {
 
 //Frequency DEVIATION of deviant
 //Properties of the slider
-~freqslider = Slider(w, Rect(160,200+65+30,330,30))
+~freqslider = Slider(w, Rect(160,200+65+30-140,330,30))
 .background_(Color(0.8,0.8,0.8,0.75))
 .value_(0.5)
 .action_({
@@ -539,12 +539,10 @@ if(~deviant_move.sign >= 0,
 					//"Key Vis not open".postln
 			});
 
-
-
 });
 
 //Label for Freq.
-~freqLabel = StaticText(w,Rect(15,200+7+65+30,65,40))
+~freqLabel = StaticText(w,Rect(15,200+7+65+30-140,65,40))
 .string_(" Deviation")
 .font_(Font("nil", 12))
 .align_(\topRight)
@@ -552,7 +550,7 @@ if(~deviant_move.sign >= 0,
 .stringColor_(Color.black);
 
 //Number box that can edit slider position
-~numberBox = NumberBox(w,Rect(85+35,200+65+30,72-35,30))
+~numberBox = NumberBox(w,Rect(85+35,200+65+30-140,72-35,30))
 .value_(0)
 .clipLo_(-1)
 .clipHi_(1)
@@ -565,7 +563,7 @@ if(~deviant_move.sign >= 0,
 });
 
 //Button to reset deviant
-~reset = Button(w, Rect(250-(200/2)-65,200+65+30,35,30))
+~reset = Button(w, Rect(250-(200/2)-65,200+65+30-140,35,30))
 .states_([
 	["Reset
 to 0", Color.white,Color(0.4824, 0.4863, 0.4863,1)]
@@ -578,7 +576,7 @@ to 0", Color.white,Color(0.4824, 0.4863, 0.4863,1)]
 
 //INTENSITY of deviant
 //Properties of the slider
-~mulslider = Slider(w, Rect(160,235+60-30,330,30))
+~mulslider = Slider(w, Rect(160,235+60-30-80,330,30))
 .background_(Color(0.8,0.8,0.8,0.75))
 	.value_(0.5) //is converted to 1
 .action_({
@@ -602,7 +600,7 @@ to 0", Color.white,Color(0.4824, 0.4863, 0.4863,1)]
 	});
 
 //Label for Freq.
-~mulLabel = StaticText(w,Rect(15,240+60-30,65,40))
+~mulLabel = StaticText(w,Rect(15,240+60-30-80,65,40))
 .string_("Intensity")
 .font_(Font("nil", 12))
 .align_(\topRight)
@@ -610,7 +608,7 @@ to 0", Color.white,Color(0.4824, 0.4863, 0.4863,1)]
 .stringColor_(Color.black);
 
 //Number box that can edit slider position
-~number2Box = NumberBox(w,Rect(85,235+60-30,72,30))
+~number2Box = NumberBox(w,Rect(85,235+60-30-80,72,30))
 .value_(1)
 .clipLo_(0.0)
 .clipHi_(2)
@@ -625,7 +623,7 @@ to 0", Color.white,Color(0.4824, 0.4863, 0.4863,1)]
 
 //OTHER
 //Properties of the slider
-~otherslider = Slider(w, Rect(160,290-90,330,30))
+~otherslider = Slider(w, Rect(160,290-90+45,330,30))
 .background_(Color(0.8,0.8,0.8,0.75))
 	.value_(0.5) //is converted to 1
 .action_({
@@ -647,7 +645,7 @@ to 0", Color.white,Color(0.4824, 0.4863, 0.4863,1)]
 });
 
 //Label for Freq.
-~otherLabel = StaticText(w,Rect(15,300-90,65,40))
+~otherLabel = StaticText(w,Rect(15,300-90+45,65,40))
 .string_("Intensity")
 .font_(Font("nil", 12))
 .align_(\topRight)
@@ -655,7 +653,7 @@ to 0", Color.white,Color(0.4824, 0.4863, 0.4863,1)]
 .stringColor_(Color.black);
 
 //Number box that can edit slider position
-~number3Box = NumberBox(w,Rect(85,290-90,72,30))
+~number3Box = NumberBox(w,Rect(85,290-90+45,72,30))
 .value_(1)
 .clipLo_(0.0)
 .clipHi_(2)
@@ -1142,7 +1140,7 @@ s.waitForBoot({
     snd.release;
    });
 */
-~menu2 = PopUpMenu(w, Rect(250-(250/2)+50,95+3+80+65+2,50,20));
+~menu2 = PopUpMenu(w, Rect(250-(250/2)+50,95+3+80+65+2-110,50,20));
 
 
 //Switch function for how many to display (up to maximum) - this is above in the other dropdown; here it starts at 8 because the module opens with 8:
@@ -1220,8 +1218,8 @@ snd = funcs2.at(menu2.value).play;
 	);
 
 
-	~coverComposite = CompositeView(w, Rect(160-80,235+60-30,330+80,30+30));
-	~coverBox = StaticText(~coverComposite, Rect(0,0,330+80,30+30)).background_(Color.white).stringColor_(Color.black).align_(\center);
+	~coverComposite = CompositeView(w, Rect(160-150,235+60-30-110,330+80+150,30+30));
+		~coverBox = StaticText(~coverComposite, Rect(0,0,480,30+30)).background_(Color.white).stringColor_(Color.black).align_(\center);
 	~coverBox.string = "Select a harmonic to deviate from the
 Harmonic (mistuned) dropdown menu";
 

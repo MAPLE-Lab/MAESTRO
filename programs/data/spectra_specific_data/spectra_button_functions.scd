@@ -204,18 +204,29 @@
 // Actions commands for the Audio Recordings two-state buttons.
 
 ~spectraAudioButtonAction = {
-	arg obj, instrument;
+	arg obj, instrument, instrumentGroup;
 	var howLongPlaying;
 
 	if(obj.value == 1, {
 
-		// Free all other Audio sounds
+		/*// Free all other Audio sounds
 		switch(instrument,
 			"cello", {~trumpetAudioButton.valueAction_(0); ~fluteAudioButton.valueAction_(0); ~hornAudioButton.valueAction_(0);},
 			"trumpet", {~celloAudioButton.valueAction_(0); ~fluteAudioButton.valueAction_(0); ~hornAudioButton.valueAction_(0);},
 			"flute", {~celloAudioButton.valueAction_(0); ~trumpetAudioButton.valueAction_(0); ~hornAudioButton.valueAction_(0);},
 			"horn", {~celloAudioButton.valueAction_(0); ~trumpetAudioButton.valueAction_(0); ~fluteAudioButton.valueAction_(0);},
 		);
+*/
+
+		// NEW: Free all other Audio sounds USING GROUPS
+		switch(instrumentGroup,
+			"strings", {~trumpetAudioButton.valueAction_(0); ~fluteAudioButton.valueAction_(0); ~hornAudioButton.valueAction_(0); ~voicesAudioButton.valueAction_(0);},
+			"brass", {~celloAudioButton.valueAction_(0); ~fluteAudioButton.valueAction_(0); ~hornAudioButton.valueAction_(0); ~voicesAudioButton.valueAction_(0);},
+			"woodwinds", {~celloAudioButton.valueAction_(0); ~trumpetAudioButton.valueAction_(0); ~hornAudioButton.valueAction_(0); ~voicesAudioButton.valueAction_(0);},
+			"percussion", {~celloAudioButton.valueAction_(0); ~trumpetAudioButton.valueAction_(0); ~fluteAudioButton.valueAction_(0); ~voicesAudioButton.valueAction_(0);},
+			"voices", {~celloAudioButton.valueAction_(0); ~trumpetAudioButton.valueAction_(0); ~fluteAudioButton.valueAction_(0); ~hornAudioButton.valueAction_(0);},
+		);
+
 
 		// Free any Dynamic sounds
 		~spectraFreeDynamicAll.value;
@@ -226,7 +237,7 @@
 		howLongPlaying = 0;
 		AppClock.sched(0, {
 			howLongPlaying = howLongPlaying+1;
-			//howLongPlaying.postln;
+			howLongPlaying.postln; // Comment out when not using for diagnostics
 			if(
 				or(~celloAudioButton.value == 1,
 					or(~trumpetAudioButton.value == 1,
@@ -243,10 +254,15 @@
 
 		switch(instrument,
 			"cello", {~celloAudioSynth = 	y = Synth.new(\celloAudio, [\out, 0, \bufnum, ~celloAudioBuffer.bufnum]);},
+			"violin", {~violinAudioSynth = Synth.new(\violinAudio, [\out, 0, \bufnum, ~violinAudioBuffer.bufnum]);},
 			"trumpet", {~trumpetAudioSynth = v = Synth.new(\trumpetAudio, [\out, 0, \bufnum, ~trumpetAudioBuffer.bufnum]);},
-			"flute", {~fluteAudioSynth = 	z = Synth.new(\fluteAudio, [\out, 0, \bufnum, ~fluteAudioBuffer.bufnum]);},
 			"horn", {~hornAudioSynth = 	t = Synth.new(\hornAudio, [\out, 0, \bufnum, ~hornAudioBuffer.bufnum]);},
-			"voice_tenor", {~voice_tenorAudioSynth = Synth.new(\hornAudio, [\out, 0, \bufnum, ~voice_tenorAudioBuffer.bufnum]);}
+			"flute", {~fluteAudioSynth = 	z = Synth.new(\fluteAudio, [\out, 0, \bufnum, ~fluteAudioBuffer.bufnum]);},
+			"clarinet", {~clarinetAudioSynth = Synth.new(\clarinetAudio, [\out, 0, \bufnum, ~clarinetAudioBuffer.bufnum]);},
+			"marimba", {~marimbaAudioSynth = Synth.new(\marimbaAudio, [\out, 0, \bufnum, ~marimbaAudioBuffer.bufnum]);},
+			"piano", {~pianoAudioSynth = Synth.new(\pianoAudio, [\out, 0, \bufnum, ~pianoAudioBuffer.bufnum]);},
+			"voice_tenor", {~voice_tenorAudioSynth = Synth.new(\voice_tenorAudio, [\out, 0, \bufnum, ~voice_tenorAudioBuffer.bufnum]);},
+			"voice_soprano", {~voice_sopranoAudioSynth = Synth.new(\voice_sopranoAudio, [\out, 0, \bufnum, ~voice_sopranoAudioBuffer.bufnum]);}
 		);
 
 		/*
@@ -286,10 +302,15 @@
 
 		switch(instrument,
 			"cello", {AppClock.sched(2.4, {if(howLongPlaying > 23, {~celloAudioButton.valueAction_(0); "Cello audio finished.".postln});})},
+			"violin", {AppClock.sched(6, {if(howLongPlaying > 55, {~stringsAudioButton.valueAction_(0); "Violin audio finished.".postln});})},
 			"trumpet", {AppClock.sched(4, {if(howLongPlaying > 39, {~trumpetAudioButton.valueAction_(0); "Trumpet audio finished.".postln});})},
+			"horn", {AppClock.sched(3, {if(howLongPlaying > 29, {~brassAudioButton.valueAction_(0); "Horn audio finished.".postln});})},
 			"flute", {AppClock.sched(3, {if(howLongPlaying > 29, {~fluteAudioButton.valueAction_(0); "Flute audio finished.".postln});})},
-			"horn", {AppClock.sched(3, {if(howLongPlaying > 29, {~hornAudioButton.valueAction_(0); "Horn audio finished.".postln});})},
-			"voice_tenor", {AppClock.sched(1.5, {if(howLongPlaying > 14, {~voice_tenorAudioButton.valueAction_(0); "Tenor audio finished.".postln});})}
+			"clarinet", {AppClock.sched(3, {if(howLongPlaying > 29, {~woodwindsAudioButton.valueAction_(0); "Clarinet audio finished.".postln});})},
+			"marimba", {AppClock.sched(1.2, {if(howLongPlaying > 11, {~percussionAudioButton.valueAction_(0); "Marimba audio finished.".postln});})},
+			"piano", {AppClock.sched(3, {if(howLongPlaying > 29, {~percussionAudioButton.valueAction_(0); "Piano audio finished.".postln});})},
+			"voice_tenor", {AppClock.sched(1.5, {if(howLongPlaying > 14, {~voice_tenorAudioButton.valueAction_(0); "Tenor audio finished.".postln});})},
+			"voice_soprano", {AppClock.sched(3.3, {if(howLongPlaying > 32, {~voicesAudioButton.valueAction_(0); "Soprano audio finished.".postln});})}
 		);
 
 	}, {
