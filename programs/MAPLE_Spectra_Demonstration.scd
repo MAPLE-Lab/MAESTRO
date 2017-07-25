@@ -1443,34 +1443,34 @@ CompositeView(w, Rect(10,145+230+10,20*16+20+60,20)).background_(Color.clear);
 
 		~inspectorHarmonicsPanel_harmonic_box =
 		StaticText(~inspectorHarmonicsPanel, Rect(0,0,60,15))
-		.background_(Color.grey(0.9));
+		.background_(Color.grey(0.8));
 
 ~inspectorHarmonicsPanel_harmonic_text =
 StaticText(~inspectorHarmonicsPanel, Rect(0,0,60,15))
-.string_("Harmonic:")
+.string_(" Harmonic:")
 .font_(Font("Helvetica", 12, false))
 .align_(\left)
 				.stringColor_(Color.grey(0));
 
 ~inspectorHarmonicsPanel_harmonic_number =
-NumberBox(~inspectorHarmonicsPanel, Rect(57,0,20,15))
+NumberBox(~inspectorHarmonicsPanel, Rect(57+2,0,20,15))
 .font_(Font("Helvetica", 11))
 .align_(\center)
 .background_(Color.grey(0.8));
 
 		~inspectorHarmonicsPanel_pitch_box =
 		StaticText(~inspectorHarmonicsPanel, Rect(90,0,55,15))
-		.background_(Color.grey(0.9));
+		.background_(Color.grey(0.8));
 
 ~inspectorHarmonicsPanel_pitch_text =
 StaticText(~inspectorHarmonicsPanel, Rect(90,0,60,15))
-.string_("Pitch:")
+.string_(" Pitch:")
 .font_(Font("Helvetica", 12, false))
 .align_(\left)
 		.stringColor_(Color.grey(0));
 
 ~inspectorHarmonicsPanel_pitch_number =
-StaticText(~inspectorHarmonicsPanel, Rect(122,0,25,15))
+StaticText(~inspectorHarmonicsPanel, Rect(122+1,0,25,15))
 .font_(Font("Helvetica", 11))
 .align_(\center)
 .string_(~note_name.asString)
@@ -1478,17 +1478,17 @@ StaticText(~inspectorHarmonicsPanel, Rect(122,0,25,15))
 
 		~inspectorHarmonicsPanel_frequency_box =
 		StaticText(~inspectorHarmonicsPanel, Rect(160,0,55,15))
-		.background_(Color.grey(0.9));
+		.background_(Color.grey(0.8));
 
 ~inspectorHarmonicsPanel_frequency_text =
 StaticText(~inspectorHarmonicsPanel, Rect(160,0,60,15))
-.string_("Freq.:")
+.string_(" Freq.:")
 .font_(Font("Helvetica", 12, false))
 .align_(\left)
 		.stringColor_(Color.grey(0));
 
 ~inspectorHarmonicsPanel_frequency_number =
-NumberBox(~inspectorHarmonicsPanel, Rect(193,0,40,15))
+NumberBox(~inspectorHarmonicsPanel, Rect(193+2,0,40,15))
 .font_(Font("Helvetica", 11))
 .align_(\center)
 .decimals_(0)
@@ -1497,11 +1497,11 @@ NumberBox(~inspectorHarmonicsPanel, Rect(193,0,40,15))
 
 		~inspectorHarmonicsPanel_intensity_box =
 		StaticText(~inspectorHarmonicsPanel, Rect(245,0,130,15))
-		.background_(Color.grey(0.9));
+		.background_(Color.grey(0.8));
 
 ~inspectorHarmonicsPanel_intensity_text =
-StaticText(~inspectorHarmonicsPanel, Rect(245,0,115,15))
-		.string_("Rel. Intensity (I/f1):")
+StaticText(~inspectorHarmonicsPanel, Rect(245+2,0,115,15))
+		.string_(" Rel. Intensity (I/f1):")
 .font_(Font("Helvetica", 12, false))
 .align_(\left)
 		.stringColor_(Color.grey(0));

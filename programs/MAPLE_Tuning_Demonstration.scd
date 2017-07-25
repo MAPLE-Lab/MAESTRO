@@ -133,7 +133,7 @@ w.drawFunc = {
 .string_("Volume")
 .font_(Font("nil", 8, italic:false))
 .align_(\topRight)
-.background_(Color(0,0,0,0.0))
+.background_(Color(0,0,0,0))
 .stringColor_(Color.black);
 
 //Number box that can edit slider position
@@ -251,7 +251,7 @@ if(~vinbutton.value == 1, {
 .stringColor_(Color.black);
 
 //Label for Other tones
-~label1 = StaticText(w,Rect(10,270-90+45,480,80))
+~label1 = StaticText(w,Rect(10,270-90+45,480,80-20))
 	.string_("Harmonics (tuned)")
 .font_(Font("nil", 16))
 .align_(\topLeft)

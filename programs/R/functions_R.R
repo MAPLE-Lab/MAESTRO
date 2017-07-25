@@ -204,8 +204,8 @@ plotMAESTRO.3d <- function(view.x = -2, view.y = -1, view.z = 1) {
                     mode = "lines+markers", color = ~harmonic, opacity = 1, # This opacity sets the opacity of the fillcolor as well, though not used as a separate set of mesh3ds are used
                     showlegend = FALSE,
                     projection = list(x = list(show = TRUE, scale = 0.5)),
-                    line = list(width = 1, color = "black"),
-                    marker = list(symbol = "circle-open", size = 1.5)
+                    line = list(width = 3, color = "black"),
+                    marker = list(symbol = "circle-open", size = 0.01)
                   ) %>% layout(
                     font = list(family = "Arial"),
                     title = paste(title, "analysis, F1 = ", fundamentalFreq, "Hz"),
@@ -215,6 +215,7 @@ plotMAESTRO.3d <- function(view.x = -2, view.y = -1, view.z = 1) {
                       camera = list(
                         eye = list(x=view.x,y=view.y,z=view.z)
                           ),
+                      aspectmode = "cube", # Can be modified using aspectratio
                       
                       xaxis = list(title = "Time (s)", visible = TRUE, range = c(0,soundfileDuration), showline = TRUE),
                       yaxis = list(title = "Harmonic", visible = TRUE, dtick = 1, tickangle = 0,
