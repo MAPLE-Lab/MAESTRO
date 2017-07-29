@@ -16,6 +16,7 @@ s.waitForBoot({
 
 //Provides code shorthand to call files in same or sub-folders.
 var basePath = thisProcess.nowExecutingPath.asString.dirname;
+~trace = basePath.asString;
 
 //Avoids delay when the Recording button is pressed
 //s.prepareForRecord;
@@ -532,7 +533,7 @@ if(~deviant_move.sign >= 0,
 
 
 //The actuator for this motion
-~keyboard_CompositeView_White.bounds_(Rect(27+(~deviant_move*~deviant_scale)+1+~starting_position_fund+~starting_position_harm+~case_none_selected,175+1,5-1,5-1))
+~keyboard_CompositeView_White.bounds_(Rect(27-5+(~deviant_move*~deviant_scale)+1+~starting_position_fund+~starting_position_harm+~case_none_selected,175+1,5-1+20,5-1+20))
 );
 			},
 			{
@@ -682,8 +683,8 @@ arg obj;
 					~fslider.valueAction_(~fslider.value); //This allows it to refresh real-time
 
 					if(~vinbutton.value == 1, {
-						~greyIntensity = 0.5;
-						~deviant_fill.background_(Color.black);
+						~greyIntensity = 1;
+						~deviant_fill.background_(Color.clear); // Now clear instead of black
 						});
 
 		},{
@@ -732,8 +733,9 @@ s.waitForBoot({
 				if(~vinbutton.value == 0, {
 
 						if(~key_vis.value == 1, {
-						~greyIntensity = 0.5;
-						~deviant_fill.background_(Color.black);
+						~greyIntensity = 1.0;
+							~deviant_fill.background_(Color.clear); // Now clear as replaced with a triangle in 'keyboard.scd'
+							~keyboard_CompositeView_White.visible_(true);
 						});
 					//snd.postln;
 						~stop_UserView.bounds_(Rect(250-(250/2),95,100,30));
@@ -764,8 +766,9 @@ s.waitForBoot({
 						//Reset to base colours when not playing
 						if(~key_vis.value == 1, {
 						~color_array = Array.fill(200,1);
-							~greyIntensity = 1.0;
-							~deviant_fill.background_(Color.clear);
+							~greyIntensity = 0.55;
+							//~deviant_fill.background_(Color.clear);
+							~keyboard_CompositeView_White.visible_(false);
 						(basePath +/+  "data/tuning_keyboard_GUI_colours.scd").load;
 						});
 

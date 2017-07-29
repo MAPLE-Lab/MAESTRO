@@ -82,8 +82,10 @@ isolateHarmonics() # Uses many arguments, so currently does not allow changes to
 # STEP 8 - PLOT
 # Time Warning: This could take a minute or longer depending on the amount of data
 # Can only draw one at a time
-plotMAESTRO.3d(view.x = -3, view.y = -1, view.z = 1) # Arguments control the 3D camera's angle
-plotMAESTRO.bars()
+zoom = 0.68 # 0.65 for printing
+plotMAESTRO.3d(zoom=zoom, view.x = -3.5, view.y = -1.5, view.z = 1.5, length.x = 1, length.y = 1, length.z = 1, showTime = TRUE, titleTime = "Time (s)") # Arguments control the 3D camera's angle
+plotMAESTRO.2d(zoom=zoom)
+
 
 # STEP 9 - EXPORT files
 # Input: All precalculated by previous functions.

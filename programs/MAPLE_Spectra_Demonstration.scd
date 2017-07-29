@@ -39,6 +39,7 @@ w = Window.new("MAPLE Lab Spectra Demonstration (Beta)", Rect.new(
 ~spectraScreenComposite_bounds_array = [410,105,380,300];
 ~spectraButton_bounds_array = [690-40, 112.5+40, 120, 20];
 ~spectraAutoscale_bounds_array = [690-40, 112.5+40+20, 120, 20];
+		~temporaryDisableAutoscale = 0;
 
 //Load the spectra now that all the above parameters have been set:
 (basePath +/+  "modules/spectra_screen.scd").load;
@@ -549,7 +550,7 @@ x.set(
 		// Start the dropdown menu at Sine // Instruments for testing now
 		AppClock.sched(0.001,{
 			~slider_hover = 1;
-			~synth_menu.valueAction_(5);
+			~synth_menu.valueAction_(0);
 			//nil;
 		});
 
@@ -571,11 +572,17 @@ x.set(
 		~spectraFreePowerSpecifyValueOnly.value(instrument:"horn");
 		~spectraFreePowerSpecifyValueOnly.value(instrument:"flute");
 
-		~spectraPowerButtonAction.value(obj:obj, instrument:"cello", fundamentalNote:60);
+
+		switch(~instrumentGroupStringsDropdown.item,
+			"Cello", {~spectraPowerButtonAction.value(obj:obj, instrument:"cello", fundamentalNote:60);},
+			"Violin", {~spectraPowerButtonAction.value(obj:obj, instrument:"violin", fundamentalNote:60);}
+		);
+
+//		~spectraPowerButtonAction.value(obj:obj, instrument:"cello", fundamentalNote:60);
 	}); //Ensure ~button.value is value not valueAction to avoid loop and ensure this turns off big button properly
 
 	//FORCED trumpet preset
-	~trumpetPowerButton = ~l = Button(w, Rect(335, 417.5+~lowerButtons, 90, 26))
+	~brassPowerButton = ~trumpetPowerButton = ~l = Button(w, Rect(335, 417.5+~lowerButtons, 90, 26))
 	.states_([["Brass", Color.white, Color(0.7569,0.1373,0.1725,1)],["Brass", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({
@@ -584,12 +591,17 @@ x.set(
 		~spectraFreePowerSpecifyValueOnly.value(instrument:"horn");
 		~spectraFreePowerSpecifyValueOnly.value(instrument:"flute");
 
-		~spectraPowerButtonAction.value(obj:obj, instrument:"trumpet", fundamentalNote:60);
+		switch(~instrumentGroupBrassDropdown.item,
+			"Horn", {~spectraPowerButtonAction.value(obj:obj, instrument:"horn", fundamentalNote:60);},
+			"Trumpet", {~spectraPowerButtonAction.value(obj:obj, instrument:"trumpet", fundamentalNote:60);}
+		);
+
+		//~spectraPowerButtonAction.value(obj:obj, instrument:"trumpet", fundamentalNote:60);
 	});
 
 
 	//FORCED flute preset
-	~flutePowerButton = ~k = Button(w, Rect(430, 417.5+~lowerButtons, 90, 26))
+	~woodwindsPowerButton = ~flutePowerButton = ~k = Button(w, Rect(430, 417.5+~lowerButtons, 90, 26))
 	.states_([["Woodwind", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Woodwind", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({ // Must be "action" and not "mouseDownAction" to avoid code not working
@@ -598,11 +610,16 @@ x.set(
 		~spectraFreePowerSpecifyValueOnly.value(instrument:"horn");
 		~spectraFreePowerSpecifyValueOnly.value(instrument:"cello");
 
-		~spectraPowerButtonAction.value(obj:obj, instrument:"flute", fundamentalNote:72);
+		switch(~instrumentGroupWoodwindsDropdown.item,
+			"Flute", {~spectraPowerButtonAction.value(obj:obj, instrument:"flute", fundamentalNote:72);},
+			"Clarinet", {~spectraPowerButtonAction.value(obj:obj, instrument:"clarinet", fundamentalNote:60);}
+		);
+
+		//~spectraPowerButtonAction.value(obj:obj, instrument:"flute", fundamentalNote:72);
 	});
 
 	//FORCED horn preset
-	~hornPowerButton = ~r = Button(w, Rect(525, 417.5+~lowerButtons, 90, 26))
+	~percussionPowerButton = ~hornPowerButton = ~r = Button(w, Rect(525, 417.5+~lowerButtons, 90, 26))
 	.states_([["Percussion", Color.white, Color(0.7569,0.1373,0.1725,1)],["Percussion", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({
@@ -611,7 +628,12 @@ x.set(
 		~spectraFreePowerSpecifyValueOnly.value(instrument:"cello");
 		~spectraFreePowerSpecifyValueOnly.value(instrument:"flute");
 
-		~spectraPowerButtonAction.value(obj:obj, instrument:"horn", fundamentalNote:60);
+		switch(~instrumentGroupPercussionDropdown.item,
+			"Marimba", {~spectraPowerButtonAction.value(obj:obj, instrument:"marimba", fundamentalNote:60);},
+			"Piano", {~spectraPowerButtonAction.value(obj:obj, instrument:"piano", fundamentalNote:60);}
+		);
+
+		//~spectraPowerButtonAction.value(obj:obj, instrument:"horn", fundamentalNote:60);
 	});
 
 	//FORCED tenor preset
@@ -953,6 +975,10 @@ s.makeBundle(1.0, //sound delay -~knob.value.linlin(0,1,0,0.5)
 		~inspectorHarmonicsPanelUpdate.value;
 		// Updates the information panel
 
+		/*if(~d != nil, {
+		~d.cycle_(5*44100/~fundamental_freq);
+		});*/
+
 })
 	.orientation_(\horizontal);
 
@@ -1003,7 +1029,7 @@ s.makeBundle(1.0, //sound delay -~knob.value.linlin(0,1,0,0.5)
 //Properties of the slider
 ~volslider = Slider(w, Rect(50,145,20,230))
 	.background_(Color(0.0118,0.0118,0.0118,1))
-	.value_(0.1)
+	.value_(0.4)
 	/*.mouseOverAction_({
 	if(~inspectorExists == 1, {
 		~inspectorText.string_(("Volume Slider status:
@@ -1081,8 +1107,12 @@ Volume:"++obj.value).asString
 		arg obj;
 
 		switch(~instrumentGroupStringsDropdown.item,
-			"Cello", {~spectraAudioButtonAction.value(obj:obj, instrument:"cello", instrumentGroup:"strings");},
-			"Violin", {~spectraAudioButtonAction.value(obj:obj, instrument:"violin", instrumentGroup:"strings");}
+			"Cello", {~spectraAudioButtonAction.value(obj:obj, instrument:"cello", instrumentGroup:"strings");
+				~freqslider.valueAction_(60.value.linlin(21,108,0,1));
+			},
+			"Violin", {~spectraAudioButtonAction.value(obj:obj, instrument:"violin", instrumentGroup:"strings");
+				~freqslider.valueAction_(60.value.linlin(21,108,0,1));
+				}
 		);
 
 		/*if(~instrumentGroupStringsDropdown.item == "Cello", {
@@ -1125,8 +1155,12 @@ Volume:"++obj.value).asString
 		arg obj;
 
 		switch(~instrumentGroupBrassDropdown.item,
-			"Horn", {~spectraAudioButtonAction.value(obj:obj, instrument:"horn", instrumentGroup:"brass");},
-			"Trumpet", {~spectraAudioButtonAction.value(obj:obj, instrument:"trumpet", instrumentGroup:"brass");}
+			"Horn", {~spectraAudioButtonAction.value(obj:obj, instrument:"horn", instrumentGroup:"brass");
+				~freqslider.valueAction_(60.value.linlin(21,108,0,1));
+			},
+			"Trumpet", {~spectraAudioButtonAction.value(obj:obj, instrument:"trumpet", instrumentGroup:"brass");
+				~freqslider.valueAction_(60.value.linlin(21,108,0,1));
+			}
 		);
 
 		/*~spectraAudioButtonAction.value(obj:obj, instrument:"trumpet");*/
@@ -1163,8 +1197,12 @@ Volume:"++obj.value).asString
 		arg obj;
 
 		switch(~instrumentGroupWoodwindsDropdown.item,
-			"Flute", {~spectraAudioButtonAction.value(obj:obj, instrument:"flute", instrumentGroup:"woodwinds");},
-			"Clarinet", {~spectraAudioButtonAction.value(obj:obj, instrument:"clarinet", instrumentGroup:"woodwinds");}
+			"Flute", {~spectraAudioButtonAction.value(obj:obj, instrument:"flute", instrumentGroup:"woodwinds");
+				~freqslider.valueAction_(72.value.linlin(21,108,0,1));
+			},
+			"Clarinet", {~spectraAudioButtonAction.value(obj:obj, instrument:"clarinet", instrumentGroup:"woodwinds");
+				~freqslider.valueAction_(60.value.linlin(21,108,0,1));
+			}
 		);
 
 		// ~spectraAudioButtonAction.value(obj:obj, instrument:"flute");
@@ -1202,8 +1240,12 @@ Volume:"++obj.value).asString
 		arg obj;
 
 		switch(~instrumentGroupPercussionDropdown.item,
-			"Marimba", {~spectraAudioButtonAction.value(obj:obj, instrument:"marimba", instrumentGroup:"percussion");},
-			"Piano", {~spectraAudioButtonAction.value(obj:obj, instrument:"piano", instrumentGroup:"percussion");}
+			"Marimba", {~spectraAudioButtonAction.value(obj:obj, instrument:"marimba", instrumentGroup:"percussion");
+				~freqslider.valueAction_(60.value.linlin(21,108,0,1));
+			},
+			"Piano", {~spectraAudioButtonAction.value(obj:obj, instrument:"piano", instrumentGroup:"percussion");
+				~freqslider.valueAction_(60.value.linlin(21,108,0,1));
+			}
 		);
 
 		// ~spectraAudioButtonAction.value(obj:obj, instrument:"horn");
@@ -1278,7 +1320,13 @@ Volume:"++obj.value).asString
 			~celloAudioHaltKey = 1;
 		});
 
-		~spectraDynamicButtonAction.value(obj:obj, instrument:"horn", harmonicAmount:16, fundamentalNote:60);
+
+		switch(~instrumentGroupPercussionDropdown.item,
+			"Marimba", {~spectraDynamicButtonAction.value(obj:obj, instrument:"marimba", instrumentGroup:"horn", harmonicAmount:16, fundamentalNote:60);},
+			"Piano", {~spectraDynamicButtonAction.value(obj:obj, instrument:"piano", instrumentGroup:"horn", harmonicAmount:16, fundamentalNote:60);}
+		);
+
+		// ~spectraDynamicButtonAction.value(obj:obj, instrument:"horn", harmonicAmount:16, fundamentalNote:60);
 	});
 
 	// Flute Dynamic
@@ -1303,13 +1351,21 @@ Volume:"++obj.value).asString
 			~celloAudioHaltKey = 1;
 		});
 
-		if(~instrumentGroupWoodwindsDropdown.value == 0, {
+		/*if(~instrumentGroupWoodwindsDropdown.value == 0, {
 			// Flute
 		~spectraDynamicButtonAction.value(obj:obj, instrument:"flute", harmonicAmount:16, fundamentalNote:72);
 		},{
 			// Clarinet
 ~spectraDynamicButtonAction.value(obj:obj, instrument:"clarinet", harmonicAmount:16, fundamentalNote:60);
-		});
+		});*/
+
+
+		switch(~instrumentGroupWoodwindsDropdown.item,
+			"Flute", {~spectraDynamicButtonAction.value(obj:obj, instrument:"flute", instrumentGroup:"flute", harmonicAmount:16, fundamentalNote:72);},
+			"Clarinet", {~spectraDynamicButtonAction.value(obj:obj, instrument:"clarinet", instrumentGroup:"flute", harmonicAmount:16, fundamentalNote:60);}
+		);
+
+
 	});
 
 	// Trumpet Dynamic
@@ -1333,7 +1389,12 @@ Volume:"++obj.value).asString
 			~celloAudioHaltKey = 1;
 		});
 
-		~spectraDynamicButtonAction.value(obj:obj, instrument:"trumpet", harmonicAmount:16, fundamentalNote:60);
+		switch(~instrumentGroupBrassDropdown.item,
+			"Horn", {~spectraDynamicButtonAction.value(obj:obj, instrument:"horn", instrumentGroup:"trumpet", harmonicAmount:16, fundamentalNote:60);},
+			"Trumpet", {~spectraDynamicButtonAction.value(obj:obj, instrument:"trumpet", instrumentGroup:"trumpet", harmonicAmount:16, fundamentalNote:60);}
+		);
+
+		//~spectraDynamicButtonAction.value(obj:obj, instrument:"trumpet", harmonicAmount:16, fundamentalNote:60);
 	});
 
 	// Cello Dynamic
@@ -1358,7 +1419,12 @@ Volume:"++obj.value).asString
 			~fluteAudioHaltKey = 1;
 		});
 
-		~spectraDynamicButtonAction.value(obj:obj, instrument:"cello", harmonicAmount:16, fundamentalNote:60);
+		switch(~instrumentGroupStringsDropdown.item,
+			"Cello", {~spectraDynamicButtonAction.value(obj:obj, instrument:"cello", instrumentGroup:"cello", harmonicAmount:16, fundamentalNote:60);},
+			"Violin", {~spectraDynamicButtonAction.value(obj:obj, instrument:"violin", instrumentGroup:"cello", harmonicAmount:16, fundamentalNote:60);}
+		);
+
+		//~spectraDynamicButtonAction.value(obj:obj, instrument:"cello", harmonicAmount:16, fundamentalNote:60);
 	});
 
 	// Tenor Dynamic
@@ -1386,6 +1452,12 @@ Volume:"++obj.value).asString
 		~spectraDynamicButtonAction.value(obj:obj, instrument:"voice_tenor", harmonicAmount:16, fundamentalNote:51);
 	});
 
+
+	// Hide Voices for now
+	StaticText(w, Rect(620, 413, 90, 35)).background_(Color.white);
+		StaticText(w, Rect(620, 413+40, 90, 35)).background_(Color.white);
+		StaticText(w, Rect(620, 413+80, 90, 35)).background_(Color.white);
+		StaticText(w, Rect(620, 413+120, 90, 35)).background_(Color.white);
 
 
 //Define the slider sounds to be played
@@ -1501,7 +1573,7 @@ NumberBox(~inspectorHarmonicsPanel, Rect(193+2,0,40,15))
 
 ~inspectorHarmonicsPanel_intensity_text =
 StaticText(~inspectorHarmonicsPanel, Rect(245+2,0,115,15))
-		.string_(" Rel. Intensity (I/f1):")
+		.string_(" Rel. Intensity (I/H1):")
 .font_(Font("Helvetica", 12, false))
 .align_(\left)
 		.stringColor_(Color.grey(0));
@@ -1524,7 +1596,7 @@ NumberBox(~inspectorHarmonicsPanel, Rect(294+55,0,45,15))
 ~quit = Button.new(w, Rect(760,65,30,30))
 	.states_([["", Color.white, Color.clear]])
 	.font_(Font("nil", 12))
-	.mouseDownAction_({
+	.action_({
 		x.free;
 
 		if(~fluteAudioButton.value == 1, {~fluteAudioButton.valueAction_(0)}); //z.free;
@@ -1532,14 +1604,20 @@ NumberBox(~inspectorHarmonicsPanel, Rect(294+55,0,45,15))
 		if(~hornAudioButton.value == 1, {~hornAudioButton.valueAction_(0)}); //t.free;
 		if(~celloAudioButton.value == 1, {~celloAudioButton.valueAction_(0)}); //y.free;
 
-		a.free; //clear buffers to help resolve memory leak
+		s.freeAll;
+
+		/*a.free; //clear buffers to help resolve memory leak
 		b.free;
-		e.free;
-		l.free;
+		//e.free;
+		l.free;*/
 		~spectra_scope.kill; // Kills the FreqScopeView
 		// ~d.quit; causes issues if ~d doesn't exist before quitting, in any case ~d closes automatically because it is parented to the w window
 		// ~w2.close; //similar issue, but this does leave the oscilloscope open - workaround on splashscreen command
-		~scopebutton.valueAction_(0); //this works instead of closing the window as now the global variable is always available
+
+		(if(~scopebutton.value == 1, {
+			~scopebutton.valueAction_(0); // New because two-state now
+			}));
+
 		h.kill;
 
 		(if(~record.value == 1, {
@@ -1557,50 +1635,71 @@ NumberBox(~inspectorHarmonicsPanel, Rect(294+55,0,45,15))
 	//Open Stethoscope
 ~scopebutton = Button(w, Rect((690-40), 112.5, 120, 20))
 .states_([
-	["Open Oscilloscope", Color.white,Color(0.4824, 0.4863, 0.4863,1)]/*,
-	["Close Oscilloscope", Color.white, Color.grey(0.251)]*/
+	["Open Oscilloscope", Color.white,Color(0.4824, 0.4863, 0.4863,1)],
+	["Close Oscilloscope", Color.white, Color.grey(0.251)]
 ])
 .font_(Font("nil", 12))
-	.mouseDownAction_({ // This still seems to cause an Error message of "cycle_" - July 17 2017
+	.action_({ // This still seems to cause an Error message of "cycle_" - July 17 2017
 	/*arg obj;
 	if(obj.value == 1,
 		{*/
+
+
+		arg obj;
+
+		if(obj.value == 1, {
 				~w2 = Window.new("Oscilloscope", Rect.new(
 	Window.screenBounds.width/2+420,
 	500,
 		250,250),false).background_(Color.white).userCanClose_(true).front;
 
-		~d = Stethoscope.new(s, 2,view:~w2) //.scope//nil causes it to open in its own window
+		~d = Stethoscope.new(s, 1,view:~w2) //.scope//nil causes it to open in its own window
 				// .xZoom_(5) //is only setting slider, isn't changing view properly
 				// .cycle_(50) //same problem as xZoom: workaround, use a button for 440Hz
 				.yZoom_(4);
 
-				( //still not auto-setting
+				/*( //still not auto-setting
 s.sendBundle(2, //sound delay
 				["/s_new", "d", ~nam = s.nextNodeID, 1, 1, s.cycle_(501)]; //nam to ensure it doesn't override any other variables
-				););
+				););*/
 
-				// ~d.cycle_((501));
+
+
+				// ~d.cycle_(3000);
 				// ~d.scope(zoom:4);
+		//~d.bufsize;
+
+		// AUTO on open autoscale:
+			AppClock.sched(0.01, {~d.cycle_(5*44100/~fundamental_freq);});
+
+
 		/*	}*//*,
 		{
 				// ~w2.close;
 				// ~d.quit //had to comment these two to make it not error as can't interpret - maybe these should open as default?
 			}*/
 	/*);*/
+		},{
+			~w2.close;
+		});
 });
 
 
 ~scope2button = Button(w, Rect((690-40), 132.5, 120, 20))
 .states_([
-	["Set Osc. to ~440Hz", Color.white,Color(0.4824, 0.4863, 0.4863,1)]
+	["Set Osc. to ~H1", Color.white,Color(0.4824, 0.4863, 0.4863,1)]
 ])
 .font_(Font("nil", 12))
 	.action_({
-		~d
+		/*~d
 		//.xZoom_((438.9105/1024)*1)
-		.cycle_((501));
+		.cycle_((501));*/
 	/*	{x}.plot*/
+
+	if(~d != nil, {
+		~d.cycle_(5*44100/~fundamental_freq);
+		});
+
 	}
 	);
 

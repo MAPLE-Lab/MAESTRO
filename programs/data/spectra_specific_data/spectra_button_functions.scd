@@ -85,13 +85,15 @@
 // Plays and stops the sound. Arguments give the fundamental note (as a MIDI number), the instrument selected and the number of harmonic to use. "obj" is the standard object used in multi-state Button arguments, so it has kept the same name for consistency.
 
 ~spectraDynamicButtonAction = {
-	arg obj, instrument, harmonicAmount, fundamentalNote;
+	arg obj, instrument, instrumentGroup, harmonicAmount, fundamentalNote;
 
 	"START of button action".postln;
 
 	if(obj.value == 1, {
 
-		(instrument + "obj.value == 1").postln;
+		(instrumentGroup + "obj.value == 1").postln;
+
+		~temporaryDisableAutoscale = 1;
 
 		//~button.value.postln;
 		//~haltKey.postln;
@@ -99,15 +101,15 @@
 		~freqslider.valueAction_(fundamentalNote.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
 		~haltKey = 0;
 
-		if(~instrumentGroupWoodwindsDropdown.item == "Clarinet", {
+	/*	if(~instrumentGroupWoodwindsDropdown.item == "Clarinet", {
 			// For clarinet expansion
 			~fluteAudioHaltKey = 0;
 			["~fluteAudioHaltKey", ~fluteAudioHaltKey].postln;
-		},{
+		},{*/
 			// As usual before the instrument expansion
-			("~" ++ instrument ++ "AudioHaltKey = 0").interpret.postln;
-			[("~" ++ instrument ++ "AudioHaltKey").asString, ("~" ++ instrument ++ "AudioHaltKey").interpret].postln;
-		});
+			("~" ++ instrumentGroup ++ "AudioHaltKey = 0").interpret.postln;
+			[("~" ++ instrumentGroup ++ "AudioHaltKey").asString, ("~" ++ instrumentGroup ++ "AudioHaltKey").interpret].postln;
+		/*});*/
 
 
 
@@ -123,7 +125,7 @@
 		if(~hornAudioButton.value == 1, {~hornAudioButton.valueAction_(0)});*/
 
 		~keyNoteColorChangeFunction_dataLoad.value(instrument:instrument);
-		~call_keyNoteColorChangeFunction.value(harmonicAmount:harmonicAmount, instrument:instrument);
+		~call_keyNoteColorChangeFunction.value(harmonicAmount:harmonicAmount, instrument:instrument, instrumentGroup:instrumentGroup);
 
 		~spectraFreePowerAll.value;
 
@@ -135,7 +137,7 @@
 
 		["Sum of keys", (~celloAudioHaltKey + ~trumpetAudioHaltKey + ~fluteAudioHaltKey + ~hornAudioHaltKey)].postln;
 	},{
-		(instrument + "obj.value == 0").postln;
+		(instrumentGroup + "obj.value == 0").postln;
 
 		/*"~haltKey".postln;
 		~haltKey.postln;
@@ -150,15 +152,15 @@
 
 
 
-		if(~instrumentGroupWoodwindsDropdown.item == "Clarinet", {
+		/*if(~instrumentGroupWoodwindsDropdown.item == "Clarinet", {
 			// For clarinet expansion
 			~fluteAudioHaltKey = 1;
 			["~fluteAudioHaltKey", ~fluteAudioHaltKey].postln;
-		},{
+		},{*/
 			// As usual before the instrument expansion
-			("~" ++ instrument ++ "AudioHaltKey = 1").interpret.postln;
-			[("~" ++ instrument ++ "AudioHaltKey").asString, ("~" ++ instrument ++ "AudioHaltKey").interpret].postln;
-		});
+			("~" ++ instrumentGroup ++ "AudioHaltKey = 1").interpret.postln;
+			[("~" ++ instrumentGroup ++ "AudioHaltKey").asString, ("~" ++ instrumentGroup ++ "AudioHaltKey").interpret].postln;
+	/*	});*/
 
 
 
@@ -175,6 +177,10 @@
 				, ~spectraPowerButtonStatus == 0)
 		, {
 			~button.valueAction_(0);
+
+
+		~temporaryDisableAutoscale = 0;
+
 
 		});
 
@@ -309,7 +315,7 @@
 			"clarinet", {AppClock.sched(3, {if(howLongPlaying > 29, {~woodwindsAudioButton.valueAction_(0); "Clarinet audio finished.".postln});})},
 			"marimba", {AppClock.sched(1.2, {if(howLongPlaying > 11, {~percussionAudioButton.valueAction_(0); "Marimba audio finished.".postln});})},
 			"piano", {AppClock.sched(3, {if(howLongPlaying > 29, {~percussionAudioButton.valueAction_(0); "Piano audio finished.".postln});})},
-			"voice_tenor", {AppClock.sched(1.5, {if(howLongPlaying > 14, {~voice_tenorAudioButton.valueAction_(0); "Tenor audio finished.".postln});})},
+			"voice_tenor", {AppClock.sched(9.5, {if(howLongPlaying > 14, {~voice_tenorAudioButton.valueAction_(0); "Tenor audio finished.".postln});})},
 			"voice_soprano", {AppClock.sched(3.3, {if(howLongPlaying > 32, {~voicesAudioButton.valueAction_(0); "Soprano audio finished.".postln});})}
 		);
 

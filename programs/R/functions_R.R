@@ -117,7 +117,10 @@ isolateHarmonics <- function() {
 # Uses PLOTLY
 
 # Create data frame with all harmonic data for use in plot_ly
-plotMAESTRO.3d <- function(view.x = -2, view.y = -1, view.z = 1) {
+plotMAESTRO.3d <- function(zoom = 0.68,
+                           view.x = -2, view.y = -1, view.z = 1, 
+                           length.x = 1, length.y = 1, length.z = 1, 
+                           showTime = TRUE, titleTime = "Time (s)") {
   # List the length of the harmonicMatrixScaled to allow the name to be repeated
   harmonicDataframeLengthSeq = seq(1:nrow(harmonicMatrixScaled))
   
@@ -164,7 +167,7 @@ plotMAESTRO.3d <- function(view.x = -2, view.y = -1, view.z = 1) {
   }
   
   #test_bind <- rbind(plotsHarmonicData.1, plotsHarmonicData.2, plotsHarmonicData.3, plotsHarmonicData.4, plotsHarmonicData.5, plotsHarmonicData.6, plotsHarmonicData.7, plotsHarmonicData.8, plotsHarmonicData.9, plotsHarmonicData.10)
-  test_bind <- eval(parse(text=paste0("rbind(", temp_total_names, ")")))
+  test_bind <<- eval(parse(text=paste0("rbind(", temp_total_names, ")")))
 
   # Use the combined data for the plot
   #p <- plot_ly(test_bind, x = ~time, y = ~harmonic, z = ~intensity, type = 'scatter3d', mode = 'lines', color = ~harmonic, opacity = 1, text = "TEXT") # group_by(); color = I("black")
@@ -180,6 +183,7 @@ plotMAESTRO.3d <- function(view.x = -2, view.y = -1, view.z = 1) {
   title <- paste(toupper(substr(name, 1, 1)), substr(name, 2, nchar(name)), sep="") # Convert title to title case
   
   plot_ly(
+   #width = 1187, height = 656
   ) %>% add_trace(type = 'mesh3d',
                   x = mesh3d_data_points[,"time"],
                   y = mesh3d_data_points[,"harmonic"],
@@ -193,7 +197,7 @@ plotMAESTRO.3d <- function(view.x = -2, view.y = -1, view.z = 1) {
                         (((n+1):(2*n-1)))),
                   
                   delaunayaxis = "z", # The axis on which the surface is 'projected' onto, if i,j,k are not provided
-                  intensity = 0, colors = 'white', opacity = 0.5,
+                  intensity = 0, colors = 'white', opacity = 0.7,
                   showscale = FALSE,
                   lightposition = list(x = 0, y = 0, z = 0),
                   lighting = list(specular = 0, fresnel = 0, ambient = 1), flatshading = FALSE # flatshading TRUE causes artifacts to appear
@@ -201,30 +205,55 @@ plotMAESTRO.3d <- function(view.x = -2, view.y = -1, view.z = 1) {
                   ) %>% add_trace(
                     data = test_bind, x = ~time, y = ~harmonic, z = ~intensity, 
                     type = 'scatter3d', 
-                    mode = "lines+markers", color = ~harmonic, opacity = 1, # This opacity sets the opacity of the fillcolor as well, though not used as a separate set of mesh3ds are used
+                    mode = "lines", color = ~harmonic, opacity = 1, # This opacity sets the opacity of the fillcolor as well, though not used as a separate set of mesh3ds are used
                     showlegend = FALSE,
-                    projection = list(x = list(show = TRUE, scale = 0.5)),
-                    line = list(width = 3, color = "black"),
-                    marker = list(symbol = "circle-open", size = 0.01)
+                    #projection = list(x = list(show = TRUE, scale = 0.5)),
+                    line = list(width = 3, color = "black")
+                    #marker = list(symbol = "circle-open", size = 0.01)
                   ) %>% layout(
-                    font = list(family = "Arial"),
-                    title = paste(title, "analysis, F1 = ", fundamentalFreq, "Hz"),
+                    font = list(family = "Arial", color = "black"),
+                    title = paste(title, "analysis, H1 = ", fundamentalFreq, "Hz"),
                       #"MAESTRO Sound Analysis",
                     # categoryorder = "array", categoryarray = colnames(harmonicMatrixScaled), # Is not valid for 3D
                     scene = list(
                       camera = list(
-                        eye = list(x=view.x,y=view.y,z=view.z)
+                        eye = list(x=view.x*zoom,y=view.y*zoom,z=view.z*zoom)
                           ),
-                      aspectmode = "cube", # Can be modified using aspectratio
+                      aspectmode = "manual", aspectratio = list(x=length.x,y=length.y,z=length.z),# Can be modified using aspectratio
                       
-                      xaxis = list(title = "Time (s)", visible = TRUE, range = c(0,soundfileDuration), showline = TRUE),
-                      yaxis = list(title = "Harmonic", visible = TRUE, dtick = 1, tickangle = 0,
+                      xaxis = list(title = titleTime, visible = TRUE, range = c(0,soundfileDuration), 
+                                   #showline = TRUE, 
+                                   titlefont = list(size = 14), tickfont = list(size = 12),
+                                   showticklabels = showTime,
+                                   linewidth = 2, # gridwidth = 5, gridcolor = "rgb(204, 204, 204)"
+                                   showgrid = FALSE,
+                                   showbackground = TRUE, backgroundcolor = "rgba(240, 240, 240,0)"
+                                   ),
+                      yaxis = list(title = "Harmonic", visible = TRUE, 
+                                   #tickmode = 'linear', dtick = 4, tick0 = 5, tickangle = 0,
+                                   titlefont = list(size = 14), tickfont = list(size = 12),
+                                   ticks = "", tickmode = 'array', tickvals = c(1:16), ticktext = c("1", "", "3", "", "5", "", "7", "", "9", "", "11", "", "13", "", "15", ""), tickangle = 0, # ticklen = 50, tickwidth = 5,
                                    type = "category",
-                                   categoryorder = "array", categoryarray = rev(c("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16")) #colnames(harmonicMatrixScaled) #Cannot understand the names as the data is not given with these names
+                                   categoryorder = "array", categoryarray = rev(c("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16")), #colnames(harmonicMatrixScaled) #Cannot understand the names as the data is not given with these names
+                                   linewidth = 2, 
+                                   gridwidth = 3, gridcolor = "rgb(225, 225, 225)",
+                                  #showgrid = FALSE,  #gridwidth = 2, gridcolor = "rgb(50, 50, 50)"
+                                   showbackground = TRUE, backgroundcolor = "rgba(240, 240, 240,0)"
                                    ), # Does not seem to work if in reverse direction (i.e. 16,0) #range = c(0,16), mirror = TRUE
-                      zaxis = list(title = "Intensity", range = c(0,1))
+                      zaxis = list(title = "Intensity", range = c(0,1), 
+                                   titlefont = list(size = 14), tickfont = list(size = 12),
+                                   #dtick = 0.5
+                                   tickmode = 'array', tickvals = c(0,0.5,1), ticktext = c("", "", ""), ticklen = 0, tickwidth = 2, ticks = "",
+                                   linewidth = 2, gridwidth = 3, gridcolor = "rgb(225, 225, 225)",
+                                   showbackground = TRUE, backgroundcolor = "rgba(240, 240, 240,0)"
+                                   )
                     )
                     )
+  
+  #plotted
+  
+  #export(plotted, file = "test_plot.png")
+  
 }
 
 plotMAESTRO.bars <- function() {
@@ -254,6 +283,95 @@ plotMAESTRO.bars <- function() {
 }
 
 
+
+plotMAESTRO.2d <- function(zoom = 0.7) {
+  
+  name <-substr(soundfile,nchar(getwd())+nchar("audio/"),nchar(soundfile)-4) # Create instrument name from the .wav file selected
+  title <- paste(toupper(substr(name, 1, 1)), substr(name, 2, nchar(name)), sep="") # Convert title to title case
+  
+  
+  for(i in 2:16) {
+    
+    dataset_means <- c(colMeans(harmonicMatrixScaled)/max(colMeans(harmonicMatrixScaled)))
+    
+    temp_lister_name <- paste("0", dataset_means[i],"0", sep = ",")
+    
+    if(i == 2) {
+      temp_total_names <- paste0("0,",dataset_means[1],",","0,",temp_lister_name, ",")   # Clears any old data automatically as well
+    } else {
+      temp_total_names <- paste0(temp_total_names, temp_lister_name, sep = ",")
+    }
+    
+  }
+
+  intensityDataArray <- c(unlist(strsplit(substr(temp_total_names,0,nchar(temp_total_names)-1), split=","))) # Easier to remove artifacts from the recursion algorithm above than to make the recursion more complex
+  
+  dataset_flat_time <- rep(c(0,0.5,1),16)
+  
+  dataset_flat_intensity <- intensityDataArray
+  
+  dataset_flat_harmonic <- rep(1:16, each=3)
+  
+  dataset_flat_new <- data.frame(dataset_flat_time,dataset_flat_intensity,dataset_flat_harmonic)
+  
+  colnames(dataset_flat_new) <- c("time", "intensity", "harmonic")
+  
+  plot_ly(
+    #width = 1328, height = 656
+  ) %>% add_trace(
+    data = dataset_flat_new, x = ~time, y = ~harmonic, z = ~intensity, 
+    type = 'scatter3d', 
+    mode = "lines", color = dataset_flat_new["harmonic"], opacity = 1, # This opacity sets the opacity of the fillcolor as well, though not used as a separate set of mesh3ds are used
+    showlegend = FALSE,
+    #projection = list(x = list(show = TRUE, scale = 0.5)),
+    line = list(width = 5, color = "black")
+    #marker = list(symbol = "circle-open", size = 0.01)
+  ) %>% layout(
+    font = list(family = "Arial", color = "black"),
+    title = paste(title, "analysis, H1 = ", fundamentalFreq, "Hz"),
+    #"MAESTRO Sound Analysis",
+    # categoryorder = "array", categoryarray = colnames(harmonicMatrixScaled), # Is not valid for 3D
+    scene = list(
+      camera = list(
+        eye = list(x=-2.7*zoom,y=0.001*zoom,z=0*zoom)
+      ),
+      aspectmode = "manual", aspectratio = list(x=0.00001,y=1,z=1),# Can be modified using aspectratio
+      
+      xaxis = list(title = " ", visible = TRUE, range = c(0,1), 
+                   #showline = TRUE, 
+                   titlefont = list(size = 14), tickfont = list(size = 12),
+                   showticklabels = FALSE,
+                   linewidth = 3, # gridwidth = 5, gridcolor = "rgb(204, 204, 204)"
+                   showgrid = FALSE,
+                   showbackground = TRUE, backgroundcolor = "rgba(240, 240, 240,0)"
+      ),
+      yaxis = list(title = "Harmonic", visible = TRUE, 
+                   #tickmode = 'linear', dtick = 4, tick0 = 5, tickangle = 0,
+                   titlefont = list(size = 14), tickfont = list(size = 12),
+                   ticks = "", tickmode = 'array', tickvals = c(1:16), ticktext = c("", "2", "", "4", "", "6", "", "8", "", "10", "", "12", "", "14", "", "16"), tickangle = 0, # ticklen = 50, tickwidth = 5,
+                   type = "category",
+                   categoryorder = "array", categoryarray = rev(c("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16")), #colnames(harmonicMatrixScaled) #Cannot understand the names as the data is not given with these names
+                   linewidth = 5, 
+                   gridwidth = 3, gridcolor = "rgb(225, 225, 225)",
+                   # showgrid = FALSE  #gridwidth = 2, gridcolor = "rgb(50, 50, 50)"
+                   showbackground = TRUE, backgroundcolor = "rgba(240, 240, 240,0)"
+      ), # Does not seem to work if in reverse direction (i.e. 16,0) #range = c(0,16), mirror = TRUE
+      zaxis = list(title = "Intensity", visible = TRUE,
+                   range = c(0,1), 
+                   titlefont = list(size = 14), tickfont = list(size = 12),
+                   #dtick = 0.5
+                   tickmode = 'array', tickvals = c(0,0.5,1), ticktext = c("", "", ""), ticklen = 5, tickwidth = 2, ticks = "",
+                   linewidth = 2, gridwidth = 3, gridcolor = "rgb(225, 225, 225)",
+                   showbackground = TRUE, backgroundcolor = "rgba(240, 240, 240,0)"
+      )
+    )
+  )
+  
+  
+}
+
+
+
 # STEP 9 - EXPORT files
 # This function is no longer needed as SuperCollider takes the first time value name from the exported table and uses it to calculate the time array
 timeArray <- function() {
@@ -277,7 +395,13 @@ exportMAESTRO <- function() { #CSV = FALSE, TAB = TRUE) { NOTE: In the future pe
   #write.table(timeRawArray, file = dataFileName_timeRawArray)
   
   #write(timeArrayPrint, file = dataFileName_timeArray) # NOTE: Ideally won't need in future if SC can read the time (row) names, or just generate based of some values of time interval
-}
+
+  dataFileName_harmonicMatrixScaledMeans <- paste0(filePathPrint, "/harmonicMatrixScaledMeans.txt")
+  
+  dataset_means <- c(colMeans(harmonicMatrixScaled)/max(colMeans(harmonicMatrixScaled)))
+  
+  write.table(t(dataset_means), file = dataFileName_harmonicMatrixScaledMeans, sep="\t")
+  }
 
 # If this source file of functions ("functions_R.R") has finished loading into the "envelope_generator.R", print the follow line
 print("Source functions loaded from 'functions_R.R'.")

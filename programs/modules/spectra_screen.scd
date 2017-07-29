@@ -188,8 +188,7 @@ StaticText(w, Rect(
 
 });
 
-//Button to change between Log to Linear view
-~spectraViewButton = Button(w, Rect(
+~spectraViewButtonMain = Button(w, Rect(
 		~spectraButton_bounds_array[0],
 		~spectraButton_bounds_array[1],
 		~spectraButton_bounds_array[2]-50,
@@ -197,6 +196,17 @@ StaticText(w, Rect(
 .states_([
 		["View Mode", Color.white,Color(0.4824, 0.4863, 0.4863,1)],
 		["View Mode", Color.white,Color(0.4824, 0.4863, 0.4863,1)]]
+	);
+
+//Button to change between Log to Linear view
+~spectraViewButton = Button(w, Rect(
+		~spectraButton_bounds_array[0],
+		~spectraButton_bounds_array[1],
+		~spectraButton_bounds_array[2],
+		~spectraButton_bounds_array[3]))
+.states_([
+		["View Mode", Color.clear,Color(0.4824, 0.4863, 0.4863,0)],
+		["View Mode", Color.clear,Color(0.4824, 0.4863, 0.4863,0)]]
 	)
 .font_(Font("nil", 12))
 .action_({
@@ -228,7 +238,13 @@ StaticText(w, Rect(
 	//~spectra_scopeAutoscaleFunction.value; // If uncommented, automatically updates the Autoscale
 
 	if(~spectraAutoscaleButton.value == 1, {
-		~spectra_scopeAutoscaleFunction.value;});
+
+		if(~temporaryDisableAutoscale == 0, {
+
+		~spectra_scopeAutoscaleFunction.value;
+		});
+
+		});
 
 });
 
@@ -275,9 +291,7 @@ StaticText(w, Rect(
 
 });
 
-
-//Button to auto-scale
-~spectraAutoscaleButton = Button(w, Rect(
+~spectraAutoscaleButtonMain = Button(w, Rect(
 		~spectraAutoscale_bounds_array[0],
 		~spectraAutoscale_bounds_array[1],
 		~spectraAutoscale_bounds_array[2]-50,
@@ -285,6 +299,19 @@ StaticText(w, Rect(
 .states_([
 	["Autoscale", Color.white,Color(0.4824, 0.4863, 0.4863,1)],
 	["Autoscale", Color.white, Color(0.4824, 0.4863, 0.4863,1)]
+]
+	);
+
+
+//Button to auto-scale
+~spectraAutoscaleButton = Button(w, Rect(
+		~spectraAutoscale_bounds_array[0],
+		~spectraAutoscale_bounds_array[1],
+		~spectraAutoscale_bounds_array[2],
+		~spectraAutoscale_bounds_array[3]))
+.states_([
+	["Autoscale", Color.clear,Color(0.4824, 0.4863, 0.4863,0)],
+	["Autoscale", Color.clear, Color(0.4824, 0.4863, 0.4863,0)]
 ]
 	)
 .font_(Font("nil", 12))
@@ -345,7 +372,18 @@ if(~module_ID == "spectra",{
 
 		//Check if the last harmonic intensity in the array (i.e. 16th harmonic) is 0
 		//If it is, all 16 harmonics are playing; otherwise, run a WHILE code
-		if(~energyTruncated.last == 0, {
+		if(
+			and(
+				(~celloAudioHaltKey + ~trumpetAudioHaltKey + ~fluteAudioHaltKey + ~hornAudioHaltKey) == 4,
+
+				and(
+
+				(~stringsAudioButton.value + ~brassAudioButton.value + ~woodwindsAudioButton.value + ~percussionAudioButton.value) == 0,
+
+					(~stringsPowerButton.value + ~brassPowerButton.value + ~woodwindsPowerButton.value + ~percussionPowerButton.value) == 0
+				)
+			), { // If a Dynamic sound is NOT playing, caluclate; otherwise just assume 16
+			if(~energyTruncated.last == 0, {
 
 			//While the last harmonic intensity in the array is 0, remove the last item from the array
 			while ( { ~energyTruncated.last == 0 }, {
@@ -358,6 +396,9 @@ if(~module_ID == "spectra",{
 		},{
 			//This line activates if all 16 harmonics have a non-zero intensity
 			"All 16 harmonics being played".postln;
+		});
+		},{ // Dynamic or Audio is playing
+			~energyTruncated = Array.fill(16,1);
 		});
 
 		//The maximum frequency is calculated

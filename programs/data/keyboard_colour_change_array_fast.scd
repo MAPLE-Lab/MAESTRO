@@ -2,7 +2,7 @@
 // ~keyNoteColorChangeFunction_dataUse.value(keyHarmonicNumber:#)
 // where # can be any number where that harmonic's data exists in the data table (usually 1-16)
 ~keyNoteColorChangeFunction_dataUse = {
-	arg keyHarmonicNumber, instrument;
+	arg keyHarmonicNumber, instrument, instrumentGroup;
 	var keyArray, integer;
 
 	// Get the data specific to the harmonic being used (keyHarmonicNumber)
@@ -34,14 +34,14 @@
 
 
 			// Instrument expansion
-			~clarinetAudioHaltKey = ~fluteAudioHaltKey;
+			//~clarinetAudioHaltKey = ~fluteAudioHaltKey;
 
 
 			// Time control
 			integer = integer + 1;
 			if(and(integer < keyArray.size,
 				//~haltKey == 0
-				("~" ++ instrument ++ "AudioHaltKey == 0").interpret
+				("~" ++ instrumentGroup ++ "AudioHaltKey == 0").interpret
 			), {
 				(~timeInterval.interpret);},{
 				//("Data for Harmonic" + keyHarmonicNumber + "completed.").asString.postln;
@@ -61,11 +61,13 @@
 
 
 ~keyNoteColorChangeFunction_soundTimer = {
-	arg instrument;
+	arg instrument, instrumentGroup;
 	var keyArray, integer;
 
 	(
 		integer = 0;
+
+		~temporaryDisableAutoscale = 1; // Disable the autoscale for now
 
 		AppClock.sched(0.0,{ arg time; var keyCol;
 
@@ -76,13 +78,13 @@
 			(~trace +/+ "data/spectra_harmonics_panel_hover_enter.scd").load; // Updating live the Information panel underneath the Harmonics panel
 
 			// Instrument expansion
-			~clarinetAudioHaltKey = ~fluteAudioHaltKey;
+			//~clarinetAudioHaltKey = ~fluteAudioHaltKey;
 
 			// Time control
 			integer = integer + 1;
 			if(and(integer < keyArray.size,
 				//~haltKey == 0
-				("~" ++ instrument ++ "AudioHaltKey == 0").interpret
+				("~" ++ instrumentGroup ++ "AudioHaltKey == 0").interpret
 			), {
 				(~timeInterval.interpret);},{
 				//("Data for Harmonic" + keyHarmonicNumber + "completed.").asString.postln;
@@ -99,23 +101,24 @@
 
 				// Instrument expansion
 
-				if(~instrumentGroupWoodwindsDropdown.item == "Clarinet", {
+				/*if(~instrumentGroupWoodwindsDropdown.item == "Clarinet", {
 					// For clarinet expansion
 					~fluteDynamicButton.value_(0);
 
 					~fluteAudioHaltKey = 1;
-					[("~" ++ instrument ++ "AudioHaltKey").asString, ("~" ++ instrument ++ "AudioHaltKey").interpret].postln;
-				},{
+					[("~" ++ instrumentGroup ++ "AudioHaltKey").asString, ("~" ++ instrumentGroup ++ "AudioHaltKey").interpret].postln;
+				},{*/
 					// As usual before the instrument expansion
-					("~" ++ instrument ++ "DynamicButton.value_(0)").interpret; // Using .value so that the user can pick between any Dynamic Spectra buttons without having to out-click
+					("~" ++ instrumentGroup ++ "DynamicButton.value_(0)").interpret; // Using .value so that the user can pick between any Dynamic Spectra buttons without having to out-click
 
-				("~" ++ instrument ++ "AudioHaltKey = 1").interpret.postln;
-		[("~" ++ instrument ++ "AudioHaltKey").asString, ("~" ++ instrument ++ "AudioHaltKey").interpret].postln;
-				});
+				("~" ++ instrumentGroup ++ "AudioHaltKey = 1").interpret.postln;
+		[("~" ++ instrumentGroup ++ "AudioHaltKey").asString, ("~" ++ instrumentGroup ++ "AudioHaltKey").interpret].postln;
+				/*});*/
 
 
 				if(and((~celloAudioHaltKey + ~trumpetAudioHaltKey + ~fluteAudioHaltKey + ~hornAudioHaltKey) == 4, ~spectraPowerButtonStatus == 0), {
 			~button.valueAction_(0);
+					~temporaryDisableAutoscale = 0;
 		});
 
 				/*AppClock.sched(0.01, {
@@ -131,12 +134,12 @@
 
 
 ~call_keyNoteColorChangeFunction = {
-	arg harmonicAmount, instrument;
+	arg harmonicAmount, instrument, instrumentGroup;
 	harmonicAmount.do({ arg item;
 		//(item).postln;
-		~keyNoteColorChangeFunction_dataUse.value(keyHarmonicNumber:(item+1), instrument:instrument); // Starts with keyHarmonicNumber:1
+		~keyNoteColorChangeFunction_dataUse.value(keyHarmonicNumber:(item+1), instrument:instrument, instrumentGroup:instrumentGroup); // Starts with keyHarmonicNumber:1
 		});
-	~keyNoteColorChangeFunction_soundTimer.value(instrument:instrument); // Starts the timer
+	~keyNoteColorChangeFunction_soundTimer.value(instrument:instrument, instrumentGroup:instrumentGroup); // Starts the timer
 };
 
 //~call_keyNoteColorChangeFunction.value(harmonicAmount:#);

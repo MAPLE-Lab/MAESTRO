@@ -15,7 +15,7 @@ Window.new(
 
 ~internalText_WIP = StaticText(~inspectorWindow,Rect(10,15,280,280))
 	.string_("
-WIP Version 2017-07-25-1330
+WIP Version 2017-07-29-0330
 Towards: Pre-release v0.1.3-beta
 ")
 .font_(Font("Helvetica", 12, false, true))

@@ -380,12 +380,25 @@ StaticText.new(~keyboard, Rect(1055,172,6,30)).background_(Color.grey(0.25)); //
 
 
 // Black dot for the harmonic motion
-~keyboard_CompositeView_White = CompositeView(~keyboard, Rect(27+1,175+1,5-1,5-1));
+~keyboard_CompositeView_White = CompositeView(~keyboard, Rect(27+1,175+1,5-1+20,5-1+20));
 
 ~deviant_fill = StaticText(~keyboard_CompositeView_White, Rect(0,0,3,3)).background_(Color.black);
 
+~deviant_fill_triangle = UserView(~keyboard_CompositeView_White, Rect(0,0,12,24));
+
+//~thingy = StaticText(~deviant_fill_triangle, Rect(0,0,12,24)).background_(Color.blue);
+
+~triangle = Image.new(~trace +/+ "images/triangle.png");
+
+~deviant_fill_triangle.drawFunc = {
+		//Images underneath buttons
+		~triangle.drawInRect(Rect(0,0,12,24), Rect(0,0,11,24), 2, 1.0);
+};
+
+
 //Start null
 ~deviant_fill.background_(Color.clear);
+~greyIntensity = 0.55;
 
 //Aesthetic lines
 // ~bar = StaticText(~keyboardOverlay, Rect(0,0,420+20+20+620,190)).background_(Color.red));
