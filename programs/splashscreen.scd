@@ -58,7 +58,11 @@ t.view.keyDownAction = { arg view, char, modifiers, unicode, keycode;
 
 
 		//Buttons
-b = Button.new(t, Rect((400-220-50), 180+30-20, 100, 40))
+
+
+			~splashButtonWidth = 130;
+
+~tuningButton = Button.new(t, Rect((400-220-50), 180+30-20-50, ~splashButtonWidth, 40))
 	.states_([["Tuning", Color.white, Color(0.7569,0.1373,0.1725,1)]])
 	.font_(Font("nil", 18))
 	.mouseDownAction_({
@@ -67,7 +71,7 @@ b = Button.new(t, Rect((400-220-50), 180+30-20, 100, 40))
 			t.close;
 		});
 
-u = Button.new(t, Rect((400-220-50), 180+50+30-20, 100, 40))
+~spectraButton = Button.new(t, Rect((400-220-50), 180+50+30-20-50, ~splashButtonWidth, 40))
 	.states_([["Spectra", Color.white, Color(0.7569,0.1373,0.1725,1)]])
 	.font_(Font("nil", 18))
 	.mouseDownAction_({
@@ -75,11 +79,19 @@ u = Button.new(t, Rect((400-220-50), 180+50+30-20, 100, 40))
 			t.close;
 		});
 
-		~tones = Button.new(t, Rect((400-220-50), 180+50+30-20+50, 100, 40))
+		~tonesButton = Button.new(t, Rect((400-220-50), 180+50+30-20+50-50, ~splashButtonWidth, 40))
 	.states_([["Diff. Tones", Color.white, Color(0.7569,0.1373,0.1725,1)]])
 	.font_(Font("nil", 18))
 	.mouseDownAction_({
 			(basePath +/+  "MAPLE_Difference_Tones.scd").loadPaths;
+			t.close;
+		});
+
+		~synthesizerButton = Button.new(t, Rect((400-220-50), 180+50+30-20+50-50+50, ~splashButtonWidth, 40))
+	.states_([["Synthesizer", Color.white, Color(0.7569,0.1373,0.1725,1)]])
+	.font_(Font("nil", 18))
+	.mouseDownAction_({
+			(basePath +/+  "MAPLE_Synthesizer.scd").loadPaths;
 			t.close;
 		});
 
