@@ -116,7 +116,7 @@
 				/*});*/
 
 
-				if(and((~celloAudioHaltKey + ~trumpetAudioHaltKey + ~fluteAudioHaltKey + ~hornAudioHaltKey) == 4, ~spectraPowerButtonStatus == 0), {
+				if(and((~celloAudioHaltKey + ~trumpetAudioHaltKey + ~fluteAudioHaltKey + ~hornAudioHaltKey + ~voicesAudioHaltKey) == 5, ~spectraPowerButtonStatus == 0), {
 			~button.valueAction_(0);
 					~temporaryDisableAutoscale = 0;
 		});

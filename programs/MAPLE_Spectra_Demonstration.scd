@@ -314,7 +314,7 @@ x.set(
 								//~spectraFreePowerAll.value; // Not necessary, and conflicts with the ~button.value
 				~spectraFreeAudioAll.value;
 
-				~spectraPowerButtonStatus = 4 - (~celloAudioHaltKey + ~trumpetAudioHaltKey + ~fluteAudioHaltKey + ~hornAudioHaltKey);
+				~spectraPowerButtonStatus = 5 - (~celloAudioHaltKey + ~trumpetAudioHaltKey + ~fluteAudioHaltKey + ~hornAudioHaltKey + ~voicesAudioHaltKey);
 
 				if(~spectraPowerButtonStatus > 0, { // If any Dynamic Spectra are playing
 
@@ -571,6 +571,7 @@ x.set(
 		~spectraFreePowerSpecifyValueOnly.value(instrument:"trumpet");
 		~spectraFreePowerSpecifyValueOnly.value(instrument:"horn");
 		~spectraFreePowerSpecifyValueOnly.value(instrument:"flute");
+		~spectraFreePowerSpecifyValueOnly.value(instrument:"voices");
 
 
 		switch(~instrumentGroupStringsDropdown.item,
@@ -590,6 +591,7 @@ x.set(
 		~spectraFreePowerSpecifyValueOnly.value(instrument:"cello");
 		~spectraFreePowerSpecifyValueOnly.value(instrument:"horn");
 		~spectraFreePowerSpecifyValueOnly.value(instrument:"flute");
+		~spectraFreePowerSpecifyValueOnly.value(instrument:"voices");
 
 		switch(~instrumentGroupBrassDropdown.item,
 			"Horn", {~spectraPowerButtonAction.value(obj:obj, instrument:"horn", fundamentalNote:60);},
@@ -609,6 +611,7 @@ x.set(
 		~spectraFreePowerSpecifyValueOnly.value(instrument:"trumpet");
 		~spectraFreePowerSpecifyValueOnly.value(instrument:"horn");
 		~spectraFreePowerSpecifyValueOnly.value(instrument:"cello");
+		~spectraFreePowerSpecifyValueOnly.value(instrument:"voices");
 
 		switch(~instrumentGroupWoodwindsDropdown.item,
 			"Flute", {~spectraPowerButtonAction.value(obj:obj, instrument:"flute", fundamentalNote:72);},
@@ -627,6 +630,8 @@ x.set(
 		~spectraFreePowerSpecifyValueOnly.value(instrument:"trumpet");
 		~spectraFreePowerSpecifyValueOnly.value(instrument:"cello");
 		~spectraFreePowerSpecifyValueOnly.value(instrument:"flute");
+		~spectraFreePowerSpecifyValueOnly.value(instrument:"voices");
+
 
 		switch(~instrumentGroupPercussionDropdown.item,
 			"Marimba", {~spectraPowerButtonAction.value(obj:obj, instrument:"marimba", fundamentalNote:60);},
@@ -636,19 +641,25 @@ x.set(
 		//~spectraPowerButtonAction.value(obj:obj, instrument:"horn", fundamentalNote:60);
 	});
 
-	//FORCED tenor preset
-	~voice_tenorPowerButton = Button(w, Rect(620, 417.5+~lowerButtons, 90, 26))
+	//FORCED voice preset
+	~voicesPowerButton = ~voice_tenorPowerButton = Button(w, Rect(620, 417.5+~lowerButtons, 90, 26))
 	.states_([["Voice", Color.white, Color(0.7569,0.1373,0.1725,1)],["Voice", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({
 		arg obj;
 		~spectraFreePowerSpecifyValueOnly.value(instrument:"trumpet");
+		~spectraFreePowerSpecifyValueOnly.value(instrument:"horn");
 		~spectraFreePowerSpecifyValueOnly.value(instrument:"cello");
 		~spectraFreePowerSpecifyValueOnly.value(instrument:"flute");
 
+		switch(~instrumentGroupVoicesDropdown.item,
+			"Tenor", {~spectraPowerButtonAction.value(obj:obj, instrument:"voice_tenor", fundamentalNote:60);},
+			"Soprano", {~spectraPowerButtonAction.value(obj:obj, instrument:"voice_soprano", fundamentalNote:72);}
+		);
+
 		//~spectraPowerButtonAction.value(obj:obj, instrument:"voice_tenor", fundamentalNote:51);
 
-		"No data currently available. This is a proof of concept for the button design."
+	//	"No data currently available. This is a proof of concept for the button design."
 	});
 
 
@@ -1299,6 +1310,7 @@ Volume:"++obj.value).asString
 	~trumpetAudioHaltKey = 1;
 	~fluteAudioHaltKey = 1;
 	~hornAudioHaltKey = 1;
+	~voicesAudioHaltKey = 1;
 
 	// Horn Dynamic
 	~hornDynamicButton = u = Button(w, Rect(525, 457.5+~lowerButtons, 90, 26))
@@ -1318,6 +1330,9 @@ Volume:"++obj.value).asString
 		if(~celloDynamicButton.value != 0, {
 			//~celloDynamicButton.valueAction_(0);
 			~celloAudioHaltKey = 1;
+		});
+		if(~voicesDynamicButton.value != 0, {
+			~voicesAudioHaltKey = 1;
 		});
 
 
@@ -1349,6 +1364,9 @@ Volume:"++obj.value).asString
 		if(~celloDynamicButton.value != 0, {
 			//~celloDynamicButton.valueAction_(0);
 			~celloAudioHaltKey = 1;
+		});
+		if(~voicesDynamicButton.value != 0, {
+			~voicesAudioHaltKey = 1;
 		});
 
 		/*if(~instrumentGroupWoodwindsDropdown.value == 0, {
@@ -1388,6 +1406,9 @@ Volume:"++obj.value).asString
 			//~celloDynamicButton.valueAction_(0);
 			~celloAudioHaltKey = 1;
 		});
+		if(~voicesDynamicButton.value != 0, {
+			~voicesAudioHaltKey = 1;
+		});
 
 		switch(~instrumentGroupBrassDropdown.item,
 			"Horn", {~spectraDynamicButtonAction.value(obj:obj, instrument:"horn", instrumentGroup:"trumpet", harmonicAmount:16, fundamentalNote:60);},
@@ -1418,6 +1439,9 @@ Volume:"++obj.value).asString
 			//~fluteDynamicButton.valueAction_(0);
 			~fluteAudioHaltKey = 1;
 		});
+		if(~voicesDynamicButton.value != 0, {
+			~voicesAudioHaltKey = 1;
+		});
 
 		switch(~instrumentGroupStringsDropdown.item,
 			"Cello", {~spectraDynamicButtonAction.value(obj:obj, instrument:"cello", instrumentGroup:"cello", harmonicAmount:16, fundamentalNote:60);},
@@ -1428,7 +1452,7 @@ Volume:"++obj.value).asString
 	});
 
 	// Tenor Dynamic
-	~voice_tenorDynamicButton = r = Button(w, Rect(620, 457.5+~lowerButtons, 90, 26))
+	~voicesDynamicButton = ~voice_tenorDynamicButton = r = Button(w, Rect(620, 457.5+~lowerButtons, 90, 26))
 	.states_([["Voice", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Voice", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({
@@ -1448,16 +1472,26 @@ Volume:"++obj.value).asString
 			//~fluteDynamicButton.valueAction_(0);
 			~fluteAudioHaltKey = 1;
 		});
+		if(~celloDynamicButton.value != 0, {
+			//~celloDynamicButton.valueAction_(0);
+			~celloAudioHaltKey = 1;
+		});
 
-		~spectraDynamicButtonAction.value(obj:obj, instrument:"voice_tenor", harmonicAmount:16, fundamentalNote:51);
+		switch(~instrumentGroupVoicesDropdown.item,
+			"Tenor", {~spectraDynamicButtonAction.value(obj:obj, instrument:"voice_tenor", instrumentGroup:"voices", harmonicAmount:16, fundamentalNote:60);},
+			"Soprano", {~spectraDynamicButtonAction.value(obj:obj, instrument:"voice_soprano", instrumentGroup:"voices", harmonicAmount:16, fundamentalNote:72);}
+		);
+
+
+		//~spectraDynamicButtonAction.value(obj:obj, instrument:"voice_tenor", harmonicAmount:16, fundamentalNote:51);
 	});
 
 
 	// Hide Voices for now
-	StaticText(w, Rect(620, 413, 90, 35)).background_(Color.white);
+	/*StaticText(w, Rect(620, 413, 90, 35)).background_(Color.white);
 		StaticText(w, Rect(620, 413+40, 90, 35)).background_(Color.white);
 		StaticText(w, Rect(620, 413+80, 90, 35)).background_(Color.white);
-		StaticText(w, Rect(620, 413+120, 90, 35)).background_(Color.white);
+		StaticText(w, Rect(620, 413+120, 90, 35)).background_(Color.white);*/
 
 
 //Define the slider sounds to be played

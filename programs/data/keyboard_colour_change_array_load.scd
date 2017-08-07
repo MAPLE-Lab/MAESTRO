@@ -30,4 +30,5 @@
 }
 
 //~keyNoteColorChangeFunctionMeans_dataLoad.value(instrument:"violin")
-//~harmonicsMeansDataArray[1]
+//~harmonicsMeansDataArray[1].drop(1)
+

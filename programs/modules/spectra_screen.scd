@@ -374,13 +374,13 @@ if(~module_ID == "spectra",{
 		//If it is, all 16 harmonics are playing; otherwise, run a WHILE code
 		if(
 			and(
-				(~celloAudioHaltKey + ~trumpetAudioHaltKey + ~fluteAudioHaltKey + ~hornAudioHaltKey) == 4,
+				(~celloAudioHaltKey + ~trumpetAudioHaltKey + ~fluteAudioHaltKey + ~hornAudioHaltKey + ~voicesAudioHaltKey) == 5,
 
 				and(
 
-				(~stringsAudioButton.value + ~brassAudioButton.value + ~woodwindsAudioButton.value + ~percussionAudioButton.value) == 0,
+				(~stringsAudioButton.value + ~brassAudioButton.value + ~woodwindsAudioButton.value + ~percussionAudioButton.value + ~voicesAudioButton.value) == 0,
 
-					(~stringsPowerButton.value + ~brassPowerButton.value + ~woodwindsPowerButton.value + ~percussionPowerButton.value) == 0
+					(~stringsPowerButton.value + ~brassPowerButton.value + ~woodwindsPowerButton.value + ~percussionPowerButton.value + ~voicesPowerButton.value) == 0
 				)
 			), { // If a Dynamic sound is NOT playing, caluclate; otherwise just assume 16
 			if(~energyTruncated.last == 0, {

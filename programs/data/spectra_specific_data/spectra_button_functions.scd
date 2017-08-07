@@ -76,6 +76,7 @@
 	if(~trumpetPowerButton.value == 1, {~trumpetPowerButton.valueAction_(0)});
 	if(~flutePowerButton.value == 1, {~flutePowerButton.valueAction_(0)});
 	if(~hornPowerButton.value == 1, {~hornPowerButton.valueAction_(0)});
+	if(~voicesPowerButton.value == 1, {~voicesPowerButton.valueAction_(0)});
 };
 
 
@@ -135,7 +136,7 @@
 
 		~vinbutton.valueAction_(0);
 
-		["Sum of keys", (~celloAudioHaltKey + ~trumpetAudioHaltKey + ~fluteAudioHaltKey + ~hornAudioHaltKey)].postln;
+		["Sum of keys", (~celloAudioHaltKey + ~trumpetAudioHaltKey + ~fluteAudioHaltKey + ~hornAudioHaltKey + ~voicesAudioHaltKey)].postln;
 	},{
 		(instrumentGroup + "obj.value == 0").postln;
 
@@ -169,11 +170,11 @@
 					[("~" ++ instrument ++ "AudioHaltKey").asString, ("~" ++ instrument ++ "AudioHaltKey").interpret].postln;
 				});*/
 
-				["Sum of keys", (~celloAudioHaltKey + ~trumpetAudioHaltKey + ~fluteAudioHaltKey + ~hornAudioHaltKey)].postln;
+				["Sum of keys", (~celloAudioHaltKey + ~trumpetAudioHaltKey + ~fluteAudioHaltKey + ~hornAudioHaltKey + ~voicesAudioHaltKey)].postln;
 
 		if(
 			and(
-				(~celloAudioHaltKey + ~trumpetAudioHaltKey + ~fluteAudioHaltKey + ~hornAudioHaltKey) >= 3
+				(~celloAudioHaltKey + ~trumpetAudioHaltKey + ~fluteAudioHaltKey + ~hornAudioHaltKey + ~voicesAudioHaltKey) >= 4
 				, ~spectraPowerButtonStatus == 0)
 		, {
 			~button.valueAction_(0);
@@ -196,6 +197,7 @@
 	if(~trumpetDynamicButton.value == 1, {~trumpetDynamicButton.valueAction_(0)});
 	if(~hornDynamicButton.value == 1, {~hornDynamicButton.valueAction_(0)});
 	if(~celloDynamicButton.value == 1, {~celloDynamicButton.valueAction_(0)});
+	if(~voicesDynamicButton.value == 1, {~voicesDynamicButton.valueAction_(0)});
 };
 
 
@@ -204,6 +206,7 @@
 	if(~trumpetDynamicButton.value == 1, {~trumpetAudioHaltKey = 1});
 	if(~hornDynamicButton.value == 1, {~hornAudioHaltKey = 1});
 	if(~celloDynamicButton.value == 1, {~celloAudioHaltKey = 1});
+	if(~voicesDynamicButton.value == 1, {~voicesAudioHaltKey = 1});
 };
 
 
@@ -249,7 +252,7 @@
 					or(~trumpetAudioButton.value == 1,
 						or(~fluteAudioButton.value == 1,
 							or(~hornAudioButton.value == 1,
-								~voice_tenorAudioButton.value == 1)
+								~voicesAudioButton.value == 1)
 							)
 					)
 				),
@@ -315,7 +318,7 @@
 			"clarinet", {AppClock.sched(3, {if(howLongPlaying > 29, {~woodwindsAudioButton.valueAction_(0); "Clarinet audio finished.".postln});})},
 			"marimba", {AppClock.sched(1.2, {if(howLongPlaying > 11, {~percussionAudioButton.valueAction_(0); "Marimba audio finished.".postln});})},
 			"piano", {AppClock.sched(3, {if(howLongPlaying > 29, {~percussionAudioButton.valueAction_(0); "Piano audio finished.".postln});})},
-			"voice_tenor", {AppClock.sched(9.5, {if(howLongPlaying > 14, {~voice_tenorAudioButton.valueAction_(0); "Tenor audio finished.".postln});})},
+			"voice_tenor", {AppClock.sched(2.5, {if(howLongPlaying > 24, {~voice_tenorAudioButton.valueAction_(0); "Tenor audio finished.".postln});})},
 			"voice_soprano", {AppClock.sched(3.3, {if(howLongPlaying > 32, {~voicesAudioButton.valueAction_(0); "Soprano audio finished.".postln});})}
 		);
 
@@ -343,4 +346,5 @@
 	if(~trumpetAudioButton.value == 1, {~trumpetAudioButton.valueAction_(0)}); //v.free;
 	if(~hornAudioButton.value == 1, {~hornAudioButton.valueAction_(0)}); //t.free;
 	if(~celloAudioButton.value == 1, {~celloAudioButton.valueAction_(0)}); //y.free;
+	if(~voicesAudioButton.value == 1, {~voicesAudioButton.valueAction_(0)});
 };
