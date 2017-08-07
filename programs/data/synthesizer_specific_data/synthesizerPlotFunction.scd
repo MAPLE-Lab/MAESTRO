@@ -10,7 +10,7 @@
 	offCurve = ("~offCurve" ++ j).interpret.value.interpret;
 	intensityValue = ("~intensity" ++ j).interpret.value.interpret;
 
-	intensityPeak = intensityValue*0.2;
+	intensityPeak = intensityValue; //*0.2; This is confusing, as this *0.2 is hidden from the user during use
 
 	Env.new(levels:[0,0,intensityPeak,intensityPeak,0], times:[startTime, attackTime, sustainTime, releaseTime], curve:[0,onCurve,0,offCurve]).plot;
 

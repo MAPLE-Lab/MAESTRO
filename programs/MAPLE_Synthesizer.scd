@@ -324,7 +324,7 @@ s.sendBundle(2, //sound delay
 });
 
 
-	~scope2button1 = Button(w, Rect(250+120, 335-20, 120, 20))
+	/*~scope2button1 = Button(w, Rect(250+120, 335-20, 120, 20))
 .states_([
 	["Set Osc. to ~Freq.1", Color.white,Color(0.4824, 0.4863, 0.4863,1)]
 ])
@@ -358,7 +358,7 @@ s.sendBundle(2, //sound delay
 		});
 
 	}
-	);
+	);*/
 
 
 
