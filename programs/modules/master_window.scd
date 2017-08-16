@@ -19,7 +19,7 @@ false) //Cannot be resized by user.
 .font_(Font("nil", 12))
 .align_(\topLeft)
 .background_(Color(0,0,0,0))
-.stringColor_(Color.black);
+.stringColor_(Color.clear); // Now seen in inspector window
 
 //Displays name of the fundamental note
 	~note_name = StaticText(w,Rect(

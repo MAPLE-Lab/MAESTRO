@@ -3,7 +3,7 @@ var basePath = thisProcess.nowExecutingPath.asString.dirname;
 
 // Window for the Keyboard
 ~keyboardWindow = Window.new("Keyboard", Rect(
-	Window.screenBounds.width/2-((420+20+20+620)/2),50,
+	Window.screenBounds.width/2-((420+20+20+620)/2),w.bounds.top-190,
 	420+20+20+620,190), false, true).front.background_(Color.grey(1)).userCanClose_(true);
 
 // Label for title // Necessary if remove the top part eventually to avoid confusion on closing - but maybe onClose it resets the key_vis button properly anyways so no need

@@ -3,10 +3,10 @@
 Window.new(
 	"Inspector",
 	Rect(
-		0,
-		Window.screenBounds.height/2+100,
+		w.bounds.left-300,
+		Window.screenBounds.height/2-100,
 		300/*+400*/,
-		200),
+		400),
 	false)
 .front
 .background_(Color.grey(0.85));
@@ -30,19 +30,26 @@ Towards: Pre-release v0.1.3-beta
 .background_(Color(1,1,1,0))
 .stringColor_(Color(0.2510,0.2510,0.2510,1));
 
-~inspectorText = StaticText(~inspectorWindow,Rect(10,70,280,210))
+~inspectorText = StaticText(~inspectorWindow,Rect(10,70+120,280,210))
 .string_("Hover over an object to get information.")
 .font_(Font("Helvetica", 12, false))
 .align_(\topLeft)
 .background_(Color(1,1,1,0))
 .stringColor_(Color(0.2510,0.2510,0.2510,1));
 
-~inspectorError = StaticText(~inspectorWindow,Rect(10,140,280,210))
-.string_("Errors posted here.")
-.font_(Font("Helvetica", 12, false, true))
+~inspectorModuleParagraph = StaticText(~inspectorWindow,Rect(10,70,280,210))
+.string_(~para.string)
+.font_(Font("Helvetica", 12, true))
 .align_(\topLeft)
 .background_(Color(1,1,1,0))
-.stringColor_(Color(0.8,0,0,1));
+.stringColor_(Color(0.2510,0.2510,0.2510,1));
+
+// ~inspectorError = StaticText(~inspectorWindow,Rect(10,140,280,210))
+// .string_("Errors posted here.")
+// .font_(Font("Helvetica", 12, false, true))
+// .align_(\topLeft)
+// .background_(Color(1,1,1,0))
+// .stringColor_(Color(0.8,0,0,1));
 
 /*( // Moved to SPECTRA directly under the panel
 // CompositeView for the SPECTRA Harmonics Panel

@@ -51,6 +51,12 @@ w = Window.new("MAPLE Lab Spectra Demonstration (Beta)", Rect.new(
 	(basePath +/+  "data/spectra_harmonics_panel_hover_enter.scd").load; // Load the function for updating the information panel below the harmonics panel
 	~lowerButtons = 40; // For Button heights
 	(basePath +/+  "data/spectra_specific_data/spectra_set_to_custom_functions.scd").load; // Any change from a preset goes to Custom name
+		(~trace +/+  "data/oscilloscopeButtonFunctions.scd").load; // Load the oscilloscope button functions
+
+
+	// Title and labels
+		~masterTitle = StaticText(w, Rect(0,0,800,40)).string_("Spectra").align_(\center).font_(Font(nil, 14, true));
+
 
 //Label for paragraph
 ~para = StaticText(w,Rect(10,10,790-50,80))
@@ -58,7 +64,7 @@ w = Window.new("MAPLE Lab Spectra Demonstration (Beta)", Rect.new(
 .font_(Font("nil", 12))
 .align_(\topLeft)
 .background_(Color(0,0,0,0))
-.stringColor_(Color.black);
+.stringColor_(Color.clear); // Now shown in inspector
 
 /*
 	//HIDE SPECTRA EDGES
@@ -298,6 +304,17 @@ x.set(
 			~synth_menu.items_(["Sine", "Square", "Triangle", "Sawtooth", "Rev. Sawtooth", "Instruments", "Custom"]);
 			~synth_menu.font_(Font(\size, 12));
 
+			~synth_menu
+			.mouseOverAction_({
+				if(~inspectorExists == 1, {
+					~inspectorText.string_("Select a sound preset from this dropdown menu, then press the play button.")
+			});})
+			.mouseLeaveAction_({
+				if(~inspectorExists == 1, {
+					~inspectorText.string_(" ")
+			});});
+
+
 			~synth_menu.background_(Color(0.7569-0.1,0.1373-0.1,0.1725-0.1,1));
 			~synth_menu.stringColor_(Color.black);
 			~synth_menu.action = { //arg menu;
@@ -361,7 +378,7 @@ x.set(
 
 		//~freqslider.valueAction_(69.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
 
-					//~volslider.valueAction_(1.value.linlin(0,1,0,1));
+							~volslider.valueAction_(0.4.value.linlin(0,1,0,1));
 
 					~soundPhaseArrayButton.valueAction_(2);
 					~fNsliderAction.value(intensityArray:[2]);
@@ -371,14 +388,17 @@ x.set(
 					if(~button.value == 1,
 						{~button.valueAction_(1)});
 
-		~instrumentsCover.bounds_(Rect(10,410+2,(790-10), 120+~lowerButtons));
+		~instrumentsCover.bounds_(Rect(10,410+2,(790-10), 120+~lowerButtons))
+					.string_("The sine wave is a pure tone, as it only has a single wave.
+Therefore, by complex sounds can be constructed from several sine waves which vary in frequency, intensity, and phase.
+A cosine wave is the same as a sine wave but its phase has been shifted by pi.").align_(\topLeft);
 	},
 
 
 				{ //Square
 
 		//~freqslider.valueAction_(69.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
-		//~volslider.valueAction_(1.value.linlin(0,1,0,1));
+							~volslider.valueAction_(0.4.value.linlin(0,1,0,1));
 
 					~soundPhaseArrayButton.valueAction_(2);
 					~fNsliderAction.value(intensityArray:[ 0.5, 0, 0.16, 0, 0.09, 0, 0.065, 0, 0.055, 0, 0.04, 0, 0.03, 0, 0.035, 0 ]*2);
@@ -393,7 +413,10 @@ x.set(
 				~k.valueAction_(0);
 								~j.valueAction_(0);*/
 
-					~instrumentsCover.bounds_(Rect(10,410+2,(790-10), 120+~lowerButtons));
+					~instrumentsCover.bounds_(Rect(10,410+2,(790-10), 120+~lowerButtons)).string_(
+						"The square wave is composed of an incomplete harmonic series, where only the odd harmonics are played (i.e. 1, 3, 5, etc.).
+Each odd harmonic's intensity is given by the formula " ++ ("1/n").asCompileString ++ " where n is the harmonic number.
+The phases for all the harmonics must be the same to create the square wave.").align_(\topLeft);
 
 	},
 
@@ -423,7 +446,7 @@ x.set(
 					~fNsliderAction.value(intensityArray:~triangleIntensityArray*2);
 
 	//	~freqslider.valueAction_(440.value.explin(100,1000,0,1)); //only need to affect slider to affect the number box and true sound value
-		//~volslider.valueAction_(1.value.linlin(0,1,0,1));
+							~volslider.valueAction_(0.4.value.linlin(0,1,0,1));
 
 
 		/*~f1slider.valueAction_(1.00.value.linlin(0.0,2,0,1));
@@ -452,15 +475,18 @@ x.set(
 				~k.valueAction_(0);
 								~j.valueAction_(0);*/
 
-					~instrumentsCover.bounds_(Rect(10,410+2,(790-10), 120+~lowerButtons));
+					~instrumentsCover.bounds_(Rect(10,410+2,(790-10), 120+~lowerButtons)).string_(
+						"The triangle wave is composed of an incomplete harmonic series, where only the odd harmonics are played (i.e. 1, 3, etc.).
+Each odd harmonic's intensity is given by the formula " ++ ("1/(n^2)").asCompileString ++ " where n is the harmonic number.
+The phases each successive played harmonic is shifted by pi. For example, if the 1st harmonic has a phase of 0, the 3rd harmonic has a phase of pi, followed by a phase of 0 again for the 5th harmonic. The phase of the 2nd and 4th (or any of the even harmonics) is inconsequential as they are not played in the triangle wave.
+").align_(\topLeft);
 
 	},
 
 				{ // Sawtooth
 
 		//~freqslider.valueAction_(69.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
-		//~volslider.valueAction_(0.8.value.linlin(0,1,0,1));
-
+		~volslider.valueAction_(0.3.value.linlin(0,1,0,1));
 
 
 					/*~sawIntensityArray = Array.fill(16, {
@@ -481,12 +507,17 @@ x.set(
 				~k.valueAction_(0);
 								~j.valueAction_(0);*/
 
-					~instrumentsCover.bounds_(Rect(10,410+2,(790-10), 120+~lowerButtons));
+					~instrumentsCover.bounds_(Rect(10,410+2,(790-10), 120+~lowerButtons)).string_(
+						"The sawtooth wave is composed of a complete harmonic series.
+Each odd harmonic's intensity is given by the formula " ++ ("1/n").asCompileString ++ " where n is the harmonic number.
+To create a sawtooth wave, the phase of all harmonics played must be pi.
+Because the sawtooth wave has all the harmonics, it can be compared to brass instruments such as the trumpet.
+").align_(\topLeft);
 	},
 				{ // Reverse Sawtooth - same as Sawtooth except phase is 0
 
 		//~freqslider.valueAction_(69.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
-		//~volslider.valueAction_(0.8.value.linlin(0,1,0,1));
+		~volslider.valueAction_(0.3.value.linlin(0,1,0,1));
 
 
 
@@ -508,16 +539,23 @@ x.set(
 				~k.valueAction_(0);
 								~j.valueAction_(0);*/
 
-					~instrumentsCover.bounds_(Rect(10,410+2,(790-10), 120+~lowerButtons));
+					~instrumentsCover.bounds_(Rect(10,410+2,(790-10), 120+~lowerButtons)).string_("The reverse sawtooth wave is composed of a complete harmonic series.
+Each odd harmonic's intensity is given by the formula " ++ ("1/n").asCompileString ++ " where n is the harmonic number.
+To create a sawtooth wave, the phase of all harmonics played must be 0.
+Because the reverse sawtooth wave has all the harmonics, it can be compared to brass instruments such as the trumpet.
+").align_(\topLeft);
 	},
 
 				{//"Instruments (harmonics panel)".postln;
+
 
 					if(x.isPlaying, {x.free});
 
 
 
+
 					~button.valueAction_(0); // Automatically start in the off position
+							~volslider.valueAction_(0.4.value.linlin(0,1,0,1));
 
 					/*~l.valueAction_(0);
 				~k.valueAction_(0);
@@ -533,6 +571,7 @@ x.set(
 				},
 				{// Custom
 
+					~instrumentsCover.string_("").align_(\topLeft);
 
 
 				}
@@ -1041,16 +1080,14 @@ s.makeBundle(1.0, //sound delay -~knob.value.linlin(0,1,0,0.5)
 ~volslider = Slider(w, Rect(50,145,20,230))
 	.background_(Color(0.0118,0.0118,0.0118,1))
 	.value_(0.4)
-	/*.mouseOverAction_({
+	.mouseOverAction_({
 	if(~inspectorExists == 1, {
-		~inspectorText.string_(("Volume Slider status:
-Volume:"++~volslider.value).asString
-)
+			~inspectorText.string_("Use this black slider to change the volume of all sounds playing.")
 });})
 .mouseLeaveAction_({
 	if(~inspectorExists == 1, {
 		~inspectorText.string_(" ")
-});})*/
+});})
 	.action_({
 	arg obj;
 	var cf;
@@ -1607,8 +1644,15 @@ NumberBox(~inspectorHarmonicsPanel, Rect(193+2,0,40,15))
 
 ~inspectorHarmonicsPanel_intensity_text =
 StaticText(~inspectorHarmonicsPanel, Rect(245+2,0,115,15))
-		.string_(" Rel. Intensity (I/H1):")
+		.string_(" Rel. Intensity        :")
 .font_(Font("Helvetica", 12, false))
+.align_(\left)
+		.stringColor_(Color.grey(0));
+
+		~inspectorHarmonicsPanel_intensity_text_units =
+StaticText(~inspectorHarmonicsPanel, Rect(245+2+74,-1,115,15))
+		.string_("(1/H1)")
+.font_(Font("Arial", 9, false))
 .align_(\left)
 		.stringColor_(Color.grey(0));
 
@@ -1661,7 +1705,9 @@ NumberBox(~inspectorHarmonicsPanel, Rect(294+55,0,45,15))
 		(if(~key_vis.value == 1, {
 			~keyboardWindow.close;
 		}));
-
+		(if(~scopebutton.value == 1, {
+				~oscilloscopeCloseFunction.value;
+			}));
 		w.close;
 		(basePath +/+ "splashscreen.scd").loadPaths;
 		});
@@ -1677,45 +1723,8 @@ NumberBox(~inspectorHarmonicsPanel, Rect(294+55,0,45,15))
 	/*arg obj;
 	if(obj.value == 1,
 		{*/
-
-
 		arg obj;
-
-		if(obj.value == 1, {
-				~w2 = Window.new("Oscilloscope", Rect.new(
-	Window.screenBounds.width/2+420,
-	500,
-		250,250),false).background_(Color.white).userCanClose_(true).front;
-
-		~d = Stethoscope.new(s, 1,view:~w2) //.scope//nil causes it to open in its own window
-				// .xZoom_(5) //is only setting slider, isn't changing view properly
-				// .cycle_(50) //same problem as xZoom: workaround, use a button for 440Hz
-				.yZoom_(4);
-
-				/*( //still not auto-setting
-s.sendBundle(2, //sound delay
-				["/s_new", "d", ~nam = s.nextNodeID, 1, 1, s.cycle_(501)]; //nam to ensure it doesn't override any other variables
-				););*/
-
-
-
-				// ~d.cycle_(3000);
-				// ~d.scope(zoom:4);
-		//~d.bufsize;
-
-		// AUTO on open autoscale:
-			AppClock.sched(0.01, {~d.cycle_(5*44100/~fundamental_freq);});
-
-
-		/*	}*//*,
-		{
-				// ~w2.close;
-				// ~d.quit //had to comment these two to make it not error as can't interpret - maybe these should open as default?
-			}*/
-	/*);*/
-		},{
-			~w2.close;
-		});
+		~oscilloscopeButtonFunction.value(obj:obj);
 });
 
 
@@ -1772,7 +1781,7 @@ arg obj;
 //Aesthetic lines
 	w.drawFunc = {
 		~house_icon.drawInRect(Rect(760,65,30,30), Rect(0,0,30,30), 2, 1.0);
-		~maple_icon.drawInRect(Rect(760,15,30,30), Rect(0,0,30,30), 2, 1.0);
+		~maple_icon.drawInRect(Rect(720,65,30,30), Rect(0,0,30,30), 2, 1.0);
 		~keyboard_image.drawInRect(Rect(575,70,60,25), Rect(0,0,60,25), 2, 1.0);
 		Pen.line(10@530,790@530); //Sixth line
 		Pen.line(10@490,790@490); //Fifth line
@@ -1904,6 +1913,16 @@ s.makeBundle(1.0, //sound delay
 		});
 	});
 
+	( // Start with windows open
+AppClock.sched(0.01,{
+			~inspector.valueAction_(1); // Start with the inspector window open
+
+			~scopebutton.valueAction_(1); // Start with the oscilloscopes open
+
+			~key_vis.valueAction_(1); // Start with the keyboard window open
+    nil;
+});
+);
 
 w.onClose_({
 

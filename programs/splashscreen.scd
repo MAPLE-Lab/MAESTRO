@@ -6,7 +6,7 @@ s.waitForBoot({ //Ensures it only opens once the server is working completely, a
     j = Image.new(thisProcess.nowExecutingPath.asString.dirname +/+ "images/background_from_website.png");
 		t = Window.new("MAPLE Lab Auditory Exploration Suite (Beta)", Rect(
 	Window.screenBounds.width/2-400,
-	Window.screenBounds.height/2-50,
+	Window.screenBounds.height/2-100,
 		800,500), false)
 		.background_(Color.white)
 		.front

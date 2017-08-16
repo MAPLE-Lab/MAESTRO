@@ -10,6 +10,8 @@
 
 	~empty = " ";
 
+//	~hovertext = "Change the heights of these sliders to modify the relative intensities of each harmonic";
+
 // Compile it as a single function which is the executed, which finally sets the global variable names with their respective sliders
 	(
 		"~f"++item++"slider" + "=" + "Slider(w, Rect(" ++ i ++ "*20+70,145,20,230))"
@@ -18,6 +20,11 @@
 .background_(Color(0.8,0.8,0.8,0.75))
 .value_(0.5)
 .mouseOverAction_({
+
+if(~inspectorExists == 1, {
+~inspectorText.string_(" ++ ("Change the heights of these sliders to modify the relative intensities of each harmonic").asCompileString ++ ")
+});
+
 		~slider_hover =" + item
 		++
 		"; ~inspectorHarmonicsPanelUpdate.value;

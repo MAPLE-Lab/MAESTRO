@@ -30,10 +30,17 @@ var basePath = thisProcess.nowExecutingPath.asString.dirname;
 ~master_window_bounds_array = [Window.screenBounds.width/2-250, Window.screenBounds.height/2-50, 500, 570];
 (basePath +/+  "modules/master_window.scd").load;
 
+// Title and labels
+		~masterTitle = StaticText(w, Rect(0,0,500,40)).string_("Tuning").align_(\center).font_(Font(nil, 14, true));
+
+
 //Descriptive paragraph at top
 ~para.string_(
 "Welcome to the MAPLE Lab Overtone 'Popout' Demonstration (Beta)! Using the parameters below, you can examine the fusion effect. Select the number of harmonics and which harmonic to move out-of-tune using the dropdown menus. Use the Play/Stop button to start and stop the sound. To explore how fusion/unfusion occurs, use the slider to change the deviation of the selected harmonic."
 	);
+
+			(~trace +/+  "data/oscilloscopeButtonFunctions.scd").load; // Load the oscilloscope button functions
+
 
 //Load graphics elements
 ~house_icon = Image.new(basePath +/+ "images/house-small.png");
@@ -44,7 +51,7 @@ var basePath = thisProcess.nowExecutingPath.asString.dirname;
 w.drawFunc = {
 		//Images underneath buttons
 		~house_icon.drawInRect(Rect(460,95,30,30), Rect(0,0,30,30), 2, 1.0);
-			~maple_icon.drawInRect(Rect(460,12,30,30), Rect(0,0,30,30), 2, 1.0);
+			~maple_icon.drawInRect(Rect(420,95,30,30), Rect(0,0,30,30), 2, 1.0);
 		~keyboard_image.drawInRect(Rect(250+75,330,60,25), Rect(0,0,60,25), 2, 1.0);
 
 		//Draw lines
@@ -111,11 +118,11 @@ w.drawFunc = {
 
 //VOLUME
 //Properties of the slider
-	~volume_value = 1.2;
+	~volume_value = 0.4; // To start
 
 ~volslider = Slider(w, Rect(160,140+150,330,15))
 	.background_(Color(0.0118,0.0118,0.0118,1))
-	.value_(0.3)
+	.value_(0.1)
 	.action_({
 	arg obj;
 	var cf;
@@ -141,7 +148,7 @@ w.drawFunc = {
 ~numberVBox = NumberBox(w,Rect(85,140+150,72,15))
 	.normalColor_(Color.white)
 	.background_(Color(0.0118,0.0118,0.0118,1))
-	.value_(0.3)
+	.value_(0.1)
 .clipLo_(0)
 .clipHi_(1)
 .font_(Font("nil",7))
@@ -326,7 +333,6 @@ SynthDef.new("sound", {
 	SinOsc.ar(freq*(16+(outoftune*choose16)),
 				0, ((mul*(1-choose16))+(mul2*choose16))*((other*(1-choose16))+(intensity*(choose16)))*vol*harmToggle16)
 	;
-//ORIGINALLY: the third harmonic can be varied 720-778, using Dr. Steven Brown's 2MP3 2015-2016 class; while estimation that critical bandwidth at this frequency is approximately 150, so 150/4 = 37.5, and 720+37.5 =757.5 and derivation of the two-tone dissonance formula from Plomp 1965 gives g_max = 1.01931f + 17.4672 = 751.3704, this does not necessarily mean it gives the most 'unfused' effect for students
 	Out.ar([0,1], signal); //sends to busses 1 & 2 (stereo), and plays the var "signal"
 }).add;
 );
@@ -377,6 +383,7 @@ SynthDef.new("sound", {
 		x.isPlaying,
 		{x.set(\outoftune,cf)});
 	~numberBox.value_(obj.value.linlin(0,1,-1,1));
+			~calculateCents.value;
 
 
 //Deviant control for keyboard GUI to shift the inner fill square
@@ -553,23 +560,31 @@ if(~deviant_move.sign >= 0,
 //Number box that can edit slider position
 ~numberBox = NumberBox(w,Rect(85+35,200+65+30-140,72-35,30))
 .value_(0)
-.clipLo_(-1)
-.clipHi_(1)
+//.clipLo_(-1)
+//.clipHi_(1)
 .font_(Font("nil",12))
 .decimals_(2)
 .align_(\center)
-.action_({
+		//.normalColor_(Color.clear)
+/*.action_({
 	arg obj;
 	~freqslider.valueAction_(obj.value.linlin(-1,1,0,1))
-});
+})*/;
+
+		~centsBox = NumberBox(w,Rect(85+35,200+65+30-140,72-35,30))
+.value_(0)
+//.clipLo_(-1)
+//.clipHi_(1)
+.font_(Font("nil",12))
+.decimals_(2)
+.align_(\center);
 
 //Button to reset deviant
 ~reset = Button(w, Rect(250-(200/2)-65,200+65+30-140,35,30))
 .states_([
-	["Reset
-to 0", Color.white,Color(0.4824, 0.4863, 0.4863,1)]
+	["Reset", Color.white,Color(0.4824, 0.4863, 0.4863,1)]
 ])
-.font_(Font("nil", 8))
+.font_(Font("nil", 10))
 .action_({
 		~freqslider.valueAction_(3.value.linlin(2,4,0,1));
 });
@@ -1226,12 +1241,11 @@ snd = funcs2.at(menu2.value).play;
 	~coverBox.string = "Select a harmonic to deviate from the
 Harmonic (mistuned) dropdown menu";
 
-//Inspector button (remove upon Release)
-~inspector = Button.new(w, Rect(10, 100, 20, 20))
+//Inspector button
+		~inspector = Button.new(w, Rect(10, 100, 20, 20))
 	.states_([["(i)", Color.white, Color.gray], ["(i)", Color.gray, Color.black]])
 	.font_(Font("nil", 10))
-	.action_
-	({ arg obj;
+	.action_({ arg obj;
 		if(obj.value == 1, {
 		(basePath +/+  "modules/inspector.scd").loadPaths;
 		},
@@ -1239,6 +1253,7 @@ Harmonic (mistuned) dropdown menu";
 ~inspectorWindow.close;
 		});
 	});
+
 
 //Q. Quit function
 (
@@ -1262,6 +1277,15 @@ Harmonic (mistuned) dropdown menu";
 			}));
 			(basePath +/+ "splashscreen.scd").loadPaths;
 		});
+);
+
+		( // Start with windows open
+AppClock.sched(0.01,{
+			~inspector.valueAction_(1); // Start with the inspector window open
+
+			~key_vis.valueAction_(1); // Start with the keyboard window open
+    nil;
+});
 );
 
 (

@@ -45,7 +45,12 @@ false) //Cannot be resized by user.
 
 
 		(basePath +/+  "data/tones_pitch_name.scd").load; // Load the function for updating the information panel below the harmonics panel
+	(~trace +/+  "data/oscilloscopeButtonFunctions.scd").load; // Load the oscilloscope button functions
 
+
+	//Record button - sends to Supercollider file in the Recordings section
+~record_button_bounds_array = [10, 40, 85, 20];
+(basePath +/+  "modules/record_button.scd").load;
 
 
 // SynthDefs define the sound to be played
@@ -192,14 +197,14 @@ SynthDef.new("sound3", {
 	AppClock.sched(0.01, {~sound3Synth = Synth("sound3", [\freq, 440, \differenceIntensity:0.0]);});
 
 
-	~fundamentalTitle = StaticText(w, Rect(50,70-20+120,500-100,20)).string_("Difference = Frequency 2 - Frequency 1");
+	~fundamentalTitle = StaticText(w, Rect(50,70-20+120,500-100,20)).string_("Difference Tone");
 	~differenceBox = NumberBox(w, Rect(10,70+120,40,20)).background_(Color.grey(0.2)).value_(440).normalColor_(Color.white);
 	~differenceMIDI = NumberBox(w, Rect(450,70+120,40,20)).background_(Color.grey(0.2)).value_(12).normalColor_(Color.white);
 
 	~differenceSlider = Slider(w, Rect(50,70+120,500-100,20)).knobColor_(Color.grey(0.2)).background_(Color.grey(0.2)).value_(1).action_({
 
-		~differenceBox.value_(~compareBox.value-~fundamentalBox.value);
-		~differenceMIDI.value_(~compareMIDI.value-~fundamentalMIDI.value);
+		~differenceBox.value_((~compareBox.value-~fundamentalBox.value).abs);
+		~differenceMIDI.value_((~compareMIDI.value-~fundamentalMIDI.value).abs);
 		~sound3Synth.set(\freq, ~differenceBox.value;);
 	});
 
@@ -283,6 +288,9 @@ w.drawFunc = {
 			(if(~inspectorExists == 1, {
 				~inspectorWindow.close;
 			}));
+			(if(~scopebutton.value == 1, {
+				~oscilloscopeCloseFunction.value;
+			}));
 			(basePath +/+ "splashscreen.scd").loadPaths;
 		});
 );
@@ -299,45 +307,8 @@ w.drawFunc = {
 	/*arg obj;
 	if(obj.value == 1,
 		{*/
-
-
 		arg obj;
-
-		if(obj.value == 1, {
-				~w2 = Window.new("Oscilloscope", Rect.new(
-	Window.screenBounds.width/2+420,
-	500,
-		250,250),false).background_(Color.white).userCanClose_(true).front;
-
-		~d = Stethoscope.new(s, 1,view:~w2) //.scope//nil causes it to open in its own window
-				// .xZoom_(5) //is only setting slider, isn't changing view properly
-				// .cycle_(50) //same problem as xZoom: workaround, use a button for 440Hz
-				.yZoom_(4);
-
-				/*( //still not auto-setting
-s.sendBundle(2, //sound delay
-				["/s_new", "d", ~nam = s.nextNodeID, 1, 1, s.cycle_(501)]; //nam to ensure it doesn't override any other variables
-				););*/
-
-
-
-				// ~d.cycle_(3000);
-				// ~d.scope(zoom:4);
-		//~d.bufsize;
-
-		// AUTO:
-			//AppClock.sched(0.01, {~d.cycle_(5*44100/~fundamental_freq);});
-
-
-		/*	}*//*,
-		{
-				// ~w2.close;
-				// ~d.quit //had to comment these two to make it not error as can't interpret - maybe these should open as default?
-			}*/
-	/*);*/
-		},{
-			~w2.close;
-		});
+		~oscilloscopeButtonFunction.value(obj:obj);
 });
 
 
