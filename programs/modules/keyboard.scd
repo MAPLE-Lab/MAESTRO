@@ -3,7 +3,12 @@ var basePath = thisProcess.nowExecutingPath.asString.dirname;
 
 // Window for the Keyboard
 ~keyboardWindow = Window.new("Keyboard", Rect(
+<<<<<<< HEAD
+	/*Window.screenBounds.width/2-((420+20+20+620)/2)*/
+	w.bounds.left,w.bounds.top-200,
+=======
 	Window.screenBounds.width/2-((420+20+20+620)/2),w.bounds.top-190,
+>>>>>>> b65f3eb83bd1defa69283b8e359090cf0d25d1bf
 	420+20+20+620,190), false, true).front.background_(Color.grey(1)).userCanClose_(true);
 
 // Label for title // Necessary if remove the top part eventually to avoid confusion on closing - but maybe onClose it resets the key_vis button properly anyways so no need
@@ -1006,7 +1011,7 @@ if(~octave_shift.value < 0,
 if(~module_ID == "spectra",
 		{
 		~knob_text = StaticText(~keyboardWindow, Rect(0+1000, 1, (420+20+20+620)-20-1000, 17)).string_("Gain").stringColor_(Color.black).align_(\right);
-~knob_keyboard = Knob.new(~keyboardWindow, Rect(580+430, 1, 17, 17)); //Knob version
+		~knob_keyboard = Knob.new(~keyboardWindow, Rect(580+430, 1, 17, 17)); //Knob version
 		// Slider(~keyboard, Rect(580, 1, 170, 17)); //Slider version
 ~knob_keyboard.action_({
 			~knob.valueAction_(~knob_keyboard.value);
@@ -1015,6 +1020,8 @@ if(~module_ID == "spectra",
 				{~knob_keyboard.background_(Color.red)},{~knob_keyboard.background_(Color.white)})
 		);
 		});
+
+		~knob_keyboard.valueAction_(0.5);
 }); //This controls the value of the invisible knob on the Spectra
 
 

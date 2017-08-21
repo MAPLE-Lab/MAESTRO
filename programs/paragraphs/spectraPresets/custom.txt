@@ -1,0 +1,1 @@
+Change volume, intensity, and fundamental frequency sliders to create and explore complex sounds.

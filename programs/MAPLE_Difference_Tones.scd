@@ -37,16 +37,21 @@ false) //Cannot be resized by user.
 .acceptsMouseOver_(true);
 
 	// Title and labels
-		~masterTitle = StaticText(w, Rect(0,0,500,40)).string_("Difference Tones").align_(\center).font_(Font(nil, 14, true));
-
-
-
+		// ~masterTitle = StaticText(w, Rect(0,0,500,40)).string_("Difference Tones").align_(\center).font_(Font(nil, 14, true));
 	);
 
 
 		(basePath +/+  "data/tones_pitch_name.scd").load; // Load the function for updating the information panel below the harmonics panel
 	(~trace +/+  "data/oscilloscopeButtonFunctions.scd").load; // Load the oscilloscope button functions
+<<<<<<< HEAD
 
+
+=======
+>>>>>>> b65f3eb83bd1defa69283b8e359090cf0d25d1bf
+
+	//Record button - sends to Supercollider file in the Recordings section
+~record_button_bounds_array = [10, 40, 85, 20];
+(basePath +/+  "modules/record_button.scd").load;
 
 	//Record button - sends to Supercollider file in the Recordings section
 ~record_button_bounds_array = [10, 40, 85, 20];
@@ -56,11 +61,11 @@ false) //Cannot be resized by user.
 // SynthDefs define the sound to be played
 (
 SynthDef.new("sound1", {
-	arg /*midi = 60*/ freq = 440;
+	arg /*midi = 60*/ freq = 440, fundamentalIntensity=1;
 
 	var mul, mul2, signal/*, freq*/;
 
-			mul = XLine.kr(0.01,1,0.2,0.1); //Ramps sound onset so not so harsh
+			mul = XLine.kr(0.01,1,0.2,0.1)*fundamentalIntensity; //Ramps sound onset so not so harsh
 
 			//freq = ((2**((-69+midi)/12))*440);
 
@@ -73,11 +78,11 @@ SynthDef.new("sound1", {
 
 	(
 SynthDef.new("sound2", {
-	arg /*midi = 60*/ freq = 440;
+	arg /*midi = 60*/ freq = 440, compareIntensity=1;
 
 	var mul, mul2, signal/*, freq*/;
 
-			mul = XLine.kr(0.01,1,0.2,0.1); //Ramps sound onset so not so harsh
+			mul = XLine.kr(0.01,1,0.2,0.1)*compareIntensity; //Ramps sound onset so not so harsh
 
 			//freq = ((2**((-69+midi)/12))*440);
 
@@ -98,7 +103,7 @@ SynthDef.new("sound3", {
 
 			//freq = ((2**((-69+midi)/12))*440);
 
-			mul = differenceIntensity*0.1;
+			mul = XLine.kr(0.01,1,0.2,0.1)*differenceIntensity;
 
 	signal = SinOsc.ar(freq,0, mul);
 
@@ -108,14 +113,16 @@ SynthDef.new("sound3", {
 
 // Sound Sliders
 
-	~frequencyLabel = StaticText(w, Rect(10,70-20,500-100,20)).string_("Hz");
-	~midiLabel = StaticText(w, Rect(450-40,70-20,40,20)).string_("MIDI").align_(\right);
-		~nameLabel = StaticText(w, Rect(450,70-20,40,20)).string_("Pitch").align_(\center);
+	~slidersLeftEdge = 90;
+	~slidersTopEdge = 100;
+	~slidersHeight = 150;
+	~spaceBetweenPrimaryFrequencySliders = 70;
+	~spaceBetweenFirstAndDifferenceSliders = 250;
 
 
-
-	~fundamentalTitle = StaticText(w, Rect(50,70-20,500-100,20)).string_("Frequency 1");
-	~fundamentalSlider = Slider(w, Rect(50,70,500-100-40,20)).value_(440.linlin(0,5000,0,1)).action_({
+	// Sound 1
+	~fundamentalTitle = StaticText(w, Rect(~slidersLeftEdge-5,~slidersTopEdge-40,50,20)).string_("Freq. 1").font_(Font(bold:true)).align_(\center);
+	~fundamentalSlider = Slider(w, Rect(~slidersLeftEdge,~slidersTopEdge,40,~slidersHeight)).value_(440.linlin(0,5000,0,1)).background_(Color.grey(0.95)).action_({
 		arg obj;
 		~fundamentalBox.value_(obj.value.linlin(0,1,0,5000));
 
@@ -128,22 +135,28 @@ SynthDef.new("sound3", {
 		~differenceTonePitchName.value(fundamentalNote:~fundamentalMIDI.value, outputToStaticText:~fundamentalName);
 		~differenceSlider.valueAction_((~compareMIDI.value-~fundamentalMIDI.value).linlin(-12,12,0,1));
 	});
-	~fundamentalBox = NumberBox(w, Rect(10,70,40,20)).value_(440).action_({
+	~fundamentalBox = NumberBox(w, Rect(~slidersLeftEdge,~slidersTopEdge-20,40,20)).value_(440).action_({
 		arg obj;
 		~fundamentalSlider.valueAction_(obj.value.linlin(0,5000,0,1))
 	});
-	~fundamentalMIDI = NumberBox(w, Rect(450-40,70,40,20)).value_(69).action_({
+	~fundamentalMIDI = NumberBox(w, Rect(~slidersLeftEdge,~slidersTopEdge+~fundamentalSlider.bounds.height+20,40,20)).value_(69).action_({
 		arg obj;
 		var val;
 		// ~midi2 = (log2(~compareBox.value/440)*12)+69;
 		val = ((2**((-69+obj.value)/12))*440);
 		~fundamentalBox.valueAction_(val);
 	});
-		~fundamentalName = StaticText(w, Rect(450,70,40,20)).string_("A4").align_(\center);
+		~fundamentalName = StaticText(w, Rect(~slidersLeftEdge,~slidersTopEdge+~fundamentalSlider.bounds.height,40,20)).string_("A4").align_(\center);
+
+	~fundamentalIntensitySlider = Knob(w, Rect(~slidersLeftEdge+12,~slidersTopEdge+~fundamentalSlider.bounds.height+42,15,15)).value_(1).action_({
+		arg obj;
+		~sound1Synth.set(\fundamentalIntensity, obj.value;);
+	});
 
 
-	~compareTitle = StaticText(w, Rect(50,70-20+50,500-100,20)).string_("Frequency 2");
-	~compareSlider = Slider(w, Rect(50,70+50,500-100-40,20)).value_(880.linlin(0,5000,0,1)).action_({
+	// Sound 2
+	~compareTitle = StaticText(w, Rect(~slidersLeftEdge-5+~spaceBetweenPrimaryFrequencySliders,~slidersTopEdge-40,50,20)).string_("Freq. 2").font_(Font(bold:true)).align_(\center);
+	~compareSlider = Slider(w, Rect(~slidersLeftEdge+~spaceBetweenPrimaryFrequencySliders,~slidersTopEdge,40,~slidersHeight)).value_(880.linlin(0,5000,0,1)).background_(Color.grey(0.90)).action_({
 		arg obj;
 		~compareBox.value_(obj.value.linlin(0,1,0,5000));
 
@@ -156,53 +169,44 @@ SynthDef.new("sound3", {
 		~differenceSlider.valueAction_((~compareMIDI.value-~fundamentalMIDI.value).linlin(-12,12,0,1));
 
 	});
-	~compareBox = NumberBox(w, Rect(10,70+50,40,20)).value_(880).action_({
+	~compareBox = NumberBox(w, Rect(~slidersLeftEdge+~spaceBetweenPrimaryFrequencySliders,~slidersTopEdge-20,40,20)).value_(880).action_({
 		arg obj;
 		~compareSlider.valueAction_(obj.value.linlin(0,5000,0,1))
 	});
-	~compareMIDI = NumberBox(w, Rect(450-40,70+50,40,20)).value_(81).action_({
+	~compareMIDI = NumberBox(w, Rect(~slidersLeftEdge+~spaceBetweenPrimaryFrequencySliders,~slidersTopEdge+~fundamentalSlider.bounds.height+20,40,20)).value_(81).action_({
 		arg obj;
 		var val;
 		// ~midi2 = (log2(~compareBox.value/440)*12)+69;
 		val = ((2**((-69+obj.value)/12))*440);
 		~compareBox.valueAction_(val);
 	});
-	~compareName = StaticText(w, Rect(450,70+50,40,20)).string_("A5").align_(\center);
+	~compareName = StaticText(w, Rect(~slidersLeftEdge+~spaceBetweenPrimaryFrequencySliders,~slidersTopEdge+~fundamentalSlider.bounds.height,40,20)).string_("A5").align_(\center);
 
-
-
-	// Play button
-	// Button to play the Basic SynthDef
-~playButton = Button.new(w, Rect(200,30,100,30))
-.states_([
-	["Sound OFF", Color.white, Color.red(0.5)],
-	["Sound ON", Color.white, Color.green(0.5)]
-])
-.action_({
-	arg obj;
-	if(obj.value == 1, {
-		~sound1Synth = Synth("sound1", [\freq, ~fundamentalBox.value]);
-			~sound2Synth = Synth("sound2", [\freq, ~compareBox.value]);
-	},{
-		~sound1Synth.free;
-			~sound2Synth.free;
+	~compareIntensitySlider = Knob(w, Rect(~slidersLeftEdge+~spaceBetweenPrimaryFrequencySliders+12,~slidersTopEdge+~fundamentalSlider.bounds.height+42,15,15)).value_(1).action_({
+		arg obj;
+		~sound2Synth.set(\compareIntensity, obj.value;);
 	});
-});
 
 
 	// Difference Data
+	// Immediately play the difference tone, but silent
+	/*AppClock.sched(0.01, {~sound3Synth = Synth("sound3", [\freq, 440, \differenceIntensity:0.0]);});*/
 
+	~differenceTitle = StaticText(w, Rect(~slidersLeftEdge+~spaceBetweenFirstAndDifferenceSliders-40,~slidersTopEdge-40,120,20)).string_("Difference Tone").font_(Font(bold:true)).align_(\center);
+	~differenceBox = NumberBox(w, Rect(~slidersLeftEdge+~spaceBetweenFirstAndDifferenceSliders,~slidersTopEdge-20,40,20)).background_(Color.grey(0.2)).value_(440).normalColor_(Color.white);
+	~differenceMIDI = NumberBox(w, Rect(~slidersLeftEdge+~spaceBetweenFirstAndDifferenceSliders,~slidersTopEdge+~fundamentalSlider.bounds.height+20,40,20)).background_(Color.grey(0.2)).value_(12).normalColor_(Color.white);
 
-		// Immediately play the difference tone, but silent
-	AppClock.sched(0.01, {~sound3Synth = Synth("sound3", [\freq, 440, \differenceIntensity:0.0]);});
+	~differenceSlider = Slider(w, Rect(~slidersLeftEdge+~spaceBetweenFirstAndDifferenceSliders,~slidersTopEdge,40,~slidersHeight)).knobColor_(Color.grey(0.2)).background_(Color.grey(0.2)).value_(1).action_({
 
-
+<<<<<<< HEAD
+=======
 	~fundamentalTitle = StaticText(w, Rect(50,70-20+120,500-100,20)).string_("Difference Tone");
 	~differenceBox = NumberBox(w, Rect(10,70+120,40,20)).background_(Color.grey(0.2)).value_(440).normalColor_(Color.white);
 	~differenceMIDI = NumberBox(w, Rect(450,70+120,40,20)).background_(Color.grey(0.2)).value_(12).normalColor_(Color.white);
 
 	~differenceSlider = Slider(w, Rect(50,70+120,500-100,20)).knobColor_(Color.grey(0.2)).background_(Color.grey(0.2)).value_(1).action_({
 
+>>>>>>> b65f3eb83bd1defa69283b8e359090cf0d25d1bf
 		~differenceBox.value_((~compareBox.value-~fundamentalBox.value).abs);
 		~differenceMIDI.value_((~compareMIDI.value-~fundamentalMIDI.value).abs);
 		~sound3Synth.set(\freq, ~differenceBox.value;);
@@ -212,13 +216,17 @@ SynthDef.new("sound3", {
 
 	~differenceLabelsArrayDouble = [~differenceLabelsArray.reverse.drop(-1), ~differenceLabelsArray].flatten;
 
-	~differenceSliderCover = StaticText(w, Rect(50,70+120,500-100,20));
+	~differenceSliderCover = StaticText(w, bounds:Rect(~differenceSlider.bounds.left,~differenceSlider.bounds.top-20,~differenceSlider.bounds.width,~differenceSlider.bounds.height+60));
 
-	~differenceLabelsDistance = 31.4/2;
+	~differenceLabelsFontSize = 6;
+
+	~differenceLabelsDistance = 5.35;
 	(13*2-1).do({
-		arg i;
+		arg i,j;
 
-		("StaticText(w, Rect(51+(" ++ i ++ "*~differenceLabelsDistance), 191+13, 20, 20)).font_(Font(nil, 8)).string_(~differenceLabelsArrayDouble[" ++ i ++ "]).stringColor_(Color.black).align_(" ++ "\\" ++ "center);").interpret;
+		if(i.even, {j = 0}, {j = 12});
+
+		("StaticText(w, Rect(~differenceSlider.bounds.left+~differenceSlider.bounds.width+" ++ j ++ ", ~differenceSlider.bounds.top+(" ++ i ++ "*~differenceLabelsDistance), 20, 20)).font_(Font(nil, ~differenceLabelsFontSize)).string_(~differenceLabelsArrayDouble[" ++ i ++ "]).stringColor_(Color.black).align_(" ++ "\\" ++ "left);").interpret;
 	});
 
 	/*~differenceLabels = StaticText(w, Rect(50+5,70+120+1,500-100+50,20)).font_(Font("Courier New", 8)).string_(
@@ -230,10 +238,67 @@ SynthDef.new("sound3", {
 	//~differenceSlider.value_((~compareMIDI.value-~fundamentalMIDI.value).linlin(0,12,0,1));
 
 
-	~differenceIntensitySlider = Slider(w, Rect(10,70+120+20, 40, 95)).value_(0).action_({
+	~differenceIntensitySlider = Knob(w, Rect(~slidersLeftEdge+~spaceBetweenFirstAndDifferenceSliders+12,~slidersTopEdge+~fundamentalSlider.bounds.height+40+2,15,15)).value_(0).action_({
 		arg obj;
 		~sound3Synth.set(\differenceIntensity, obj.value;);
 	});
+
+// Row Labels
+	~frequencyLabel = StaticText(w, Rect(~slidersLeftEdge-40,~slidersTopEdge-20,40,20)).string_("Hz ").align_(\right);
+	~midiLabel = StaticText(w, Rect(~slidersLeftEdge-40,~slidersTopEdge+~fundamentalSlider.bounds.height+20,40,20)).string_("MIDI ").align_(\right);
+		~nameLabel = StaticText(w, Rect(~slidersLeftEdge-80,~slidersTopEdge+~fundamentalSlider.bounds.height,80,20)).string_("Closest Pitch ").align_(\right);
+	~intensityLabel = StaticText(w, Rect(~slidersLeftEdge-60,~slidersTopEdge+~fundamentalSlider.bounds.height+40,60,20)).string_("Intensity ").align_(\right);
+
+
+	//Button CompositeViews for hiding and showing
+(
+~play_image_left = Image.new(basePath +/+ "images/big_button_media/red_left.png");
+~play_image_right = Image.new(basePath +/+ "images/big_button_media/red_right.png");
+~play_image_indent = Image.new(basePath +/+ "images/big_button_media/red_indent_col.png");
+
+~stop_image_left = Image.new(basePath +/+ "images/big_button_media/black_left.png");
+~stop_image_right = Image.new(basePath +/+ "images/big_button_media/black_right.png");
+~stop_image_indent = Image.new(basePath +/+ "images/big_button_media/black_indent_col.png");
+
+~play_UserView = UserView(w, Rect(250-(250/2),95-~allShiftUp,100,30));
+	~play_UserView.drawFunc_({
+		~play_image_left.drawInRect(Rect(0,0,100,30), Rect(0,0,200,60), 2, 1.0);
+		~play_image_right.drawInRect(Rect(0,0,100,30), Rect(0,0,200,60), 2, 1.0);
+		~play_image_indent.drawInRect(Rect(25,0,100,30), Rect(0,0,200,60), 2, 1.0);
+	});
+
+~stop_UserView = UserView(w, Rect(250-(250/2),95-~allShiftUp,100,30));
+	~stop_UserView.drawFunc_({
+		~stop_image_left.drawInRect(Rect(0,0,100,30), Rect(0,0,200,60), 2, 1.0);
+		~stop_image_right.drawInRect(Rect(0,0,100,30), Rect(0,0,200,60), 2, 1.0);
+		~stop_image_indent.drawInRect(Rect(25,0,100,30), Rect(0,0,200,60), 2, 1.0);
+	});
+
+	//~play_UserView.bounds_(Rect(400-(100/2),65,1,1)); //Hide the play button
+	~stop_UserView.bounds_(Rect(400-(100/2),65-~allShiftUp,1,1)); //Hide the stop button
+);
+
+	// Play button
+	// Button to play the Basic SynthDef
+~playButton = Button.new(w, Rect(200,30,100,30))
+.states_([
+	["Sound OFF", Color.white, Color.red(0.5)],
+	["Sound ON", Color.white, Color.green(0.5)]
+])
+.action_({
+	arg obj;
+	if(obj.value == 1, {
+			~stop_UserView.bounds_(Rect(250-(100/2),65-~allShiftUp,100,30)); //Hide the stop button
+		~sound1Synth = Synth("sound1", [\freq, ~fundamentalBox.value, \fundamentalIntensity:~fundamentalIntensitySlider.value]);
+			~sound2Synth = Synth("sound2", [\freq, ~compareBox.value, \compareIntensity:~compareIntensitySlider.value]);
+			~sound3Synth = Synth("sound3", [\freq, 440, \differenceIntensity:~differenceIntensitySlider.value]);
+	},{
+			~stop_UserView.bounds_(Rect(250-(100/2),65-~allShiftUp,1,1)); //Hide the stop button
+		~sound1Synth.free;
+			~sound2Synth.free;
+			~sound3Synth.free;
+	});
+});
 
 	//Create spectra
 ~spectraScreenComposite_bounds_array = [-100+100,355,500,215];

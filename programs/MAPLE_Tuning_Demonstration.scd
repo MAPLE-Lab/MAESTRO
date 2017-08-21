@@ -27,17 +27,24 @@ var basePath = thisProcess.nowExecutingPath.asString.dirname;
 ~note_name_bounds_array = [(85-23+30-5),155+150,27,15];
 
 //Create the module's master window
-~master_window_bounds_array = [Window.screenBounds.width/2-250, Window.screenBounds.height/2-50, 500, 570];
+~master_window_bounds_array = [Window.screenBounds.width/2-250, Window.availableBounds.height, 500, 570-90];
 (basePath +/+  "modules/master_window.scd").load;
 
 // Title and labels
+<<<<<<< HEAD
+		//~masterTitle = StaticText(w, Rect(0,0,500,40)).string_("Tuning").align_(\center).font_(Font(nil, 14, true));
+~allShiftUp = 90;
+=======
 		~masterTitle = StaticText(w, Rect(0,0,500,40)).string_("Tuning").align_(\center).font_(Font(nil, 14, true));
+>>>>>>> b65f3eb83bd1defa69283b8e359090cf0d25d1bf
 
 
 //Descriptive paragraph at top
-~para.string_(
-"Welcome to the MAPLE Lab Overtone 'Popout' Demonstration (Beta)! Using the parameters below, you can examine the fusion effect. Select the number of harmonics and which harmonic to move out-of-tune using the dropdown menus. Use the Play/Stop button to start and stop the sound. To explore how fusion/unfusion occurs, use the slider to change the deviation of the selected harmonic."
-	);
+~para.string_(TabFileReader.read(~trace +/+  "paragraphs/tuningIntro.txt").flatten.asString.drop(2).drop(-2));
+
+			(~trace +/+  "data/oscilloscopeButtonFunctions.scd").load; // Load the oscilloscope button functions
+		(~trace +/+  "data/tuning_specific_data/centsCalculator.scd").load; // Load the cents calculation function
+
 
 			(~trace +/+  "data/oscilloscopeButtonFunctions.scd").load; // Load the oscilloscope button functions
 
@@ -50,17 +57,23 @@ var basePath = thisProcess.nowExecutingPath.asString.dirname;
 //All graphics (aesthetic lines and image positions)
 w.drawFunc = {
 		//Images underneath buttons
+<<<<<<< HEAD
+		~house_icon.drawInRect(Rect(460,95-~allShiftUp,30,30), Rect(0,0,30,30), 2, 1.0);
+			~maple_icon.drawInRect(Rect(420,95-~allShiftUp,30,30), Rect(0,0,30,30), 2, 1.0);
+		~keyboard_image.drawInRect(Rect(250+75,330-~allShiftUp,60,25), Rect(0,0,60,25), 2, 1.0);
+=======
 		~house_icon.drawInRect(Rect(460,95,30,30), Rect(0,0,30,30), 2, 1.0);
 			~maple_icon.drawInRect(Rect(420,95,30,30), Rect(0,0,30,30), 2, 1.0);
 		~keyboard_image.drawInRect(Rect(250+75,330,60,25), Rect(0,0,60,25), 2, 1.0);
+>>>>>>> b65f3eb83bd1defa69283b8e359090cf0d25d1bf
 
 		//Draw lines
 		Pen.use{
-			Pen.line(10@280,490@280);
-			Pen.line(10@220,490@220);
-			Pen.line(10@330,490@330);
-			Pen.line(10@130,490@130);
-			Pen.line(10@90,490@90);
+				Pen.line(10@(280-~allShiftUp),490@(280-~allShiftUp));
+				Pen.line(10@(220-~allShiftUp),490@(220-~allShiftUp));
+				Pen.line(10@(330-~allShiftUp),490@(330-~allShiftUp));
+				Pen.line(10@(130-~allShiftUp),490@(130-~allShiftUp));
+				Pen.line(10@(90-~allShiftUp),490@(90-~allShiftUp));
 
 			Pen.strokeColor = Color(0,0,0,0.5);
 			Pen.width = 2;
@@ -69,9 +82,9 @@ w.drawFunc = {
         };
 
 //Create spectra
-~spectraScreenComposite_bounds_array = [-100+100,355,500,215];
-~spectraButton_bounds_array = [250-(200/2)-65,200+135,110,20];
-~spectraAutoscale_bounds_array = [250-(200/2)-65+110+10,200+135,110,20];
+~spectraScreenComposite_bounds_array = [-100+100,355-~allShiftUp,500,215];
+~spectraButton_bounds_array = [250-(200/2)-65-25,200+135-~allShiftUp,110+25,20];
+~spectraAutoscale_bounds_array = [250-(200/2)-65+110+10-5+5000,200+135-~allShiftUp,110+5,20]; // +5000 to remove button
 (basePath +/+  "modules/spectra_screen.scd").load;
 );
 
@@ -85,14 +98,14 @@ w.drawFunc = {
 ~stop_image_right = Image.new(basePath +/+ "images/big_button_media/black_right.png");
 ~stop_image_indent = Image.new(basePath +/+ "images/big_button_media/black_indent_col.png");
 
-~play_UserView = UserView(w, Rect(250-(250/2),95,100,30));
+~play_UserView = UserView(w, Rect(250-(250/2),95-~allShiftUp,100,30));
 	~play_UserView.drawFunc_({
 		~play_image_left.drawInRect(Rect(0,0,100,30), Rect(0,0,200,60), 2, 1.0);
 		~play_image_right.drawInRect(Rect(0,0,100,30), Rect(0,0,200,60), 2, 1.0);
 		~play_image_indent.drawInRect(Rect(25,0,100,30), Rect(0,0,200,60), 2, 1.0);
 	});
 
-~stop_UserView = UserView(w, Rect(250-(250/2),95,100,30));
+~stop_UserView = UserView(w, Rect(250-(250/2),95-~allShiftUp,100,30));
 	~stop_UserView.drawFunc_({
 		~stop_image_left.drawInRect(Rect(0,0,100,30), Rect(0,0,200,60), 2, 1.0);
 		~stop_image_right.drawInRect(Rect(0,0,100,30), Rect(0,0,200,60), 2, 1.0);
@@ -100,7 +113,7 @@ w.drawFunc = {
 	});
 
 	//~play_UserView.bounds_(Rect(400-(100/2),65,1,1)); //Hide the play button
-	~stop_UserView.bounds_(Rect(400-(100/2),65,1,1)); //Hide the stop button
+	~stop_UserView.bounds_(Rect(400-(100/2),65-~allShiftUp,1,1)); //Hide the stop button
 );
 
 //B. Add starting ID parameters
@@ -112,7 +125,7 @@ w.drawFunc = {
 //E. Interactive elements
 (
 //Record button - sends to Supercollider file in the Recordings section
-~record_button_bounds_array = [35, 100, 85, 20];
+~record_button_bounds_array = [35, 100-~allShiftUp, 85, 20];
 (basePath +/+  "modules/record_button.scd").load;
 
 
@@ -120,7 +133,7 @@ w.drawFunc = {
 //Properties of the slider
 	~volume_value = 0.4; // To start
 
-~volslider = Slider(w, Rect(160,140+150,330,15))
+~volslider = Slider(w, Rect(160,140+150-~allShiftUp,330,15))
 	.background_(Color(0.0118,0.0118,0.0118,1))
 	.value_(0.1)
 	.action_({
@@ -137,7 +150,7 @@ w.drawFunc = {
 	.orientation_(\horizontal);
 
 //Label for Vol.
-~volLabel = StaticText(w,Rect(10,143+150,70,15))
+~volLabel = StaticText(w,Rect(10,143+150-~allShiftUp,70,15))
 .string_("Volume")
 .font_(Font("nil", 8, italic:false))
 .align_(\topRight)
@@ -145,7 +158,7 @@ w.drawFunc = {
 .stringColor_(Color.black);
 
 //Number box that can edit slider position
-~numberVBox = NumberBox(w,Rect(85,140+150,72,15))
+~numberVBox = NumberBox(w,Rect(85,140+150-~allShiftUp,72,15))
 	.normalColor_(Color.white)
 	.background_(Color(0.0118,0.0118,0.0118,1))
 	.value_(0.1)
@@ -164,7 +177,7 @@ w.drawFunc = {
 	//TONIC FREQUENCY
 
 //Label for Freq.
-~fLabel = StaticText(w,Rect(10-10,158+150,80,25))
+~fLabel = StaticText(w,Rect(10-10,158+150-~allShiftUp,80,25))
 .string_("Fundamental")
 .font_(Font("nil", 8))
 .align_(\topRight)
@@ -174,7 +187,7 @@ w.drawFunc = {
 
 
 //Properties of the slider
-~fslider = Slider(w, Rect(160,155+150,330,15))
+~fslider = Slider(w, Rect(160,155+150-~allShiftUp,330,15))
 	.background_(Color(0.8,0.8,0.8,0.75)).value_(48/87)
 	.step_(1/(108-21)) //Math: 108-21 = 87; 69-21 = 48; 48/87 =
 	.action_({
@@ -220,7 +233,7 @@ if(~vinbutton.value == 1, {
 
 	//Number box that can edit slider position (NO LONGER BECAUSE NOW NOT SET TO FREQUENCY, NEEDS MATH OTHERWISE)
 //Displays the frequency
-~numberfBox = NumberBox(w,Rect(85+30,155+150,72-30,15))
+~numberfBox = NumberBox(w,Rect(85+30,155+150-~allShiftUp,72-30,15))
 .value_(440)
 //.clipLo_(21)
 //.clipHi_(108)
@@ -233,7 +246,7 @@ if(~vinbutton.value == 1, {
 });
 
 		// Cover to avoid editing
-~numberBox_Cover = StaticText(w,Rect(85+30,155+150,72-30,15))
+~numberBox_Cover = StaticText(w,Rect(85+30,155+150-~allShiftUp,72-30,15))
 	.background_(Color.clear);
 
 
@@ -248,10 +261,11 @@ if(~vinbutton.value == 1, {
 ~fundamental_freq = ((2**((-69+~fundamental_note)/12))*440);
 ~manipulated_harmonic = Array.fill(16, {arg i; 0});
 	~color_array = Array.fill(200,1);
+					~color_arrayMAN = Array.fill(200,0); // To avoid first-play error
 
 
 //Label for Focus tone
-~label2 = StaticText(w,Rect(10,177+65+2-110,480,80))
+~label2 = StaticText(w,Rect(10,177+65+2-110-~allShiftUp,480,80))
 	.string_("Harmonic (mistuned)")
 .font_(Font("nil", 16))
 .align_(\topLeft)
@@ -259,7 +273,7 @@ if(~vinbutton.value == 1, {
 .stringColor_(Color.black);
 
 //Label for Other tones
-~label1 = StaticText(w,Rect(10,270-90+45,480,80-20))
+~label1 = StaticText(w,Rect(10,270-90+45-~allShiftUp,480,80-20))
 	.string_("Harmonics (tuned)")
 .font_(Font("nil", 16))
 .align_(\topLeft)
@@ -372,7 +386,7 @@ SynthDef.new("sound", {
 
 //Frequency DEVIATION of deviant
 //Properties of the slider
-~freqslider = Slider(w, Rect(160,200+65+30-140,330,30))
+~freqslider = Slider(w, Rect(160,200+65+30-140-~allShiftUp,330,30))
 .background_(Color(0.8,0.8,0.8,0.75))
 .value_(0.5)
 .action_({
@@ -383,7 +397,11 @@ SynthDef.new("sound", {
 		x.isPlaying,
 		{x.set(\outoftune,cf)});
 	~numberBox.value_(obj.value.linlin(0,1,-1,1));
+<<<<<<< HEAD
+			if(~current_harmonic_MIDINN.value != nil, {~calculateCents.value}); // IF to avoid error at start
+=======
 			~calculateCents.value;
+>>>>>>> b65f3eb83bd1defa69283b8e359090cf0d25d1bf
 
 
 //Deviant control for keyboard GUI to shift the inner fill square
@@ -540,7 +558,7 @@ if(~deviant_move.sign >= 0,
 
 
 //The actuator for this motion
-~keyboard_CompositeView_White.bounds_(Rect(27-5+(~deviant_move*~deviant_scale)+1+~starting_position_fund+~starting_position_harm+~case_none_selected,175+1,5-1+20,5-1+20))
+~keyboard_CompositeView_White.bounds_(Rect(27-5+(~deviant_move*~deviant_scale)+1+~starting_position_fund+~starting_position_harm+~case_none_selected,175+1-1,5-1+20,5-1+20))
 );
 			},
 			{
@@ -550,7 +568,7 @@ if(~deviant_move.sign >= 0,
 });
 
 //Label for Freq.
-~freqLabel = StaticText(w,Rect(15,200+7+65+30-140,65,40))
+~freqLabel = StaticText(w,Rect(15,200+7+65+30-140-~allShiftUp,65,40))
 .string_(" Deviation")
 .font_(Font("nil", 12))
 .align_(\topRight)
@@ -558,7 +576,7 @@ if(~deviant_move.sign >= 0,
 .stringColor_(Color.black);
 
 //Number box that can edit slider position
-~numberBox = NumberBox(w,Rect(85+35,200+65+30-140,72-35,30))
+~numberBox = NumberBox(w,Rect(85+35,200+65+30-140-~allShiftUp,72-35,30))
 .value_(0)
 //.clipLo_(-1)
 //.clipHi_(1)
@@ -571,7 +589,11 @@ if(~deviant_move.sign >= 0,
 	~freqslider.valueAction_(obj.value.linlin(-1,1,0,1))
 })*/;
 
+<<<<<<< HEAD
+		~centsBox = NumberBox(w,Rect(85+35,200+65+30-140-~allShiftUp,72-35,30))
+=======
 		~centsBox = NumberBox(w,Rect(85+35,200+65+30-140,72-35,30))
+>>>>>>> b65f3eb83bd1defa69283b8e359090cf0d25d1bf
 .value_(0)
 //.clipLo_(-1)
 //.clipHi_(1)
@@ -580,7 +602,7 @@ if(~deviant_move.sign >= 0,
 .align_(\center);
 
 //Button to reset deviant
-~reset = Button(w, Rect(250-(200/2)-65,200+65+30-140,35,30))
+~reset = Button(w, Rect(250-(200/2)-65,200+65+30-140-~allShiftUp,35,30))
 .states_([
 	["Reset", Color.white,Color(0.4824, 0.4863, 0.4863,1)]
 ])
@@ -592,7 +614,7 @@ if(~deviant_move.sign >= 0,
 
 //INTENSITY of deviant
 //Properties of the slider
-~mulslider = Slider(w, Rect(160,235+60-30-80,330,30))
+~mulslider = Slider(w, Rect(160,235+60-30-80-~allShiftUp,330,30))
 .background_(Color(0.8,0.8,0.8,0.75))
 	.value_(0.5) //is converted to 1
 .action_({
@@ -616,7 +638,7 @@ if(~deviant_move.sign >= 0,
 	});
 
 //Label for Freq.
-~mulLabel = StaticText(w,Rect(15,240+60-30-80,65,40))
+~mulLabel = StaticText(w,Rect(15,240+60-30-80-~allShiftUp,65,40))
 .string_("Intensity")
 .font_(Font("nil", 12))
 .align_(\topRight)
@@ -624,7 +646,7 @@ if(~deviant_move.sign >= 0,
 .stringColor_(Color.black);
 
 //Number box that can edit slider position
-~number2Box = NumberBox(w,Rect(85,235+60-30-80,72,30))
+~number2Box = NumberBox(w,Rect(85,235+60-30-80-~allShiftUp,72,30))
 .value_(1)
 .clipLo_(0.0)
 .clipHi_(2)
@@ -639,7 +661,7 @@ if(~deviant_move.sign >= 0,
 
 //OTHER
 //Properties of the slider
-~otherslider = Slider(w, Rect(160,290-90+45,330,30))
+~otherslider = Slider(w, Rect(160,290-90+45-~allShiftUp,330,30))
 .background_(Color(0.8,0.8,0.8,0.75))
 	.value_(0.5) //is converted to 1
 .action_({
@@ -661,7 +683,7 @@ if(~deviant_move.sign >= 0,
 });
 
 //Label for Freq.
-~otherLabel = StaticText(w,Rect(15,300-90+45,65,40))
+~otherLabel = StaticText(w,Rect(15,300-90+45-~allShiftUp,65,40))
 .string_("Intensity")
 .font_(Font("nil", 12))
 .align_(\topRight)
@@ -669,7 +691,7 @@ if(~deviant_move.sign >= 0,
 .stringColor_(Color.black);
 
 //Number box that can edit slider position
-~number3Box = NumberBox(w,Rect(85,290-90+45,72,30))
+~number3Box = NumberBox(w,Rect(85,290-90+45-~allShiftUp,72,30))
 .value_(1)
 .clipLo_(0.0)
 .clipHi_(2)
@@ -684,7 +706,7 @@ if(~deviant_move.sign >= 0,
 
 
 	//Keyboard visualizer button
-		~key_vis = Button.new(w, Rect(250+75,330,60,25))
+		~key_vis = Button.new(w, Rect(250+75,330-~allShiftUp,60,25))
 	.states_([["", Color.black, Color.clear],["CLOSE", Color.white, Color(0,0,0,0.7)]])
 	.font_(Font("nil", 10))
 	.action_({
@@ -727,7 +749,7 @@ s.waitForBoot({
 
 				menu = ~harmonics_menu; //Without having to recode everything, it allows the dropdown menu to be a global variable
 
- ~vinbutton = Button(w, Rect(250-(250/2),95,100,30))
+ ~vinbutton = Button(w, Rect(250-(250/2),95-~allShiftUp,100,30))
   .states_([
 				[
 						""
@@ -753,7 +775,7 @@ s.waitForBoot({
 							~keyboard_CompositeView_White.visible_(true);
 						});
 					//snd.postln;
-						~stop_UserView.bounds_(Rect(250-(250/2),95,100,30));
+						~stop_UserView.bounds_(Rect(250-(250/2),95-~allShiftUp,100,30));
 
 						~harmonics_menu.background_(Color.black);
 						~harmonics_menu.stringColor_(Color.white);
@@ -769,7 +791,7 @@ s.waitForBoot({
 
 
 						},{
-												~stop_UserView.bounds_(Rect(250-(250/2),95,1,1));
+												~stop_UserView.bounds_(Rect(250-(250/2),95-~allShiftUp,1,1));
 
 
 	~harmonics_menu.background_(Color(0.7569-0.1,0.1373-0.1,0.1725-0.1,1));
@@ -797,8 +819,8 @@ s.waitForBoot({
 
     snd.release;
 				~fslider.valueAction_(~fslider.value); //This allows it to refresh real-time
-		s.makeBundle(1.0, //sound delay
-			{~dirtyBit = 5; ~dirtyBit/*.postln*/;~fslider.valueAction_(~fslider.value);});
+		/*s.makeBundle(1.0, //sound delay
+			{~dirtyBit = 5; ~dirtyBit/*.postln*/;~fslider.valueAction_(~fslider.value);});*/
 
 
 				(if(
@@ -809,7 +831,7 @@ s.waitForBoot({
 
 			});
 
-~harmonics_menu = PopUpMenu(w, Rect(250-(250/2)+5,95+5,50,20));
+~harmonics_menu = PopUpMenu(w, Rect(250-(250/2)+5,95+5-~allShiftUp,50,20));
 			~harmonics_menu.items_(["1", "2", "3", "5", "8", "16"]);
 			~harmonics_menu.background_(Color(0.7569-0.1,0.1373-0.1,0.1725-0.1,1));
 			~harmonics_menu.font_(Font(\size, 12));
@@ -894,7 +916,7 @@ AppClock.sched(0.05,{
     //"0.1 seconds after set, HELLO".postln;
 
 						~vinbutton.valueAction_(1);
-							~stop_UserView.bounds_(Rect(250-(250/2),95,100,30));
+							~stop_UserView.bounds_(Rect(250-(250/2),95-~allShiftUp,100,30));
     nil;
 });
 
@@ -1158,7 +1180,7 @@ s.waitForBoot({
     snd.release;
    });
 */
-~menu2 = PopUpMenu(w, Rect(250-(250/2)+50,95+3+80+65+2-110,50,20));
+~menu2 = PopUpMenu(w, Rect(250-(250/2)+50,95+3+80+65+2-110-~allShiftUp,50,20));
 
 
 //Switch function for how many to display (up to maximum) - this is above in the other dropdown; here it starts at 8 because the module opens with 8:
@@ -1236,7 +1258,7 @@ snd = funcs2.at(menu2.value).play;
 	);
 
 
-	~coverComposite = CompositeView(w, Rect(160-150,235+60-30-110,330+80+150,30+30));
+	~coverComposite = CompositeView(w, Rect(160-150,235+60-30-110-~allShiftUp,330+80+150,30+30));
 		~coverBox = StaticText(~coverComposite, Rect(0,0,480,30+30)).background_(Color.white).stringColor_(Color.black).align_(\center);
 	~coverBox.string = "Select a harmonic to deviate from the
 Harmonic (mistuned) dropdown menu";
@@ -1257,7 +1279,7 @@ Harmonic (mistuned) dropdown menu";
 
 //Q. Quit function
 (
-~quit = Button.new(w, Rect(465,95,30,30))
+~quit = Button.new(w, Rect(465,95-~allShiftUp,30,30))
 	.states_([["", Color.white, Color.clear]])
 	.font_(Font("nil", 12))
 	.mouseDownAction_({

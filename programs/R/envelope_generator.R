@@ -9,7 +9,7 @@ thresholdValue <- 0.1 # Set at 0 all noise is captured; however, in top-down ana
 # STEP 3 - SELECT SOUND
 # Select the sound file to be analyzed
 # Usage: Opens pop-up window for the user to select the sound file they want to analyze
-# Input: WAVE/WAV file (i.e. .wav)
+# Input: WAVE/WAV file (i.e. .wav), mono, with a 44100 sample rate
 # Output: path to the sound file, saved as "soundfile" in R
 soundfile <- file.choose()
 
@@ -34,6 +34,8 @@ organizeDirectory(filePath)
 # Input: The soundfile path
 # Output: If soundfile is mono, soundfileActive is the same file. If soundfile is stereo, a new WAVE file is generated, saved as soundfileMonoL.wav, to which soundActive is saved to.
 soundfileStereoCheck(soundfile)
+soundfileSampleRateCheck(soundfileActiveRead)
+
 
 # STEP 5 - ANALYSIS PARAMETERS
 # Here the resolution of ferquency in the analysis can be changed.
@@ -83,8 +85,9 @@ isolateHarmonics() # Uses many arguments, so currently does not allow changes to
 # Time Warning: This could take a minute or longer depending on the amount of data
 # Can only draw one at a time
 zoom = 0.68 # 0.65 for printing
-plotMAESTRO.3d(zoom=zoom, view.x = -3.5, view.y = -1.5, view.z = 1.5, length.x = 1, length.y = 1, length.z = 1, showTime = TRUE, titleTime = "Time (s)") # Arguments control the 3D camera's angle
 plotMAESTRO.2d(zoom=zoom)
+plotMAESTRO.3d(zoom=zoom, view.x = -3.5, view.y = -1.5, view.z = 1.5, length.x = 1, length.y = 1, length.z = 1, showTime = TRUE, titleTime = "Time (s)") # Arguments control the 3D camera's angle
+
 
 
 # STEP 9 - EXPORT files

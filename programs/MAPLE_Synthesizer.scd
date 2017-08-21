@@ -37,7 +37,11 @@ false) //Cannot be resized by user.
 .acceptsMouseOver_(true);
 
 	// Title and labels
+<<<<<<< HEAD
+		// ~masterTitle = StaticText(w, Rect(0,0,540,40)).string_("Synthesizer                   ").align_(\center).font_(Font(nil, 14, true));
+=======
 		~masterTitle = StaticText(w, Rect(0,0,540,40)).string_("Synthesizer                   ").align_(\center).font_(Font(nil, 14, true));
+>>>>>>> b65f3eb83bd1defa69283b8e359090cf0d25d1bf
 	);
 
 	(~trace +/+  "data/synthesizer_specific_data/synthesizerPlotFunction.scd").load; // Load the Plotting function
@@ -102,6 +106,35 @@ SynthDef.new("++ ("sound" ++ j).asCompileString ++ ", {
 ").interpret.postln;
 });
 
+	//Button CompositeViews for hiding and showing
+(
+~play_image_left = Image.new(basePath +/+ "images/big_button_media/red_left.png");
+~play_image_right = Image.new(basePath +/+ "images/big_button_media/red_right.png");
+~play_image_indent = Image.new(basePath +/+ "images/big_button_media/red_indent_col.png");
+
+~stop_image_left = Image.new(basePath +/+ "images/big_button_media/black_left.png");
+~stop_image_right = Image.new(basePath +/+ "images/big_button_media/black_right.png");
+~stop_image_indent = Image.new(basePath +/+ "images/big_button_media/black_indent_col.png");
+
+~play_UserView = UserView(w, Rect(250-(250/2),95-~allShiftUp,100,30));
+	~play_UserView.drawFunc_({
+		~play_image_left.drawInRect(Rect(0,0,100,30), Rect(0,0,200,60), 2, 1.0);
+		~play_image_right.drawInRect(Rect(0,0,100,30), Rect(0,0,200,60), 2, 1.0);
+		~play_image_indent.drawInRect(Rect(25,0,100,30), Rect(0,0,200,60), 2, 1.0);
+	});
+
+~stop_UserView = UserView(w, Rect(250-(250/2),95-~allShiftUp,100,30));
+	~stop_UserView.drawFunc_({
+		~stop_image_left.drawInRect(Rect(0,0,100,30), Rect(0,0,200,60), 2, 1.0);
+		~stop_image_right.drawInRect(Rect(0,0,100,30), Rect(0,0,200,60), 2, 1.0);
+		~stop_image_indent.drawInRect(Rect(25,0,100,30), Rect(0,0,200,60), 2, 1.0);
+	});
+
+	//~play_UserView.bounds_(Rect(400-(100/2),65,1,1)); //Hide the play button
+	~stop_UserView.bounds_(Rect(400-(100/2),65-~allShiftUp,1,1)); //Hide the stop button
+);
+
+
 // Play Button
 	~playButton = Button.new(w, Rect(280,10,50,30))
 .states_([
@@ -111,6 +144,8 @@ SynthDef.new("++ ("sound" ++ j).asCompileString ++ ", {
 .action_({
 	arg obj;
 	if(obj.value == 1, {
+
+			~stop_UserView.bounds_(Rect(250-(250/2),95-~allShiftUp,100,30));
 
 			/*/*1.do({
 				arg i;
@@ -160,6 +195,11 @@ SynthDef.new("++ ("sound" ++ j).asCompileString ++ ", {
 			AppClock.sched(~maximumTimeArray.maxItem*0.001, {~playButton.valueAction_(0);});
 
 		},{
+<<<<<<< HEAD
+			~stop_UserView.bounds_(Rect(250-(250/2),95-~allShiftUp,1,1)); // Hide
+
+=======
+>>>>>>> b65f3eb83bd1defa69283b8e359090cf0d25d1bf
 			12.do({
 				arg i, j;
 				j = i+1;
@@ -189,6 +229,7 @@ Curve").align_(\top).font_(Font(size:11));
 (+)").align_(\top).font_(Font(size:11));
 	StaticText(w, Rect(490,70,40,237+73)).background_(Color.grey(0.9)).string_("MIDI
 (#)").align_(\top).font_(Font(size:11));
+<<<<<<< HEAD
 
 	StaticText(w, Rect(10,98,520,2)).background_(Color.grey); // Line (drawHook is underneath)
 
@@ -197,6 +238,16 @@ Curve").align_(\top).font_(Font(size:11));
 
 	StaticText(w, Rect(10,342,520,38)).background_(Color.grey(0.5,0.35)).string_("Buttons used to fill all fields with the values").align_(\bottom).font_(Font(size:8));
 
+=======
+
+	StaticText(w, Rect(10,98,520,2)).background_(Color.grey); // Line (drawHook is underneath)
+
+		StaticText(w, Rect(10,342,520,2)).background_(Color.grey); // Line2 (drawHook is underneath)
+
+
+	StaticText(w, Rect(10,342,520,38)).background_(Color.grey(0.5,0.35)).string_("Buttons used to fill all fields with the values").align_(\bottom).font_(Font(size:8));
+
+>>>>>>> b65f3eb83bd1defa69283b8e359090cf0d25d1bf
 // NumberBoxes
 
 	12.do({
@@ -206,8 +257,12 @@ Curve").align_(\top).font_(Font(size:11));
 		boxheight = 18;
 		boxspaceheight = 20;
 		fontsize = 10;
+<<<<<<< HEAD
+		("~freq" ++ j ++ "= NumberBox(w, Rect(10+2,102+" ++ (i*boxspaceheight) ++ ",46," ++ boxheight ++ ")).value_(440).align_(\\center).font_(Font(size:"++fontsize++")).maxDecimals_(6).action_({
+=======
 		(
 			"~freq" ++ j ++ "= NumberBox(w, Rect(10+2,102+" ++ (i*boxspaceheight) ++ ",46," ++ boxheight ++ ")).value_(440).align_(\\center).font_(Font(size:"++fontsize++")).maxDecimals_(6).action_({
+>>>>>>> b65f3eb83bd1defa69283b8e359090cf0d25d1bf
 arg obj;
 ~midi" ++ j ++ ".value = (log2(obj.value/440)*12)+69;
 });
@@ -225,6 +280,18 @@ arg obj;
 		).interpret;
 	});
 
+<<<<<<< HEAD
+	12.do({
+		arg i, j, boxheight, boxspaceheight, fontsize;
+		j = i+1;
+		boxheight = 18;
+		boxspaceheight = 20;
+		fontsize = 8;
+		("~number" ++ j ++ "= StaticText(w, Rect(0,102+" ++ (i*boxspaceheight) ++ ",10," ++ boxheight ++ ")).string_(" ++ (j).asCompileString ++ ").align_(\\center).font_(Font(size:"++fontsize++"));").interpret;
+	});
+
+=======
+>>>>>>> b65f3eb83bd1defa69283b8e359090cf0d25d1bf
 
 	// Fill-all sections
 	1.do({
@@ -387,6 +454,78 @@ w.drawFunc = {
 "Freq. (Hz)\tAttack (ms)\tSustain (ms)\tRelease (ms)\tStart Time (ms)\tOn Curve\tOff Curve\tInt. (+)\tMIDI (#)
 "
 ).close;
+<<<<<<< HEAD
+=======
+
+12.do({
+	arg i, j;
+	j = i+1;
+	File.new(~trace +/+ "exports/" ++ ~exportParametersText.value, "a").write("" ++ ("~freq" ++ j ++ ".value").interpret ++ "\t"++ ("~attack" ++ j ++ ".value").interpret ++ "\t"++ ("~sustain" ++ j ++ ".value").interpret ++ "\t"++ ("~release" ++ j ++ ".value").interpret ++ "\t"++ ("~startTime" ++ j ++ ".value").interpret ++ "\t"++ ("~onCurve" ++ j ++ ".value").interpret ++ "\t"++ ("~offCurve" ++ j ++ ".value").interpret ++ "\t"++ ("~intensity" ++ j ++ ".value").interpret ++ "\t"++ ("~midi" ++ j ++ ".value").interpret ++ "
+"
+).close
+});
+
+		("Parameters for the 12 sounds saved to filepath:" + ~trace +/+ "synthesizer_files/" ++ ~exportParametersText.value).postln;
+
+	});
+	~exportParametersText = TextField(w, Rect(215, 40+5, 100, 20))
+	.font_(Font(size:10))
+	.value_("synthesizer1.txt");
+
+// Import button and functionality
+	~importParametersButton = Button(w, Rect(320, 40+5, 115, 20)).states_([
+		["Import Parameter File", Color.white, Color(0.4824, 0.4863, 0.4863,1)]
+	])
+	.font_(Font("nil", 10))
+	.action_({
+	arg obj;
+		~importParametersTable = TabFileReader.read(~trace +/+  "synthesizer_files/" ++ ~importParametersText.value);
+
+// Fix empties
+		~importParametersTableFormatted = Array.fill(13, {
+			arg a,b;
+			b = a+1;
+			if(a == 0, {~importParametersTable[0]}, {
+
+				Array.fill(9, {
+					arg i,j;
+					j = i+2;
+
+					switch(i,
+						0, {if(~importParametersTable[a][0] != "", {
+							// Use frequency data
+							~importParametersTable[a][0]},{
+							// If no frequency data, use MIDI data
+							if(~importParametersTable[a][8] != "", {
+								(2**((-69+~importParametersTable[a][8].interpret)/12))*440 // .interpret required to change from String to Float
+							}, {
+								// If no MIDI data either
+								0})
+						}
+						)},
+						1, {if(and(~importParametersTable[a][i] != "",~importParametersTable[a][i] != nil), {~importParametersTable[a][i]},{0})},
+						2, {if(and(~importParametersTable[a][i] != "",~importParametersTable[a][i] != nil), {~importParametersTable[a][i]},{0})},
+						3, {if(and(~importParametersTable[a][i] != "",~importParametersTable[a][i] != nil), {~importParametersTable[a][i]},{0})},
+						4, {if(and(~importParametersTable[a][i] != "",~importParametersTable[a][i] != nil), {~importParametersTable[a][i]},{0})},
+						5, {if(and(~importParametersTable[a][i] != "",~importParametersTable[a][i] != nil), {~importParametersTable[a][i]},{0})},
+						6, {if(and(~importParametersTable[a][i] != "",~importParametersTable[a][i] != nil), {~importParametersTable[a][i]},{0})},
+						7, {if(and(~importParametersTable[a][i] != "",~importParametersTable[a][i] != nil), {~importParametersTable[a][i]},{0})},
+						8, {if(and(~importParametersTable[a][8] != "", ~importParametersTable[a][8] != nil), {
+							// Use MIDI data
+							~importParametersTable[a][8]},{
+							// If no MIDI data, use freq data
+							if(~importParametersTable[a][0] != "", {
+								(log2(~importParametersTable[a][0].interpret/440)*12)+69 // .interpret required to change from String to Float
+							}, {
+								// If no MIDI data either
+								0})
+						}
+						)}
+					);
+				});
+			});
+		});
+>>>>>>> b65f3eb83bd1defa69283b8e359090cf0d25d1bf
 
 12.do({
 	arg i, j;
@@ -457,6 +596,28 @@ w.drawFunc = {
 			});
 		});
 
+
+		12.do({
+		arg i, j;
+		j = i+1;
+		(
+		"~freq" ++ j ++ ".value_(" ++ ~importParametersTableFormatted[j][0] ++ ");" +
+		"~attack" ++ j ++ ".value_(" ++ ~importParametersTableFormatted[j][1] ++ ");" +
+		"~sustain" ++ j ++ ".value_(" ++ ~importParametersTableFormatted[j][2] ++ ");" +
+		"~release" ++ j ++ ".value_(" ++ ~importParametersTableFormatted[j][3] ++ ");" +
+		"~startTime" ++ j ++ ".value_(" ++ ~importParametersTableFormatted[j][4] ++ ");" +
+		"~onCurve" ++ j ++ ".value_(" ++ ~importParametersTableFormatted[j][5] ++ ");" +
+		"~offCurve" ++ j ++ ".value_(" ++ ~importParametersTableFormatted[j][6] ++ ");" +
+		"~intensity" ++ j ++ ".value_(" ++ ~importParametersTableFormatted[j][7] ++ ");" +
+		"~midi" ++ j ++ ".value_(" ++ ~importParametersTableFormatted[j][8] ++ ");"
+		).interpret;
+	});
+
+	});
+
+	~importParametersText = TextField(w, Rect(435, 40+5, 100, 20))
+	.font_(Font(size:10))
+	.value_("synthesizer_table_template.txt");
 
 		12.do({
 		arg i, j;

@@ -7,6 +7,40 @@
 	});
 };
 
+// Dropdown
+// If the dropdown is changed, the harmonics are changed to correct for the new instrument settings
+// Does not quite work yet because Dynamic and Audio are time-dependent and instrument-dependent and would need to know what instrument is currently playing; or cut all playing and just restart with the one that should be playing
+// Still does not turn off Audios
+// Turns off everything because all button interactions are directly linked
+~spectraInstrumentDropdownUpdate = {
+	arg instrumentGroup;
+
+	["Power", "Dynamic", "Audio"].do({
+		arg i;
+		i.postln;
+		(["~" ++ instrumentGroup ++ i ++ "Button", ("~" ++ instrumentGroup ++ i ++ "Button.value").interpret]).postln;
+		/*("if(~" ++ instrumentGroup ++ i ++ "Button.value == 1, {
+~" ++ instrumentGroup ++ i ++ "Button.valueAction_(0);
+})"
+		).interpret;*/
+
+		("~" ++ instrumentGroup ++ i ++ "Button.valueAction_(0);").interpret;
+		// ~stringsAudioButton.valueAction_(0);
+
+
+		/*("if(~" ++ instrumentGroup ++ i ++ "Button.value == 1, {
+~" ++ instrumentGroup ++ i ++ "Button.valueAction_(0);
+~" ++ instrumentGroup ++ i ++ "Button.valueAction_(1);
+})"
+		).interpret;*/
+
+	});
+	/*if(~stringsPowerButton.value == 1, {
+		~stringsPowerButton.valueAction_(0);
+		~stringsPowerButton.valueAction_(1);
+		});*/
+
+};
 
 // Power
 ~spectraPowerButtonAction = {
@@ -14,17 +48,10 @@
 	if(obj.value == 1,
 		{
 
-			//var variable;
-			//variable = SinOsc.kr(2); //unfortunately the QtGUI cannot use variables in this slider (error message)
-
-			// Free any Dynamic sounds
-			//~spectraFreeDynamicAll.value; // ATTENTION
-			//~haltKey = 1;
-
 			~spectraFreeAudioAll.value;
-//~spectraFreeDynamicAll.value;
+
 			~spectraFreeDynamicAllKeyMethod.value; // This method uses the HaltKeys directly and thus does not cause the ~button to reset to 0 every time it is used
-		//	~spectraFreePowerAll.value;
+
 
 			~spectraPowerButtonStatus = 1;
 
@@ -34,8 +61,6 @@
 			~volslider.valueAction_(0.4.value.linlin(0,1,0,1));
 
 			if(x.isPlaying, {x.free}); // Clears previous sound
-
-			// l.free; // Unknown purpose
 
 			AppClock.sched(0.05, { // The delay is to ensure the Dynamic Spectra can finish before this activates; otherwise the sliders will be set to 0 because the 0 setting overprioritizes or comes after this Power set
 				"AppClock for Power Spectra sent message after 0.05s.".postln;
@@ -218,15 +243,6 @@
 
 	if(obj.value == 1, {
 
-		/*// Free all other Audio sounds
-		switch(instrument,
-			"cello", {~trumpetAudioButton.valueAction_(0); ~fluteAudioButton.valueAction_(0); ~hornAudioButton.valueAction_(0);},
-			"trumpet", {~celloAudioButton.valueAction_(0); ~fluteAudioButton.valueAction_(0); ~hornAudioButton.valueAction_(0);},
-			"flute", {~celloAudioButton.valueAction_(0); ~trumpetAudioButton.valueAction_(0); ~hornAudioButton.valueAction_(0);},
-			"horn", {~celloAudioButton.valueAction_(0); ~trumpetAudioButton.valueAction_(0); ~fluteAudioButton.valueAction_(0);},
-		);
-*/
-
 		// NEW: Free all other Audio sounds USING GROUPS
 		switch(instrumentGroup,
 			"strings", {~trumpetAudioButton.valueAction_(0); ~fluteAudioButton.valueAction_(0); ~hornAudioButton.valueAction_(0); ~voicesAudioButton.valueAction_(0);},
@@ -260,8 +276,9 @@
 				{0.1}, {nil});
 		});
 
+		("~" ++ instrument ++ "AudioSynth = Synth.new(\\" ++ instrument ++ "Audio, [\\out, 0, \\bufnum, ~" ++ instrument ++ "AudioBuffer.bufnum]);").interpret;
 
-		switch(instrument,
+		/*switch(instrument,
 			"cello", {~celloAudioSynth = 	y = Synth.new(\celloAudio, [\out, 0, \bufnum, ~celloAudioBuffer.bufnum]);},
 			"violin", {~violinAudioSynth = Synth.new(\violinAudio, [\out, 0, \bufnum, ~violinAudioBuffer.bufnum]);},
 			"trumpet", {~trumpetAudioSynth = v = Synth.new(\trumpetAudio, [\out, 0, \bufnum, ~trumpetAudioBuffer.bufnum]);},
@@ -272,7 +289,7 @@
 			"piano", {~pianoAudioSynth = Synth.new(\pianoAudio, [\out, 0, \bufnum, ~pianoAudioBuffer.bufnum]);},
 			"voice_tenor", {~voice_tenorAudioSynth = Synth.new(\voice_tenorAudio, [\out, 0, \bufnum, ~voice_tenorAudioBuffer.bufnum]);},
 			"voice_soprano", {~voice_sopranoAudioSynth = Synth.new(\voice_sopranoAudio, [\out, 0, \bufnum, ~voice_sopranoAudioBuffer.bufnum]);}
-		);
+		);*/
 
 		/*
 		z.free;
@@ -310,16 +327,25 @@
 		~vinbutton.valueAction_(0);
 
 		switch(instrument,
-			"cello", {AppClock.sched(2.4, {if(howLongPlaying > 23, {~celloAudioButton.valueAction_(0); "Cello audio finished.".postln});})},
+			"cello", {AppClock.sched(2.4, {if(howLongPlaying > 23, {~stringsAudioButton.valueAction_(0); "Cello audio finished.".postln});})},
 			"violin", {AppClock.sched(6, {if(howLongPlaying > 55, {~stringsAudioButton.valueAction_(0); "Violin audio finished.".postln});})},
-			"trumpet", {AppClock.sched(4, {if(howLongPlaying > 39, {~trumpetAudioButton.valueAction_(0); "Trumpet audio finished.".postln});})},
+			"trumpet", {AppClock.sched(4, {if(howLongPlaying > 39, {~brassAudioButton.valueAction_(0); "Trumpet audio finished.".postln});})},
 			"horn", {AppClock.sched(3, {if(howLongPlaying > 29, {~brassAudioButton.valueAction_(0); "Horn audio finished.".postln});})},
-			"flute", {AppClock.sched(3, {if(howLongPlaying > 29, {~fluteAudioButton.valueAction_(0); "Flute audio finished.".postln});})},
+			"flute", {AppClock.sched(3, {if(howLongPlaying > 29, {~woodwindsAudioButton.valueAction_(0); "Flute audio finished.".postln});})},
 			"clarinet", {AppClock.sched(3, {if(howLongPlaying > 29, {~woodwindsAudioButton.valueAction_(0); "Clarinet audio finished.".postln});})},
 			"marimba", {AppClock.sched(1.2, {if(howLongPlaying > 11, {~percussionAudioButton.valueAction_(0); "Marimba audio finished.".postln});})},
-			"piano", {AppClock.sched(3, {if(howLongPlaying > 29, {~percussionAudioButton.valueAction_(0); "Piano audio finished.".postln});})},
+			"piano", {AppClock.sched(3, {if(howLongPlaying > 29, {~voicesAudioButton.valueAction_(0); "Piano audio finished.".postln});})},
 			"voice_tenor", {AppClock.sched(2.5, {if(howLongPlaying > 24, {~voice_tenorAudioButton.valueAction_(0); "Tenor audio finished.".postln});})},
-			"voice_soprano", {AppClock.sched(3.3, {if(howLongPlaying > 32, {~voicesAudioButton.valueAction_(0); "Soprano audio finished.".postln});})}
+			"voice_soprano", {AppClock.sched(3.3, {if(howLongPlaying > 32, {~voicesAudioButton.valueAction_(0); "Soprano audio finished.".postln});})},
+			"viola", {AppClock.sched(7.1, {if(howLongPlaying > 70, {~stringsAudioButton.valueAction_(0); "Viola audio finished.".postln});})},
+			"bass", {AppClock.sched(3.2, {if(howLongPlaying > 31, {~stringsAudioButton.valueAction_(0); "Bass audio finished.".postln});})},
+			"trombone", {AppClock.sched(2.9, {if(howLongPlaying > 28, {~brassAudioButton.valueAction_(0); "Trombone audio finished.".postln});})},
+			"tuba", {AppClock.sched(2.2, {if(howLongPlaying > 21, {~brassAudioButton.valueAction_(0); "Tuba audio finished.".postln});})},
+			"oboe", {AppClock.sched(1.9, {if(howLongPlaying > 18, {~woodwindsAudioButton.valueAction_(0); "Oboe audio finished.".postln});})},
+			"bassoon", {AppClock.sched(3.1, {if(howLongPlaying > 30, {~woodwindsAudioButton.valueAction_(0); "Bassoon audio finished.".postln});})},
+			"xylophone", {AppClock.sched(1.8, {if(howLongPlaying > 17, {~percussionAudioButton.valueAction_(0); "Xylophone audio finished.".postln});})},
+			"vibraphone", {AppClock.sched(3.5, {if(howLongPlaying > 34, {~percussionAudioButton.valueAction_(0); "Vibraphone audio finished.".postln});})},
+			"guitar", {AppClock.sched(3.3, {if(howLongPlaying > 32, {~voicesAudioButton.valueAction_(0); "Guitar audio finished.".postln});})}
 		);
 
 	}, {

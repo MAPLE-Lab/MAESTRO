@@ -14,7 +14,7 @@
 
 // Compile it as a single function which is the executed, which finally sets the global variable names with their respective sliders
 	(
-		"~f"++item++"slider" + "=" + "Slider(w, Rect(" ++ i ++ "*20+70,145,20,230))"
+		"~f"++item++"slider" + "=" + "Slider(w, Rect(" ++ i ++ "*20+70,145-~allShiftUp,20,230))"
 		++
 		"
 .background_(Color(0.8,0.8,0.8,0.75))
@@ -66,7 +66,7 @@ if(~harmonic_in_effect != nil, {
 "
 		+
 "
-~f" ++ item ++ "Label = StaticText(w,Rect(" ++ i ++ "*20+70,130,20,15))
+~f" ++ item ++ "Label = StaticText(w,Rect(" ++ i ++ "*20+70,130-~allShiftUp,20,15))
 .string_(" ++ item.asCompileString ++")
 .font_(Font(" ++ nil.asCompileString ++ ", 12))
 .align_(" ++ "\\" ++ "top)

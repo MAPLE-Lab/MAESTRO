@@ -60,8 +60,9 @@ t.view.keyDownAction = { arg view, char, modifiers, unicode, keycode;
 		//Buttons
 
 
-			~splashButtonWidth = 130;
+			~splashButtonWidth = 150;
 
+		if(TabFileReader.read(~trace +/+  "admin/access.txt").[0].[2] == "true", {
 ~tuningButton = Button.new(t, Rect((400-220-50), 180+30-20-50, ~splashButtonWidth, 40))
 	.states_([["Tuning", Color.white, Color(0.7569,0.1373,0.1725,1)]])
 	.font_(Font("nil", 18))
@@ -70,7 +71,9 @@ t.view.keyDownAction = { arg view, char, modifiers, unicode, keycode;
 			(basePath +/+  "MAPLE_Tuning_Demonstration.scd").loadPaths;
 			t.close;
 		});
+		});
 
+		if(TabFileReader.read(~trace +/+  "admin/access.txt").[1].[2] == "true", {
 ~spectraButton = Button.new(t, Rect((400-220-50), 180+50+30-20-50, ~splashButtonWidth, 40))
 	.states_([["Spectra", Color.white, Color(0.7569,0.1373,0.1725,1)]])
 	.font_(Font("nil", 18))
@@ -78,7 +81,9 @@ t.view.keyDownAction = { arg view, char, modifiers, unicode, keycode;
 			(basePath +/+  "MAPLE_Spectra_Demonstration.scd").loadPaths;
 			t.close;
 		});
+		});
 
+		if(TabFileReader.read(~trace +/+  "admin/access.txt").[2].[2] == "true", {
 		~tonesButton = Button.new(t, Rect((400-220-50), 180+50+30-20+50-50, ~splashButtonWidth, 40))
 	.states_([["Diff. Tones", Color.white, Color(0.7569,0.1373,0.1725,1)]])
 	.font_(Font("nil", 18))
@@ -86,13 +91,16 @@ t.view.keyDownAction = { arg view, char, modifiers, unicode, keycode;
 			(basePath +/+  "MAPLE_Difference_Tones.scd").loadPaths;
 			t.close;
 		});
+		});
 
+		if(TabFileReader.read(~trace +/+  "admin/access.txt").[3].[2] == "true", {
 		~synthesizerButton = Button.new(t, Rect((400-220-50), 180+50+30-20+50-50+50, ~splashButtonWidth, 40))
-	.states_([["Synthesizer", Color.white, Color(0.7569,0.1373,0.1725,1)]])
+	.states_([["Sound Designer", Color.white, Color(0.7569,0.1373,0.1725,1)]])
 	.font_(Font("nil", 18))
 	.mouseDownAction_({
 			(basePath +/+  "MAPLE_Synthesizer.scd").loadPaths;
 			t.close;
+		});
 		});
 
 q = Button.new(t, Rect((400-50), 340, 100, 30))

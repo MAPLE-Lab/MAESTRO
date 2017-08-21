@@ -1,0 +1,2 @@
+The sawtooth wave is composed of a complete harmonic series. Each odd harmonic's intensity is given by the formula "1/n" where n is the harmonic number. To create a sawtooth wave, the phase of all harmonics played must be pi.
+Because the sawtooth wave has all the harmonics, it can be compared to brass instruments such as the trumpet.

@@ -1,7 +1,10 @@
+// Load necessary function:
+(~trace +/+  "data/keyboard_colour_change_array_load.scd").load;
+
 ~fNsliderAction = {
 	arg instrument=nil, intensityArray, numberOfHarmonics = 16;
 
-	switch(instrument,
+	/*switch(instrument,
 		"cello", {intensityArray = [0.09,0.39,0.63,0.53,0.06,0.1,0.19,0.11,0.03,0.05,0.03,0.02,0.01,0.01,0.02,0]},
 		"trumpet", {intensityArray = [0.05,0.13,0.24,0.36,0.49,0.37,0.29,0.15,0.17,0.12,0.11,0.08,0.05,0.03,0.02,0.01]},
 		"flute", {intensityArray = [0.33,0.2,0.17,0.11,0.01,0.01,0.015,0.015,0,0,0,0,0,0,0,0]},
@@ -27,8 +30,17 @@
 
 },
 		nil, {}
-	);
-	//intensityArray = [0.5,0.2,0.6];
+	);*/
+
+
+	if(instrument != nil, {
+		~keyNoteColorChangeFunctionMeans_dataLoad.value(instrument:instrument);
+			intensityArray = ~harmonicsMeansDataArray[1].drop(1); // Created from IF statement prior
+	}, {
+		"No instrument name given. See spectra_harmonic_slider_functions.scd.".postln;
+	});
+
+
 	numberOfHarmonics.do({
 		arg item, i, j;
 		j = i + 1;

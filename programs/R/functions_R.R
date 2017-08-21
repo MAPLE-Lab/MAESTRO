@@ -41,6 +41,17 @@ soundfileStereoCheck <- function(x) {
   soundfileActiveRead <<- readWave(soundfileActive) 
 }
 
+soundfileSampleRateCheck <- function(soundfileActiveRead) {
+  soundfileRead <- soundfileActiveRead
+  if(soundfileRead@samp.rate != 44100) {
+    print(paste0("The selected sound file does not use a sample rate of 44100. Currently only 44100 sample rate sounds are usable by this script. Please convert your sound and try again. Example analyses/plots will be conducted nonetheless assuming a 44100 sample rate."))
+    soundfileActive <<- (paste0(getwd(), "/", "soundfileMonoL.wav"))
+  } else {
+    print("The selected sound file has a sample rate of 44100. No changes necessary.")
+  }
+  soundfileActiveRead <<- soundfileActiveRead
+}
+
 
 # STEP 5 - PARAMETER SETTING
 freqParameters <- function(x) { # Input argument: 

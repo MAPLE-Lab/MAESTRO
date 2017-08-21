@@ -1,0 +1,1 @@
+The sine wave is a pure tone, as it only has a single wave. Therefore, by complex sounds can be constructed from several sine waves which vary in frequency, intensity, and phase. A cosine wave is the same as a sine wave but its phase has been shifted by pi.

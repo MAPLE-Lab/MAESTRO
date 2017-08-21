@@ -20,7 +20,7 @@ s.freeAll;
 w = Window.new("MAPLE Lab Spectra Demonstration (Beta)", Rect.new(
 	Window.screenBounds.width/2-400,
 	Window.screenBounds.height/2-50,
-	800,570),false)
+	800,570-~allShiftUp),false)
 	.background_(Color.white)
 	.userCanClose_(false)
 	.front
@@ -36,9 +36,9 @@ w = Window.new("MAPLE Lab Spectra Demonstration (Beta)", Rect.new(
 //Spectra
 (
 //Spectra parameters:
-~spectraScreenComposite_bounds_array = [410,105,380,300];
-~spectraButton_bounds_array = [690-40, 112.5+40, 120, 20];
-~spectraAutoscale_bounds_array = [690-40, 112.5+40+20, 120, 20];
+~spectraScreenComposite_bounds_array = [410,105-~allShiftUp,380,300];
+~spectraButton_bounds_array = [690-40, 112.5+40-~allShiftUp, 120, 20];
+~spectraAutoscale_bounds_array = [690-40, 112.5+40+20-~allShiftUp, 120, 20];
 		~temporaryDisableAutoscale = 0;
 
 //Load the spectra now that all the above parameters have been set:
@@ -52,15 +52,24 @@ w = Window.new("MAPLE Lab Spectra Demonstration (Beta)", Rect.new(
 	~lowerButtons = 40; // For Button heights
 	(basePath +/+  "data/spectra_specific_data/spectra_set_to_custom_functions.scd").load; // Any change from a preset goes to Custom name
 		(~trace +/+  "data/oscilloscopeButtonFunctions.scd").load; // Load the oscilloscope button functions
+<<<<<<< HEAD
+	(~trace +/+  "data/spectra_specific_data/buffer_and_synthdef_create_functions.scd").load; // Load the oscilloscope button functions
+
+
+	// Title and labels
+	// ~masterTitle = StaticText(w, Rect(0,0,800,40)).string_("Spectra").align_(\center).font_(Font(nil, 14, true));
+~allShiftUp = 60;
+=======
 
 
 	// Title and labels
 		~masterTitle = StaticText(w, Rect(0,0,800,40)).string_("Spectra").align_(\center).font_(Font(nil, 14, true));
 
+>>>>>>> b65f3eb83bd1defa69283b8e359090cf0d25d1bf
 
 //Label for paragraph
 ~para = StaticText(w,Rect(10,10,790-50,80))
-	.string_("Welcome to the MAPLE Lab Spectra Demonstration (Beta)! Using the parameters below, you can examine timbre of sounds. Select the fundamental frequency and the intensity of each harmonic. Use the Play/Mute button to start and stop the sound. To explore how power spectra are not representative of real instruments, try playing a dynamic spectra sound.")
+	.string_(TabFileReader.read(~trace +/+  "paragraphs/spectraIntro.txt").flatten.asString.drop(2).drop(-2))
 .font_(Font("nil", 12))
 .align_(\topLeft)
 .background_(Color(0,0,0,0))
@@ -92,14 +101,14 @@ StaticText(w,Rect(10,105,380,25))
 		~stop_image_right = Image.new(basePath +/+ "images/big_button_media/black_right.png");
 		~stop_image_indent = Image.new(basePath +/+ "images/big_button_media/black_indent_col.png");
 
-		~play_UserView = UserView(w, Rect(400-(100/2)-92,65,192,30));
+		~play_UserView = UserView(w, Rect(400-(100/2)-92,65-~allShiftUp,192,30));
 		~play_UserView.drawFunc_({
 			~play_image_left.drawInRect(Rect(0,0,100,30), Rect(0,0,200,60), 2, 1.0);
 			~play_image_right.drawInRect(Rect(35,0,100,30), Rect(0,0,200,60), 2, 1.0);
 			~play_image_indent.drawInRect(Rect(67,0,100,30), Rect(0,0,200,60), 2, 1.0);
 		});
 
-		~stop_UserView = UserView(w, Rect(400-(100/2)-92,65,192,30));
+		~stop_UserView = UserView(w, Rect(400-(100/2)-92,65-~allShiftUp,192,30));
 		~stop_UserView.drawFunc_({
 			~stop_image_left.drawInRect(Rect(0,0,100,30), Rect(0,0,200,60), 2, 1.0);
 			~stop_image_right.drawInRect(Rect(35,0,100,30), Rect(0,0,200,60), 2, 1.0);
@@ -107,12 +116,12 @@ StaticText(w,Rect(10,105,380,25))
 		});
 
 		//~play_UserView.bounds_(Rect(400-(100/2),65,1,1)); //Hide the play button
-		~stop_UserView.bounds_(Rect(400-(100/2)-92,65,1,1)); //Hide the stop button
+		~stop_UserView.bounds_(Rect(400-(100/2)-92,65-~allShiftUp,1,1)); //Hide the stop button
 	);
 
 
 //Play Forced sounds button
-~button = Button(w, Rect(400-(100/2)-92,65,100+35,30))
+~button = Button(w, Rect(400-(100/2)-92,65-~allShiftUp,100+35,30))
 .states_([
 		[" ", Color.white, Color.clear], //Color(0.7569,0.1373,0.1725,1)],
 	[" ", Color.white, Color.clear] // Color.grey(0.251)]
@@ -184,7 +193,7 @@ StaticText(w,Rect(10,105,380,25))
 				if(~hornAudioButton.value == 1, {~hornAudioButton.valueAction_(0)}); //t.free;
 				if(~celloAudioButton.value == 1, {~celloAudioButton.valueAction_(0)}); //y.free;*/
 
-				~stop_UserView.bounds_(Rect(400-(100/2)-92,65,150,30));
+				~stop_UserView.bounds_(Rect(400-(100/2)-92,65-~allShiftUp,150,30));
 				~synth_menu.background_(Color.black);
 				~synth_menu.stringColor_(Color.white);
 		},
@@ -203,7 +212,7 @@ StaticText(w,Rect(10,105,380,25))
 ~spectraFreeDynamicAll.value;
 
 
-~stop_UserView.bounds_(Rect(400-(100/2)-92,65,1,1));
+~stop_UserView.bounds_(Rect(400-(100/2)-92,65-~allShiftUp,1,1));
 
 			//Reset to base colours when not playing
 						if(~key_vis.value == 1, {
@@ -226,7 +235,7 @@ s.waitForBoot({
  var snd, funcs2, b;
 
 
- ~vinbutton = Button(w, Rect(620+200, 417.5, 170, 25)) //Pushed off-screen
+ ~vinbutton = Button(w, Rect(620+200, 417.5-~allShiftUp, 170, 25)) //Pushed off-screen
 			.states_([["            Click to Play", Color.white, Color(0.7569,0.1373,0.1725,1)], ["            Click to Stop", Color.white, Color.black]])
    .mouseDownAction_(
 
@@ -251,12 +260,12 @@ s.waitForBoot({
 
 			// Button to quickly change the Phase of the sound so that it can create a triangle wave
 
-			~soundPhaseArrayButtonLabel = StaticText(w, Rect(410,70-10,70,20))
+			~soundPhaseArrayButtonLabel = StaticText(w, Rect(410,70-10-~allShiftUp,70,20))
 			.string_("Harmonic Phases")
 			.align_(\center)
 			.font_(Font(nil, 8));
 
-			~soundPhaseArrayButton = Button(w, Rect(410,70+5,70,20))
+			~soundPhaseArrayButton = Button(w, Rect(410,70+5-~allShiftUp,70,20))
 			.states_([
 				["All Pi", Color.white, Color.grey(0.75)],
 				["Triangle", Color.white, Color.grey(0.25)],
@@ -300,7 +309,7 @@ x.set(
 
 			});
 
-~synth_menu = PopUpMenu(w, Rect(260, 70-3, 100, 25)); //Moved to next to big button
+~synth_menu = PopUpMenu(w, Rect(260, 70-3-~allShiftUp, 100, 25)); //Moved to next to big button
 			~synth_menu.items_(["Sine", "Square", "Triangle", "Sawtooth", "Rev. Sawtooth", "Instruments", "Custom"]);
 			~synth_menu.font_(Font(\size, 12));
 
@@ -375,7 +384,9 @@ x.set(
 
  funcs2 = [
 				{ //sine
-
+			~synth_menu.background_(Color(0.7569-0.1,0.1373-0.1,0.1725-0.1,1));
+~play_UserView.bounds_(Rect(400-(100/2)-92,65-~allShiftUp,192,30));
+					~button.bounds_(Rect(400-(100/2)-92,65-~allShiftUp,100+35,30));
 		//~freqslider.valueAction_(69.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
 
 							~volslider.valueAction_(0.4.value.linlin(0,1,0,1));
@@ -388,16 +399,28 @@ x.set(
 					if(~button.value == 1,
 						{~button.valueAction_(1)});
 
+<<<<<<< HEAD
+		~instrumentsCover.bounds_(Rect(10,410+2-~allShiftUp,(790-10), 120+~lowerButtons))
+					.string_(TabFileReader.read(~trace +/+  "paragraphs/spectraPresets/sine.txt").flatten.join.asString).align_(\topLeft);
+=======
 		~instrumentsCover.bounds_(Rect(10,410+2,(790-10), 120+~lowerButtons))
 					.string_("The sine wave is a pure tone, as it only has a single wave.
 Therefore, by complex sounds can be constructed from several sine waves which vary in frequency, intensity, and phase.
 A cosine wave is the same as a sine wave but its phase has been shifted by pi.").align_(\topLeft);
+>>>>>>> b65f3eb83bd1defa69283b8e359090cf0d25d1bf
 	},
 
 
 				{ //Square
+<<<<<<< HEAD
+			~synth_menu.background_(Color(0.7569-0.1,0.1373-0.1,0.1725-0.1,1));
+~play_UserView.bounds_(Rect(400-(100/2)-92,65-~allShiftUp,192,30));
+										~button.bounds_(Rect(400-(100/2)-92,65-~allShiftUp,100+35,30));
+					//~freqslider.valueAction_(69.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
+=======
 
 		//~freqslider.valueAction_(69.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
+>>>>>>> b65f3eb83bd1defa69283b8e359090cf0d25d1bf
 							~volslider.valueAction_(0.4.value.linlin(0,1,0,1));
 
 					~soundPhaseArrayButton.valueAction_(2);
@@ -413,14 +436,21 @@ A cosine wave is the same as a sine wave but its phase has been shifted by pi.")
 				~k.valueAction_(0);
 								~j.valueAction_(0);*/
 
+<<<<<<< HEAD
+					~instrumentsCover.bounds_(Rect(10,410+2-~allShiftUp,(790-10), 120+~lowerButtons)).string_(TabFileReader.read(~trace +/+  "paragraphs/spectraPresets/square.txt").flatten.join.asString).align_(\topLeft);
+=======
 					~instrumentsCover.bounds_(Rect(10,410+2,(790-10), 120+~lowerButtons)).string_(
 						"The square wave is composed of an incomplete harmonic series, where only the odd harmonics are played (i.e. 1, 3, 5, etc.).
 Each odd harmonic's intensity is given by the formula " ++ ("1/n").asCompileString ++ " where n is the harmonic number.
 The phases for all the harmonics must be the same to create the square wave.").align_(\topLeft);
+>>>>>>> b65f3eb83bd1defa69283b8e359090cf0d25d1bf
 
 	},
 
 				{//triangle
+								~synth_menu.background_(Color(0.7569-0.1,0.1373-0.1,0.1725-0.1,1));
+~play_UserView.bounds_(Rect(400-(100/2)-92,65-~allShiftUp,192,30));
+										~button.bounds_(Rect(400-(100/2)-92,65-~allShiftUp,100+35,30));
 
 					~triangleIntensityArray = Array.fill(16, {
 						arg i, j, k, value;
@@ -475,16 +505,22 @@ The phases for all the harmonics must be the same to create the square wave.").a
 				~k.valueAction_(0);
 								~j.valueAction_(0);*/
 
+<<<<<<< HEAD
+					~instrumentsCover.bounds_(Rect(10,410+2-~allShiftUp,(790-10), 120+~lowerButtons)).string_(TabFileReader.read(~trace +/+  "paragraphs/spectraPresets/triangle.txt").flatten.join.asString).align_(\topLeft);
+=======
 					~instrumentsCover.bounds_(Rect(10,410+2,(790-10), 120+~lowerButtons)).string_(
 						"The triangle wave is composed of an incomplete harmonic series, where only the odd harmonics are played (i.e. 1, 3, etc.).
 Each odd harmonic's intensity is given by the formula " ++ ("1/(n^2)").asCompileString ++ " where n is the harmonic number.
 The phases each successive played harmonic is shifted by pi. For example, if the 1st harmonic has a phase of 0, the 3rd harmonic has a phase of pi, followed by a phase of 0 again for the 5th harmonic. The phase of the 2nd and 4th (or any of the even harmonics) is inconsequential as they are not played in the triangle wave.
 ").align_(\topLeft);
+>>>>>>> b65f3eb83bd1defa69283b8e359090cf0d25d1bf
 
 	},
 
 				{ // Sawtooth
-
+			~synth_menu.background_(Color(0.7569-0.1,0.1373-0.1,0.1725-0.1,1));
+~play_UserView.bounds_(Rect(400-(100/2)-92,65-~allShiftUp,192,30));
+										~button.bounds_(Rect(400-(100/2)-92,65-~allShiftUp,100+35,30));
 		//~freqslider.valueAction_(69.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
 		~volslider.valueAction_(0.3.value.linlin(0,1,0,1));
 
@@ -507,15 +543,21 @@ The phases each successive played harmonic is shifted by pi. For example, if the
 				~k.valueAction_(0);
 								~j.valueAction_(0);*/
 
+<<<<<<< HEAD
+					~instrumentsCover.bounds_(Rect(10,410+2-~allShiftUp,(790-10), 120+~lowerButtons)).string_(TabFileReader.read(~trace +/+  "paragraphs/spectraPresets/sawtooth.txt").flatten.join.asString).align_(\topLeft);
+=======
 					~instrumentsCover.bounds_(Rect(10,410+2,(790-10), 120+~lowerButtons)).string_(
 						"The sawtooth wave is composed of a complete harmonic series.
 Each odd harmonic's intensity is given by the formula " ++ ("1/n").asCompileString ++ " where n is the harmonic number.
 To create a sawtooth wave, the phase of all harmonics played must be pi.
 Because the sawtooth wave has all the harmonics, it can be compared to brass instruments such as the trumpet.
 ").align_(\topLeft);
+>>>>>>> b65f3eb83bd1defa69283b8e359090cf0d25d1bf
 	},
 				{ // Reverse Sawtooth - same as Sawtooth except phase is 0
-
+			~synth_menu.background_(Color(0.7569-0.1,0.1373-0.1,0.1725-0.1,1));
+~play_UserView.bounds_(Rect(400-(100/2)-92,65-~allShiftUp,192,30));
+										~button.bounds_(Rect(400-(100/2)-92,65-~allShiftUp,100+35,30));
 		//~freqslider.valueAction_(69.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
 		~volslider.valueAction_(0.3.value.linlin(0,1,0,1));
 
@@ -539,11 +581,15 @@ Because the sawtooth wave has all the harmonics, it can be compared to brass ins
 				~k.valueAction_(0);
 								~j.valueAction_(0);*/
 
+<<<<<<< HEAD
+					~instrumentsCover.bounds_(Rect(10,410+2-~allShiftUp,(790-10), 120+~lowerButtons)).string_(TabFileReader.read(~trace +/+  "paragraphs/spectraPresets/reverse_sawtooth.txt").flatten.join.asString).align_(\topLeft);
+=======
 					~instrumentsCover.bounds_(Rect(10,410+2,(790-10), 120+~lowerButtons)).string_("The reverse sawtooth wave is composed of a complete harmonic series.
 Each odd harmonic's intensity is given by the formula " ++ ("1/n").asCompileString ++ " where n is the harmonic number.
 To create a sawtooth wave, the phase of all harmonics played must be 0.
 Because the reverse sawtooth wave has all the harmonics, it can be compared to brass instruments such as the trumpet.
 ").align_(\topLeft);
+>>>>>>> b65f3eb83bd1defa69283b8e359090cf0d25d1bf
 	},
 
 				{//"Instruments (harmonics panel)".postln;
@@ -552,6 +598,9 @@ Because the reverse sawtooth wave has all the harmonics, it can be compared to b
 					if(x.isPlaying, {x.free});
 
 
+~play_UserView.bounds_(Rect(400-(100/2),65-~allShiftUp,1,1));
+
+										~button.bounds_(Rect(400-(100/2)-92,65-~allShiftUp-500,100+35,30)); // Disappear
 
 
 					~button.valueAction_(0); // Automatically start in the off position
@@ -561,17 +610,24 @@ Because the reverse sawtooth wave has all the harmonics, it can be compared to b
 				~k.valueAction_(0);
 								~j.valueAction_(0);*/
 
-					~synth_menu.background_(Color(0.7569-0.1,0.1373-0.1,0.1725-0.1,1));
+					~synth_menu.background_(Color.grey(0.7));
 					~synth_menu.stringColor_(Color.black);
 
 					~reset.valueAction_(0); // Resets the intensities when set to Instruments.
 					~soundPhaseArrayButton.valueAction_(2); // Change back phase to 0
 
-					~instrumentsCover.bounds_(Rect(10,410+2,(790-10), 0));
+					~instrumentsCover.bounds_(Rect(10,410+2-~allShiftUp,(790-10), 0));
 				},
 				{// Custom
+<<<<<<< HEAD
+			~synth_menu.background_(Color(0.7569-0.1,0.1373-0.1,0.1725-0.1,1));
+~play_UserView.bounds_(Rect(400-(100/2)-92,65-~allShiftUp,192,30));
+										~button.bounds_(Rect(400-(100/2)-92,65-~allShiftUp,100+35,30));
+					~instrumentsCover.bounds_(Rect(10,410+2-~allShiftUp,(790-10), 120+~lowerButtons)).string_(TabFileReader.read(~trace +/+  "paragraphs/spectraPresets/custom.txt").flatten.join.asString).align_(\topLeft);
+=======
 
 					~instrumentsCover.string_("").align_(\topLeft);
+>>>>>>> b65f3eb83bd1defa69283b8e359090cf0d25d1bf
 
 
 				}
@@ -601,8 +657,8 @@ Because the reverse sawtooth wave has all the harmonics, it can be compared to b
 
 	~spectraPowerButtonStatus = 0; // Starts all off
 
-	//FORCED cello preset
-	~stringsPowerButton = ~celloPowerButton = ~j = Button(w, Rect(240, 417.5+~lowerButtons, 90, 26))
+	// Power Strings
+	~stringsPowerButton = ~celloPowerButton = ~j = Button(w, Rect(240, 417.5+~lowerButtons-~allShiftUp, 90, 26))
 	.states_([["Strings", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Strings", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({
@@ -614,15 +670,16 @@ Because the reverse sawtooth wave has all the harmonics, it can be compared to b
 
 
 		switch(~instrumentGroupStringsDropdown.item,
+			"Violin", {~spectraPowerButtonAction.value(obj:obj, instrument:"violin", fundamentalNote:60);},
+			"Viola", {~spectraPowerButtonAction.value(obj:obj, instrument:"viola", fundamentalNote:60);},
 			"Cello", {~spectraPowerButtonAction.value(obj:obj, instrument:"cello", fundamentalNote:60);},
-			"Violin", {~spectraPowerButtonAction.value(obj:obj, instrument:"violin", fundamentalNote:60);}
+			"Bass", {~spectraPowerButtonAction.value(obj:obj, instrument:"bass", fundamentalNote:60);}
 		);
 
-//		~spectraPowerButtonAction.value(obj:obj, instrument:"cello", fundamentalNote:60);
 	}); //Ensure ~button.value is value not valueAction to avoid loop and ensure this turns off big button properly
 
-	//FORCED trumpet preset
-	~brassPowerButton = ~trumpetPowerButton = ~l = Button(w, Rect(335, 417.5+~lowerButtons, 90, 26))
+	// Power Brass
+	~brassPowerButton = ~trumpetPowerButton = ~l = Button(w, Rect(335, 417.5+~lowerButtons-~allShiftUp, 90, 26))
 	.states_([["Brass", Color.white, Color(0.7569,0.1373,0.1725,1)],["Brass", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({
@@ -633,16 +690,17 @@ Because the reverse sawtooth wave has all the harmonics, it can be compared to b
 		~spectraFreePowerSpecifyValueOnly.value(instrument:"voices");
 
 		switch(~instrumentGroupBrassDropdown.item,
+			"Trumpet", {~spectraPowerButtonAction.value(obj:obj, instrument:"trumpet", fundamentalNote:60);},
 			"Horn", {~spectraPowerButtonAction.value(obj:obj, instrument:"horn", fundamentalNote:60);},
-			"Trumpet", {~spectraPowerButtonAction.value(obj:obj, instrument:"trumpet", fundamentalNote:60);}
+			"Trombone", {~spectraPowerButtonAction.value(obj:obj, instrument:"trombone", fundamentalNote:60);},
+			"Tuba", {~spectraPowerButtonAction.value(obj:obj, instrument:"tuba", fundamentalNote:60);}
 		);
 
-		//~spectraPowerButtonAction.value(obj:obj, instrument:"trumpet", fundamentalNote:60);
 	});
 
 
-	//FORCED flute preset
-	~woodwindsPowerButton = ~flutePowerButton = ~k = Button(w, Rect(430, 417.5+~lowerButtons, 90, 26))
+	// Power Woodwinds
+	~woodwindsPowerButton = ~flutePowerButton = ~k = Button(w, Rect(430, 417.5+~lowerButtons-~allShiftUp, 90, 26))
 	.states_([["Woodwind", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Woodwind", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({ // Must be "action" and not "mouseDownAction" to avoid code not working
@@ -654,14 +712,14 @@ Because the reverse sawtooth wave has all the harmonics, it can be compared to b
 
 		switch(~instrumentGroupWoodwindsDropdown.item,
 			"Flute", {~spectraPowerButtonAction.value(obj:obj, instrument:"flute", fundamentalNote:72);},
-			"Clarinet", {~spectraPowerButtonAction.value(obj:obj, instrument:"clarinet", fundamentalNote:60);}
+			"Clarinet", {~spectraPowerButtonAction.value(obj:obj, instrument:"clarinet", fundamentalNote:60);},
+			"Oboe", {~spectraPowerButtonAction.value(obj:obj, instrument:"oboe", fundamentalNote:60);},
+			"Bassoon", {~spectraPowerButtonAction.value(obj:obj, instrument:"bassoon", fundamentalNote:60);}
 		);
-
-		//~spectraPowerButtonAction.value(obj:obj, instrument:"flute", fundamentalNote:72);
 	});
 
-	//FORCED horn preset
-	~percussionPowerButton = ~hornPowerButton = ~r = Button(w, Rect(525, 417.5+~lowerButtons, 90, 26))
+	// Power Percussion
+	~percussionPowerButton = ~hornPowerButton = ~r = Button(w, Rect(525, 417.5+~lowerButtons-~allShiftUp, 90, 26))
 	.states_([["Percussion", Color.white, Color(0.7569,0.1373,0.1725,1)],["Percussion", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({
@@ -673,16 +731,16 @@ Because the reverse sawtooth wave has all the harmonics, it can be compared to b
 
 
 		switch(~instrumentGroupPercussionDropdown.item,
+			"Xylophone", {~spectraPowerButtonAction.value(obj:obj, instrument:"xylophone", fundamentalNote:72);},
 			"Marimba", {~spectraPowerButtonAction.value(obj:obj, instrument:"marimba", fundamentalNote:60);},
-			"Piano", {~spectraPowerButtonAction.value(obj:obj, instrument:"piano", fundamentalNote:60);}
+			"Vibraphone", {~spectraPowerButtonAction.value(obj:obj, instrument:"vibraphone", fundamentalNote:60);}
+			//"Piano", {~spectraPowerButtonAction.value(obj:obj, instrument:"piano", fundamentalNote:60);}
 		);
-
-		//~spectraPowerButtonAction.value(obj:obj, instrument:"horn", fundamentalNote:60);
 	});
 
-	//FORCED voice preset
-	~voicesPowerButton = ~voice_tenorPowerButton = Button(w, Rect(620, 417.5+~lowerButtons, 90, 26))
-	.states_([["Voice", Color.white, Color(0.7569,0.1373,0.1725,1)],["Voice", Color.white, Color(0,0,0,1)]])
+	// Power Other/Voices
+	~otherPowerButton = ~voicesPowerButton = ~voice_tenorPowerButton = Button(w, Rect(620, 417.5+~lowerButtons-~allShiftUp, 90, 26))
+	.states_([["Other", Color.white, Color(0.7569,0.1373,0.1725,1)],["Other", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({
 		arg obj;
@@ -692,18 +750,16 @@ Because the reverse sawtooth wave has all the harmonics, it can be compared to b
 		~spectraFreePowerSpecifyValueOnly.value(instrument:"flute");
 
 		switch(~instrumentGroupVoicesDropdown.item,
-			"Tenor", {~spectraPowerButtonAction.value(obj:obj, instrument:"voice_tenor", fundamentalNote:60);},
-			"Soprano", {~spectraPowerButtonAction.value(obj:obj, instrument:"voice_soprano", fundamentalNote:72);}
+			"Piano", {~spectraPowerButtonAction.value(obj:obj, instrument:"piano", fundamentalNote:60);},
+			"Guitar", {~spectraPowerButtonAction.value(obj:obj, instrument:"guitar", fundamentalNote:60);}
+			// "Tenor", {~spectraPowerButtonAction.value(obj:obj, instrument:"voice_tenor", fundamentalNote:60);},
+			// "Soprano", {~spectraPowerButtonAction.value(obj:obj, instrument:"voice_soprano", fundamentalNote:72);}
 		);
-
-		//~spectraPowerButtonAction.value(obj:obj, instrument:"voice_tenor", fundamentalNote:51);
-
-	//	"No data currently available. This is a proof of concept for the button design."
 	});
 
 
 			//Label for Select Instrument
-~labelPower = StaticText(w,Rect(10,420,160,20))
+~labelPower = StaticText(w,Rect(10,420-~allShiftUp,160,20))
 	.string_("Select Instrument")
 .font_(Font("nil", 18))
 .align_(\topLeft)
@@ -711,7 +767,7 @@ Because the reverse sawtooth wave has all the harmonics, it can be compared to b
 .stringColor_(Color.black);
 
 		//Label for Forced Choice
-~labelPower = StaticText(w,Rect(10,420+~lowerButtons,150,20))
+~labelPower = StaticText(w,Rect(10,420+~lowerButtons-~allShiftUp,150,20))
 	.string_("Power Spectra")
 .font_(Font("nil", 18))
 .align_(\topLeft)
@@ -719,7 +775,7 @@ Because the reverse sawtooth wave has all the harmonics, it can be compared to b
 .stringColor_(Color.black);
 
 	//Label for Moving
-~labelDynamic = StaticText(w,Rect(10,460+~lowerButtons,380,30))
+~labelDynamic = StaticText(w,Rect(10,460+~lowerButtons-~allShiftUp,380,30))
 	.string_("Dynamic Spectra")
 .font_(Font("nil", 18))
 .align_(\topLeft)
@@ -727,7 +783,7 @@ Because the reverse sawtooth wave has all the harmonics, it can be compared to b
 .stringColor_(Color.black);
 
 //Label for Realistic
-~labelAudio = StaticText(w,Rect(10,500+~lowerButtons,380,30))
+~labelAudio = StaticText(w,Rect(10,500+~lowerButtons-~allShiftUp,380,30))
 	.string_("Audio Recordings")
 .font_(Font("nil", 18))
 .align_(\topLeft)
@@ -735,7 +791,7 @@ Because the reverse sawtooth wave has all the harmonics, it can be compared to b
 .stringColor_(Color.black);
 
 //Label for Harmonics
-~labelHarmonicsPanel = StaticText(w,Rect(15,110,380,20))
+~labelHarmonicsPanel = StaticText(w,Rect(15,110-~allShiftUp,380,20))
 	.string_("Harmonics|")
 .font_(Font("nil", 18))
 .align_(\topLeft)
@@ -747,69 +803,80 @@ Because the reverse sawtooth wave has all the harmonics, it can be compared to b
 
 	// Strings Group
 
-	~instrumentGroupStringsLabel = StaticText(w, Rect(240, 410, 90, 15))
+	~instrumentGroupStringsLabel = StaticText(w, Rect(240, 410-~allShiftUp, 90, 15))
 	.string_("Strings")
 	.background_(Color.clear)
 	.align_(\center)
 	.font_(Font(nil,10));
 
-	~instrumentGroupStringsDropdown = PopUpMenu(w, Rect(240, 425, 90, 20))
-	.items_(["Cello", "Violin"]);
+	~instrumentGroupStringsDropdown = PopUpMenu(w, Rect(240, 425-~allShiftUp, 90, 20))
+	.items_(["Violin", "Viola", "Cello", "Bass"])
+	.action_({
+		~spectraInstrumentDropdownUpdate.value(instrumentGroup:"strings");
+/*if(~stringsPowerButton.value == 1, {
+		~stringsPowerButton.valueAction_(0);
+		~stringsPowerButton.valueAction_(1);
+		});*/
+	});
 
 
 	// Brass Group
 
-	~instrumentGroupBrassLabel = StaticText(w, Rect(335, 410, 90, 15))
+	~instrumentGroupBrassLabel = StaticText(w, Rect(335, 410-~allShiftUp, 90, 15))
 	.string_("Brass")
 	.background_(Color.clear)
 	.align_(\center)
 	.font_(Font(nil,10));
 
-	~instrumentGroupBrassDropdown = PopUpMenu(w, Rect(335, 425, 90, 20))
-	.items_(["Horn", "Trumpet"]);
+	~instrumentGroupBrassDropdown = PopUpMenu(w, Rect(335, 425-~allShiftUp, 90, 20))
+	.items_(["Trumpet", "Horn", "Trombone", "Tuba"]).action_({
+		~spectraInstrumentDropdownUpdate.value(instrumentGroup:"brass")});
 
 
 	// Woodwind Group
 
-	~instrumentGroupWoodwindsLabel = StaticText(w, Rect(430, 410, 90, 15))
+	~instrumentGroupWoodwindsLabel = StaticText(w, Rect(430, 410-~allShiftUp, 90, 15))
 	.string_("Woodwinds")
 	.background_(Color.clear)
 	.align_(\center)
 	.font_(Font(nil,10));
 
-	~instrumentGroupWoodwindsDropdown = PopUpMenu(w, Rect(430, 425, 90, 20))
-	.items_(["Flute", "Clarinet"]);
+	~instrumentGroupWoodwindsDropdown = PopUpMenu(w, Rect(430, 425-~allShiftUp, 90, 20))
+	.items_(["Flute", "Clarinet", "Oboe", "Bassoon"]).action_({
+		~spectraInstrumentDropdownUpdate.value(instrumentGroup:"woodwinds")});
 
 
 	// Percussion Group
 
-	~instrumentGroupPercussionLabel = StaticText(w, Rect(525, 410, 90, 15))
+	~instrumentGroupPercussionLabel = StaticText(w, Rect(525, 410-~allShiftUp, 90, 15))
 	.string_("Percussion")
 	.background_(Color.clear)
 	.align_(\center)
 	.font_(Font(nil,10));
 
-	~instrumentGroupPercussionDropdown = PopUpMenu(w, Rect(525, 425, 90, 20))
-	.items_(["Marimba", "Piano"]);
+	~instrumentGroupPercussionDropdown = PopUpMenu(w, Rect(525, 425-~allShiftUp, 90, 20))
+	.items_(["Xylophone", "Marimba", "Vibraphone"]).action_({
+		~spectraInstrumentDropdownUpdate.value(instrumentGroup:"percussion")});
 
 
 	// Voices Group
 
-	~instrumentGroupVoicesLabel = StaticText(w, Rect(620, 410, 90, 15))
-	.string_("Voices")
+	~instrumentGroupOtherLabel = ~instrumentGroupVoicesLabel = StaticText(w, Rect(620, 410-~allShiftUp, 90, 15))
+	.string_("Other")
 	.background_(Color.clear)
 	.align_(\center)
 	.font_(Font(nil,10));
 
-	~instrumentGroupVoicesDropdown = PopUpMenu(w, Rect(620, 425, 90, 20))
-	.items_(["Tenor", "Soprano"]);
+	~instrumentGroupVoicesDropdown = PopUpMenu(w, Rect(620, 425-~allShiftUp, 90, 20))
+	.items_(["Piano", "Guitar"]).action_({
+		~spectraInstrumentDropdownUpdate.value(instrumentGroup:"voices")});
 
 
 
 
 		//FUNDAMENTAL FREQUENCY
 //Properties of the slider
-~freqslider = Slider(w, Rect(250,110,140,20))
+~freqslider = Slider(w, Rect(250,110-~allShiftUp,140,20))
 	.background_(Color(0.8,0.8,0.8,0.75)).value_(48/87)
 	.step_(1/(108-21))
 	.action_({
@@ -1033,7 +1100,7 @@ s.makeBundle(1.0, //sound delay -~knob.value.linlin(0,1,0,0.5)
 	.orientation_(\horizontal);
 
 //Label for Freq.
-~freqLabel = StaticText(w,Rect(123,116,80,25))
+~freqLabel = StaticText(w,Rect(123,116-~allShiftUp,80,25))
 .string_("Fundamental")
 .font_(Font("nil", 8))
 .align_(\topRight)
@@ -1043,7 +1110,7 @@ s.makeBundle(1.0, //sound delay -~knob.value.linlin(0,1,0,0.5)
 
 
 //Number box that can edit slider position
-~numberBox = NumberBox(w,Rect(225,110,25,20))
+~numberBox = NumberBox(w,Rect(225,110-~allShiftUp,25,20))
 	.value_(440)
 	//.value_(69)
 //.clipLo_(21)
@@ -1057,7 +1124,7 @@ s.makeBundle(1.0, //sound delay -~knob.value.linlin(0,1,0,0.5)
 	// });
 
 // Cover to avoid editing frequency box
-~numberBox_Cover = StaticText(w,Rect(225,110,25,20))
+~numberBox_Cover = StaticText(w,Rect(225,110-~allShiftUp,25,20))
 	.background_(Color.clear);
 
 
@@ -1077,7 +1144,7 @@ s.makeBundle(1.0, //sound delay -~knob.value.linlin(0,1,0,0.5)
 
 //VOLUME
 //Properties of the slider
-~volslider = Slider(w, Rect(50,145,20,230))
+~volslider = Slider(w, Rect(50,145-~allShiftUp,20,230))
 	.background_(Color(0.0118,0.0118,0.0118,1))
 	.value_(0.4)
 	.mouseOverAction_({
@@ -1109,7 +1176,7 @@ Volume:"++obj.value).asString
 	.orientation_(\vertical);
 
 //Label for Vol.
-~volLabel = StaticText(w,Rect(50,130,20,15))
+~volLabel = StaticText(w,Rect(50,130-~allShiftUp,20,15))
 .string_("Vol.")
 .font_(Font("nil", 10, italic:true))
 .align_(\center)
@@ -1126,18 +1193,21 @@ Volume:"++obj.value).asString
 
 	// Cello Audio Recording
 	// Cello Buffer
-	~celloAudioBuffer = a = Buffer.read(s, basePath +/+ "audio/cello-2.wav"); // Can it be renamed to cello.wav?
+	//~celloAudioBuffer = a = Buffer.read(s, basePath +/+ "audio/cello.wav");
 
-	SynthDef("celloAudio",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1;
+	/*SynthDef("celloAudio",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1;
 		var rate;
 		rate = 1.0; // Can be used to affect pitch/speed of playback
 		Out.ar(out,
 			Pan2.ar(PlayBuf.ar(1,bufnum, BufRateScale.kr(bufnum)*rate, trigger, BufFrames.ir(bufnum)*startPos, loop=0),0.0)
 		);
-	}).add;
+	}).add;*/
+
+	// ~audioGenerator.value(["cello", "violin"]);
+	["cello", "violin", "viola", "bass"].do({arg instrument; ~audioGenerator.value(instrument);});
 
 	// Violin Buffer
-	~violinAudioBuffer = Buffer.read(s, basePath +/+ "audio/violin.wav");
+	/*~violinAudioBuffer = Buffer.read(s, basePath +/+ "audio/violin.wav");
 
 	SynthDef("violinAudio",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1;
 		var rate;
@@ -1145,10 +1215,10 @@ Volume:"++obj.value).asString
 		Out.ar(out,
 			Pan2.ar(PlayBuf.ar(1,bufnum, BufRateScale.kr(bufnum)*rate, trigger, BufFrames.ir(bufnum)*startPos, loop=0),0.0)
 		);
-	}).add;
+	}).add;*/
 
 	// Cello Button
-	~stringsAudioButton = ~celloAudioButton = q = Button(w, Rect(240, 497.5+~lowerButtons, 90, 26))
+	~stringsAudioButton = ~celloAudioButton = q = Button(w, Rect(240, 497.5+~lowerButtons-~allShiftUp, 90, 26))
 	.states_([["Strings", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Strings", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({
@@ -1156,25 +1226,20 @@ Volume:"++obj.value).asString
 
 		switch(~instrumentGroupStringsDropdown.item,
 			"Cello", {~spectraAudioButtonAction.value(obj:obj, instrument:"cello", instrumentGroup:"strings");
-				~freqslider.valueAction_(60.value.linlin(21,108,0,1));
-			},
+				~freqslider.valueAction_(60.value.linlin(21,108,0,1));},
 			"Violin", {~spectraAudioButtonAction.value(obj:obj, instrument:"violin", instrumentGroup:"strings");
-				~freqslider.valueAction_(60.value.linlin(21,108,0,1));
-				}
+				~freqslider.valueAction_(60.value.linlin(21,108,0,1));},
+			"Viola", {~spectraAudioButtonAction.value(obj:obj, instrument:"viola", instrumentGroup:"strings");
+				~freqslider.valueAction_(60.value.linlin(21,108,0,1));},
+			"Bass", {~spectraAudioButtonAction.value(obj:obj, instrument:"bass", instrumentGroup:"strings");
+				~freqslider.valueAction_(60.value.linlin(21,108,0,1));}
 		);
 
-		/*if(~instrumentGroupStringsDropdown.item == "Cello", {
-		~spectraAudioButtonAction.value(obj:obj, instrument:"cello");
-		});
-
-		if(~instrumentGroupStringsDropdown.item == "Violin", {
-		~spectraAudioButtonAction.value(obj:obj, instrument:"cello");
-		});*/
 	});
 
 	// Trumpet Audio Recording
 	// Trumpet Buffer
-	~trumpetAudioBuffer = c = Buffer.read(s, basePath +/+ "audio/trumpet.wav");
+	/*~trumpetAudioBuffer = c = Buffer.read(s, basePath +/+ "audio/trumpet.wav");
 
 	SynthDef("trumpetAudio",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1;
 		var rate;
@@ -1182,10 +1247,10 @@ Volume:"++obj.value).asString
 		Out.ar(out,
 			Pan2.ar(PlayBuf.ar(1,bufnum, BufRateScale.kr(bufnum)*rate, trigger, BufFrames.ir(bufnum)*startPos, loop=0),0.0)
 		);
-	}).add;
+	}).add;*/
 
 	// Horn Buffer
-	~hornAudioBuffer = q = Buffer.read(s, basePath +/+ "audio/horn.wav");
+	/*~hornAudioBuffer = q = Buffer.read(s, basePath +/+ "audio/horn.wav");
 
 	SynthDef("hornAudio",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1;
 		var rate;
@@ -1193,10 +1258,13 @@ Volume:"++obj.value).asString
 		Out.ar(out,
 			Pan2.ar(PlayBuf.ar(1,bufnum, BufRateScale.kr(bufnum)*rate, trigger, BufFrames.ir(bufnum)*startPos, loop=0),0.0)
 		);
-	}).add;
+	}).add;*/
 
-	// Trumpet Button
-	~brassAudioButton = ~trumpetAudioButton = e = Button(w, Rect(335, 497.5+~lowerButtons, 90, 26))
+	["horn", "trumpet", "tuba", "trombone"].do({arg instrument; ~audioGenerator.value(instrument);});
+
+
+	// Audio Brass Button
+	~brassAudioButton = ~trumpetAudioButton = e = Button(w, Rect(335, 497.5+~lowerButtons-~allShiftUp, 90, 26))
 	.states_([["Brass", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Brass", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({
@@ -1208,14 +1276,19 @@ Volume:"++obj.value).asString
 			},
 			"Trumpet", {~spectraAudioButtonAction.value(obj:obj, instrument:"trumpet", instrumentGroup:"brass");
 				~freqslider.valueAction_(60.value.linlin(21,108,0,1));
+			},
+			"Tuba", {~spectraAudioButtonAction.value(obj:obj, instrument:"tuba", instrumentGroup:"brass");
+				~freqslider.valueAction_(60.value.linlin(21,108,0,1));
+			},
+			"Trombone", {~spectraAudioButtonAction.value(obj:obj, instrument:"trombone", instrumentGroup:"brass");
+				~freqslider.valueAction_(60.value.linlin(21,108,0,1));
 			}
 		);
 
-		/*~spectraAudioButtonAction.value(obj:obj, instrument:"trumpet");*/
 	});
 
 	// Flue Audio Recording
-	// Flute Buffer
+	/*// Flute Buffer
 	~fluteAudioBuffer = b = Buffer.read(s, basePath +/+ "audio/flute.wav");
 
 	SynthDef("fluteAudio",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1;
@@ -1235,10 +1308,13 @@ Volume:"++obj.value).asString
 		Out.ar(out,
 			Pan2.ar(PlayBuf.ar(1,bufnum, BufRateScale.kr(bufnum)*rate, trigger, BufFrames.ir(bufnum)*startPos, loop=0),0.0)
 		);
-	}).add;
+	}).add;*/
+
+		["flute", "clarinet", "oboe", "bassoon"].do({arg instrument; ~audioGenerator.value(instrument);});
+
 
 	// Flute Button
-	~woodwindsAudioButton = ~fluteAudioButton = r = Button(w, Rect(430, 497.5+~lowerButtons, 90, 26))
+	~woodwindsAudioButton = ~fluteAudioButton = r = Button(w, Rect(430, 497.5+~lowerButtons-~allShiftUp, 90, 26))
 	.states_([["Woodwind", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Woodwind", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({
@@ -1246,11 +1322,13 @@ Volume:"++obj.value).asString
 
 		switch(~instrumentGroupWoodwindsDropdown.item,
 			"Flute", {~spectraAudioButtonAction.value(obj:obj, instrument:"flute", instrumentGroup:"woodwinds");
-				~freqslider.valueAction_(72.value.linlin(21,108,0,1));
-			},
+				~freqslider.valueAction_(72.value.linlin(21,108,0,1));},
 			"Clarinet", {~spectraAudioButtonAction.value(obj:obj, instrument:"clarinet", instrumentGroup:"woodwinds");
-				~freqslider.valueAction_(60.value.linlin(21,108,0,1));
-			}
+				~freqslider.valueAction_(60.value.linlin(21,108,0,1));},
+			"Oboe", {~spectraAudioButtonAction.value(obj:obj, instrument:"oboe", instrumentGroup:"woodwinds");
+				~freqslider.valueAction_(60.value.linlin(21,108,0,1));},
+			"Bassoon", {~spectraAudioButtonAction.value(obj:obj, instrument:"bassoon", instrumentGroup:"woodwinds");
+				~freqslider.valueAction_(60.value.linlin(21,108,0,1));}
 		);
 
 		// ~spectraAudioButtonAction.value(obj:obj, instrument:"flute");
@@ -1259,7 +1337,7 @@ Volume:"++obj.value).asString
 
 	// Percussion Audio Recordings
 	// Marimba Buffer
-	~marimbaAudioBuffer = Buffer.read(s, basePath +/+ "audio/marimba.wav");
+	/*~marimbaAudioBuffer = Buffer.read(s, basePath +/+ "audio/marimba.wav");
 
 	SynthDef("marimbaAudio",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1;
 		var rate;
@@ -1278,29 +1356,32 @@ Volume:"++obj.value).asString
 		Out.ar(out,
 			Pan2.ar(PlayBuf.ar(1,bufnum, BufRateScale.kr(bufnum)*rate, trigger, BufFrames.ir(bufnum)*startPos, loop=0),0.0)
 		);
-	}).add;
+	}).add;*/
+
+			["xylophone", "marimba", "vibraphone"].do({arg instrument; ~audioGenerator.value(instrument);});
+
 
 	// Percussion Button
-	~percussionAudioButton = ~hornAudioButton = f = Button(w, Rect(525, 497.5+~lowerButtons, 90, 26))
+	~percussionAudioButton = ~hornAudioButton = f = Button(w, Rect(525, 497.5+~lowerButtons-~allShiftUp, 90, 26))
 	.states_([["Percussion", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Percussion", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({
 		arg obj;
 
 		switch(~instrumentGroupPercussionDropdown.item,
+			"Xylophone", {~spectraAudioButtonAction.value(obj:obj, instrument:"xylophone", instrumentGroup:"percussion");
+				~freqslider.valueAction_(72.value.linlin(21,108,0,1));},
 			"Marimba", {~spectraAudioButtonAction.value(obj:obj, instrument:"marimba", instrumentGroup:"percussion");
-				~freqslider.valueAction_(60.value.linlin(21,108,0,1));
-			},
-			"Piano", {~spectraAudioButtonAction.value(obj:obj, instrument:"piano", instrumentGroup:"percussion");
-				~freqslider.valueAction_(60.value.linlin(21,108,0,1));
-			}
+				~freqslider.valueAction_(60.value.linlin(21,108,0,1));},
+			"Vibraphone", {~spectraAudioButtonAction.value(obj:obj, instrument:"vibraphone", instrumentGroup:"percussion");
+				~freqslider.valueAction_(60.value.linlin(21,108,0,1));},
 		);
 
 		// ~spectraAudioButtonAction.value(obj:obj, instrument:"horn");
 	});
 
 	// Voice Audio Recordings
-	// Tenor Buffer
+	/*// Tenor Buffer
 	~voice_tenorAudioBuffer = Buffer.read(s, basePath +/+ "audio/voice_tenor.wav");
 
 	SynthDef("voice_tenorAudio",{ arg out=0,bufnum=0, trigger=1, startPos=0, loop=1;
@@ -1320,18 +1401,25 @@ Volume:"++obj.value).asString
 		Out.ar(out,
 			Pan2.ar(PlayBuf.ar(1,bufnum, BufRateScale.kr(bufnum)*rate, trigger, BufFrames.ir(bufnum)*startPos, loop=0),0.0)
 		);
-	}).add;
+	}).add;*/
+
+				["piano", "guitar"].do({arg instrument; ~audioGenerator.value(instrument);});
+
 
 	// Tenor Button
-	~voicesAudioButton = ~voice_tenorAudioButton = Button(w, Rect(620, 497.5+~lowerButtons, 90, 26))
-	.states_([["Voice", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Voice", Color.white, Color(0,0,0,1)]])
+	~voicesAudioButton = ~voice_tenorAudioButton = Button(w, Rect(620, 497.5+~lowerButtons-~allShiftUp, 90, 26))
+	.states_([["Other", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Other", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({
 		arg obj;
 
 		switch(~instrumentGroupVoicesDropdown.item,
-			"Tenor", {~spectraAudioButtonAction.value(obj:obj, instrument:"voice_tenor", instrumentGroup:"voices");},
-			"Soprano", {~spectraAudioButtonAction.value(obj:obj, instrument:"voice_soprano", instrumentGroup:"voices");}
+			/*"Tenor", {~spectraAudioButtonAction.value(obj:obj, instrument:"voice_tenor", instrumentGroup:"voices");},
+			"Soprano", {~spectraAudioButtonAction.value(obj:obj, instrument:"voice_soprano", instrumentGroup:"voices");}*/
+			"Piano", {~spectraAudioButtonAction.value(obj:obj, instrument:"piano", instrumentGroup:"voices");
+				~freqslider.valueAction_(60.value.linlin(21,108,0,1));},
+			"Guitar", {~spectraAudioButtonAction.value(obj:obj, instrument:"guitar", instrumentGroup:"voices");
+				~freqslider.valueAction_(60.value.linlin(21,108,0,1));},
 		);
 
 		// ~spectraAudioButtonAction.value(obj:obj, instrument:"voice_tenor");
@@ -1350,7 +1438,7 @@ Volume:"++obj.value).asString
 	~voicesAudioHaltKey = 1;
 
 	// Horn Dynamic
-	~hornDynamicButton = u = Button(w, Rect(525, 457.5+~lowerButtons, 90, 26))
+	~percussionDynamicButton = ~hornDynamicButton = u = Button(w, Rect(525, 457.5+~lowerButtons-~allShiftUp, 90, 26))
 	.states_([["Percussion", Color.white, Color(0.7569,0.1373,0.1725,1)],["Percussion", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({ arg obj;
@@ -1374,15 +1462,17 @@ Volume:"++obj.value).asString
 
 
 		switch(~instrumentGroupPercussionDropdown.item,
+						"Xylophone", {~spectraDynamicButtonAction.value(obj:obj, instrument:"xylophone", instrumentGroup:"horn", harmonicAmount:16, fundamentalNote:72);},
 			"Marimba", {~spectraDynamicButtonAction.value(obj:obj, instrument:"marimba", instrumentGroup:"horn", harmonicAmount:16, fundamentalNote:60);},
-			"Piano", {~spectraDynamicButtonAction.value(obj:obj, instrument:"piano", instrumentGroup:"horn", harmonicAmount:16, fundamentalNote:60);}
+			"Vibraphone", {~spectraDynamicButtonAction.value(obj:obj, instrument:"vibraphone", instrumentGroup:"horn", harmonicAmount:16, fundamentalNote:60);},
+			// "Piano", {~spectraDynamicButtonAction.value(obj:obj, instrument:"piano", instrumentGroup:"horn", harmonicAmount:16, fundamentalNote:60);}
 		);
 
 		// ~spectraDynamicButtonAction.value(obj:obj, instrument:"horn", harmonicAmount:16, fundamentalNote:60);
 	});
 
 	// Flute Dynamic
-	~fluteDynamicButton = r = Button(w, Rect(430, 457.5+~lowerButtons, 90, 26))
+	~woodwindsDynamicButton = ~fluteDynamicButton = r = Button(w, Rect(430, 457.5+~lowerButtons-~allShiftUp, 90, 26))
 	.states_([["Woodwind", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Woodwind", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({
@@ -1417,14 +1507,16 @@ Volume:"++obj.value).asString
 
 		switch(~instrumentGroupWoodwindsDropdown.item,
 			"Flute", {~spectraDynamicButtonAction.value(obj:obj, instrument:"flute", instrumentGroup:"flute", harmonicAmount:16, fundamentalNote:72);},
-			"Clarinet", {~spectraDynamicButtonAction.value(obj:obj, instrument:"clarinet", instrumentGroup:"flute", harmonicAmount:16, fundamentalNote:60);}
+			"Clarinet", {~spectraDynamicButtonAction.value(obj:obj, instrument:"clarinet", instrumentGroup:"flute", harmonicAmount:16, fundamentalNote:60);},
+						"Oboe", {~spectraDynamicButtonAction.value(obj:obj, instrument:"oboe", instrumentGroup:"flute", harmonicAmount:16, fundamentalNote:60);},
+						"Bassoon", {~spectraDynamicButtonAction.value(obj:obj, instrument:"bassoon", instrumentGroup:"flute", harmonicAmount:16, fundamentalNote:60);}
 		);
 
 
 	});
 
 	// Trumpet Dynamic
-	~trumpetDynamicButton = r = Button(w, Rect(335, 457.5+~lowerButtons, 90, 26))
+	~brassDynamicButton = ~trumpetDynamicButton = r = Button(w, Rect(335, 457.5+~lowerButtons-~allShiftUp, 90, 26))
 	.states_([["Brass", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Brass", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({
@@ -1449,14 +1541,17 @@ Volume:"++obj.value).asString
 
 		switch(~instrumentGroupBrassDropdown.item,
 			"Horn", {~spectraDynamicButtonAction.value(obj:obj, instrument:"horn", instrumentGroup:"trumpet", harmonicAmount:16, fundamentalNote:60);},
-			"Trumpet", {~spectraDynamicButtonAction.value(obj:obj, instrument:"trumpet", instrumentGroup:"trumpet", harmonicAmount:16, fundamentalNote:60);}
+			"Trumpet", {~spectraDynamicButtonAction.value(obj:obj, instrument:"trumpet", instrumentGroup:"trumpet", harmonicAmount:16, fundamentalNote:60);},
+						"Trombone", {~spectraDynamicButtonAction.value(obj:obj, instrument:"trombone", instrumentGroup:"trumpet", harmonicAmount:16, fundamentalNote:60);},
+						"Tuba", {~spectraDynamicButtonAction.value(obj:obj, instrument:"tuba", instrumentGroup:"trumpet", harmonicAmount:16, fundamentalNote:60);}
+
 		);
 
 		//~spectraDynamicButtonAction.value(obj:obj, instrument:"trumpet", harmonicAmount:16, fundamentalNote:60);
 	});
 
 	// Cello Dynamic
-	~celloDynamicButton = r = Button(w, Rect(240, 457.5+~lowerButtons, 90, 26))
+	~stringsDynamicButton = ~celloDynamicButton = r = Button(w, Rect(240, 457.5+~lowerButtons-~allShiftUp, 90, 26))
 	.states_([["Strings", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Strings", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({
@@ -1482,15 +1577,17 @@ Volume:"++obj.value).asString
 
 		switch(~instrumentGroupStringsDropdown.item,
 			"Cello", {~spectraDynamicButtonAction.value(obj:obj, instrument:"cello", instrumentGroup:"cello", harmonicAmount:16, fundamentalNote:60);},
-			"Violin", {~spectraDynamicButtonAction.value(obj:obj, instrument:"violin", instrumentGroup:"cello", harmonicAmount:16, fundamentalNote:60);}
+			"Violin", {~spectraDynamicButtonAction.value(obj:obj, instrument:"violin", instrumentGroup:"cello", harmonicAmount:16, fundamentalNote:60);},
+						"Viola", {~spectraDynamicButtonAction.value(obj:obj, instrument:"viola", instrumentGroup:"cello", harmonicAmount:16, fundamentalNote:60);},
+						"Bass", {~spectraDynamicButtonAction.value(obj:obj, instrument:"bass", instrumentGroup:"cello", harmonicAmount:16, fundamentalNote:60);}
 		);
 
 		//~spectraDynamicButtonAction.value(obj:obj, instrument:"cello", harmonicAmount:16, fundamentalNote:60);
 	});
 
 	// Tenor Dynamic
-	~voicesDynamicButton = ~voice_tenorDynamicButton = r = Button(w, Rect(620, 457.5+~lowerButtons, 90, 26))
-	.states_([["Voice", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Voice", Color.white, Color(0,0,0,1)]])
+	~voicesDynamicButton = ~voicesDynamicButton = ~voice_tenorDynamicButton = r = Button(w, Rect(620, 457.5+~lowerButtons-~allShiftUp, 90, 26))
+	.states_([["Other", Color.white, Color(0.7569,0.1373,0.1725,1)], ["Other", Color.white, Color(0,0,0,1)]])
 	.font_(Font("nil", 14))
 	.action_({
 		arg obj;
@@ -1515,8 +1612,10 @@ Volume:"++obj.value).asString
 		});
 
 		switch(~instrumentGroupVoicesDropdown.item,
-			"Tenor", {~spectraDynamicButtonAction.value(obj:obj, instrument:"voice_tenor", instrumentGroup:"voices", harmonicAmount:16, fundamentalNote:60);},
-			"Soprano", {~spectraDynamicButtonAction.value(obj:obj, instrument:"voice_soprano", instrumentGroup:"voices", harmonicAmount:16, fundamentalNote:72);}
+			/*"Tenor", {~spectraDynamicButtonAction.value(obj:obj, instrument:"voice_tenor", instrumentGroup:"voices", harmonicAmount:16, fundamentalNote:60);},
+			"Soprano", {~spectraDynamicButtonAction.value(obj:obj, instrument:"voice_soprano", instrumentGroup:"voices", harmonicAmount:16, fundamentalNote:72);}*/
+			"Piano", {~spectraDynamicButtonAction.value(obj:obj, instrument:"piano", instrumentGroup:"voices", harmonicAmount:16, fundamentalNote:60);},
+			"Guitar", {~spectraDynamicButtonAction.value(obj:obj, instrument:"guitar", instrumentGroup:"voices", harmonicAmount:16, fundamentalNote:60);}
 		);
 
 
@@ -1582,7 +1681,7 @@ SynthDef.new("sound", {
 	(
 // CompositeView for the SPECTRA Harmonics Panel
 ~inspectorHarmonicsPanel =
-CompositeView(w, Rect(10,145+230+10,20*16+20+60,20)).background_(Color.clear);
+CompositeView(w, Rect(10,145+230+10-~allShiftUp,20*16+20+60,20)).background_(Color.clear);
 
 		~inspectorHarmonicsPanel_harmonic_box =
 		StaticText(~inspectorHarmonicsPanel, Rect(0,0,60,15))
@@ -1671,7 +1770,7 @@ NumberBox(~inspectorHarmonicsPanel, Rect(294+55,0,45,15))
 
 
 
-~quit = Button.new(w, Rect(760,65,30,30))
+~quit = Button.new(w, Rect(760,65-~allShiftUp,30,30))
 	.states_([["", Color.white, Color.clear]])
 	.font_(Font("nil", 12))
 	.action_({
@@ -1713,7 +1812,7 @@ NumberBox(~inspectorHarmonicsPanel, Rect(294+55,0,45,15))
 		});
 
 	//Open Stethoscope
-~scopebutton = Button(w, Rect((690-40), 112.5, 120, 20))
+~scopebutton = Button(w, Rect((690-40), 112.5-~allShiftUp, 120, 20))
 .states_([
 	["Open Oscilloscope", Color.white,Color(0.4824, 0.4863, 0.4863,1)],
 	["Close Oscilloscope", Color.white, Color.grey(0.251)]
@@ -1728,7 +1827,7 @@ NumberBox(~inspectorHarmonicsPanel, Rect(294+55,0,45,15))
 });
 
 
-~scope2button = Button(w, Rect((690-40), 132.5, 120, 20))
+~scope2button = Button(w, Rect((690-40), 132.5-~allShiftUp, 120, 20))
 .states_([
 	["Set Osc. to ~H1", Color.white,Color(0.4824, 0.4863, 0.4863,1)]
 ])
@@ -1748,7 +1847,7 @@ NumberBox(~inspectorHarmonicsPanel, Rect(294+55,0,45,15))
 
 
 	//Keyboard visualizer button
-		~key_vis = Button.new(w, Rect(575,70,60,25))
+		~key_vis = Button.new(w, Rect(575,70-~allShiftUp,60,25))
 	.states_([["", Color.black, Color.clear],["CLOSE", Color.white, Color.black]])
 	.font_(Font("nil", 10))
 	.action_({
@@ -1780,6 +1879,16 @@ arg obj;
 
 //Aesthetic lines
 	w.drawFunc = {
+<<<<<<< HEAD
+		~house_icon.drawInRect(Rect(760,65-~allShiftUp,30,30), Rect(0,0,30,30), 2, 1.0);
+		~maple_icon.drawInRect(Rect(720,65-~allShiftUp,30,30), Rect(0,0,30,30), 2, 1.0);
+		~keyboard_image.drawInRect(Rect(575,70-~allShiftUp,60,25), Rect(0,0,60,25), 2, 1.0);
+		Pen.line(10@(530-~allShiftUp),790@(530-~allShiftUp)); //Sixth line
+		Pen.line(10@(490-~allShiftUp),790@(490-~allShiftUp)); //Fifth line
+		Pen.line(10@(450-~allShiftUp),790@(450-~allShiftUp)); //Fourth line
+		Pen.line(10@(410-~allShiftUp),790@(410-~allShiftUp)); //Third line
+		Pen.line(10@(100-~allShiftUp),790@(100-~allShiftUp)); //Second line
+=======
 		~house_icon.drawInRect(Rect(760,65,30,30), Rect(0,0,30,30), 2, 1.0);
 		~maple_icon.drawInRect(Rect(720,65,30,30), Rect(0,0,30,30), 2, 1.0);
 		~keyboard_image.drawInRect(Rect(575,70,60,25), Rect(0,0,60,25), 2, 1.0);
@@ -1788,15 +1897,16 @@ arg obj;
 		Pen.line(10@450,790@450); //Fourth line
 		Pen.line(10@410,790@410); //Third line
 		Pen.line(10@100,790@100); //Second line
+>>>>>>> b65f3eb83bd1defa69283b8e359090cf0d25d1bf
 	Pen.strokeColor = Color(0,0,0,0.5); //Top line, written differently in code
                 Pen.width = 2;
-                Pen.moveTo(10@60);
-                Pen.lineTo(790@60);
+		// Pen.moveTo(10@60);
+		// Pen.lineTo(790@60);
                 Pen.stroke;
         };
 
 
-	~instrumentsCover = StaticText(w, Rect(10,410+2,(790-10), 120+~lowerButtons)).background_(Color.white).string_(""
+	~instrumentsCover = StaticText(w, Rect(10,410+2-~allShiftUp,(790-10), 120+~lowerButtons)).background_(Color.white).string_(""
 //Select 'Instruments' from the dropdown menu to access these hidden instrument settings.
 ).align_(\center);
 
@@ -1806,7 +1916,7 @@ arg obj;
 
 
 //Record button - sends to Supercollider file
-~record_button_bounds_array = [35, 70, 85, 20];
+~record_button_bounds_array = [35, 70-~allShiftUp, 85, 20];
 (basePath +/+  "modules/record_button.scd").load;
 
 	/*~tech = Button.new(w, Rect(35, 70, 85, 20))
@@ -1836,7 +1946,7 @@ arg obj;
 
 
 	//Button to reset harmonic intensities
-~reset = Button(w, Rect(110,110,35,20))
+~reset = Button(w, Rect(110,110-~allShiftUp,35,20))
 .states_([
 	["Reset
 intensities", Color.white,Color(0.4824, 0.4863, 0.4863,1)]
@@ -1894,13 +2004,13 @@ s.makeBundle(1.0, //sound delay
 
 
 //True note value
-	~note_name = StaticText(w,Rect(180,112.5,70,15))
+	~note_name = StaticText(w,Rect(180,112.5-~allShiftUp,70,15))
 	.string_("A4").align_(\center)
 	.font_(Font("nil", 11));
 
 
 //Inspector button (remove upon Release)
-~inspector = Button.new(w, Rect(10, 70, 20, 20))
+~inspector = Button.new(w, Rect(10, 70-~allShiftUp, 20, 20))
 	.states_([["(i)", Color.white, Color.gray], ["(i)", Color.gray, Color.black]])
 	.font_(Font("nil", 10))
 	.action_
