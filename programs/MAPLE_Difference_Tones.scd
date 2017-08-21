@@ -43,15 +43,6 @@ false) //Cannot be resized by user.
 
 		(basePath +/+  "data/tones_pitch_name.scd").load; // Load the function for updating the information panel below the harmonics panel
 	(~trace +/+  "data/oscilloscopeButtonFunctions.scd").load; // Load the oscilloscope button functions
-<<<<<<< HEAD
-
-
-=======
->>>>>>> b65f3eb83bd1defa69283b8e359090cf0d25d1bf
-
-	//Record button - sends to Supercollider file in the Recordings section
-~record_button_bounds_array = [10, 40, 85, 20];
-(basePath +/+  "modules/record_button.scd").load;
 
 	//Record button - sends to Supercollider file in the Recordings section
 ~record_button_bounds_array = [10, 40, 85, 20];
@@ -198,15 +189,7 @@ SynthDef.new("sound3", {
 
 	~differenceSlider = Slider(w, Rect(~slidersLeftEdge+~spaceBetweenFirstAndDifferenceSliders,~slidersTopEdge,40,~slidersHeight)).knobColor_(Color.grey(0.2)).background_(Color.grey(0.2)).value_(1).action_({
 
-<<<<<<< HEAD
-=======
-	~fundamentalTitle = StaticText(w, Rect(50,70-20+120,500-100,20)).string_("Difference Tone");
-	~differenceBox = NumberBox(w, Rect(10,70+120,40,20)).background_(Color.grey(0.2)).value_(440).normalColor_(Color.white);
-	~differenceMIDI = NumberBox(w, Rect(450,70+120,40,20)).background_(Color.grey(0.2)).value_(12).normalColor_(Color.white);
 
-	~differenceSlider = Slider(w, Rect(50,70+120,500-100,20)).knobColor_(Color.grey(0.2)).background_(Color.grey(0.2)).value_(1).action_({
-
->>>>>>> b65f3eb83bd1defa69283b8e359090cf0d25d1bf
 		~differenceBox.value_((~compareBox.value-~fundamentalBox.value).abs);
 		~differenceMIDI.value_((~compareMIDI.value-~fundamentalMIDI.value).abs);
 		~sound3Synth.set(\freq, ~differenceBox.value;);
@@ -260,40 +243,40 @@ SynthDef.new("sound3", {
 ~stop_image_right = Image.new(basePath +/+ "images/big_button_media/black_right.png");
 ~stop_image_indent = Image.new(basePath +/+ "images/big_button_media/black_indent_col.png");
 
-~play_UserView = UserView(w, Rect(250-(250/2),95-~allShiftUp,100,30));
+~play_UserView = UserView(w, Rect(200,30,100,30));
 	~play_UserView.drawFunc_({
 		~play_image_left.drawInRect(Rect(0,0,100,30), Rect(0,0,200,60), 2, 1.0);
 		~play_image_right.drawInRect(Rect(0,0,100,30), Rect(0,0,200,60), 2, 1.0);
-		~play_image_indent.drawInRect(Rect(25,0,100,30), Rect(0,0,200,60), 2, 1.0);
+		~play_image_indent.drawInRect(Rect(2,0,100,30), Rect(0,0,200,60), 2, 1.0); // The offset by +2.left looks better for centering
 	});
 
-~stop_UserView = UserView(w, Rect(250-(250/2),95-~allShiftUp,100,30));
+~stop_UserView = UserView(w, Rect(200,30,100,30));
 	~stop_UserView.drawFunc_({
 		~stop_image_left.drawInRect(Rect(0,0,100,30), Rect(0,0,200,60), 2, 1.0);
 		~stop_image_right.drawInRect(Rect(0,0,100,30), Rect(0,0,200,60), 2, 1.0);
-		~stop_image_indent.drawInRect(Rect(25,0,100,30), Rect(0,0,200,60), 2, 1.0);
+		~stop_image_indent.drawInRect(Rect(0,0,100,30), Rect(0,0,200,60), 2, 1.0);
 	});
 
 	//~play_UserView.bounds_(Rect(400-(100/2),65,1,1)); //Hide the play button
-	~stop_UserView.bounds_(Rect(400-(100/2),65-~allShiftUp,1,1)); //Hide the stop button
+	~stop_UserView.bounds_(Rect(200,30,1,1)); //Hide the stop button
 );
 
 	// Play button
 	// Button to play the Basic SynthDef
 ~playButton = Button.new(w, Rect(200,30,100,30))
 .states_([
-	["Sound OFF", Color.white, Color.red(0.5)],
-	["Sound ON", Color.white, Color.green(0.5)]
+	["Sound OFF", Color.clear, Color.clear],
+	["Sound ON", Color.clear, Color.clear]
 ])
 .action_({
 	arg obj;
 	if(obj.value == 1, {
-			~stop_UserView.bounds_(Rect(250-(100/2),65-~allShiftUp,100,30)); //Hide the stop button
+			~stop_UserView.bounds_(Rect(200,30,100,30)); //Sow the stop button
 		~sound1Synth = Synth("sound1", [\freq, ~fundamentalBox.value, \fundamentalIntensity:~fundamentalIntensitySlider.value]);
 			~sound2Synth = Synth("sound2", [\freq, ~compareBox.value, \compareIntensity:~compareIntensitySlider.value]);
 			~sound3Synth = Synth("sound3", [\freq, 440, \differenceIntensity:~differenceIntensitySlider.value]);
 	},{
-			~stop_UserView.bounds_(Rect(250-(100/2),65-~allShiftUp,1,1)); //Hide the stop button
+			~stop_UserView.bounds_(Rect(200,30,1,1)); //Hide the stop button
 		~sound1Synth.free;
 			~sound2Synth.free;
 			~sound3Synth.free;

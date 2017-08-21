@@ -31,12 +31,11 @@ var basePath = thisProcess.nowExecutingPath.asString.dirname;
 (basePath +/+  "modules/master_window.scd").load;
 
 // Title and labels
-<<<<<<< HEAD
+
 		//~masterTitle = StaticText(w, Rect(0,0,500,40)).string_("Tuning").align_(\center).font_(Font(nil, 14, true));
 ~allShiftUp = 90;
-=======
-		~masterTitle = StaticText(w, Rect(0,0,500,40)).string_("Tuning").align_(\center).font_(Font(nil, 14, true));
->>>>>>> b65f3eb83bd1defa69283b8e359090cf0d25d1bf
+
+//		~masterTitle = StaticText(w, Rect(0,0,500,40)).string_("Tuning").align_(\center).font_(Font(nil, 14, true));
 
 
 //Descriptive paragraph at top
@@ -44,9 +43,6 @@ var basePath = thisProcess.nowExecutingPath.asString.dirname;
 
 			(~trace +/+  "data/oscilloscopeButtonFunctions.scd").load; // Load the oscilloscope button functions
 		(~trace +/+  "data/tuning_specific_data/centsCalculator.scd").load; // Load the cents calculation function
-
-
-			(~trace +/+  "data/oscilloscopeButtonFunctions.scd").load; // Load the oscilloscope button functions
 
 
 //Load graphics elements
@@ -57,15 +53,10 @@ var basePath = thisProcess.nowExecutingPath.asString.dirname;
 //All graphics (aesthetic lines and image positions)
 w.drawFunc = {
 		//Images underneath buttons
-<<<<<<< HEAD
 		~house_icon.drawInRect(Rect(460,95-~allShiftUp,30,30), Rect(0,0,30,30), 2, 1.0);
 			~maple_icon.drawInRect(Rect(420,95-~allShiftUp,30,30), Rect(0,0,30,30), 2, 1.0);
 		~keyboard_image.drawInRect(Rect(250+75,330-~allShiftUp,60,25), Rect(0,0,60,25), 2, 1.0);
-=======
-		~house_icon.drawInRect(Rect(460,95,30,30), Rect(0,0,30,30), 2, 1.0);
-			~maple_icon.drawInRect(Rect(420,95,30,30), Rect(0,0,30,30), 2, 1.0);
-		~keyboard_image.drawInRect(Rect(250+75,330,60,25), Rect(0,0,60,25), 2, 1.0);
->>>>>>> b65f3eb83bd1defa69283b8e359090cf0d25d1bf
+
 
 		//Draw lines
 		Pen.use{
@@ -397,11 +388,8 @@ SynthDef.new("sound", {
 		x.isPlaying,
 		{x.set(\outoftune,cf)});
 	~numberBox.value_(obj.value.linlin(0,1,-1,1));
-<<<<<<< HEAD
+
 			if(~current_harmonic_MIDINN.value != nil, {~calculateCents.value}); // IF to avoid error at start
-=======
-			~calculateCents.value;
->>>>>>> b65f3eb83bd1defa69283b8e359090cf0d25d1bf
 
 
 //Deviant control for keyboard GUI to shift the inner fill square
@@ -589,11 +577,7 @@ if(~deviant_move.sign >= 0,
 	~freqslider.valueAction_(obj.value.linlin(-1,1,0,1))
 })*/;
 
-<<<<<<< HEAD
 		~centsBox = NumberBox(w,Rect(85+35,200+65+30-140-~allShiftUp,72-35,30))
-=======
-		~centsBox = NumberBox(w,Rect(85+35,200+65+30-140,72-35,30))
->>>>>>> b65f3eb83bd1defa69283b8e359090cf0d25d1bf
 .value_(0)
 //.clipLo_(-1)
 //.clipHi_(1)
@@ -1264,7 +1248,7 @@ snd = funcs2.at(menu2.value).play;
 Harmonic (mistuned) dropdown menu";
 
 //Inspector button
-		~inspector = Button.new(w, Rect(10, 100, 20, 20))
+		~inspector = Button.new(w, Rect(10, 100-~allShiftUp, 20, 20))
 	.states_([["(i)", Color.white, Color.gray], ["(i)", Color.gray, Color.black]])
 	.font_(Font("nil", 10))
 	.action_({ arg obj;

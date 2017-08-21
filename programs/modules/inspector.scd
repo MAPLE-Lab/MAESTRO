@@ -3,17 +3,10 @@
 Window.new(
 	"Inspector",
 	Rect(
-<<<<<<< HEAD
 		w.bounds.left-300-10,
 		Window.screenBounds.height/2-100,
 		235/*+400*/,
 		500/*400*/),
-=======
-		w.bounds.left-300,
-		Window.screenBounds.height/2-100,
-		300/*+400*/,
-		400),
->>>>>>> b65f3eb83bd1defa69283b8e359090cf0d25d1bf
 	false)
 .front
 .background_(Color.grey(0.85));
@@ -37,45 +30,28 @@ Towards: Pre-release v0.1.3-beta
 .background_(Color(1,1,1,0))
 .stringColor_(Color(0.2510,0.2510,0.2510,1));
 
-<<<<<<< HEAD
+
 ~inspectorText = StaticText(~inspectorWindow,Rect(10,70+120+30+40,215/*280*/,210))
-=======
-~inspectorText = StaticText(~inspectorWindow,Rect(10,70+120,280,210))
->>>>>>> b65f3eb83bd1defa69283b8e359090cf0d25d1bf
 .string_("Hover over an object to get information.")
 .font_(Font("Helvetica", 12, false))
 .align_(\topLeft)
 .background_(Color(1,1,1,0))
 .stringColor_(Color(0.2510,0.2510,0.2510,1));
 
-<<<<<<< HEAD
+
 ~inspectorModuleParagraph = StaticText(~inspectorWindow,Rect(10,70,215/*280*/,210))
 .string_(~para.string)
 .font_(Font("Helvetica", 12, true,usePointSize:true))
-=======
-~inspectorModuleParagraph = StaticText(~inspectorWindow,Rect(10,70,280,210))
-.string_(~para.string)
-.font_(Font("Helvetica", 12, true))
->>>>>>> b65f3eb83bd1defa69283b8e359090cf0d25d1bf
 .align_(\topLeft)
 .background_(Color(1,1,1,0))
 .stringColor_(Color(0.2510,0.2510,0.2510,1));
 
-<<<<<<< HEAD
  ~inspectorError = StaticText(~inspectorWindow,Rect(10+500,140,280,210)) // +500 to move out of view; exists to avoid code problems
  .string_("Errors posted here.")
  .font_(Font("Helvetica", 12, false, true))
  .align_(\topLeft)
  .background_(Color(1,1,1,0))
  .stringColor_(Color(0.8,0,0,1));
-=======
-// ~inspectorError = StaticText(~inspectorWindow,Rect(10,140,280,210))
-// .string_("Errors posted here.")
-// .font_(Font("Helvetica", 12, false, true))
-// .align_(\topLeft)
-// .background_(Color(1,1,1,0))
-// .stringColor_(Color(0.8,0,0,1));
->>>>>>> b65f3eb83bd1defa69283b8e359090cf0d25d1bf
 
 /*( // Moved to SPECTRA directly under the panel
 // CompositeView for the SPECTRA Harmonics Panel

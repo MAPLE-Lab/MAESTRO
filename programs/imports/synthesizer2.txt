@@ -1,1 +1,0 @@
-Freq. (Hz)	Attack (ms)	Sustain (ms)	Release (ms)	Start Time (ms)	On Curve	Off Curve	Int. (+)	MIDI (#)

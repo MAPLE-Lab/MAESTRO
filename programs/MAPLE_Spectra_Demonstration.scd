@@ -16,6 +16,11 @@ s.freeAll;
 //Avoids delay when the Recording button is pressed
 // s.prepareForRecord;
 
+
+	// Title and labels
+	// ~masterTitle = StaticText(w, Rect(0,0,800,40)).string_("Spectra").align_(\center).font_(Font(nil, 14, true));
+~allShiftUp = 60;
+
 //Creates the new window with title
 w = Window.new("MAPLE Lab Spectra Demonstration (Beta)", Rect.new(
 	Window.screenBounds.width/2-400,
@@ -52,20 +57,9 @@ w = Window.new("MAPLE Lab Spectra Demonstration (Beta)", Rect.new(
 	~lowerButtons = 40; // For Button heights
 	(basePath +/+  "data/spectra_specific_data/spectra_set_to_custom_functions.scd").load; // Any change from a preset goes to Custom name
 		(~trace +/+  "data/oscilloscopeButtonFunctions.scd").load; // Load the oscilloscope button functions
-<<<<<<< HEAD
 	(~trace +/+  "data/spectra_specific_data/buffer_and_synthdef_create_functions.scd").load; // Load the oscilloscope button functions
 
 
-	// Title and labels
-	// ~masterTitle = StaticText(w, Rect(0,0,800,40)).string_("Spectra").align_(\center).font_(Font(nil, 14, true));
-~allShiftUp = 60;
-=======
-
-
-	// Title and labels
-		~masterTitle = StaticText(w, Rect(0,0,800,40)).string_("Spectra").align_(\center).font_(Font(nil, 14, true));
-
->>>>>>> b65f3eb83bd1defa69283b8e359090cf0d25d1bf
 
 //Label for paragraph
 ~para = StaticText(w,Rect(10,10,790-50,80))
@@ -399,28 +393,18 @@ x.set(
 					if(~button.value == 1,
 						{~button.valueAction_(1)});
 
-<<<<<<< HEAD
 		~instrumentsCover.bounds_(Rect(10,410+2-~allShiftUp,(790-10), 120+~lowerButtons))
 					.string_(TabFileReader.read(~trace +/+  "paragraphs/spectraPresets/sine.txt").flatten.join.asString).align_(\topLeft);
-=======
-		~instrumentsCover.bounds_(Rect(10,410+2,(790-10), 120+~lowerButtons))
-					.string_("The sine wave is a pure tone, as it only has a single wave.
-Therefore, by complex sounds can be constructed from several sine waves which vary in frequency, intensity, and phase.
-A cosine wave is the same as a sine wave but its phase has been shifted by pi.").align_(\topLeft);
->>>>>>> b65f3eb83bd1defa69283b8e359090cf0d25d1bf
+
 	},
 
 
 				{ //Square
-<<<<<<< HEAD
 			~synth_menu.background_(Color(0.7569-0.1,0.1373-0.1,0.1725-0.1,1));
 ~play_UserView.bounds_(Rect(400-(100/2)-92,65-~allShiftUp,192,30));
 										~button.bounds_(Rect(400-(100/2)-92,65-~allShiftUp,100+35,30));
 					//~freqslider.valueAction_(69.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
-=======
 
-		//~freqslider.valueAction_(69.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
->>>>>>> b65f3eb83bd1defa69283b8e359090cf0d25d1bf
 							~volslider.valueAction_(0.4.value.linlin(0,1,0,1));
 
 					~soundPhaseArrayButton.valueAction_(2);
@@ -436,14 +420,8 @@ A cosine wave is the same as a sine wave but its phase has been shifted by pi.")
 				~k.valueAction_(0);
 								~j.valueAction_(0);*/
 
-<<<<<<< HEAD
+
 					~instrumentsCover.bounds_(Rect(10,410+2-~allShiftUp,(790-10), 120+~lowerButtons)).string_(TabFileReader.read(~trace +/+  "paragraphs/spectraPresets/square.txt").flatten.join.asString).align_(\topLeft);
-=======
-					~instrumentsCover.bounds_(Rect(10,410+2,(790-10), 120+~lowerButtons)).string_(
-						"The square wave is composed of an incomplete harmonic series, where only the odd harmonics are played (i.e. 1, 3, 5, etc.).
-Each odd harmonic's intensity is given by the formula " ++ ("1/n").asCompileString ++ " where n is the harmonic number.
-The phases for all the harmonics must be the same to create the square wave.").align_(\topLeft);
->>>>>>> b65f3eb83bd1defa69283b8e359090cf0d25d1bf
 
 	},
 
@@ -505,15 +483,8 @@ The phases for all the harmonics must be the same to create the square wave.").a
 				~k.valueAction_(0);
 								~j.valueAction_(0);*/
 
-<<<<<<< HEAD
 					~instrumentsCover.bounds_(Rect(10,410+2-~allShiftUp,(790-10), 120+~lowerButtons)).string_(TabFileReader.read(~trace +/+  "paragraphs/spectraPresets/triangle.txt").flatten.join.asString).align_(\topLeft);
-=======
-					~instrumentsCover.bounds_(Rect(10,410+2,(790-10), 120+~lowerButtons)).string_(
-						"The triangle wave is composed of an incomplete harmonic series, where only the odd harmonics are played (i.e. 1, 3, etc.).
-Each odd harmonic's intensity is given by the formula " ++ ("1/(n^2)").asCompileString ++ " where n is the harmonic number.
-The phases each successive played harmonic is shifted by pi. For example, if the 1st harmonic has a phase of 0, the 3rd harmonic has a phase of pi, followed by a phase of 0 again for the 5th harmonic. The phase of the 2nd and 4th (or any of the even harmonics) is inconsequential as they are not played in the triangle wave.
-").align_(\topLeft);
->>>>>>> b65f3eb83bd1defa69283b8e359090cf0d25d1bf
+
 
 	},
 
@@ -543,16 +514,9 @@ The phases each successive played harmonic is shifted by pi. For example, if the
 				~k.valueAction_(0);
 								~j.valueAction_(0);*/
 
-<<<<<<< HEAD
+
 					~instrumentsCover.bounds_(Rect(10,410+2-~allShiftUp,(790-10), 120+~lowerButtons)).string_(TabFileReader.read(~trace +/+  "paragraphs/spectraPresets/sawtooth.txt").flatten.join.asString).align_(\topLeft);
-=======
-					~instrumentsCover.bounds_(Rect(10,410+2,(790-10), 120+~lowerButtons)).string_(
-						"The sawtooth wave is composed of a complete harmonic series.
-Each odd harmonic's intensity is given by the formula " ++ ("1/n").asCompileString ++ " where n is the harmonic number.
-To create a sawtooth wave, the phase of all harmonics played must be pi.
-Because the sawtooth wave has all the harmonics, it can be compared to brass instruments such as the trumpet.
-").align_(\topLeft);
->>>>>>> b65f3eb83bd1defa69283b8e359090cf0d25d1bf
+
 	},
 				{ // Reverse Sawtooth - same as Sawtooth except phase is 0
 			~synth_menu.background_(Color(0.7569-0.1,0.1373-0.1,0.1725-0.1,1));
@@ -581,15 +545,9 @@ Because the sawtooth wave has all the harmonics, it can be compared to brass ins
 				~k.valueAction_(0);
 								~j.valueAction_(0);*/
 
-<<<<<<< HEAD
+
 					~instrumentsCover.bounds_(Rect(10,410+2-~allShiftUp,(790-10), 120+~lowerButtons)).string_(TabFileReader.read(~trace +/+  "paragraphs/spectraPresets/reverse_sawtooth.txt").flatten.join.asString).align_(\topLeft);
-=======
-					~instrumentsCover.bounds_(Rect(10,410+2,(790-10), 120+~lowerButtons)).string_("The reverse sawtooth wave is composed of a complete harmonic series.
-Each odd harmonic's intensity is given by the formula " ++ ("1/n").asCompileString ++ " where n is the harmonic number.
-To create a sawtooth wave, the phase of all harmonics played must be 0.
-Because the reverse sawtooth wave has all the harmonics, it can be compared to brass instruments such as the trumpet.
-").align_(\topLeft);
->>>>>>> b65f3eb83bd1defa69283b8e359090cf0d25d1bf
+
 	},
 
 				{//"Instruments (harmonics panel)".postln;
@@ -619,15 +577,11 @@ Because the reverse sawtooth wave has all the harmonics, it can be compared to b
 					~instrumentsCover.bounds_(Rect(10,410+2-~allShiftUp,(790-10), 0));
 				},
 				{// Custom
-<<<<<<< HEAD
 			~synth_menu.background_(Color(0.7569-0.1,0.1373-0.1,0.1725-0.1,1));
 ~play_UserView.bounds_(Rect(400-(100/2)-92,65-~allShiftUp,192,30));
 										~button.bounds_(Rect(400-(100/2)-92,65-~allShiftUp,100+35,30));
 					~instrumentsCover.bounds_(Rect(10,410+2-~allShiftUp,(790-10), 120+~lowerButtons)).string_(TabFileReader.read(~trace +/+  "paragraphs/spectraPresets/custom.txt").flatten.join.asString).align_(\topLeft);
-=======
 
-					~instrumentsCover.string_("").align_(\topLeft);
->>>>>>> b65f3eb83bd1defa69283b8e359090cf0d25d1bf
 
 
 				}
@@ -1879,7 +1833,7 @@ arg obj;
 
 //Aesthetic lines
 	w.drawFunc = {
-<<<<<<< HEAD
+
 		~house_icon.drawInRect(Rect(760,65-~allShiftUp,30,30), Rect(0,0,30,30), 2, 1.0);
 		~maple_icon.drawInRect(Rect(720,65-~allShiftUp,30,30), Rect(0,0,30,30), 2, 1.0);
 		~keyboard_image.drawInRect(Rect(575,70-~allShiftUp,60,25), Rect(0,0,60,25), 2, 1.0);
@@ -1888,16 +1842,7 @@ arg obj;
 		Pen.line(10@(450-~allShiftUp),790@(450-~allShiftUp)); //Fourth line
 		Pen.line(10@(410-~allShiftUp),790@(410-~allShiftUp)); //Third line
 		Pen.line(10@(100-~allShiftUp),790@(100-~allShiftUp)); //Second line
-=======
-		~house_icon.drawInRect(Rect(760,65,30,30), Rect(0,0,30,30), 2, 1.0);
-		~maple_icon.drawInRect(Rect(720,65,30,30), Rect(0,0,30,30), 2, 1.0);
-		~keyboard_image.drawInRect(Rect(575,70,60,25), Rect(0,0,60,25), 2, 1.0);
-		Pen.line(10@530,790@530); //Sixth line
-		Pen.line(10@490,790@490); //Fifth line
-		Pen.line(10@450,790@450); //Fourth line
-		Pen.line(10@410,790@410); //Third line
-		Pen.line(10@100,790@100); //Second line
->>>>>>> b65f3eb83bd1defa69283b8e359090cf0d25d1bf
+
 	Pen.strokeColor = Color(0,0,0,0.5); //Top line, written differently in code
                 Pen.width = 2;
 		// Pen.moveTo(10@60);

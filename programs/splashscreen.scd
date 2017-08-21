@@ -1,5 +1,6 @@
 (
 var basePath = thisProcess.nowExecutingPath.asString.dirname; //http://new-supercollider-mailing-lists-forums-use-these.2681727.n2.nabble.com/Generalizing-a-files-path-td7616651.html
+~trace = basePath;
 s.waitForBoot({ //Ensures it only opens once the server is working completely, and automatically opens server
 	(
     i = Image.new(thisProcess.nowExecutingPath.asString.dirname +/+ "images/splash-small.png"); //make sure this can work when not on my computer
