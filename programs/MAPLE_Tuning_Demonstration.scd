@@ -24,7 +24,7 @@ var basePath = thisProcess.nowExecutingPath.asString.dirname;
 //A. Create window and aesthetics
 (
 //Positions the note name text
-~note_name_bounds_array = [(85-23+30-5),155+150,27,15];
+~note_name_bounds_array = [(85-23+30-5),155+150-~allShiftUp,27,15];
 
 //Create the module's master window
 ~master_window_bounds_array = [Window.screenBounds.width/2-250, Window.availableBounds.height, 500, 570-90];
@@ -46,15 +46,15 @@ var basePath = thisProcess.nowExecutingPath.asString.dirname;
 
 
 //Load graphics elements
-~house_icon = Image.new(basePath +/+ "images/house-small.png");
+~house_icon = Image.new(basePath +/+ "images/house-small-red.png");
 			~maple_icon = Image.new(basePath +/+ "images/mapleICON-small.png");
 ~keyboard_image = Image.new(basePath +/+ "images/keyboard_small.png");
 
 //All graphics (aesthetic lines and image positions)
 w.drawFunc = {
 		//Images underneath buttons
-		~house_icon.drawInRect(Rect(460,95-~allShiftUp,30,30), Rect(0,0,30,30), 2, 1.0);
-			~maple_icon.drawInRect(Rect(420,95-~allShiftUp,30,30), Rect(0,0,30,30), 2, 1.0);
+		~house_icon.drawInRect(Rect(10,95-~allShiftUp,30,30), Rect(0,0,30,30), 2, 1.0);
+			~maple_icon.drawInRect(Rect(460,95-~allShiftUp,30,30), Rect(0,0,30,30), 2, 1.0);
 		~keyboard_image.drawInRect(Rect(250+75,330-~allShiftUp,60,25), Rect(0,0,60,25), 2, 1.0);
 
 
@@ -64,7 +64,7 @@ w.drawFunc = {
 				Pen.line(10@(220-~allShiftUp),490@(220-~allShiftUp));
 				Pen.line(10@(330-~allShiftUp),490@(330-~allShiftUp));
 				Pen.line(10@(130-~allShiftUp),490@(130-~allShiftUp));
-				Pen.line(10@(90-~allShiftUp),490@(90-~allShiftUp));
+				// Pen.line(10@(90-~allShiftUp),490@(90-~allShiftUp));
 
 			Pen.strokeColor = Color(0,0,0,0.5);
 			Pen.width = 2;
@@ -89,14 +89,14 @@ w.drawFunc = {
 ~stop_image_right = Image.new(basePath +/+ "images/big_button_media/black_right.png");
 ~stop_image_indent = Image.new(basePath +/+ "images/big_button_media/black_indent_col.png");
 
-~play_UserView = UserView(w, Rect(250-(250/2),95-~allShiftUp,100,30));
+~play_UserView = UserView(w, Rect(250-(250/2)+35,95-~allShiftUp,100,30));
 	~play_UserView.drawFunc_({
 		~play_image_left.drawInRect(Rect(0,0,100,30), Rect(0,0,200,60), 2, 1.0);
 		~play_image_right.drawInRect(Rect(0,0,100,30), Rect(0,0,200,60), 2, 1.0);
 		~play_image_indent.drawInRect(Rect(25,0,100,30), Rect(0,0,200,60), 2, 1.0);
 	});
 
-~stop_UserView = UserView(w, Rect(250-(250/2),95-~allShiftUp,100,30));
+~stop_UserView = UserView(w, Rect(250-(250/2)+35,95-~allShiftUp,100,30));
 	~stop_UserView.drawFunc_({
 		~stop_image_left.drawInRect(Rect(0,0,100,30), Rect(0,0,200,60), 2, 1.0);
 		~stop_image_right.drawInRect(Rect(0,0,100,30), Rect(0,0,200,60), 2, 1.0);
@@ -104,7 +104,7 @@ w.drawFunc = {
 	});
 
 	//~play_UserView.bounds_(Rect(400-(100/2),65,1,1)); //Hide the play button
-	~stop_UserView.bounds_(Rect(400-(100/2),65-~allShiftUp,1,1)); //Hide the stop button
+	~stop_UserView.bounds_(Rect(400-(100/2)+35,65-~allShiftUp,1,1)); //Hide the stop button
 );
 
 //B. Add starting ID parameters
@@ -116,7 +116,7 @@ w.drawFunc = {
 //E. Interactive elements
 (
 //Record button - sends to Supercollider file in the Recordings section
-~record_button_bounds_array = [35, 100-~allShiftUp, 85, 20];
+~record_button_bounds_array = [35+35, 100-~allShiftUp, 85, 20];
 (basePath +/+  "modules/record_button.scd").load;
 
 
@@ -389,7 +389,7 @@ SynthDef.new("sound", {
 		{x.set(\outoftune,cf)});
 	~numberBox.value_(obj.value.linlin(0,1,-1,1));
 
-			if(~current_harmonic_MIDINN.value != nil, {~calculateCents.value}); // IF to avoid error at start
+			if(~current_harmonic_MIDINN.value != nil, {~calculateCents3.value}); // IF to avoid error at start
 
 
 //Deviant control for keyboard GUI to shift the inner fill square
@@ -585,6 +585,8 @@ if(~deviant_move.sign >= 0,
 .decimals_(2)
 .align_(\center);
 
+		~centsBoxCover = StaticText(w, ~centsBox.bounds);
+
 //Button to reset deviant
 ~reset = Button(w, Rect(250-(200/2)-65,200+65+30-140-~allShiftUp,35,30))
 .states_([
@@ -733,7 +735,7 @@ s.waitForBoot({
 
 				menu = ~harmonics_menu; //Without having to recode everything, it allows the dropdown menu to be a global variable
 
- ~vinbutton = Button(w, Rect(250-(250/2),95-~allShiftUp,100,30))
+ ~vinbutton = Button(w, Rect(250-(250/2)+35,95-~allShiftUp,100,30))
   .states_([
 				[
 						""
@@ -759,7 +761,7 @@ s.waitForBoot({
 							~keyboard_CompositeView_White.visible_(true);
 						});
 					//snd.postln;
-						~stop_UserView.bounds_(Rect(250-(250/2),95-~allShiftUp,100,30));
+						~stop_UserView.bounds_(Rect(250-(250/2)+35,95-~allShiftUp,100,30));
 
 						~harmonics_menu.background_(Color.black);
 						~harmonics_menu.stringColor_(Color.white);
@@ -775,7 +777,7 @@ s.waitForBoot({
 
 
 						},{
-												~stop_UserView.bounds_(Rect(250-(250/2),95-~allShiftUp,1,1));
+												~stop_UserView.bounds_(Rect(250-(250/2)+35,95-~allShiftUp,1,1));
 
 
 	~harmonics_menu.background_(Color(0.7569-0.1,0.1373-0.1,0.1725-0.1,1));
@@ -815,7 +817,7 @@ s.waitForBoot({
 
 			});
 
-~harmonics_menu = PopUpMenu(w, Rect(250-(250/2)+5,95+5-~allShiftUp,50,20));
+~harmonics_menu = PopUpMenu(w, Rect(250-(250/2)+5+35,95+5-~allShiftUp,50,20));
 			~harmonics_menu.items_(["1", "2", "3", "5", "8", "16"]);
 			~harmonics_menu.background_(Color(0.7569-0.1,0.1373-0.1,0.1725-0.1,1));
 			~harmonics_menu.font_(Font(\size, 12));
@@ -900,7 +902,7 @@ AppClock.sched(0.05,{
     //"0.1 seconds after set, HELLO".postln;
 
 						~vinbutton.valueAction_(1);
-							~stop_UserView.bounds_(Rect(250-(250/2),95-~allShiftUp,100,30));
+							~stop_UserView.bounds_(Rect(250-(250/2)+35,95-~allShiftUp,100,30));
     nil;
 });
 
@@ -1248,7 +1250,7 @@ snd = funcs2.at(menu2.value).play;
 Harmonic (mistuned) dropdown menu";
 
 //Inspector button
-		~inspector = Button.new(w, Rect(10, 100-~allShiftUp, 20, 20))
+		~inspector = Button.new(w, Rect(10+35, 100-~allShiftUp, 20, 20))
 	.states_([["(i)", Color.white, Color.gray], ["(i)", Color.gray, Color.black]])
 	.font_(Font("nil", 10))
 	.action_({ arg obj;
@@ -1263,7 +1265,7 @@ Harmonic (mistuned) dropdown menu";
 
 //Q. Quit function
 (
-~quit = Button.new(w, Rect(465,95-~allShiftUp,30,30))
+~quit = Button.new(w, Rect(10,95-~allShiftUp,30,30))
 	.states_([["", Color.white, Color.clear]])
 	.font_(Font("nil", 12))
 	.mouseDownAction_({

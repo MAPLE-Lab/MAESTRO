@@ -37,6 +37,9 @@ false) //Cannot be resized by user.
 .front
 .acceptsMouseOver_(true);
 
+		//ID Parameters
+~module_ID = "synthesizer";
+
 	// Title and labels
 		// ~masterTitle = StaticText(w, Rect(0,0,540,40)).string_("Synthesizer                   ").align_(\center).font_(Font(nil, 14, true));
 	);
@@ -199,8 +202,10 @@ SynthDef.new("++ ("sound" ++ j).asCompileString ++ ", {
 			12.do({
 				arg i, j;
 				j = i+1;
-				("if(~sound" ++ j ++ "Synth.isPlaying == true, {
-~sound" ++ j ++ "Synth.free;})"
+				(/*"if(~sound" ++ j ++ "Synth.isPlaying == true, {
+~sound" ++ j ++ "Synth.free;})"*/
+
+					"~sound" ++ j ++ "Synth.free.postln;"
 
 				).interpret;
 			});
@@ -408,14 +413,14 @@ by the given semitone value:").font_(Font(size:8)).action_({
 
 
 	//Load graphics elements
-~house_icon = Image.new(basePath +/+ "images/house-small.png");
+~house_icon = Image.new(basePath +/+ "images/house-small-red.png");
 			~maple_icon = Image.new(basePath +/+ "images/mapleICON-small.png");
 
 //All graphics (aesthetic lines and image positions)
 w.drawFunc = {
 		//Images underneath buttons
-		~house_icon.drawInRect(Rect(500,10,30,30), Rect(0,0,30,30), 2, 1.0);
-			~maple_icon.drawInRect(Rect(10,10,30,30), Rect(0,0,30,30), 2, 1.0);
+		~house_icon.drawInRect(Rect(10,10,30,30), Rect(0,0,30,30), 2, 1.0);
+			~maple_icon.drawInRect(Rect(500,10,30,30), Rect(0,0,30,30), 2, 1.0);
 
 		Pen.line(10@(310+71),530@(310+71)); // Line above Spectra
 
@@ -526,7 +531,7 @@ w.drawFunc = {
 
 	});
 
-	~importParametersText = TextField(w, Rect(435, 40+5, 100, 20))
+	~importParametersText = TextField(w, Rect(435, 40+5, 95, 20))
 	.font_(Font(size:10))
 	.value_("synthesizer_table_template");
 
@@ -536,7 +541,7 @@ w.drawFunc = {
 
 	//Q. Quit function
 (
-~quit = Button.new(w, Rect(500,10,30,30))
+~quit = Button.new(w, Rect(10,10,30,30))
 	.states_([["", Color.white, Color.clear]])
 	.font_(Font("nil", 12))
 	.mouseDownAction_({
@@ -616,7 +621,14 @@ w.drawFunc = {
 	);*/
 
 
+( // Start with windows open
+AppClock.sched(0.1,{
+			~inspector.valueAction_(1); // Start with the inspector window open
 
+			~scopebutton.valueAction_(1); // Start with the oscilloscopes open
+    nil;
+});
+);
 
 
 

@@ -20,12 +20,13 @@ s.freeAll;
 	// Title and labels
 	// ~masterTitle = StaticText(w, Rect(0,0,800,40)).string_("Spectra").align_(\center).font_(Font(nil, 14, true));
 ~allShiftUp = 60;
+	~expandWidth = 25;
 
 //Creates the new window with title
 w = Window.new("MAPLE Lab Spectra Demonstration (Beta)", Rect.new(
 	Window.screenBounds.width/2-400,
 	Window.screenBounds.height/2-50,
-	800,570-~allShiftUp),false)
+	800+~expandWidth,570-~allShiftUp),false)
 	.background_(Color.white)
 	.userCanClose_(false)
 	.front
@@ -41,9 +42,9 @@ w = Window.new("MAPLE Lab Spectra Demonstration (Beta)", Rect.new(
 //Spectra
 (
 //Spectra parameters:
-~spectraScreenComposite_bounds_array = [410,105-~allShiftUp,380,300];
-~spectraButton_bounds_array = [690-40, 112.5+40-~allShiftUp, 120, 20];
-~spectraAutoscale_bounds_array = [690-40, 112.5+40+20-~allShiftUp, 120, 20];
+~spectraScreenComposite_bounds_array = [410+~expandWidth,105-~allShiftUp,380,300];
+~spectraButton_bounds_array = [690-40+~expandWidth, 112.5+40-~allShiftUp-20, 120, 20];
+~spectraAutoscale_bounds_array = [690-40+~expandWidth, 112.5+40+20-~allShiftUp-20, 120, 20];
 		~temporaryDisableAutoscale = 0;
 
 //Load the spectra now that all the above parameters have been set:
@@ -187,12 +188,25 @@ StaticText(w,Rect(10,105,380,25))
 				if(~hornAudioButton.value == 1, {~hornAudioButton.valueAction_(0)}); //t.free;
 				if(~celloAudioButton.value == 1, {~celloAudioButton.valueAction_(0)}); //y.free;*/
 
+				if(~synth_menu.item != "Instruments", {
+					// If not instruments (e.g. sound presets)
 				~stop_UserView.bounds_(Rect(400-(100/2)-92,65-~allShiftUp,150,30));
 				~synth_menu.background_(Color.black);
-				~synth_menu.stringColor_(Color.white);
+					~synth_menu.stringColor_(Color.white);},{
+					// If Instruments
+					~stop_UserView.bounds_(Rect(400-(100/2)-92,65-~allShiftUp,1,1));
+				~synth_menu.background_(Color.grey(0.7));
+					~synth_menu.stringColor_(Color.white);
+				});
 		},
-		{~synth_menu.background_(Color(0.7569-0.1,0.1373-0.1,0.1725-0.1,1));
+		{
+				if(~synth_menu.item != "Instruments", {
+				~synth_menu.background_(Color(0.7569-0.1,0.1373-0.1,0.1725-0.1,1));
 				~synth_menu.stringColor_(Color.black);
+				},{
+					~synth_menu.background_(Color.grey(0.7));
+					~synth_menu.stringColor_(Color.black);
+				});
 
 				if(x.isPlaying, {x.free;});//x.free;
 
@@ -229,7 +243,7 @@ s.waitForBoot({
  var snd, funcs2, b;
 
 
- ~vinbutton = Button(w, Rect(620+200, 417.5-~allShiftUp, 170, 25)) //Pushed off-screen
+ ~vinbutton = Button(w, Rect(620+500, 417.5-~allShiftUp, 170, 25)) //Pushed off-screen
 			.states_([["            Click to Play", Color.white, Color(0.7569,0.1373,0.1725,1)], ["            Click to Stop", Color.white, Color.black]])
    .mouseDownAction_(
 
@@ -254,12 +268,12 @@ s.waitForBoot({
 
 			// Button to quickly change the Phase of the sound so that it can create a triangle wave
 
-			~soundPhaseArrayButtonLabel = StaticText(w, Rect(410,70-10-~allShiftUp,70,20))
+			~soundPhaseArrayButtonLabel = StaticText(w, Rect(410+~expandWidth,70-10-~allShiftUp,70,20))
 			.string_("Harmonic Phases")
 			.align_(\center)
 			.font_(Font(nil, 8));
 
-			~soundPhaseArrayButton = Button(w, Rect(410,70+5-~allShiftUp,70,20))
+			~soundPhaseArrayButton = Button(w, Rect(410+~expandWidth,70+5-~allShiftUp,70,20))
 			.states_([
 				["All Pi", Color.white, Color.grey(0.75)],
 				["Triangle", Color.white, Color.grey(0.25)],
@@ -393,7 +407,7 @@ x.set(
 					if(~button.value == 1,
 						{~button.valueAction_(1)});
 
-		~instrumentsCover.bounds_(Rect(10,410+2-~allShiftUp,(790-10), 120+~lowerButtons))
+		~instrumentsCover.bounds_(Rect(10,410+2-~allShiftUp,(790-10+~expandWidth), 120+~lowerButtons))
 					.string_(TabFileReader.read(~trace +/+  "paragraphs/spectraPresets/sine.txt").flatten.join.asString).align_(\topLeft);
 
 	},
@@ -421,7 +435,7 @@ x.set(
 								~j.valueAction_(0);*/
 
 
-					~instrumentsCover.bounds_(Rect(10,410+2-~allShiftUp,(790-10), 120+~lowerButtons)).string_(TabFileReader.read(~trace +/+  "paragraphs/spectraPresets/square.txt").flatten.join.asString).align_(\topLeft);
+					~instrumentsCover.bounds_(Rect(10,410+2-~allShiftUp,(790-10+~expandWidth), 120+~lowerButtons)).string_(TabFileReader.read(~trace +/+  "paragraphs/spectraPresets/square.txt").flatten.join.asString).align_(\topLeft);
 
 	},
 
@@ -483,7 +497,7 @@ x.set(
 				~k.valueAction_(0);
 								~j.valueAction_(0);*/
 
-					~instrumentsCover.bounds_(Rect(10,410+2-~allShiftUp,(790-10), 120+~lowerButtons)).string_(TabFileReader.read(~trace +/+  "paragraphs/spectraPresets/triangle.txt").flatten.join.asString).align_(\topLeft);
+					~instrumentsCover.bounds_(Rect(10,410+2-~allShiftUp,(790-10+~expandWidth), 120+~lowerButtons)).string_(TabFileReader.read(~trace +/+  "paragraphs/spectraPresets/triangle.txt").flatten.join.asString).align_(\topLeft);
 
 
 	},
@@ -515,7 +529,7 @@ x.set(
 								~j.valueAction_(0);*/
 
 
-					~instrumentsCover.bounds_(Rect(10,410+2-~allShiftUp,(790-10), 120+~lowerButtons)).string_(TabFileReader.read(~trace +/+  "paragraphs/spectraPresets/sawtooth.txt").flatten.join.asString).align_(\topLeft);
+					~instrumentsCover.bounds_(Rect(10,410+2-~allShiftUp,(790-10+~expandWidth), 120+~lowerButtons)).string_(TabFileReader.read(~trace +/+  "paragraphs/spectraPresets/sawtooth.txt").flatten.join.asString).align_(\topLeft);
 
 	},
 				{ // Reverse Sawtooth - same as Sawtooth except phase is 0
@@ -546,7 +560,7 @@ x.set(
 								~j.valueAction_(0);*/
 
 
-					~instrumentsCover.bounds_(Rect(10,410+2-~allShiftUp,(790-10), 120+~lowerButtons)).string_(TabFileReader.read(~trace +/+  "paragraphs/spectraPresets/reverse_sawtooth.txt").flatten.join.asString).align_(\topLeft);
+					~instrumentsCover.bounds_(Rect(10,410+2-~allShiftUp,(790-10+~expandWidth), 120+~lowerButtons)).string_(TabFileReader.read(~trace +/+  "paragraphs/spectraPresets/reverse_sawtooth.txt").flatten.join.asString).align_(\topLeft);
 
 	},
 
@@ -574,13 +588,13 @@ x.set(
 					~reset.valueAction_(0); // Resets the intensities when set to Instruments.
 					~soundPhaseArrayButton.valueAction_(2); // Change back phase to 0
 
-					~instrumentsCover.bounds_(Rect(10,410+2-~allShiftUp,(790-10), 0));
+					~instrumentsCover.bounds_(Rect(10,410+2-~allShiftUp,(790-10+~expandWidth), 0));
 				},
 				{// Custom
 			~synth_menu.background_(Color(0.7569-0.1,0.1373-0.1,0.1725-0.1,1));
 ~play_UserView.bounds_(Rect(400-(100/2)-92,65-~allShiftUp,192,30));
 										~button.bounds_(Rect(400-(100/2)-92,65-~allShiftUp,100+35,30));
-					~instrumentsCover.bounds_(Rect(10,410+2-~allShiftUp,(790-10), 120+~lowerButtons)).string_(TabFileReader.read(~trace +/+  "paragraphs/spectraPresets/custom.txt").flatten.join.asString).align_(\topLeft);
+					~instrumentsCover.bounds_(Rect(10,410+2-~allShiftUp,(790-10+~expandWidth), 120+~lowerButtons)).string_(TabFileReader.read(~trace +/+  "paragraphs/spectraPresets/custom.txt").flatten.join.asString).align_(\topLeft);
 
 
 
@@ -1043,12 +1057,12 @@ s.makeBundle(1.0, //sound delay -~knob.value.linlin(0,1,0,0.5)
 			//{~spectraButton.valueAction_(1);}); // Automatically updates the Autoscaling
 			~spectra_scopeAutoscaleFunction.value;}); // Bypass the Button system entirely to reduce CPU load
 
-		~inspectorHarmonicsPanelUpdate.value;
 		// Updates the information panel
+		~inspectorHarmonicsPanelUpdate.value;
 
-		/*if(~d != nil, {
-		~d.cycle_(5*44100/~fundamental_freq);
-		});*/
+
+		if(~d != nil, {~d.cycle_(5*44100/~fundamental_freq);}); // Scales the Oscilloscope to attempt to fit the H1 frequency
+
 
 })
 	.orientation_(\horizontal);
@@ -1724,7 +1738,7 @@ NumberBox(~inspectorHarmonicsPanel, Rect(294+55,0,45,15))
 
 
 
-~quit = Button.new(w, Rect(760,65-~allShiftUp,30,30))
+~quit = Button.new(w, Rect(10,65-~allShiftUp,30,30))
 	.states_([["", Color.white, Color.clear]])
 	.font_(Font("nil", 12))
 	.action_({
@@ -1766,7 +1780,7 @@ NumberBox(~inspectorHarmonicsPanel, Rect(294+55,0,45,15))
 		});
 
 	//Open Stethoscope
-~scopebutton = Button(w, Rect((690-40), 112.5-~allShiftUp, 120, 20))
+~scopebutton = Button(w, Rect((690-40+~expandWidth), 112.5-~allShiftUp, 120, 20))
 .states_([
 	["Open Oscilloscope", Color.white,Color(0.4824, 0.4863, 0.4863,1)],
 	["Close Oscilloscope", Color.white, Color.grey(0.251)]
@@ -1778,10 +1792,12 @@ NumberBox(~inspectorHarmonicsPanel, Rect(294+55,0,45,15))
 		{*/
 		arg obj;
 		~oscilloscopeButtonFunction.value(obj:obj);
+		if(~d != nil, {~d.cycle_(5*44100/~fundamental_freq);}); // Scales the Oscilloscope to attempt to fit the H1 frequency
+
 });
 
 
-~scope2button = Button(w, Rect((690-40), 132.5-~allShiftUp, 120, 20))
+/*~scope2button = Button(w, Rect((690-40), 132.5-~allShiftUp, 120, 20))
 .states_([
 	["Set Osc. to ~H1", Color.white,Color(0.4824, 0.4863, 0.4863,1)]
 ])
@@ -1797,7 +1813,7 @@ NumberBox(~inspectorHarmonicsPanel, Rect(294+55,0,45,15))
 		});
 
 	}
-	);
+	);*/
 
 
 	//Keyboard visualizer button
@@ -1827,21 +1843,21 @@ arg obj;
 
 
 
-	~house_icon = Image.new(basePath +/+ "images/house-small.png");
+	~house_icon = Image.new(basePath +/+ "images/house-small-red.png");
 	~maple_icon = Image.new(basePath +/+ "images/mapleICON-small.png");
 ~keyboard_image = Image.new(basePath +/+ "images/keyboard_small.png");
 
 //Aesthetic lines
 	w.drawFunc = {
 
-		~house_icon.drawInRect(Rect(760,65-~allShiftUp,30,30), Rect(0,0,30,30), 2, 1.0);
-		~maple_icon.drawInRect(Rect(720,65-~allShiftUp,30,30), Rect(0,0,30,30), 2, 1.0);
+		~house_icon.drawInRect(Rect(10,65-~allShiftUp,30,30), Rect(0,0,30,30), 2, 1.0);
+		~maple_icon.drawInRect(Rect(760+25,65-~allShiftUp,30,30), Rect(0,0,30,30), 2, 1.0);
 		~keyboard_image.drawInRect(Rect(575,70-~allShiftUp,60,25), Rect(0,0,60,25), 2, 1.0);
-		Pen.line(10@(530-~allShiftUp),790@(530-~allShiftUp)); //Sixth line
-		Pen.line(10@(490-~allShiftUp),790@(490-~allShiftUp)); //Fifth line
-		Pen.line(10@(450-~allShiftUp),790@(450-~allShiftUp)); //Fourth line
-		Pen.line(10@(410-~allShiftUp),790@(410-~allShiftUp)); //Third line
-		Pen.line(10@(100-~allShiftUp),790@(100-~allShiftUp)); //Second line
+		Pen.line(10@(530-~allShiftUp),(790+~expandWidth)@(530-~allShiftUp)); //Sixth line
+		Pen.line(10@(490-~allShiftUp),(790+~expandWidth)@(490-~allShiftUp)); //Fifth line
+		Pen.line(10@(450-~allShiftUp),(790+~expandWidth)@(450-~allShiftUp)); //Fourth line
+		Pen.line(10@(410-~allShiftUp),(790+~expandWidth)@(410-~allShiftUp)); //Third line
+		Pen.line(10@(100-~allShiftUp),(790+~expandWidth)@(100-~allShiftUp)); //Second line
 
 	Pen.strokeColor = Color(0,0,0,0.5); //Top line, written differently in code
                 Pen.width = 2;
@@ -1861,7 +1877,7 @@ arg obj;
 
 
 //Record button - sends to Supercollider file
-~record_button_bounds_array = [35, 70-~allShiftUp, 85, 20];
+~record_button_bounds_array = [35+35, 70-~allShiftUp, 85, 20];
 (basePath +/+  "modules/record_button.scd").load;
 
 	/*~tech = Button.new(w, Rect(35, 70, 85, 20))
@@ -1955,7 +1971,7 @@ s.makeBundle(1.0, //sound delay
 
 
 //Inspector button (remove upon Release)
-~inspector = Button.new(w, Rect(10, 70-~allShiftUp, 20, 20))
+~inspector = Button.new(w, Rect(10+35, 70-~allShiftUp, 20, 20))
 	.states_([["(i)", Color.white, Color.gray], ["(i)", Color.gray, Color.black]])
 	.font_(Font("nil", 10))
 	.action_

@@ -36,6 +36,9 @@ false) //Cannot be resized by user.
 .front
 .acceptsMouseOver_(true);
 
+				//ID Parameters
+~module_ID = "synthesizer";
+
 	// Title and labels
 		// ~masterTitle = StaticText(w, Rect(0,0,500,40)).string_("Difference Tones").align_(\center).font_(Font(nil, 14, true));
 	);
@@ -45,7 +48,7 @@ false) //Cannot be resized by user.
 	(~trace +/+  "data/oscilloscopeButtonFunctions.scd").load; // Load the oscilloscope button functions
 
 	//Record button - sends to Supercollider file in the Recordings section
-~record_button_bounds_array = [10, 40, 85, 20];
+~record_button_bounds_array = [50, 15, 85, 20];
 (basePath +/+  "modules/record_button.scd").load;
 
 
@@ -105,7 +108,7 @@ SynthDef.new("sound3", {
 // Sound Sliders
 
 	~slidersLeftEdge = 90;
-	~slidersTopEdge = 100;
+	~slidersTopEdge = 100-15;
 	~slidersHeight = 150;
 	~spaceBetweenPrimaryFrequencySliders = 70;
 	~spaceBetweenFirstAndDifferenceSliders = 250;
@@ -139,7 +142,7 @@ SynthDef.new("sound3", {
 	});
 		~fundamentalName = StaticText(w, Rect(~slidersLeftEdge,~slidersTopEdge+~fundamentalSlider.bounds.height,40,20)).string_("A4").align_(\center);
 
-	~fundamentalIntensitySlider = Knob(w, Rect(~slidersLeftEdge+12,~slidersTopEdge+~fundamentalSlider.bounds.height+42,15,15)).value_(1).action_({
+	~fundamentalIntensitySlider = Knob(w, Rect(~slidersLeftEdge+5,~slidersTopEdge+~fundamentalSlider.bounds.height+42,30,30)).value_(1).action_({
 		arg obj;
 		~sound1Synth.set(\fundamentalIntensity, obj.value;);
 	});
@@ -173,7 +176,7 @@ SynthDef.new("sound3", {
 	});
 	~compareName = StaticText(w, Rect(~slidersLeftEdge+~spaceBetweenPrimaryFrequencySliders,~slidersTopEdge+~fundamentalSlider.bounds.height,40,20)).string_("A5").align_(\center);
 
-	~compareIntensitySlider = Knob(w, Rect(~slidersLeftEdge+~spaceBetweenPrimaryFrequencySliders+12,~slidersTopEdge+~fundamentalSlider.bounds.height+42,15,15)).value_(1).action_({
+	~compareIntensitySlider = Knob(w, Rect(~slidersLeftEdge+~spaceBetweenPrimaryFrequencySliders+5,~slidersTopEdge+~fundamentalSlider.bounds.height+42,30,30)).value_(1).action_({
 		arg obj;
 		~sound2Synth.set(\compareIntensity, obj.value;);
 	});
@@ -221,7 +224,7 @@ SynthDef.new("sound3", {
 	//~differenceSlider.value_((~compareMIDI.value-~fundamentalMIDI.value).linlin(0,12,0,1));
 
 
-	~differenceIntensitySlider = Knob(w, Rect(~slidersLeftEdge+~spaceBetweenFirstAndDifferenceSliders+12,~slidersTopEdge+~fundamentalSlider.bounds.height+40+2,15,15)).value_(0).action_({
+	~differenceIntensitySlider = Knob(w, Rect(~slidersLeftEdge+~spaceBetweenFirstAndDifferenceSliders+5,~slidersTopEdge+~fundamentalSlider.bounds.height+40+2,30,30)).value_(0).action_({
 		arg obj;
 		~sound3Synth.set(\differenceIntensity, obj.value;);
 	});
@@ -230,7 +233,7 @@ SynthDef.new("sound3", {
 	~frequencyLabel = StaticText(w, Rect(~slidersLeftEdge-40,~slidersTopEdge-20,40,20)).string_("Hz ").align_(\right);
 	~midiLabel = StaticText(w, Rect(~slidersLeftEdge-40,~slidersTopEdge+~fundamentalSlider.bounds.height+20,40,20)).string_("MIDI ").align_(\right);
 		~nameLabel = StaticText(w, Rect(~slidersLeftEdge-80,~slidersTopEdge+~fundamentalSlider.bounds.height,80,20)).string_("Closest Pitch ").align_(\right);
-	~intensityLabel = StaticText(w, Rect(~slidersLeftEdge-60,~slidersTopEdge+~fundamentalSlider.bounds.height+40,60,20)).string_("Intensity ").align_(\right);
+	~intensityLabel = StaticText(w, Rect(~slidersLeftEdge-60,~slidersTopEdge+~fundamentalSlider.bounds.height+47,60,20)).string_("Intensity ").align_(\right);
 
 
 	//Button CompositeViews for hiding and showing
@@ -243,14 +246,14 @@ SynthDef.new("sound3", {
 ~stop_image_right = Image.new(basePath +/+ "images/big_button_media/black_right.png");
 ~stop_image_indent = Image.new(basePath +/+ "images/big_button_media/black_indent_col.png");
 
-~play_UserView = UserView(w, Rect(200,30,100,30));
+~play_UserView = UserView(w, Rect(200,10,100,30));
 	~play_UserView.drawFunc_({
 		~play_image_left.drawInRect(Rect(0,0,100,30), Rect(0,0,200,60), 2, 1.0);
 		~play_image_right.drawInRect(Rect(0,0,100,30), Rect(0,0,200,60), 2, 1.0);
 		~play_image_indent.drawInRect(Rect(2,0,100,30), Rect(0,0,200,60), 2, 1.0); // The offset by +2.left looks better for centering
 	});
 
-~stop_UserView = UserView(w, Rect(200,30,100,30));
+~stop_UserView = UserView(w, Rect(200,10,100,30));
 	~stop_UserView.drawFunc_({
 		~stop_image_left.drawInRect(Rect(0,0,100,30), Rect(0,0,200,60), 2, 1.0);
 		~stop_image_right.drawInRect(Rect(0,0,100,30), Rect(0,0,200,60), 2, 1.0);
@@ -258,12 +261,12 @@ SynthDef.new("sound3", {
 	});
 
 	//~play_UserView.bounds_(Rect(400-(100/2),65,1,1)); //Hide the play button
-	~stop_UserView.bounds_(Rect(200,30,1,1)); //Hide the stop button
+	~stop_UserView.bounds_(Rect(200,10,1,1)); //Hide the stop button
 );
 
 	// Play button
 	// Button to play the Basic SynthDef
-~playButton = Button.new(w, Rect(200,30,100,30))
+~playButton = Button.new(w, Rect(200,10,100,30))
 .states_([
 	["Sound OFF", Color.clear, Color.clear],
 	["Sound ON", Color.clear, Color.clear]
@@ -271,12 +274,12 @@ SynthDef.new("sound3", {
 .action_({
 	arg obj;
 	if(obj.value == 1, {
-			~stop_UserView.bounds_(Rect(200,30,100,30)); //Sow the stop button
+			~stop_UserView.bounds_(Rect(200,10,100,30)); //Sow the stop button
 		~sound1Synth = Synth("sound1", [\freq, ~fundamentalBox.value, \fundamentalIntensity:~fundamentalIntensitySlider.value]);
 			~sound2Synth = Synth("sound2", [\freq, ~compareBox.value, \compareIntensity:~compareIntensitySlider.value]);
 			~sound3Synth = Synth("sound3", [\freq, 440, \differenceIntensity:~differenceIntensitySlider.value]);
 	},{
-			~stop_UserView.bounds_(Rect(200,30,1,1)); //Hide the stop button
+			~stop_UserView.bounds_(Rect(200,10,1,1)); //Hide the stop button
 		~sound1Synth.free;
 			~sound2Synth.free;
 			~sound3Synth.free;
@@ -294,14 +297,14 @@ SynthDef.new("sound3", {
 
 
 	//Load graphics elements
-~house_icon = Image.new(basePath +/+ "images/house-small.png");
+~house_icon = Image.new(basePath +/+ "images/house-small-red.png");
 			~maple_icon = Image.new(basePath +/+ "images/mapleICON-small.png");
 
 //All graphics (aesthetic lines and image positions)
 w.drawFunc = {
 		//Images underneath buttons
-		~house_icon.drawInRect(Rect(460,10,30,30), Rect(0,0,30,30), 2, 1.0);
-			~maple_icon.drawInRect(Rect(10,10,30,30), Rect(0,0,30,30), 2, 1.0);
+		~house_icon.drawInRect(Rect(10,10,30,30), Rect(0,0,30,30), 2, 1.0);
+			~maple_icon.drawInRect(Rect(460,10,30,30), Rect(0,0,30,30), 2, 1.0);
 
 		Pen.line(10@310,490@310); // Line above Spectra
 
@@ -318,7 +321,7 @@ w.drawFunc = {
 
 	//Q. Quit function
 (
-~quit = Button.new(w, Rect(460,10,30,30))
+~quit = Button.new(w, Rect(10,10,30,30))
 	.states_([["", Color.white, Color.clear]])
 	.font_(Font("nil", 12))
 	.mouseDownAction_({
@@ -396,10 +399,16 @@ w.drawFunc = {
 	}
 	);
 
+	( // Start with windows open
+		AppClock.sched(0.1,{
+			// ~inspector.valueAction_(1); // Start with the inspector window open
 
+			~scopebutton.valueAction_(1); // Start with the oscilloscopes open
 
-
-
+			// ~key_vis.valueAction_(1); // Start with the keyboard window open
+			nil;
+		});
+	);
 
 
 	// Freeall

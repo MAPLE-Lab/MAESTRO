@@ -1,0 +1,1 @@
+This black screen shows a live (i.e. real-time, updating) spectra of the sounds being played.

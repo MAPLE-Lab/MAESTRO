@@ -4,8 +4,8 @@ var basePath = thisProcess.nowExecutingPath.asString.dirname;
 // Window for the Keyboard
 ~keyboardWindow = Window.new("Keyboard", Rect(
 	/*Window.screenBounds.width/2-((420+20+20+620)/2)*/
-	w.bounds.left,w.bounds.top-200,
-	420+20+20+620,190), false, true).front.background_(Color.grey(1)).userCanClose_(true);
+	w.bounds.left,w.bounds.top-202,
+	420+20+20+620,190), false, true).front.background_(Color.grey(1)).userCanClose_(true)	.acceptsMouseOver_(true);
 
 // Label for title // Necessary if remove the top part eventually to avoid confusion on closing - but maybe onClose it resets the key_vis button properly anyways so no need
 ~title =StaticText(~keyboardWindow,Rect(0,0,(420+20+20+620),300))
@@ -20,8 +20,6 @@ var basePath = thisProcess.nowExecutingPath.asString.dirname;
 //Keyboard visual
 //~outline = StaticText(~keyboard, Rect(20-1,20-1,420+1+620,150+2));
 //~outline.background = Color.black;
-
-
 
 //3D Effect buttons
 StaticText.new(~keyboard, Rect(20,165,1055,500)).background_(Color.grey(0.88)); // Bottom edge of 3D keys
@@ -1037,6 +1035,20 @@ if(~module_ID == "spectra",
 
 ~keyboardMiniView_highlight = StaticText(~keyboardMiniView_UserView, Rect(0,0,166,15)).background_(Color.grey(0.2,0.5));
 );
+
+
+//Implements the hovertext for the inspector window
+StaticText(~keyboardWindow, Rect(0,0,~keyboardWindow.bounds.width,~keyboardWindow.bounds.height))
+.mouseOverAction_({
+	if(~inspectorExists == 1, {
+		~inspectorText.string_(TabFileReader.read(~trace +/+  "paragraphs/mini-modules/keyboardInspector.txt").flatten.join.asString)
+});})
+.mouseLeaveAction_({
+	if(~inspectorExists == 1, {
+		~inspectorText.string_(" ")
+});});
+
+
 
 ~keyboardWindow.onClose_({
 	~key_vis.valueAction_(0); //Oddly, using valueAction instead of value loads the window opening faster

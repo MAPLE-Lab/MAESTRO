@@ -43,7 +43,7 @@ StaticText.new(~composite, Rect(
 //Implements the hovertext for the inspector window
 .mouseOverAction_({
 	if(~inspectorExists == 1, {
-		~inspectorText.string_("This black screen shows a live (i.e. real-time, updating) spectra of the sounds being played.")
+		~inspectorText.string_(TabFileReader.read(~trace +/+  "paragraphs/mini-modules/spectra_screenInspector.txt").flatten.join.asString)
 });})
 .mouseLeaveAction_({
 	if(~inspectorExists == 1, {

@@ -75,7 +75,8 @@
 			~spectraPowerButtonStatus = 0;
 			~button.value_(0); // Must be .value instead of .valueAction so can go directly from one button to another
 			~stop_UserView.bounds_(Rect(400-(100/2)-92,65,1,1));
-			~synth_menu.background_(Color(0.7569-0.1,0.1373-0.1,0.1725-0.1,1));
+			// ~synth_menu.background_(Color(0.7569-0.1,0.1373-0.1,0.1725-0.1,1));
+			~synth_menu.background_(Color.grey(0.7));
 			~synth_menu.stringColor_(Color.black);
 
 			//Reset to base colours when not playing

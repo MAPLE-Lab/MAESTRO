@@ -59,12 +59,18 @@ t.view.keyDownAction = { arg view, char, modifiers, unicode, keycode;
 
 
 		//Buttons
+~adminAccessArray = Array.fill(4, {arg i;
+	if(TabFileReader.read(~trace +/+  "admin/access.txt").[i].[2] == "true",
+		{1},{0});});
 
+		// Height of all buttons together:	(140+(50*~adminAccessArray[0..3].sum)-50)
+		// Center line for the buttons (140+290)/2
 
 			~splashButtonWidth = 150;
 
 		if(TabFileReader.read(~trace +/+  "admin/access.txt").[0].[2] == "true", {
-~tuningButton = Button.new(t, Rect((400-220-50), 180+30-20-50, ~splashButtonWidth, 40))
+~tuningButton = Button.new(t, Rect((400-220-50), ((140+290)/2)-(((50*~adminAccessArray[0..3].sum)-50)/2)
++(~adminAccessArray[0..0].sum*50)-50, ~splashButtonWidth, 40))
 	.states_([["Tuning", Color.white, Color(0.7569,0.1373,0.1725,1)]])
 	.font_(Font("nil", 18))
 	.mouseDownAction_({
@@ -75,7 +81,8 @@ t.view.keyDownAction = { arg view, char, modifiers, unicode, keycode;
 		});
 
 		if(TabFileReader.read(~trace +/+  "admin/access.txt").[1].[2] == "true", {
-~spectraButton = Button.new(t, Rect((400-220-50), 180+50+30-20-50, ~splashButtonWidth, 40))
+~spectraButton = Button.new(t, Rect((400-220-50), ((140+290)/2)-(((50*~adminAccessArray[0..3].sum)-50)/2)
++(~adminAccessArray[0..1].sum*50)-50, ~splashButtonWidth, 40))
 	.states_([["Spectra", Color.white, Color(0.7569,0.1373,0.1725,1)]])
 	.font_(Font("nil", 18))
 	.mouseDownAction_({
@@ -85,7 +92,8 @@ t.view.keyDownAction = { arg view, char, modifiers, unicode, keycode;
 		});
 
 		if(TabFileReader.read(~trace +/+  "admin/access.txt").[2].[2] == "true", {
-		~tonesButton = Button.new(t, Rect((400-220-50), 180+50+30-20+50-50, ~splashButtonWidth, 40))
+		~tonesButton = Button.new(t, Rect((400-220-50), ((140+290)/2)-(((50*~adminAccessArray[0..3].sum)-50)/2)
++(~adminAccessArray[0..2].sum*50)-50, ~splashButtonWidth, 40))
 	.states_([["Diff. Tones", Color.white, Color(0.7569,0.1373,0.1725,1)]])
 	.font_(Font("nil", 18))
 	.mouseDownAction_({
@@ -95,8 +103,9 @@ t.view.keyDownAction = { arg view, char, modifiers, unicode, keycode;
 		});
 
 		if(TabFileReader.read(~trace +/+  "admin/access.txt").[3].[2] == "true", {
-		~synthesizerButton = Button.new(t, Rect((400-220-50), 180+50+30-20+50-50+50, ~splashButtonWidth, 40))
-	.states_([["Sound Designer", Color.white, Color(0.7569,0.1373,0.1725,1)]])
+		~synthesizerButton = Button.new(t, Rect((400-220-50), ((140+290)/2)-(((50*~adminAccessArray[0..3].sum)-50)/2)
++(~adminAccessArray[0..3].sum*50)-50, ~splashButtonWidth, 40))
+	.states_([["Tone Designer", Color.white, Color(0.7569,0.1373,0.1725,1)]])
 	.font_(Font("nil", 18))
 	.mouseDownAction_({
 			(basePath +/+  "MAPLE_Synthesizer.scd").loadPaths;

@@ -1,0 +1,1 @@
+This is an oscilloscope zoomed out to show the waveform of the sounds played.

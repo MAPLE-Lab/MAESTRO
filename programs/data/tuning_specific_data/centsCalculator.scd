@@ -5,23 +5,14 @@
 
 //~freqslider.value.linlin(0,1,-1,1); // % to the harmonic
 harmonicFrequency = ((2**((-69+~fslider.value.linlin(0,1,21,108))/12))*440)*(~menu2.value+~freqslider.value.linlin(0,1,-1,1)); // Frequency of harmonic
-<<<<<<< HEAD
+
 harmonicFrequency.postln;
-harmonicMIDI = (log2(harmonicFrequency/440)*12)+69; // MIDI of harmonic
+harmonicMIDI = (log2(harmonicFrequency/440)*12)+69; // MIDI of created harmonic frequency (not as represented on the keyboard)
 	(["MIDI", harmonicMIDI]).postln;
 //harmonicMIDI - ~fslider.value.linlin(0,1,21,108); // Difference in MIDI
 
 	(~fslider.value.linlin(0,1,21,108)-~current_harmonic_MIDINN).postln;
 
-
-=======
-
-harmonicMIDI = (log2(harmonicFrequency/440)*12)+69; // MIDI of harmonic
-
-//harmonicMIDI - ~fslider.value.linlin(0,1,21,108); // Difference in MIDI
-
-	harmonicMIDI.postln;
->>>>>>> b65f3eb83bd1defa69283b8e359090cf0d25d1bf
 	((harmonicMIDI-~fslider.value.linlin(0,1,21,108)-~current_harmonic_MIDINN)).postln;
 	~centsBox.value_((harmonicMIDI - ~fslider.value.linlin(0,1,21,108)-~current_harmonic_MIDINN)*100); // Difference in cents
 };
@@ -30,12 +21,37 @@ harmonicMIDI = (log2(harmonicFrequency/440)*12)+69; // MIDI of harmonic
 
 //~deviant_maximum // MIDI count to next harmonic
 
-<<<<<<< HEAD
+
 // ~fund
 /*
 log2(36)
 
 (log2(1760/440)*12)+69*/
-=======
-~fund
->>>>>>> b65f3eb83bd1defa69283b8e359090cf0d25d1bf
+
+
+// (log2((((2**((-69+~fslider.value.linlin(0,1,21,108))/12))*440)*(~menu2.value+~freqslider.value.linlin(0,1,-1,1)))/440)*12)+69; // MIDI of deviated harmonic frequency (not as represented on the keyboard)
+//
+// (log2((((2**((-69+~fslider.value.linlin(0,1,21,108))/12))*440)*(~menu2.value))/440)*12)+69; // MIDI of non-deviated harmonic frequency (not as represented on the keyboard)
+
+~calculateCents2 = {
+		var harmonicFrequencyDeviant, harmonicMIDIDeviant, harmonicFrequency, harmonicMIDI;
+
+	harmonicFrequencyDeviant = ((2**((-69+~fslider.value.linlin(0,1,21,108))/12))*440)*(~menu2.value+~freqslider.value.linlin(0,1,-1,1)); // Frequency of harmonic
+
+	harmonicMIDIDeviant = (log2(harmonicFrequencyDeviant/440)*12)+69; // MIDI of deviated harmonic frequency (not as represented on the keyboard)
+
+	harmonicFrequency = ((2**((-69+~fslider.value.linlin(0,1,21,108))/12))*440)*(~menu2.value); // Frequency of harmonic
+
+	harmonicMIDI = (log2(harmonicFrequency/440)*12)+69; // MIDI of deviated harmonic frequency (not as represented on the keyboard)
+
+
+	((harmonicMIDIDeviant-harmonicMIDI)*100).postln;
+	~centsBox.value_((harmonicMIDIDeviant-harmonicMIDI)*100); // Difference in cents
+};
+
+~calculateCents3 = {
+	// ~current_harmonic_MIDINN
+
+	/*~deviant_maximum*~freqslider.value.linlin(0,1,-1,1)*100*/
+	~centsBox.value_(~deviant_maximum*~freqslider.value.linlin(0,1,-1,1)*100);
+};
