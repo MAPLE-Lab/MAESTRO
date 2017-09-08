@@ -14,7 +14,12 @@ harmonicMIDI = (log2(harmonicFrequency/440)*12)+69; // MIDI of created harmonic 
 	(~fslider.value.linlin(0,1,21,108)-~current_harmonic_MIDINN).postln;
 
 	((harmonicMIDI-~fslider.value.linlin(0,1,21,108)-~current_harmonic_MIDINN)).postln;
+
+	if(and(~menu2.item == "1", ~freqslider.value <= 0.5), {~centsBoxCover.string_("NaN").background_(Color.white); "Not applicable.".postln;
+	},{
+		~centsBoxCover.string_(" ").background_(Color.clear);
 	~centsBox.value_((harmonicMIDI - ~fslider.value.linlin(0,1,21,108)-~current_harmonic_MIDINN)*100); // Difference in cents
+	});
 };
 
 // Interesting side effect - shows how the actual frequency differs from the keyboard
@@ -53,5 +58,10 @@ log2(36)
 	// ~current_harmonic_MIDINN
 
 	/*~deviant_maximum*~freqslider.value.linlin(0,1,-1,1)*100*/
+
+		if(and(~menu2.item == "1", ~freqslider.value <= 0.5), {~centsBoxCover.string_("NaN").background_(Color.white); "Not applicable.".postln;
+	},{
+		~centsBoxCover.string_(" ").background_(Color.clear);
 	~centsBox.value_(~deviant_maximum*~freqslider.value.linlin(0,1,-1,1)*100);
+	});
 };

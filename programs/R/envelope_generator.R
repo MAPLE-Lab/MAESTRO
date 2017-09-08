@@ -3,9 +3,16 @@
 # STEP 0 - SOURCE FUNCTIONS
 # This line loads all the functions from the "functions_R.R" R code file.
 # These functions are then called (with appropriate arguments) in all following code.
+
+# The filePath should be the R folder location
+# If you are using a Mac, denote the path using forward slashes (/)
+# If you are using a PC, denote the path using forward slashes (/) or two backward slashes (\\)
 filePath <- "~/Dropbox/MAPLE-Lab-Auditory-Exploration-Suite/programs/R"
+
+# Use the variables below to customize the analysis
 frequencyResolution <- 4 # 4 is a good value with a frequency resolution of ~20Hz. 5 increases frequency resolution to ~10Hz.
 thresholdValue <- 0.1 # Set at 0 all noise is captured; however, in top-down analysis (where the user selects the harmonics), this is not a problem and improves audio synthesis
+
 # STEP 3 - SELECT SOUND
 # Select the sound file to be analyzed
 # Usage: Opens pop-up window for the user to select the sound file they want to analyze

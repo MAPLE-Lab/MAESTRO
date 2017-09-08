@@ -1,0 +1,1 @@
+Change this slider’s value to shift the frequency of the selected harmonic (by the designated value in cents). Maximum value is the next harmonic above, and minimum value is the previous harmonic below.

@@ -17,40 +17,56 @@ s.waitForBoot({
 var basePath = thisProcess.nowExecutingPath.asString.dirname;
 ~trace = basePath.asString;
 
-
-//Avoids delay when the Recording button is pressed
-//s.prepareForRecord;
+~allWiden = 40;
 
 //A. Create window and aesthetics
 (
 //Create the module's master window
-		~master_window_bounds_array = [Window.screenBounds.width/2-270, Window.screenBounds.height/2-50, 540, 570+50];
-w = Window.new("MAPLE Lab Synthesizer (Beta)", Rect.new(
+		~master_window_bounds_array = [Window.screenBounds.width/2-270, Window.screenBounds.height/2-50, 540+~allWiden, 570+50];
+w = Window.new("MAPLE Lab Tone Designer (Beta)", Rect.new(
 	~master_window_bounds_array[0],
 	~master_window_bounds_array[1],
 	~master_window_bounds_array[2],
 	~master_window_bounds_array[3]
 ),
-false) //Cannot be resized by user.
+TabFileReader.read(~trace +/+  "admin/access.txt").[4].[2].interpret) //Cannot be resized by user without admin permission.
 .background_(Color.white)
 .userCanClose_(true)
 .front
 .acceptsMouseOver_(true);
 
-		//ID Parameters
-~module_ID = "synthesizer";
-
-	// Title and labels
-		// ~masterTitle = StaticText(w, Rect(0,0,540,40)).string_("Synthesizer                   ").align_(\center).font_(Font(nil, 14, true));
 	);
+
+	//B. Add starting ID parameters
+(
+~module_ID = "synthesizer";
+~inspectorExists = 0;
+);
 
 	(~trace +/+  "data/synthesizer_specific_data/synthesizerPlotFunction.scd").load; // Load the Plotting function
 	(~trace +/+  "data/oscilloscopeButtonFunctions.scd").load; // Load the oscilloscope button functions
-
+	(~trace +/+  "data/readTextFileFunction.scd").load; // Load the text reader function
 
 //Record button - sends to Supercollider file in the Recordings section
-~record_button_bounds_array = [10, 40+5, 85, 20];
+~record_button_bounds_array = [75, 15, 85, 20];
 (basePath +/+  "modules/record_button.scd").load;
+
+	//Opening paragraph for the module, holds data for Inspector window to load
+~para = StaticText(w,Rect(5000,10,~master_window_bounds_array[2]-20,80));
+~para.string_(~readTextFileFunction.value(path:"synthesizer/synthesizerIntro.txt"));
+
+	//Inspector button
+	~inspector = Button.new(w, Rect(50, 15, 20, 20))
+	.states_([["(i)", Color.white, Color.gray], ["(i)", Color.gray, Color.black]])
+	.font_(Font("nil", 10))
+	.action_({ arg obj;
+		if(obj.value == 1, {
+			(basePath +/+  "modules/inspector.scd").loadPaths;
+		},
+		{
+			~inspectorWindow.close;
+		});
+	});
 
 // SynthDefs define the sound to be played
 /*(
@@ -80,13 +96,14 @@ SynthDef.new("sound1", {
 	arg i, j;
 	j = i+1;
 
+	(
 
-	("
+			/*"
 (
 SynthDef.new("++ ("sound" ++ j).asCompileString ++ ", {
-	arg freq, attackTime, sustainTime, releaseTime, startTime, onCurve, offCurve, intensityValue;
+	arg freq, attackTime, sustainTime, releaseTime, startTime, onCurve, offCurve, intensityValue, midi, pitchBend;
 
-	var mul, mul2, signal, env, intensityPeak;
+	var mul, mul2, signal, env, intensityPeak, beginFrequency, endFrequency, totalTime;
 
 			//mul = XLine.kr(0.01,1,0.2,0.1); //Ramps sound onset so not so harsh
 
@@ -98,12 +115,49 @@ SynthDef.new("++ ("sound" ++ j).asCompileString ++ ", {
 
 			//freq = ((2**((-69+midi)/12))*440);
 
-	signal = SinOsc.ar(freq,0, mul);
+beginFrequency = freq;
+endFrequency = ((2**((-69+(pitchBend+midi))/12))*440);
+totalTime = attackTime + sustainTime + releaseTime;
+
+	signal = SinOsc.ar(freq:XLine.kr(start:beginFrequency,end:endFrequency,dur:totalTime,mul:1),phase:0, mul:mul); // If one argument is specified in the colon format, all arguments need to be
 
 	Out.ar([0,1], signal);
 }).add;
 );
-").interpret.postln;
+"*/
+
+
+			"
+			(
+SynthDef.new("++ ("sound" ++ j).asCompileString ++ ", {
+	arg freq, attackTime, sustainTime, releaseTime, startTime, onCurve, offCurve, intensityValue, midi, pitchBend;
+
+	var mul, mul2, signal, env, intensityPeak, beginFrequency, endFrequency, totalTime, frequencyEnv;
+
+			//mul = XLine.kr(0.01,1,0.2,0.1); //Ramps sound onset so not so harsh
+
+			intensityPeak = intensityValue*0.2;
+
+			env = Env.new(levels:[0,0,intensityPeak,intensityPeak,0], times:[startTime, attackTime, sustainTime, releaseTime], curve:[0,onCurve,0,offCurve]);
+
+			mul = EnvGen.ar(env);
+
+			//freq = ((2**((-69+midi)/12))*440);
+
+beginFrequency = freq;
+endFrequency = ((2**((-69+(pitchBend+midi))/12))*440);
+totalTime = attackTime + sustainTime + releaseTime;
+
+	frequencyEnv = Env.new(levels:[beginFrequency,beginFrequency,endFrequency], times:[startTime, totalTime], curve:'lin');
+
+	signal = SinOsc.ar(freq:EnvGen.ar(frequencyEnv),phase:0, mul:mul); // If one argument is specified in the colon format, all arguments need to be
+
+	Out.ar([0,1], signal);
+}).add;
+);
+			"
+
+		).interpret.postln;
 });
 
 	//Button CompositeViews for hiding and showing
@@ -136,6 +190,10 @@ SynthDef.new("++ ("sound" ++ j).asCompileString ++ ", {
 
 
 // Play Button
+	~playState = 0; // Measures how many times it's been played since opening the module
+~playStateTimedStop = 0;
+	~playStateManual = 0;
+
 	~playButton = Button.new(w, Rect(~master_window_bounds_array[2]/2-50,10,100,30))
 .states_([
 	["OFF", Color.clear, Color.clear],
@@ -166,18 +224,33 @@ SynthDef.new("++ ("sound" ++ j).asCompileString ++ ", {
 	arg i, j;
 	j = i+1;
 
+				// AppClock.sched(((("~startTime" ++ j).interpret.value)/1000), {
+
+					("Start sound" ++ j).postln;
+
+				// if(~playButton.value == 1, {
+
 				("~sound" ++ j ++ "Synth = Synth(" ++ ("sound" ++ j).asCompileString
 	++ ", [
 				\\freq, ~freq" ++ j ++ ".value,
 				\\attackTime, (~attack" ++ j ++ ".value)/1000,
 				\\sustainTime, (~sustain" ++ j ++ ".value)/1000,
 				\\releaseTime, (~release" ++ j ++ ".value)/1000,
-				\\startTime, (~startTime" ++ j ++ ".value)/1000,
+\\startTime, (~startTime" ++ j ++ ".value)/1000,
+// \\startTime, 0,
 				\\onCurve, ~onCurve" ++ j ++ ".value,
 				\\offCurve, ~offCurve" ++ j ++ ".value,
-				\\intensityValue, ~intensity" ++ j ++ ".value
+				\\intensityValue, ~intensity" ++ j ++ ".value,
+\\pitchBend, ~pitchBend" ++ j ++ ".value,
+\\midi, ~midi" ++ j ++ ".value
 ]);").interpret;
-});
+					/*},{
+						("Button is off, sound" ++ j ++ "not played.").postln;
+					}
+					);*/
+				// });
+
+			});
 
 			~maximumTimeArray = Array.fill(12, {
 				arg i;
@@ -192,8 +265,17 @@ SynthDef.new("++ ("sound" ++ j).asCompileString ++ ", {
 
 			});
 
-			AppClock.sched(~maximumTimeArray.maxItem*0.001, {~playButton.valueAction_(0);});
+		//	~playStatePrevious = ~playState; // Only updates on close
+			~playState = ~playState + 1;
 
+		~autoStopAppClock = AppClock.sched(~maximumTimeArray.maxItem*0.001, {
+
+				// Only turn off if in the same playing session
+				/*if(~playStateManual != 500, {*/~playButton.valueAction_(0); "Auto-off".postln/*},{~playStateManual = 0; "Set to 0".postln;})*/;
+
+			});
+
+			~keyboardUpdateGUI.value;
 		},{
 
 			~stop_UserView.bounds_(Rect(~master_window_bounds_array[2]/2-50,10,1,1)); // Hide
@@ -210,8 +292,35 @@ SynthDef.new("++ ("sound" ++ j).asCompileString ++ ", {
 				).interpret;
 			});
 
+			~playStateTimedStop = ~playStateTimedStop+1;
+
+~keyboardUpdateGUIClear.value;
 		});
 });
+
+	~playButton.mouseDownAction_({
+		arg obj;
+
+		if(obj.value == 1, {
+		// ~playStateManualStop = ~playState;
+		"Manual: Set to 1".postln;
+	/*		~playStateManualPrevious = ~playStateManual;
+			~playStateManual = ~playStateManual+1;*/
+
+			~autoStopAppClock.clear; // Removes the auto-off clock so as to avoid seemingly random turn-off errors
+
+		});
+	});
+
+		// Activate play button with spacebar
+w.view.keyDownAction_( { |view, char, mod, uni, key|
+		if(key == 49, {
+			switch(~playButton.value,
+				0, {~playButton.valueAction_(1)},
+				1, {~playButton.valueAction_(0)},
+			);
+		}, { nil });
+    } );
 
 
 // Columns
@@ -229,17 +338,21 @@ SynthDef.new("++ ("sound" ++ j).asCompileString ++ ", {
 Curve").align_(\top).font_(Font(size:11));
 	StaticText(w, Rect(400,70,50,237+73)).background_(Color.grey(0.9)).string_("Off
 Curve").align_(\top).font_(Font(size:11));
-	StaticText(w, Rect(450,70,40,237+73)).background_(Color.grey(0.95)).string_("Int.
-(+)").align_(\top).font_(Font(size:11));
+	StaticText(w, Rect(450,70,40,237+73)).background_(Color.grey(0.95)).string_("Max.
+Amp.").align_(\top).font_(Font(size:11));
 	StaticText(w, Rect(490,70,40,237+73)).background_(Color.grey(0.9)).string_("MIDI
 (#)").align_(\top).font_(Font(size:11));
+	StaticText(w, Rect(530,70,40,237+73)).background_(Color.grey(0.95)).string_("Semi.
+Bend").align_(\top).font_(Font(size:11));
 
-	StaticText(w, Rect(10,98,520,2)).background_(Color.grey); // Line (drawHook is underneath)
+	StaticText(w, Rect(10,98,520+~allWiden,2)).background_(Color.grey); // Line (drawHook is underneath)
 
-		StaticText(w, Rect(10,342,520,2)).background_(Color.grey); // Line2 (drawHook is underneath)
+		StaticText(w, Rect(10,342,520+~allWiden,2)).background_(Color.grey); // Line2 (drawHook is underneath)
+
+			StaticText(w, Rect(10,380,520+~allWiden,2)).background_(Color.grey); // Line2 (drawHook is underneath)
 
 
-	StaticText(w, Rect(10,342,520,38)).background_(Color.grey(0.5,0.35)).string_("Buttons used to fill all fields with the values").align_(\bottom).font_(Font(size:8));
+	StaticText(w, Rect(10,342,520+~allWiden,38)).background_(Color.grey(0.5,0.35)).string_("Buttons used to fill all fields with the values").align_(\bottom).font_(Font(size:8));
 
 // NumberBoxes
 
@@ -250,24 +363,26 @@ Curve").align_(\top).font_(Font(size:11));
 		boxheight = 18;
 		boxspaceheight = 20;
 		fontsize = 10;
-		("~freq" ++ j ++ "= NumberBox(w, Rect(10+2,102+" ++ (i*boxspaceheight) ++ ",46," ++ boxheight ++ ")).value_(440).align_(\\center).font_(Font(size:"++fontsize++")).maxDecimals_(6).action_({
+		("~freq" ++ j ++ "= NumberBox(w, Rect(10+2,102+" ++ (i*boxspaceheight) ++ ",46," ++ boxheight ++ ")).value_(440).align_(\\center).font_(Font(size:"++fontsize++")).maxDecimals_(4).clipLo_(0).action_({
 arg obj;
 ~midi" ++ j ++ ".value = (log2(obj.value/440)*12)+69;
 });
-~attack" ++ j ++ "= NumberBox(w, Rect(60+2,102+" ++ (i*boxspaceheight) ++ ",66," ++ boxheight ++ ")).value_(5).align_(\\center).font_(Font(size:"++fontsize++"));
-~sustain" ++ j ++ "= NumberBox(w, Rect(130+2,102+" ++ (i*boxspaceheight) ++ ",66," ++ boxheight ++ ")).value_(490).align_(\\center).font_(Font(size:"++fontsize++"));
-~release" ++ j ++ "= NumberBox(w, Rect(200+2,102+" ++ (i*boxspaceheight) ++ ",66," ++ boxheight ++ ")).value_(5).align_(\\center).font_(Font(size:"++fontsize++"));
-~startTime" ++ j ++ "= NumberBox(w, Rect(270+2,102+" ++ (i*boxspaceheight) ++ ",76," ++ boxheight ++ ")).value_(0).align_(\\center).font_(Font(size:"++fontsize++"));
+~attack" ++ j ++ "= NumberBox(w, Rect(60+2,102+" ++ (i*boxspaceheight) ++ ",66," ++ boxheight ++ ")).value_(5).align_(\\center).clipLo_(0).font_(Font(size:"++fontsize++"));
+~sustain" ++ j ++ "= NumberBox(w, Rect(130+2,102+" ++ (i*boxspaceheight) ++ ",66," ++ boxheight ++ ")).value_(490).align_(\\center).clipLo_(0).font_(Font(size:"++fontsize++"));
+~release" ++ j ++ "= NumberBox(w, Rect(200+2,102+" ++ (i*boxspaceheight) ++ ",66," ++ boxheight ++ ")).value_(5).align_(\\center).clipLo_(0).font_(Font(size:"++fontsize++"));
+~startTime" ++ j ++ "= NumberBox(w, Rect(270+2,102+" ++ (i*boxspaceheight) ++ ",76," ++ boxheight ++ ")).value_(0).align_(\\center).clipLo_(0).font_(Font(size:"++fontsize++"));
 ~onCurve" ++ j ++ "= NumberBox(w, Rect(350+2,102+" ++ (i*boxspaceheight) ++ ",46," ++ boxheight ++ ")).value_(0).align_(\\center).font_(Font(size:"++fontsize++"));
 ~offCurve" ++ j ++ "= NumberBox(w, Rect(400+2,102+" ++ (i*boxspaceheight) ++ ",46," ++ boxheight ++ ")).value_(0).align_(\\center).font_(Font(size:"++fontsize++"));
-~intensity" ++ j ++ "= NumberBox(w, Rect(450+2,102+" ++ (i*boxspaceheight) ++ ",36," ++ boxheight ++ ")).value_(" ++ intensityArray[i] ++ ").align_(\\center).font_(Font(size:"++fontsize++"));
+~intensity" ++ j ++ "= NumberBox(w, Rect(450+2,102+" ++ (i*boxspaceheight) ++ ",36," ++ boxheight ++ ")).value_(" ++ intensityArray[i] ++ ").align_(\\center).clipLo_(0).font_(Font(size:"++fontsize++"));
 ~midi" ++ j ++ "= NumberBox(w, Rect(490+2,102+" ++ (i*boxspaceheight) ++ ",36," ++ boxheight ++ ")).value_((log2(~freq" ++ j ++ ".value/440)*12)+69).align_(\\center).font_(Font(size:"++fontsize++")).maxDecimals_(6).action_({
 arg obj;
 ~freq" ++ j ++ ".value = (2**((-69+obj.value)/12))*440;
-});"
+});
+~pitchBend" ++ j ++ "= NumberBox(w, Rect(530+2,102+" ++ (i*boxspaceheight) ++ ",36," ++ boxheight ++ ")).value_(0).align_(\\center).font_(Font(size:"++fontsize++"));"
 		).interpret;
 	});
 
+	// Label numbering
 	12.do({
 		arg i, j, boxheight, boxspaceheight, fontsize;
 		j = i+1;
@@ -289,21 +404,22 @@ arg obj;
 		boxcolor = Color.grey(0.3);
 		stringcolor = Color.white;
 		(
-			"~freq" ++ j ++ "= NumberBox(w, Rect(10+2,346+" ++ (i*boxspaceheight) ++ ",46," ++ boxheight ++ ")).value_(440).align_(\\center).font_(Font(size:"++fontsize++")).maxDecimals_(6).background_(" ++ boxcolor ++ ").normalColor_(" ++ stringcolor ++ ").action_({
+			"~freq" ++ j ++ "= NumberBox(w, Rect(10+2,346+" ++ (i*boxspaceheight) ++ ",46," ++ boxheight ++ ")).value_(440).align_(\\center).font_(Font(size:"++fontsize++")).maxDecimals_(6).background_(" ++ boxcolor ++ ").normalColor_(" ++ stringcolor ++ ").clipLo_(0).action_({
 arg obj;
 ~midi" ++ j ++ ".value = (log2(obj.value/440)*12)+69;
 });
-~attack" ++ j ++ "= NumberBox(w, Rect(60+2,346+" ++ (i*boxspaceheight) ++ ",66," ++ boxheight ++ ")).value_(5).align_(\\center).font_(Font(size:"++fontsize++")).background_(" ++ boxcolor ++ ").normalColor_(" ++ stringcolor ++ ");
-~sustain" ++ j ++ "= NumberBox(w, Rect(130+2,346+" ++ (i*boxspaceheight) ++ ",66," ++ boxheight ++ ")).value_(490).align_(\\center).font_(Font(size:"++fontsize++")).background_(" ++ boxcolor ++ ").normalColor_(" ++ stringcolor ++ ");
-~release" ++ j ++ "= NumberBox(w, Rect(200+2,346+" ++ (i*boxspaceheight) ++ ",66," ++ boxheight ++ ")).value_(5).align_(\\center).font_(Font(size:"++fontsize++")).background_(" ++ boxcolor ++ ").normalColor_(" ++ stringcolor ++ ");
-~startTime" ++ j ++ "= NumberBox(w, Rect(270+2,346+" ++ (i*boxspaceheight) ++ ",76," ++ boxheight ++ ")).value_(0).align_(\\center).font_(Font(size:"++fontsize++")).background_(" ++ boxcolor ++ ").normalColor_(" ++ stringcolor ++ ");
+~attack" ++ j ++ "= NumberBox(w, Rect(60+2,346+" ++ (i*boxspaceheight) ++ ",66," ++ boxheight ++ ")).value_(5).align_(\\center).font_(Font(size:"++fontsize++")).background_(" ++ boxcolor ++ ").normalColor_(" ++ stringcolor ++ ").clipLo_(0);
+~sustain" ++ j ++ "= NumberBox(w, Rect(130+2,346+" ++ (i*boxspaceheight) ++ ",66," ++ boxheight ++ ")).value_(490).align_(\\center).font_(Font(size:"++fontsize++")).background_(" ++ boxcolor ++ ").normalColor_(" ++ stringcolor ++ ").clipLo_(0);
+~release" ++ j ++ "= NumberBox(w, Rect(200+2,346+" ++ (i*boxspaceheight) ++ ",66," ++ boxheight ++ ")).value_(5).align_(\\center).font_(Font(size:"++fontsize++")).background_(" ++ boxcolor ++ ").normalColor_(" ++ stringcolor ++ ").clipLo_(0);
+~startTime" ++ j ++ "= NumberBox(w, Rect(270+2,346+" ++ (i*boxspaceheight) ++ ",76," ++ boxheight ++ ")).value_(0).align_(\\center).font_(Font(size:"++fontsize++")).background_(" ++ boxcolor ++ ").normalColor_(" ++ stringcolor ++ ").clipLo_(0);
 ~onCurve" ++ j ++ "= NumberBox(w, Rect(350+2,346+" ++ (i*boxspaceheight) ++ ",46," ++ boxheight ++ ")).value_(0).align_(\\center).font_(Font(size:"++fontsize++")).background_(" ++ boxcolor ++ ").normalColor_(" ++ stringcolor ++ ");
 ~offCurve" ++ j ++ "= NumberBox(w, Rect(400+2,346+" ++ (i*boxspaceheight) ++ ",46," ++ boxheight ++ ")).value_(0).align_(\\center).font_(Font(size:"++fontsize++")).background_(" ++ boxcolor ++ ").normalColor_(" ++ stringcolor ++ ");
-~intensity" ++ j ++ "= NumberBox(w, Rect(450+2,346+" ++ (i*boxspaceheight) ++ ",36," ++ boxheight ++ ")).value_(0).align_(\\center).font_(Font(size:"++fontsize++")).background_(" ++ boxcolor ++ ").normalColor_(" ++ stringcolor ++ ");
-~midi" ++ j ++ "= NumberBox(w, Rect(490+2,346+" ++ (i*boxspaceheight) ++ ",36," ++ boxheight ++ ")).value_((log2(~freq" ++ j ++ ".value/440)*12)+69).align_(\\center).font_(Font(size:"++fontsize++")).maxDecimals_(6).background_(" ++ boxcolor ++ ").normalColor_(" ++ stringcolor ++ ").action_({
+~intensity" ++ j ++ "= NumberBox(w, Rect(450+2,346+" ++ (i*boxspaceheight) ++ ",36," ++ boxheight ++ ")).value_(0).align_(\\center).font_(Font(size:"++fontsize++")).background_(" ++ boxcolor ++ ").normalColor_(" ++ stringcolor ++ ").clipLo_(0);
+~midi" ++ j ++ "= NumberBox(w, Rect(490+2,346+" ++ (i*boxspaceheight) ++ ",36," ++ boxheight ++ ")).value_((log2(~freq" ++ j ++ ".value/440)*12)+69).align_(\\center).font_(Font(size:"++fontsize++")).maxDecimals_(6).background_(" ++ boxcolor ++ ").normalColor_(" ++ stringcolor ++ ").clipLo_(0).action_({
 arg obj;
 ~freq" ++ j ++ ".value = (2**((-69+obj.value)/12))*440;
-});"
+});
+~pitchBend" ++ j ++ "= NumberBox(w, Rect(530+2,346+" ++ (i*boxspaceheight) ++ ",36," ++ boxheight ++ ")).value_(0).align_(\\center).font_(Font(size:"++fontsize++")).background_(" ++ boxcolor ++ ").normalColor_(" ++ stringcolor ++ ");"
 		).interpret;
 	});
 
@@ -380,15 +496,23 @@ arg obj;
 		})
 	});
 
+	Button(w, Rect(532,360,36,12)).action_({
+		12.do({
+			arg i,j;
+			j=i+1;
+			("~pitchBend" ++ j ++ ".valueAction_(~pitchBend13.value)").interpret
+		})
+	});
+
 	// Plot Envelope
 	~plotterNumber = NumberBox(w, Rect(40,315+50+20,30,20)).value_(1).align_(\center);
 	Button(w, Rect(10,315+50+20,30,20)).string_("Plot").action_({
 		~synthesizerPlotFunction.value(j:~plotterNumber.value);
 	});
 
-	// Semitone modifier
-	~semitoneShifterNumber = NumberBox(w, Rect(510,315+50+20,20,20)).value_(0).font_(Font(size:8));
-	~semitoneShifterButton = Button(w, Rect(380,315+50+20,130,20)).string_("Press to change all MIDI values
+	/*// Semitone modifier
+	~semitoneShifterNumber = NumberBox(w, Rect(510+~allWiden,315+50+20,20,20)).value_(0).font_(Font(size:8));
+	~semitoneShifterButton = Button(w, Rect(380+~allWiden,315+50+20,130,20)).string_("Press to change all MIDI values
 by the given semitone value:").font_(Font(size:8)).action_({
 12.do({
 		arg i, j;
@@ -397,13 +521,13 @@ by the given semitone value:").font_(Font(size:8)).action_({
 			("~midi" ++ j ++ ".valueAction = ~midi" ++ j ++ ".value + ~semitoneShifterNumber.value"
 		).interpret;
 		});
-	});
+	});*/
 
 //~freq" ++ j ++ ".valueAction_((2**((-69+1+~midi" ++ j ++ ".value)/12))*440);
 
 	//Create spectra
-~spectraScreenComposite_bounds_array = [-100+100,355+50,540,215];
-~spectraButton_bounds_array = [250-(200/2)-65-10,200+135-20+50+20,110+10+40,20];
+~spectraScreenComposite_bounds_array = [-100+100,355+50,540+~allWiden,215];
+~spectraButton_bounds_array = [250-(200/2)-65-10+~allWiden,200+135-20+50+20,110+10+40,20];
 ~spectraAutoscale_bounds_array = [500+250-(200/2)-65+110+10,200+135+50,110,20];
 (basePath +/+  "modules/spectra_screen.scd").load;
 	~spectraTitle.bounds_(Rect(10,335+50+25,480,80)).stringColor_(Color.white);
@@ -413,14 +537,17 @@ by the given semitone value:").font_(Font(size:8)).action_({
 
 
 	//Load graphics elements
-~house_icon = Image.new(basePath +/+ "images/house-small-red.png");
+~house_icon = Image.new(basePath +/+ "images/house-small.png");
 			~maple_icon = Image.new(basePath +/+ "images/mapleICON-small.png");
+~keyboard_image = Image.new(basePath +/+ "images/keyboard_small.png");
 
 //All graphics (aesthetic lines and image positions)
 w.drawFunc = {
 		//Images underneath buttons
 		~house_icon.drawInRect(Rect(10,10,30,30), Rect(0,0,30,30), 2, 1.0);
-			~maple_icon.drawInRect(Rect(500,10,30,30), Rect(0,0,30,30), 2, 1.0);
+			~maple_icon.drawInRect(Rect(500+~allWiden,10,30,30), Rect(0,0,30,30), 2, 1.0);
+		~keyboard_image.drawInRect(Rect(450,380,60,25), Rect(0,0,60,25), 2, 1.0);
+
 
 		Pen.line(10@(310+71),530@(310+71)); // Line above Spectra
 
@@ -429,9 +556,38 @@ w.drawFunc = {
                 Pen.stroke;
         };
 
+	//Keyboard visualizer button
+		~key_vis = Button.new(w, Rect(450,380,60,25))
+	.states_([["", Color.black, Color.clear],["CLOSE", Color.white, Color(0,0,0,0.7)]])
+	.font_(Font("nil", 10))
+	.action_({
+
+arg obj;
+		if(obj.value == 1,
+				// ~keyboard_open.value == 1,
+			{
+					// ~keyboard_open = 0;
+	(basePath +/+  "modules/keyboard.scd").loadPaths; //This line allows all contact buttons to be updated automatically
+					~fslider.valueAction_(~fslider.value); //This allows it to refresh real-time
+
+					if(~vinbutton.value == 1, {
+						~greyIntensity = 1;
+						~deviant_fill.background_(Color.clear); // Now clear instead of black
+						});
+
+		},{
+
+~keyboardWindow.close;
+					// ~keyboard_open = 1;
+		};);
+
+		});
+
+
+
 	// Save parameters to file
-	~exportParametersButton = Button(w, Rect(100, 40+5, 115, 20)).states_([
-		["Save Parameters to File", Color.white, Color(0.4824, 0.4863, 0.4863,1)]
+	~exportParametersButton = Button(w, Rect(10+160, 40+5, 45, 20)).states_([
+		["Save to", Color.white, Color(0.4824, 0.4863, 0.4863,1)]
 	])
 	.font_(Font("nil", 10))
 	.action_({
@@ -441,25 +597,27 @@ w.drawFunc = {
 "
 ).close;
 
-
+// This section appends each line of the synthesizer beneath the previous
 12.do({
 	arg i, j;
 	j = i+1;
-			File.new(~trace +/+ "synthesizer_files/" ++ ~exportParametersText.value ++ ".txt", "a").write("" ++ ("~freq" ++ j ++ ".value").interpret ++ "\t"++ ("~attack" ++ j ++ ".value").interpret ++ "\t"++ ("~sustain" ++ j ++ ".value").interpret ++ "\t"++ ("~release" ++ j ++ ".value").interpret ++ "\t"++ ("~startTime" ++ j ++ ".value").interpret ++ "\t"++ ("~onCurve" ++ j ++ ".value").interpret ++ "\t"++ ("~offCurve" ++ j ++ ".value").interpret ++ "\t"++ ("~intensity" ++ j ++ ".value").interpret ++ "\t"++ ("~midi" ++ j ++ ".value").interpret ++ "
+			File.new(~trace +/+ "synthesizer_files/" ++ ~exportParametersText.value ++ ".txt", "a").write("" ++ ("~freq" ++ j ++ ".value").interpret ++ "\t"++ ("~attack" ++ j ++ ".value").interpret ++ "\t"++ ("~sustain" ++ j ++ ".value").interpret ++ "\t"++ ("~release" ++ j ++ ".value").interpret ++ "\t"++ ("~startTime" ++ j ++ ".value").interpret ++ "\t"++ ("~onCurve" ++ j ++ ".value").interpret ++ "\t"++ ("~offCurve" ++ j ++ ".value").interpret ++ "\t"++ ("~intensity" ++ j ++ ".value").interpret ++ "\t"++ ("~midi" ++ j ++ ".value").interpret ++ "\t"++ ("~pitchBend" ++ j ++ ".value").interpret ++ "
 "
 ).close
 });
 
 		("Parameters for the 12 sounds saved to filepath:" + ~trace +/+ "synthesizer_files/" ++ ~exportParametersText.value ++ ".txt").postln;
 
+		if(~inspectorExists == 1, {~inspectorText.string_("Parameters for the 12 sounds saved to filepath:" + ~trace +/+ "synthesizer_files/" ++ ~exportParametersText.value ++ ".txt")});
+
 	});
-	~exportParametersText = TextField(w, Rect(215, 40+5, 100, 20))
+	~exportParametersText = TextField(w, Rect(55+160, 40+5, 210-80, 20))
 	.font_(Font(size:10))
 	.value_("synthesizer1");
 
 // Import button and functionality
-	~importParametersButton = Button(w, Rect(320, 40+5, 115, 20)).states_([
-		["Import Parameter File", Color.white, Color(0.4824, 0.4863, 0.4863,1)]
+	~importParametersButton = Button(w, Rect(275+80, 40+5, 70, 20)).states_([
+		["Import from", Color.white, Color(0.4824, 0.4863, 0.4863,1)]
 	])
 	.font_(Font("nil", 10))
 	.action_({
@@ -472,7 +630,7 @@ w.drawFunc = {
 			b = a+1;
 			if(a == 0, {~importParametersTable[0]}, {
 
-				Array.fill(9, {
+				Array.fill(10, {
 					arg i,j;
 					j = i+2;
 
@@ -505,7 +663,8 @@ w.drawFunc = {
 								// If no MIDI data either
 								0})
 						}
-						)}
+						)},
+						9, {if(and(~importParametersTable[a][i] != "",~importParametersTable[a][i] != nil), {~importParametersTable[a][i]},{0})},
 					);
 				});
 			});
@@ -525,18 +684,130 @@ w.drawFunc = {
 		"~onCurve" ++ j ++ ".value_(" ++ ~importParametersTableFormatted[j][5] ++ ");" +
 		"~offCurve" ++ j ++ ".value_(" ++ ~importParametersTableFormatted[j][6] ++ ");" +
 		"~intensity" ++ j ++ ".value_(" ++ ~importParametersTableFormatted[j][7] ++ ");" +
-		"~midi" ++ j ++ ".value_(" ++ ~importParametersTableFormatted[j][8] ++ ");"
+		"~midi" ++ j ++ ".value_(" ++ ~importParametersTableFormatted[j][8] ++ ");" +
+				"~pitchBend" ++ j ++ ".value_(" ++ ~importParametersTableFormatted[j][9] ++ ");"
 		).interpret;
 	});
 
 	});
 
-	~importParametersText = TextField(w, Rect(435, 40+5, 95, 20))
+	~importParametersText = TextField(w, Rect(345+80, 40+5, 185+~allWiden-80, 20))
 	.font_(Font(size:10))
 	.value_("synthesizer_table_template");
 
 
+// Frequency presets
+	~presetMenu = PopUpMenu(w, Rect(10,45,95,20))
+	.items_(["Sine", "Square", "Rev. Sawtooth"]);
 
+	~presetMenuFunctions = [
+		{// Sine
+			// Sets frequencies
+			// Harmonic series
+			arg baseFrequency;
+			baseFrequency = ~freq1.value;
+
+			12.do({
+				arg i, j;
+				var newFrequency;
+				j = i+1;
+
+				newFrequency = baseFrequency * j;
+
+				(
+					"~freq" ++ j ++ ".valueAction_(" ++ newFrequency ++ ")"
+
+				).interpret;
+
+			});
+
+			// Sets intensities
+			// Only the first
+			12.do({
+				arg i, j;
+				j = i+1;
+
+				if(j == 1, {("~intensity" ++ j ++ ".value_(1)").interpret;}, {("~intensity" ++ j ++ ".value_(0)").interpret;});
+
+			});
+
+		},
+		{// Square
+			// Sets frequencies
+			// Harmonic series
+			arg baseFrequency;
+			baseFrequency = ~freq1.value;
+
+			12.do({
+				arg i, j;
+				var newFrequency;
+				j = i+1;
+
+				newFrequency = baseFrequency * j;
+
+				(
+					"~freq" ++ j ++ ".valueAction_(" ++ newFrequency ++ ")"
+
+				).interpret;
+
+			});
+
+			// Sets intensities
+			// Only odds, and 1/n values
+			12.do({
+				arg i, j, baseIntensity;
+				var newIntensity;
+				j = i+1;
+				baseIntensity = ~intensity1.value;
+
+				newIntensity = baseIntensity/j;
+
+				if(j.odd == true, {("~intensity" ++ j ++ ".value_(" ++ newIntensity ++ ")").interpret}, {("~intensity" ++ j ++ ".value_(0").interpret});
+
+			});
+
+		},
+		{// Rev. Sawtooth
+			// Sets frequencies
+			arg baseFrequency;
+			baseFrequency = ~freq1.value;
+
+			12.do({
+				arg i, j;
+				var newFrequency;
+				j = i+1;
+
+				newFrequency = baseFrequency * j;
+
+				(
+					"~freq" ++ j ++ ".valueAction_(" ++ newFrequency ++ ")"
+
+				).interpret;
+
+			});
+
+			// Sets intensities
+			// Only odds, and 1/n values
+			12.do({
+				arg i, j, baseIntensity;
+				var newIntensity;
+				j = i+1;
+				baseIntensity = ~intensity1.value;
+
+				newIntensity = baseIntensity/j;
+("~intensity" ++ j ++ ".value_(" ++ newIntensity ++ ")").interpret;
+
+			});
+
+		}
+	];
+
+	~presetMenuButton = Button(w, Rect(105,45,55,20))
+	.states_([["Set Preset", Color.white, Color.grey]])
+	.font_(Font(size:10))
+	.action_({
+		~presetMenuFunctions.at(~presetMenu.value).value;
+	});
 
 
 	//Q. Quit function
@@ -569,7 +840,7 @@ w.drawFunc = {
 
 
 		//Open Stethoscope / Oscilloscope
-~scopebutton = Button(w, Rect(250, 335-20+50+20, 120, 20))
+~scopebutton = Button(w, Rect(250+~allWiden, 335-20+50+20, 120, 20))
 .states_([
 	["Open Oscilloscope", Color.white,Color(0.4824, 0.4863, 0.4863,1)],
 	["Close Oscilloscope", Color.white, Color.grey(0.251)]
@@ -584,41 +855,121 @@ w.drawFunc = {
 });
 
 
-	/*~scope2button1 = Button(w, Rect(250+120, 335-20, 120, 20))
-.states_([
-	["Set Osc. to ~Freq.1", Color.white,Color(0.4824, 0.4863, 0.4863,1)]
-])
-.font_(Font("nil", 12))
-	.action_({
-		/*~d
-		//.xZoom_((438.9105/1024)*1)
-		.cycle_((501));*/
-	/*	{x}.plot*/
+	// Keyboard GUI
 
-	if(~d != nil, {
-		~d.cycle_(7*44100/~fundamentalBox.value);
+	// Basics (artifacts due to adaptation from TUNING code)
+	~color_arrayMAN = Array.fill(200, 0);
+	~greyIntensity = 1;
+
+	~keyboardUpdateGUI = {
+	// The note intensities
+	// NOTE: 0 means completely on, 1 means completely off
+	// The first is MIDI number 21
+if(~playButton.value == 1, {
+
+	~color_array = ~color_array_preformat = Array.fill(200, {
+		arg i, j;
+
+				j = i+1;
+
+				/*12.do({
+					arg a;
+
+					("if(j == ~midi" ++ a ++ ".value, {0});").interpret });*/
+
+				if(j == ~midi1.value, {0}, {
+
+					if(j == ~midi2.value, {0}, {
+
+						if(j == ~midi3.value, {0}, {
+
+						if(j == ~midi4.value, {0}, {
+
+						if(j == ~midi5.value, {0}, {
+
+						if(j == ~midi6.value, {0}, {
+
+						if(j == ~midi7.value, {0}, {
+
+						if(j == ~midi8.value, {0}, {
+
+						if(j == ~midi9.value, {0}, {
+
+						if(j == ~midi10.value, {0}, {
+
+						if(j == ~midi11.value, {0}, {
+
+						if(j == ~midi12.value, {0}, {
+
+						1
+					}
+					);
+
+					}
+					);
+
+					}
+					);
+
+					}
+					);
+
+					}
+					);
+
+					}
+					);
+
+					}
+					);
+
+					}
+					);
+
+					}
+					);
+
+
+					}
+					);
+
+
+					}
+					);
+
+				}
+				);
+
+
+	});
+
+			/*~color_array = Array.fill(200, {
+				arg i;
+
+				if(~color_array_preformat[i] == nil, {1}, {0});
+
+			});*/
+
+	~keyboardCodeGUI = {
+		(if(~key_vis.value == 1, {
+			(~trace +/+  "data/difference_tones_keyboard_GUI_colours.scd").load;
+		}));
+	};
+
+
+
+			if(~key_vis.value == 1, { ~keyboardUpdateGUI_action.value;});
+
 		});
+	};
 
-	}
-	);
+	// Reset keyboard
+	~keyboardUpdateGUIClear = {
 
-	~scope2button2 = Button(w, Rect(250+120, 335, 120, 20))
-.states_([
-	["Set Osc. to ~Freq.2", Color.white,Color(0.4824, 0.4863, 0.4863,1)]
-])
-.font_(Font("nil", 12))
-	.action_({
-		/*~d
-		//.xZoom_((438.9105/1024)*1)
-		.cycle_((501));*/
-	/*	{x}.plot*/
+		~color_array = Array.fill(200, {1});
+		if(~key_vis.value == 1, {~keyboardUpdateGUI_action.value;});
+	};
 
-	if(~d != nil, {
-		~d.cycle_(7*44100/~compareBox.value);
-		});
-
-	}
-	);*/
 
 
 ( // Start with windows open
@@ -626,11 +977,11 @@ AppClock.sched(0.1,{
 			~inspector.valueAction_(1); // Start with the inspector window open
 
 			~scopebutton.valueAction_(1); // Start with the oscilloscopes open
+
+			~key_vis.valueAction_(1); // Start with the keyboard window open
     nil;
 });
 );
-
-
 
 
 	// Freeall

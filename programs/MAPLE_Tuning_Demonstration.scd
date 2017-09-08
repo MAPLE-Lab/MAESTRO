@@ -18,35 +18,34 @@ s.waitForBoot({
 var basePath = thisProcess.nowExecutingPath.asString.dirname;
 ~trace = basePath.asString;
 
+	// Title and labels
+
+		//~masterTitle = StaticText(w, Rect(0,0,500,40)).string_("Tuning").align_(\center).font_(Font(nil, 14, true));
+~allShiftUp = 90;
+
 //Avoids delay when the Recording button is pressed
 //s.prepareForRecord;
 
 //A. Create window and aesthetics
 (
 //Positions the note name text
-~note_name_bounds_array = [(85-23+30-5),155+150-~allShiftUp,27,15];
+~note_name_bounds_array = [(85-23+30-5)-15,155+150-~allShiftUp,27,15];
 
 //Create the module's master window
 ~master_window_bounds_array = [Window.screenBounds.width/2-250, Window.availableBounds.height, 500, 570-90];
 (basePath +/+  "modules/master_window.scd").load;
 
-// Title and labels
 
-		//~masterTitle = StaticText(w, Rect(0,0,500,40)).string_("Tuning").align_(\center).font_(Font(nil, 14, true));
-~allShiftUp = 90;
-
-//		~masterTitle = StaticText(w, Rect(0,0,500,40)).string_("Tuning").align_(\center).font_(Font(nil, 14, true));
-
-
-//Descriptive paragraph at top
-~para.string_(TabFileReader.read(~trace +/+  "paragraphs/tuningIntro.txt").flatten.asString.drop(2).drop(-2));
+//Descriptive paragraph in inspector
 
 			(~trace +/+  "data/oscilloscopeButtonFunctions.scd").load; // Load the oscilloscope button functions
 		(~trace +/+  "data/tuning_specific_data/centsCalculator.scd").load; // Load the cents calculation function
+		(~trace +/+  "data/readTextFileFunction.scd").load; // Load the text reader function
 
+		~para.string_(~readTextFileFunction.value(path:"tuning/tuningIntro.txt"));
 
 //Load graphics elements
-~house_icon = Image.new(basePath +/+ "images/house-small-red.png");
+~house_icon = Image.new(basePath +/+ "images/house-small.png");
 			~maple_icon = Image.new(basePath +/+ "images/mapleICON-small.png");
 ~keyboard_image = Image.new(basePath +/+ "images/keyboard_small.png");
 
@@ -138,10 +137,18 @@ w.drawFunc = {
 		~volume_value = ~volslider.value.linlin(0,1,0,4);
 
 })
-	.orientation_(\horizontal);
+	.orientation_(\horizontal)
+		.mouseOverAction_({
+			if(~inspectorExists == 1, {
+				~inspectorText.string_(~readTextFileFunction.value(path:"tuning/tuning_inspector/volumeSlider.txt"))
+		});})
+		.mouseLeaveAction_({
+			if(~inspectorExists == 1, {
+				~inspectorText.string_(" ")
+		});});
 
 //Label for Vol.
-~volLabel = StaticText(w,Rect(10,143+150-~allShiftUp,70,15))
+~volLabel = StaticText(w,Rect(10-15,143+150-~allShiftUp,70,15))
 .string_("Volume")
 .font_(Font("nil", 8, italic:false))
 .align_(\topRight)
@@ -149,7 +156,7 @@ w.drawFunc = {
 .stringColor_(Color.black);
 
 //Number box that can edit slider position
-~numberVBox = NumberBox(w,Rect(85,140+150-~allShiftUp,72,15))
+~numberVBox = NumberBox(w,Rect(85-15,140+150-~allShiftUp,72+15,15))
 	.normalColor_(Color.white)
 	.background_(Color(0.0118,0.0118,0.0118,1))
 	.value_(0.1)
@@ -168,7 +175,7 @@ w.drawFunc = {
 	//TONIC FREQUENCY
 
 //Label for Freq.
-~fLabel = StaticText(w,Rect(10-10,158+150-~allShiftUp,80,25))
+~fLabel = StaticText(w,Rect(10-10-15,158+150-~allShiftUp,80,25))
 .string_("Fundamental")
 .font_(Font("nil", 8))
 .align_(\topRight)
@@ -216,15 +223,26 @@ if(~vinbutton.value == 1, {
 
 				if(~spectraButton.value == 1,{
 			//{~spectraButton.valueAction_(1);}); // Automatically updates the Autoscaling
-			~spectra_scopeAutoscaleFunction.value;}) // Bypass the Button system entirely to reduce CPU load
+			~spectra_scopeAutoscaleFunction.value;}); // Bypass the Button system entirely to reduce CPU load
 
+
+			if(~d != nil, {~d.cycle_(5*44100/~fundamental_freq);}); // Scales the Oscilloscope to attempt to fit the H1 frequ
 
 })
-	.orientation_(\horizontal);
+		.orientation_(\horizontal)
+		.mouseOverAction_({
+			if(~inspectorExists == 1, {
+				~inspectorText.string_(~readTextFileFunction.value(path:"tuning/tuning_inspector/frequencySlider.txt"))
+		});})
+		.mouseLeaveAction_({
+			if(~inspectorExists == 1, {
+				~inspectorText.string_(" ")
+		});});
+
 
 	//Number box that can edit slider position (NO LONGER BECAUSE NOW NOT SET TO FREQUENCY, NEEDS MATH OTHERWISE)
 //Displays the frequency
-~numberfBox = NumberBox(w,Rect(85+30,155+150-~allShiftUp,72-30,15))
+~numberfBox = NumberBox(w,Rect(85+30-15,155+150-~allShiftUp,72-30+15,15))
 .value_(440)
 //.clipLo_(21)
 //.clipHi_(108)
@@ -553,18 +571,26 @@ if(~deviant_move.sign >= 0,
 					//"Key Vis not open".postln
 			});
 
-});
+})
+		.mouseOverAction_({
+			if(~inspectorExists == 1, {
+				~inspectorText.string_(~readTextFileFunction.value(path:"tuning/tuning_inspector/deviantFrequencySlider.txt"))
+		});})
+		.mouseLeaveAction_({
+			if(~inspectorExists == 1, {
+				~inspectorText.string_(" ")
+		});});
 
 //Label for Freq.
-~freqLabel = StaticText(w,Rect(15,200+7+65+30-140-~allShiftUp,65,40))
-.string_(" Deviation")
+~freqLabel = StaticText(w,Rect(15-15,200+7+65+30-140-~allShiftUp,65,15))
+.string_("Deviation")
 .font_(Font("nil", 12))
-.align_(\topRight)
+.align_(\right)
 .background_(Color(0,0,0,0))
 .stringColor_(Color.black);
 
 //Number box that can edit slider position
-~numberBox = NumberBox(w,Rect(85+35,200+65+30-140-~allShiftUp,72-35,30))
+~numberBox = NumberBox(w,Rect(85+35-15,200+65+30-140-~allShiftUp,72-35+15,30))
 .value_(0)
 //.clipLo_(-1)
 //.clipHi_(1)
@@ -577,18 +603,18 @@ if(~deviant_move.sign >= 0,
 	~freqslider.valueAction_(obj.value.linlin(-1,1,0,1))
 })*/;
 
-		~centsBox = NumberBox(w,Rect(85+35,200+65+30-140-~allShiftUp,72-35,30))
+		~centsBox = NumberBox(w,Rect(85+35-15,200+65+30-140-~allShiftUp,72-35+15,30))
 .value_(0)
 //.clipLo_(-1)
 //.clipHi_(1)
 .font_(Font("nil",12))
-.decimals_(2)
+		// .decimals_(2)
 .align_(\center);
 
-		~centsBoxCover = StaticText(w, ~centsBox.bounds);
+		~centsBoxCover = StaticText(w, ~centsBox.bounds.insetBy(2,2)).align_(\center);
 
 //Button to reset deviant
-~reset = Button(w, Rect(250-(200/2)-65,200+65+30-140-~allShiftUp,35,30))
+~reset = Button(w, Rect(250-(200/2)-65-15,200+65+30-140-~allShiftUp,35,30))
 .states_([
 	["Reset", Color.white,Color(0.4824, 0.4863, 0.4863,1)]
 ])
@@ -621,10 +647,18 @@ if(~deviant_move.sign >= 0,
 		s.makeBundle(1.0, //sound delay
 			{~dirtyBit = 5; ~dirtyBit/*.postln*/;~fslider.valueAction_(~fslider.value);});
 
-	});
+	})
+		.mouseOverAction_({
+			if(~inspectorExists == 1, {
+				~inspectorText.string_(~readTextFileFunction.value(path:"tuning/tuning_inspector/deviantIntensitySlider.txt"))
+		});})
+		.mouseLeaveAction_({
+			if(~inspectorExists == 1, {
+				~inspectorText.string_(" ")
+		});});
 
 //Label for Freq.
-~mulLabel = StaticText(w,Rect(15,240+60-30-80-~allShiftUp,65,40))
+~mulLabel = StaticText(w,Rect(15-15,240+60-30-80-~allShiftUp,65,40))
 .string_("Intensity")
 .font_(Font("nil", 12))
 .align_(\topRight)
@@ -632,7 +666,7 @@ if(~deviant_move.sign >= 0,
 .stringColor_(Color.black);
 
 //Number box that can edit slider position
-~number2Box = NumberBox(w,Rect(85,235+60-30-80-~allShiftUp,72,30))
+~number2Box = NumberBox(w,Rect(85-15,235+60-30-80-~allShiftUp,72+15,30))
 .value_(1)
 .clipLo_(0.0)
 .clipHi_(2)
@@ -666,10 +700,18 @@ if(~deviant_move.sign >= 0,
 			{~dirtyBit = 5; ~dirtyBit/*.postln*/;~fslider.valueAction_(~fslider.value);});
 
 
-});
+})
+		.mouseOverAction_({
+			if(~inspectorExists == 1, {
+				~inspectorText.string_(~readTextFileFunction.value(path:"tuning/tuning_inspector/intensitySlider.txt"))
+		});})
+		.mouseLeaveAction_({
+			if(~inspectorExists == 1, {
+				~inspectorText.string_(" ")
+		});});
 
 //Label for Freq.
-~otherLabel = StaticText(w,Rect(15,300-90+45-~allShiftUp,65,40))
+~otherLabel = StaticText(w,Rect(15-15,300-90+45-~allShiftUp,65,40))
 .string_("Intensity")
 .font_(Font("nil", 12))
 .align_(\topRight)
@@ -677,7 +719,7 @@ if(~deviant_move.sign >= 0,
 .stringColor_(Color.black);
 
 //Number box that can edit slider position
-~number3Box = NumberBox(w,Rect(85,290-90+45-~allShiftUp,72,30))
+~number3Box = NumberBox(w,Rect(85-15,290-90+45-~allShiftUp,72+15,30))
 .value_(1)
 .clipLo_(0.0)
 .clipHi_(2)
@@ -816,6 +858,17 @@ s.waitForBoot({
 //			~volslider.valueAction_(0.3);
 
 			});
+
+
+			/*		// Activate ~vinbutton with spacebar
+w.view.keyDownAction_( { |view, char, mod, uni, key|
+		if(key == 49, {
+			switch(~vinbutton.value,
+				0, {~vinbutton.valueAction_(1)},
+				1, {~vinbutton.valueAction_(0)},
+			);
+		}, { nil });
+    } );*/
 
 ~harmonics_menu = PopUpMenu(w, Rect(250-(250/2)+5+35,95+5-~allShiftUp,50,20));
 			~harmonics_menu.items_(["1", "2", "3", "5", "8", "16"]);
@@ -1263,6 +1316,21 @@ Harmonic (mistuned) dropdown menu";
 	});
 
 
+		//Open Stethoscope
+~scopebutton = Button(w, Rect(200, 245, 120, 20))
+.states_([
+	["Open Oscilloscope", Color.white,Color(0.4824, 0.4863, 0.4863,1)],
+	["Close Oscilloscope", Color.white, Color.grey(0.251)]
+])
+.font_(Font("nil", 12))
+	.action_({ // This still seems to cause an Error message of "cycle_" - July 17 2017
+	/*arg obj;
+	if(obj.value == 1,
+		{*/
+		arg obj;
+		~oscilloscopeButtonFunction.value(obj:obj);
+});
+
 //Q. Quit function
 (
 ~quit = Button.new(w, Rect(10,95-~allShiftUp,30,30))
@@ -1280,9 +1348,15 @@ Harmonic (mistuned) dropdown menu";
 			(if(~key_vis.value == 1, {
 				~keyboardWindow.close;
 			}));
-			(if(~inspectorExists == 1, {
+
+				(if(~inspectorExists == 1, {
 				~inspectorWindow.close;
 			}));
+
+				(if(~scopebutton.value == 1, {
+				~oscilloscopeCloseFunction.value;
+			}));
+
 			(basePath +/+ "splashscreen.scd").loadPaths;
 		});
 );
@@ -1290,6 +1364,9 @@ Harmonic (mistuned) dropdown menu";
 		( // Start with windows open
 AppClock.sched(0.01,{
 			~inspector.valueAction_(1); // Start with the inspector window open
+
+							~scopebutton.valueAction_(1); // Start with the oscilloscopes open
+
 
 			~key_vis.valueAction_(1); // Start with the keyboard window open
     nil;

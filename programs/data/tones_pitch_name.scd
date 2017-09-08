@@ -26,7 +26,12 @@
 
 	pitch_name = (~temp_name++octave).asString;
 
-		outputToStaticText.string_(pitch_name)
+		if(octave > 0, { // 200 selected arbitrarily, error gives 2147483647 due to 32-bit error
+			octave.postln;
+			outputToStaticText.string_(pitch_name)
+		},{
+			outputToStaticText.string_("NaN");
+		});
 );
 };
 

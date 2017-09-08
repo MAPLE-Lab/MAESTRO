@@ -5,7 +5,7 @@ w = Window.new("MAPLE Lab Overtone 'Popout' Demonstration (Beta)", Rect.new(
 	~master_window_bounds_array[2],
 	~master_window_bounds_array[3]
 ),
-false) //Cannot be resized by user.
+TabFileReader.read(~trace +/+  "admin/access.txt").[4].[2].interpret) //Cannot be resized by user without admin permission.
 .background_(Color.white)
 .userCanClose_(false)
 .front

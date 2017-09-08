@@ -4,8 +4,8 @@ arg obj;
 		if(obj.value == 1, {
 				~oscilloscope1 = ~w2 = Window.new("Oscilloscope", Rect.new(
 	w.bounds.left+w.bounds.width+5,
-	w.bounds.top+325,
-		250,250),false).background_(Color.white).userCanClose_(true).front
+	Window.availableBounds.height-250/*w.bounds.top+325*/,
+		250,250),TabFileReader.read(~trace +/+  "admin/access.txt").[4].[2].interpret).background_(Color.white).userCanClose_(true).front
 		.acceptsMouseOver_(true);
 
 
@@ -17,7 +17,7 @@ arg obj;
 		//Implements the hovertext for the inspector window
 		StaticText(~oscilloscope1, Rect(0,0,230,230)).mouseOverAction_({
 	if(~inspectorExists == 1, {
-		~inspectorText.string_(TabFileReader.read(~trace +/+  "paragraphs/mini-modules/oscilloscopeInspector.txt").flatten.join.asString)
+		~inspectorText.string_(~readTextFileFunction.value(path:"mini-modules/oscilloscopeInspector.txt"))
 });})
 .mouseLeaveAction_({
 	if(~inspectorExists == 1, {
@@ -33,11 +33,23 @@ arg obj;
 			~oscilloscope1Top.string_("          Oscilloscope").align_(\left);
 		});
 
+		~oscilloscope1.onClose_({
+			if(~oscilloscope2.isClosed == true, {~scopebutton.value_(0)});
+});
+
+
+
+
 				~oscilloscope2 = Window.new("Waveform", Rect.new(
 	w.bounds.left+w.bounds.width+5,
-	w.bounds.top+10,
-		250,250),false).background_(Color.white).userCanClose_(true).front
+	Window.availableBounds.height-250-250-22-20/*w.bounds.top+10*/,
+		250,250),TabFileReader.read(~trace +/+  "admin/access.txt").[4].[2].interpret).background_(Color.white).userCanClose_(true).front
 		.acceptsMouseOver_(true);
+
+		if(~module_ID == "tuning", {~oscilloscope2.bounds_(Rect.new(
+	w.bounds.left+w.bounds.width+5,
+	Window.availableBounds.height-250-250-22/*w.bounds.top+10*/,
+		250,250))});
 
 		~stethoscope2 = Stethoscope.new(s, 1,view:~oscilloscope2, zoom:0.1) //.scope//nil causes it to open in its own window
 				// .xZoom_(5) //is only setting slider, isn't changing view properly
@@ -48,7 +60,7 @@ arg obj;
 		//Implements the hovertext for the inspector window
 		StaticText(~oscilloscope2, Rect(0,0,230,230)).mouseOverAction_({
 	if(~inspectorExists == 1, {
-		~inspectorText.string_(TabFileReader.read(~trace +/+  "paragraphs/mini-modules/waveformInspector.txt").flatten.join.asString)
+		~inspectorText.string_(~readTextFileFunction.value(path:"mini-modules/waveformInspector.txt"))
 });})
 .mouseLeaveAction_({
 	if(~inspectorExists == 1, {
@@ -57,6 +69,10 @@ arg obj;
 
 
 				~oscilloscope2Top = StaticText(~oscilloscope2, Rect(0,0,250,28)).background_(Color.white).string_("Waveform").align_(\center);
+
+~oscilloscope2.onClose_({
+			if(~oscilloscope1.isClosed == true, {~scopebutton.value_(0)});
+});
 
 
 		},{

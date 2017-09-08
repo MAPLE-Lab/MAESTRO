@@ -2,3 +2,4 @@ allowTuning	=	true
 allowSpectra	=	true
 allowDifferenceTones	=	true
 allowSynthesizer	=	true
+allowWindowScaling	=	false

@@ -1,0 +1,1 @@
+Change this slider’s value to change the overall sound volume.

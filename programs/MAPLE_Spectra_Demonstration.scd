@@ -26,7 +26,7 @@ s.freeAll;
 w = Window.new("MAPLE Lab Spectra Demonstration (Beta)", Rect.new(
 	Window.screenBounds.width/2-400,
 	Window.screenBounds.height/2-50,
-	800+~expandWidth,570-~allShiftUp),false)
+	800+~expandWidth,570-~allShiftUp),TabFileReader.read(~trace +/+  "admin/access.txt").[4].[2].interpret)
 	.background_(Color.white)
 	.userCanClose_(false)
 	.front
@@ -59,12 +59,12 @@ w = Window.new("MAPLE Lab Spectra Demonstration (Beta)", Rect.new(
 	(basePath +/+  "data/spectra_specific_data/spectra_set_to_custom_functions.scd").load; // Any change from a preset goes to Custom name
 		(~trace +/+  "data/oscilloscopeButtonFunctions.scd").load; // Load the oscilloscope button functions
 	(~trace +/+  "data/spectra_specific_data/buffer_and_synthdef_create_functions.scd").load; // Load the oscilloscope button functions
-
+(~trace +/+  "data/readTextFileFunction.scd").load; // Load the text reader function
 
 
 //Label for paragraph
-~para = StaticText(w,Rect(10,10,790-50,80))
-	.string_(TabFileReader.read(~trace +/+  "paragraphs/spectraIntro.txt").flatten.asString.drop(2).drop(-2))
+~para = StaticText(w,Rect(10,10-500,790-50,1)) // Moved because was blocking View Mode button for spectra
+	.string_(~readTextFileFunction.value(path:"spectra/spectraIntro.txt"))
 .font_(Font("nil", 12))
 .align_(\topLeft)
 .background_(Color(0,0,0,0))
@@ -318,7 +318,7 @@ x.set(
 			});
 
 ~synth_menu = PopUpMenu(w, Rect(260, 70-3-~allShiftUp, 100, 25)); //Moved to next to big button
-			~synth_menu.items_(["Sine", "Square", "Triangle", "Sawtooth", "Rev. Sawtooth", "Instruments", "Custom"]);
+			~synth_menu.items_(["Sine", "Square", "Triangle", "Sawtooth", "Rev. Sawtooth", "Custom", "Instruments"]);
 			~synth_menu.font_(Font(\size, 12));
 
 			~synth_menu
@@ -408,7 +408,7 @@ x.set(
 						{~button.valueAction_(1)});
 
 		~instrumentsCover.bounds_(Rect(10,410+2-~allShiftUp,(790-10+~expandWidth), 120+~lowerButtons))
-					.string_(TabFileReader.read(~trace +/+  "paragraphs/spectraPresets/sine.txt").flatten.join.asString).align_(\topLeft);
+					.string_(~readTextFileFunction.value(path:"spectra/spectraPresets/sine.txt")).align_(\topLeft);
 
 	},
 
@@ -435,7 +435,7 @@ x.set(
 								~j.valueAction_(0);*/
 
 
-					~instrumentsCover.bounds_(Rect(10,410+2-~allShiftUp,(790-10+~expandWidth), 120+~lowerButtons)).string_(TabFileReader.read(~trace +/+  "paragraphs/spectraPresets/square.txt").flatten.join.asString).align_(\topLeft);
+					~instrumentsCover.bounds_(Rect(10,410+2-~allShiftUp,(790-10+~expandWidth), 120+~lowerButtons)).string_(~readTextFileFunction.value(path:"spectra/spectraPresets/square.txt")).align_(\topLeft);
 
 	},
 
@@ -497,7 +497,7 @@ x.set(
 				~k.valueAction_(0);
 								~j.valueAction_(0);*/
 
-					~instrumentsCover.bounds_(Rect(10,410+2-~allShiftUp,(790-10+~expandWidth), 120+~lowerButtons)).string_(TabFileReader.read(~trace +/+  "paragraphs/spectraPresets/triangle.txt").flatten.join.asString).align_(\topLeft);
+					~instrumentsCover.bounds_(Rect(10,410+2-~allShiftUp,(790-10+~expandWidth), 120+~lowerButtons)).string_(~readTextFileFunction.value(path:"spectra/spectraPresets/triangle.txt")).align_(\topLeft);
 
 
 	},
@@ -529,7 +529,7 @@ x.set(
 								~j.valueAction_(0);*/
 
 
-					~instrumentsCover.bounds_(Rect(10,410+2-~allShiftUp,(790-10+~expandWidth), 120+~lowerButtons)).string_(TabFileReader.read(~trace +/+  "paragraphs/spectraPresets/sawtooth.txt").flatten.join.asString).align_(\topLeft);
+					~instrumentsCover.bounds_(Rect(10,410+2-~allShiftUp,(790-10+~expandWidth), 120+~lowerButtons)).string_(~readTextFileFunction.value(path:"spectra/spectraPresets/sawtooth.txt")).align_(\topLeft);
 
 	},
 				{ // Reverse Sawtooth - same as Sawtooth except phase is 0
@@ -560,10 +560,24 @@ x.set(
 								~j.valueAction_(0);*/
 
 
-					~instrumentsCover.bounds_(Rect(10,410+2-~allShiftUp,(790-10+~expandWidth), 120+~lowerButtons)).string_(TabFileReader.read(~trace +/+  "paragraphs/spectraPresets/reverse_sawtooth.txt").flatten.join.asString).align_(\topLeft);
+					~instrumentsCover.bounds_(Rect(10,410+2-~allShiftUp,(790-10+~expandWidth), 120+~lowerButtons)).string_(~readTextFileFunction.value(path:"spectra/spectraPresets/reverse_sawtooth.txt")).align_(\topLeft);
 
 	},
 
+
+				{// Custom
+			~synth_menu.background_(Color(0.7569-0.1,0.1373-0.1,0.1725-0.1,1));
+~play_UserView.bounds_(Rect(400-(100/2)-92,65-~allShiftUp,192,30));
+										~button.bounds_(Rect(400-(100/2)-92,65-~allShiftUp,100+35,30));
+					~instrumentsCover.bounds_(Rect(10,410+2-~allShiftUp,(790-10+~expandWidth), 120+~lowerButtons)).string_(~readTextFileFunction.value(path:"spectra/spectraPresets/custom.txt")).align_(\topLeft);
+
+					if(x.isPlaying, {x.free});  // Must be before the button set to 1
+
+					if(~button.value == 1,
+						{~button.valueAction_(1)});
+
+
+				},
 				{//"Instruments (harmonics panel)".postln;
 
 
@@ -589,15 +603,6 @@ x.set(
 					~soundPhaseArrayButton.valueAction_(2); // Change back phase to 0
 
 					~instrumentsCover.bounds_(Rect(10,410+2-~allShiftUp,(790-10+~expandWidth), 0));
-				},
-				{// Custom
-			~synth_menu.background_(Color(0.7569-0.1,0.1373-0.1,0.1725-0.1,1));
-~play_UserView.bounds_(Rect(400-(100/2)-92,65-~allShiftUp,192,30));
-										~button.bounds_(Rect(400-(100/2)-92,65-~allShiftUp,100+35,30));
-					~instrumentsCover.bounds_(Rect(10,410+2-~allShiftUp,(790-10+~expandWidth), 120+~lowerButtons)).string_(TabFileReader.read(~trace +/+  "paragraphs/spectraPresets/custom.txt").flatten.join.asString).align_(\topLeft);
-
-
-
 				}
 
  ];
@@ -845,7 +850,7 @@ x.set(
 		//FUNDAMENTAL FREQUENCY
 //Properties of the slider
 ~freqslider = Slider(w, Rect(250,110-~allShiftUp,140,20))
-	.background_(Color(0.8,0.8,0.8,0.75)).value_(48/87)
+	.background_(Color(0.8,0.8,0.8,0.75)).value_(49/87) // Opens at A#4
 	.step_(1/(108-21))
 	.action_({
 	arg obj;
@@ -1639,7 +1644,6 @@ SynthDef.new("sound", {
 	~soundSynthDef_call.value;
 
 
-
 	// Harmonic Panel
 	// 16 Sliders
 
@@ -1775,6 +1779,10 @@ NumberBox(~inspectorHarmonicsPanel, Rect(294+55,0,45,15))
 		(if(~scopebutton.value == 1, {
 				~oscilloscopeCloseFunction.value;
 			}));
+		(if(~inspectorExists == 1, {
+				~inspectorWindow.close;
+			}));
+
 		w.close;
 		(basePath +/+ "splashscreen.scd").loadPaths;
 		});
@@ -1843,7 +1851,7 @@ arg obj;
 
 
 
-	~house_icon = Image.new(basePath +/+ "images/house-small-red.png");
+	~house_icon = Image.new(basePath +/+ "images/house-small.png");
 	~maple_icon = Image.new(basePath +/+ "images/mapleICON-small.png");
 ~keyboard_image = Image.new(basePath +/+ "images/keyboard_small.png");
 

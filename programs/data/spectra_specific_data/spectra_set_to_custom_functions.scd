@@ -1,5 +1,5 @@
 ~setToCustomFunction = {
-	var customID = 6;
+	var customID = 5;
 
 	AppClock.sched(0.01, { // Slight delay required so that the sliders can all be set to their new preset positions, and THEN check (after the delay) that they are in the correct position)
 

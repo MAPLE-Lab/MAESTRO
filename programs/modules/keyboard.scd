@@ -4,8 +4,10 @@ var basePath = thisProcess.nowExecutingPath.asString.dirname;
 // Window for the Keyboard
 ~keyboardWindow = Window.new("Keyboard", Rect(
 	/*Window.screenBounds.width/2-((420+20+20+620)/2)*/
-	w.bounds.left,w.bounds.top-202,
-	420+20+20+620,190), false, true).front.background_(Color.grey(1)).userCanClose_(true)	.acceptsMouseOver_(true);
+	w.bounds.left,w.bounds.top-202-20,
+	420+20+20+620,190), TabFileReader.read(~trace +/+  "admin/access.txt").[4].[2].interpret, true).front.background_(Color.grey(1)).userCanClose_(true)	.acceptsMouseOver_(true);
+
+if(~module_ID != "spectra", {~keyboardWindow.bounds_(Rect(~keyboardWindow.bounds.left-245, ~keyboardWindow.bounds.top-20, ~keyboardWindow.bounds.width, ~keyboardWindow.bounds.height))});
 
 // Label for title // Necessary if remove the top part eventually to avoid confusion on closing - but maybe onClose it resets the key_vis button properly anyways so no need
 ~title =StaticText(~keyboardWindow,Rect(0,0,(420+20+20+620),300))
@@ -393,6 +395,8 @@ StaticText.new(~keyboard, Rect(1055,172,6,30)).background_(Color.grey(0.25)); //
 		//Images underneath buttons
 		~triangle.drawInRect(Rect(0,0,12,24), Rect(0,0,11,24), 2, 1.0);
 };
+
+if(~module_ID != "tuning", {~deviant_fill_triangle.bounds_(-500,0,12,24)});
 
 
 //Start null
@@ -1038,10 +1042,10 @@ if(~module_ID == "spectra",
 
 
 //Implements the hovertext for the inspector window
-StaticText(~keyboardWindow, Rect(0,0,~keyboardWindow.bounds.width,~keyboardWindow.bounds.height))
+StaticText(~keyboardWindow, Rect(0,20,~keyboardWindow.bounds.width,~keyboardWindow.bounds.height))
 .mouseOverAction_({
 	if(~inspectorExists == 1, {
-		~inspectorText.string_(TabFileReader.read(~trace +/+  "paragraphs/mini-modules/keyboardInspector.txt").flatten.join.asString)
+		~inspectorText.string_(~readTextFileFunction.value(path:"mini-modules/keyboardInspector.txt"))
 });})
 .mouseLeaveAction_({
 	if(~inspectorExists == 1, {

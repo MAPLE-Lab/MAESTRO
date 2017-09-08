@@ -43,7 +43,7 @@ StaticText.new(~composite, Rect(
 //Implements the hovertext for the inspector window
 .mouseOverAction_({
 	if(~inspectorExists == 1, {
-		~inspectorText.string_(TabFileReader.read(~trace +/+  "paragraphs/mini-modules/spectra_screenInspector.txt").flatten.join.asString)
+		~inspectorText.string_(~readTextFileFunction.value(path:"mini-modules/spectra_screenInspector.txt"))
 });})
 .mouseLeaveAction_({
 	if(~inspectorExists == 1, {

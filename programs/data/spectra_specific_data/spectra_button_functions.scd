@@ -338,7 +338,7 @@
 			"piano", {AppClock.sched(3, {if(howLongPlaying > 29, {~voicesAudioButton.valueAction_(0); "Piano audio finished.".postln});})},
 			"voice_tenor", {AppClock.sched(2.5, {if(howLongPlaying > 24, {~voice_tenorAudioButton.valueAction_(0); "Tenor audio finished.".postln});})},
 			"voice_soprano", {AppClock.sched(3.3, {if(howLongPlaying > 32, {~voicesAudioButton.valueAction_(0); "Soprano audio finished.".postln});})},
-			"viola", {AppClock.sched(7.1, {if(howLongPlaying > 70, {~stringsAudioButton.valueAction_(0); "Viola audio finished.".postln});})},
+			"viola", {AppClock.sched(3.1, {if(howLongPlaying > 30, {~stringsAudioButton.valueAction_(0); "Viola audio finished.".postln});})},
 			"bass", {AppClock.sched(3.2, {if(howLongPlaying > 31, {~stringsAudioButton.valueAction_(0); "Bass audio finished.".postln});})},
 			"trombone", {AppClock.sched(2.9, {if(howLongPlaying > 28, {~brassAudioButton.valueAction_(0); "Trombone audio finished.".postln});})},
 			"tuba", {AppClock.sched(2.2, {if(howLongPlaying > 21, {~brassAudioButton.valueAction_(0); "Tuba audio finished.".postln});})},

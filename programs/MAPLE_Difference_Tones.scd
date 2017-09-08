@@ -30,26 +30,49 @@ w = Window.new("MAPLE Lab Difference Tones Demonstration (Beta)", Rect.new(
 	~master_window_bounds_array[2],
 	~master_window_bounds_array[3]
 ),
-false) //Cannot be resized by user.
+TabFileReader.read(~trace +/+  "admin/access.txt").[4].[2].interpret) //Cannot be resized by user without admin permission.
 .background_(Color.white)
 .userCanClose_(true)
 .front
 .acceptsMouseOver_(true);
+);
 
-				//ID Parameters
-~module_ID = "synthesizer";
+//B. Add starting ID parameters
+(
+~module_ID = "difference_tones";
+~inspectorExists = 0;
+);
 
-	// Title and labels
-		// ~masterTitle = StaticText(w, Rect(0,0,500,40)).string_("Difference Tones").align_(\center).font_(Font(nil, 14, true));
-	);
 
 
 		(basePath +/+  "data/tones_pitch_name.scd").load; // Load the function for updating the information panel below the harmonics panel
 	(~trace +/+  "data/oscilloscopeButtonFunctions.scd").load; // Load the oscilloscope button functions
+(~trace +/+  "data/readTextFileFunction.scd").load; // Load the text reader function
 
 	//Record button - sends to Supercollider file in the Recordings section
-~record_button_bounds_array = [50, 15, 85, 20];
+~record_button_bounds_array = [75, 15, 85, 20];
 (basePath +/+  "modules/record_button.scd").load;
+
+
+	//Opening paragraph for the module, holds data for Inspector window to load
+~para = StaticText(w,Rect(5000,10,~master_window_bounds_array[2]-20,80));
+~para.string_(~readTextFileFunction.value(path:"difference_tones/difference_tonesIntro.txt"));
+
+	//Inspector button
+	~inspector = Button.new(w, Rect(50, 15, 20, 20))
+	.states_([["(i)", Color.white, Color.gray], ["(i)", Color.gray, Color.black]])
+	.font_(Font("nil", 10))
+	.action_({ arg obj;
+		if(obj.value == 1, {
+			(basePath +/+  "modules/inspector.scd").loadPaths;
+		},
+		{
+			~inspectorWindow.close;
+		});
+	});
+
+
+
 
 
 // SynthDefs define the sound to be played
@@ -125,9 +148,17 @@ SynthDef.new("sound3", {
 		});
 
 
-		~fundamentalMIDI.value = (log2(~fundamentalBox.value/440)*12)+69;
+		if(~fundamentalBox.value > 0, {
+					~fundamentalMIDI.value = (log2(~fundamentalBox.value/440)*12)+69;
+			~fundamentalMIDICover.bounds_(~fundamentalMIDI.bounds.moveBy(-500,0).insetBy(2,2));
+		}, {
+			~fundamentalMIDI.value = 0;
+			~fundamentalMIDICover.bounds_(~fundamentalMIDI.bounds.insetBy(2,2));
+		});
 		~differenceTonePitchName.value(fundamentalNote:~fundamentalMIDI.value, outputToStaticText:~fundamentalName);
 		~differenceSlider.valueAction_((~compareMIDI.value-~fundamentalMIDI.value).linlin(-12,12,0,1));
+
+		~keyboardUpdateGUI.value;
 	});
 	~fundamentalBox = NumberBox(w, Rect(~slidersLeftEdge,~slidersTopEdge-20,40,20)).value_(440).action_({
 		arg obj;
@@ -139,13 +170,17 @@ SynthDef.new("sound3", {
 		// ~midi2 = (log2(~compareBox.value/440)*12)+69;
 		val = ((2**((-69+obj.value)/12))*440);
 		~fundamentalBox.valueAction_(val);
-	});
+	})
+	.clipLo_(0);
 		~fundamentalName = StaticText(w, Rect(~slidersLeftEdge,~slidersTopEdge+~fundamentalSlider.bounds.height,40,20)).string_("A4").align_(\center);
 
 	~fundamentalIntensitySlider = Knob(w, Rect(~slidersLeftEdge+5,~slidersTopEdge+~fundamentalSlider.bounds.height+42,30,30)).value_(1).action_({
 		arg obj;
 		~sound1Synth.set(\fundamentalIntensity, obj.value;);
+	~keyboardUpdateGUI.value;
 	});
+
+		~fundamentalMIDICover = StaticText(w, ~fundamentalMIDI.bounds.moveBy(-500,0).insetBy(2,2)).string_("NaN").background_(Color.white).align_(\center);
 
 
 	// Sound 2
@@ -158,10 +193,17 @@ SynthDef.new("sound3", {
 			~sound2Synth.set(\freq, obj.value.linlin(0,1,0,5000););
 		});
 
-		~compareMIDI.value = (log2(~compareBox.value/440)*12)+69;
+		if(~compareBox.value > 0, {
+		~compareMIDI.value = 	(log2(~compareBox.value/440)*12)+69;
+		~compareMIDICover.bounds_(~compareMIDI.bounds.moveBy(-500,0).insetBy(2,2));
+		}, {
+			~compareMIDI.value = 0;
+			~compareMIDICover.bounds_(~compareMIDI.bounds.insetBy(2,2))
+		});
 		~differenceTonePitchName.value(fundamentalNote:~compareMIDI.value, outputToStaticText:~compareName);
 		~differenceSlider.valueAction_((~compareMIDI.value-~fundamentalMIDI.value).linlin(-12,12,0,1));
 
+		~keyboardUpdateGUI.value;
 	});
 	~compareBox = NumberBox(w, Rect(~slidersLeftEdge+~spaceBetweenPrimaryFrequencySliders,~slidersTopEdge-20,40,20)).value_(880).action_({
 		arg obj;
@@ -173,13 +215,17 @@ SynthDef.new("sound3", {
 		// ~midi2 = (log2(~compareBox.value/440)*12)+69;
 		val = ((2**((-69+obj.value)/12))*440);
 		~compareBox.valueAction_(val);
-	});
+	})
+	.clipLo_(0);
 	~compareName = StaticText(w, Rect(~slidersLeftEdge+~spaceBetweenPrimaryFrequencySliders,~slidersTopEdge+~fundamentalSlider.bounds.height,40,20)).string_("A5").align_(\center);
 
 	~compareIntensitySlider = Knob(w, Rect(~slidersLeftEdge+~spaceBetweenPrimaryFrequencySliders+5,~slidersTopEdge+~fundamentalSlider.bounds.height+42,30,30)).value_(1).action_({
 		arg obj;
 		~sound2Synth.set(\compareIntensity, obj.value;);
+		~keyboardUpdateGUI.value;
 	});
+
+	~compareMIDICover = StaticText(w, ~compareMIDI.bounds.moveBy(-500,0).insetBy(2,2)).string_("NaN").background_(Color.white).align_(\center);
 
 
 	// Difference Data
@@ -196,6 +242,8 @@ SynthDef.new("sound3", {
 		~differenceBox.value_((~compareBox.value-~fundamentalBox.value).abs);
 		~differenceMIDI.value_((~compareMIDI.value-~fundamentalMIDI.value).abs);
 		~sound3Synth.set(\freq, ~differenceBox.value;);
+			~differenceMIDICoverCheckFunction.value;
+
 	});
 
 	~differenceLabelsArray = ["P1", "m2", "M2", "m3", "M3", "P4", "TT", "P5", "m6", "M6", "m7", "M7", "P8"];
@@ -227,7 +275,68 @@ SynthDef.new("sound3", {
 	~differenceIntensitySlider = Knob(w, Rect(~slidersLeftEdge+~spaceBetweenFirstAndDifferenceSliders+5,~slidersTopEdge+~fundamentalSlider.bounds.height+40+2,30,30)).value_(0).action_({
 		arg obj;
 		~sound3Synth.set(\differenceIntensity, obj.value;);
+		~keyboardUpdateGUI.value;
 	});
+
+	~differenceMIDICover = StaticText(w, ~differenceMIDI.bounds.moveBy(-500,0).insetBy(2,2)).string_("NaN").stringColor_(Color.white).background_(Color.grey(0.2)).align_(\center);
+
+	~differenceMIDICoverCheckFunction = {
+		if(and(~fundamentalMIDI.value == 0,~compareMIDI.value == 0), {
+			~differenceMIDICover.bounds_(~differenceMIDI.bounds.insetBy(2,2));
+		},{
+			~differenceMIDICover.bounds_(~differenceMIDI.bounds.moveBy(-500,0).insetBy(2,2));
+		}
+		);
+	};
+
+	// Keyboard GUI
+
+	// Basics (artifacts due to adaptation from TUNING code)
+		~color_arrayMAN = Array.fill(200, 0);
+	~greyIntensity = 1;
+
+	~keyboardUpdateGUI = {
+	// The note intensities
+	// NOTE: 0 means completely on, 1 means completely off
+	// The first is MIDI number 21
+if(~playButton.value == 1, {
+
+	~color_array = Array.fill(200, {
+		arg i;
+
+		if(i == (~fundamentalMIDI.value-1),{~fundamentalIntensitySlider.value.linlin(0,1,1,0)},{
+
+			if(i == (~compareMIDI.value-1),{~compareIntensitySlider.value.linlin(0,1,1,0)},{
+
+				if(i == (~differenceMIDI.value-1),{~differenceIntensitySlider.value.linlin(0,1,1,0)},{1});
+
+			});
+
+			});
+
+
+	});
+
+	~keyboardCodeGUI = {
+		(if(~key_vis.value == 1, {
+			(~trace +/+  "data/difference_tones_keyboard_GUI_colours.scd").load;
+		}));
+	};
+
+
+
+			if(~key_vis.value == 1, { ~keyboardUpdateGUI_action.value;});
+
+		});
+	};
+
+	// Reset keyboard
+	~keyboardUpdateGUIClear = {
+
+		~color_array = Array.fill(200, {1});
+		if(~key_vis.value == 1, {~keyboardUpdateGUI_action.value;});
+	};
+
 
 // Row Labels
 	~frequencyLabel = StaticText(w, Rect(~slidersLeftEdge-40,~slidersTopEdge-20,40,20)).string_("Hz ").align_(\right);
@@ -278,13 +387,27 @@ SynthDef.new("sound3", {
 		~sound1Synth = Synth("sound1", [\freq, ~fundamentalBox.value, \fundamentalIntensity:~fundamentalIntensitySlider.value]);
 			~sound2Synth = Synth("sound2", [\freq, ~compareBox.value, \compareIntensity:~compareIntensitySlider.value]);
 			~sound3Synth = Synth("sound3", [\freq, 440, \differenceIntensity:~differenceIntensitySlider.value]);
+
+			~keyboardUpdateGUI.value;
 	},{
 			~stop_UserView.bounds_(Rect(200,10,1,1)); //Hide the stop button
 		~sound1Synth.free;
 			~sound2Synth.free;
 			~sound3Synth.free;
-	});
+
+		~keyboardUpdateGUIClear.value;
+		});
 });
+
+	// Activate play button with spacebar
+w.view.keyDownAction_( { |view, char, mod, uni, key|
+		if(key == 49, {
+			switch(~playButton.value,
+				0, {~playButton.valueAction_(1)},
+				1, {~playButton.valueAction_(0)},
+			);
+		}, { nil });
+    } );
 
 	//Create spectra
 ~spectraScreenComposite_bounds_array = [-100+100,355,500,215];
@@ -297,14 +420,16 @@ SynthDef.new("sound3", {
 
 
 	//Load graphics elements
-~house_icon = Image.new(basePath +/+ "images/house-small-red.png");
+~house_icon = Image.new(basePath +/+ "images/house-small.png");
 			~maple_icon = Image.new(basePath +/+ "images/mapleICON-small.png");
+~keyboard_image = Image.new(basePath +/+ "images/keyboard_small.png");
 
 //All graphics (aesthetic lines and image positions)
 w.drawFunc = {
 		//Images underneath buttons
 		~house_icon.drawInRect(Rect(10,10,30,30), Rect(0,0,30,30), 2, 1.0);
 			~maple_icon.drawInRect(Rect(460,10,30,30), Rect(0,0,30,30), 2, 1.0);
+		~keyboard_image.drawInRect(Rect(10,312,60,25), Rect(0,0,60,25), 2, 1.0);
 
 		Pen.line(10@310,490@310); // Line above Spectra
 
@@ -314,6 +439,36 @@ w.drawFunc = {
         };
 
 
+//Keyboard visualizer button
+		~key_vis = Button.new(w, Rect(10,312,60,25))
+	.states_([["", Color.black, Color.clear],["CLOSE", Color.white, Color(0,0,0,0.7)]])
+	.font_(Font("nil", 10))
+	.action_({
+
+arg obj;
+		if(obj.value == 1,
+				// ~keyboard_open.value == 1,
+			{
+					// ~keyboard_open = 0;
+	(basePath +/+  "modules/keyboard.scd").loadPaths; //This line allows all contact buttons to be updated automatically
+
+
+				/*~fslider.valueAction_(~fslider.value); //This allows it to refresh real-time
+
+					if(~vinbutton.value == 1, {
+						~greyIntensity = 1;
+						~deviant_fill.background_(Color.clear); // Now clear instead of black
+						});*/
+~keyboardUpdateGUI.value;
+		},{
+
+~keyboardWindow.close;
+					// ~keyboard_open = 1;
+		};);
+
+
+
+		});
 
 
 
@@ -342,6 +497,19 @@ w.drawFunc = {
 			(if(~scopebutton.value == 1, {
 				~oscilloscopeCloseFunction.value;
 			}));
+
+			(if(~record.value == 1, {
+			s.stopRecording; // Auto-stops recording if started
+			}));
+
+			(if(~key_vis.value == 1, {
+				~keyboardWindow.close;
+			}));
+
+				(if(~inspectorExists == 1, {
+				~inspectorWindow.close;
+			}));
+
 			(basePath +/+ "splashscreen.scd").loadPaths;
 		});
 );
@@ -399,22 +567,37 @@ w.drawFunc = {
 	}
 	);
 
+
+
+	// Freeall
+	w.onClose_({
+		s.freeAll;
+	});
+
+
 	( // Start with windows open
+AppClock.sched(0.01,{
+			~inspector.valueAction_(1); // Start with the inspector window open
+
+			~key_vis.valueAction_(1); // Start with the keyboard window open
+    nil;
+});
+
 		AppClock.sched(0.1,{
 			// ~inspector.valueAction_(1); // Start with the inspector window open
 
 			~scopebutton.valueAction_(1); // Start with the oscilloscopes open
 
 			// ~key_vis.valueAction_(1); // Start with the keyboard window open
+
+
+	~keyboardUpdateGUI.value;
+
+			w.front;
+
 			nil;
 		});
-	);
-
-
-	// Freeall
-	w.onClose_({
-		s.freeAll;
-	})
+);
 
 })
 )

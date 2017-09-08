@@ -8,7 +8,7 @@ s.waitForBoot({ //Ensures it only opens once the server is working completely, a
 		t = Window.new("MAPLE Lab Auditory Exploration Suite (Beta)", Rect(
 	Window.screenBounds.width/2-400,
 	Window.screenBounds.height/2-100,
-		800,500), false)
+		800,500), TabFileReader.read(~trace +/+  "admin/access.txt").[4].[2].interpret)
 		.background_(Color.white)
 		.front
 		.userCanClose_(false); //To close must use the Quit button - avoids the issue where the window closing breaks the following software opening without a server
