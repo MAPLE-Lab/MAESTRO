@@ -877,29 +877,29 @@ if(~playButton.value == 1, {
 
 					("if(j == ~midi" ++ a ++ ".value, {0});").interpret });*/
 
-				if(j == ~midi1.value, {0}, {
+				if(and(j == ~midi1.value, ~intensity1.value > 0), {0}, {
 
-					if(j == ~midi2.value, {0}, {
+					if(and(j == ~midi2.value, ~intensity2.value > 0), {0}, {
 
-						if(j == ~midi3.value, {0}, {
+						if(and(j == ~midi3.value, ~intensity3.value > 0), {0}, {
 
-						if(j == ~midi4.value, {0}, {
+						if(and(j == ~midi4.value, ~intensity4.value > 0), {0}, {
 
-						if(j == ~midi5.value, {0}, {
+						if(and(j == ~midi5.value, ~intensity5.value > 0), {0}, {
 
-						if(j == ~midi6.value, {0}, {
+						if(and(j == ~midi6.value, ~intensity6.value > 0), {0}, {
 
-						if(j == ~midi7.value, {0}, {
+						if(and(j == ~midi7.value, ~intensity7.value > 0), {0}, {
 
-						if(j == ~midi8.value, {0}, {
+						if(and(j == ~midi8.value, ~intensity8.value > 0), {0}, {
 
-						if(j == ~midi9.value, {0}, {
+						if(and(j == ~midi9.value, ~intensity9.value > 0), {0}, {
 
-						if(j == ~midi10.value, {0}, {
+						if(and(j == ~midi10.value, ~intensity10.value > 0), {0}, {
 
-						if(j == ~midi11.value, {0}, {
+						if(and(j == ~midi11.value, ~intensity11.value > 0), {0}, {
 
-						if(j == ~midi12.value, {0}, {
+						if(and(j == ~midi12.value, ~intensity12.value > 0), {0}, {
 
 						1
 					}
@@ -956,7 +956,7 @@ if(~playButton.value == 1, {
 		}));
 	};
 
-
+~keyboardCodeGUI.value;
 
 			if(~key_vis.value == 1, { ~keyboardUpdateGUI_action.value;});
 

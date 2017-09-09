@@ -323,7 +323,7 @@ if(~playButton.value == 1, {
 		}));
 	};
 
-
+~keyboardCodeGUI.value;
 
 			if(~key_vis.value == 1, { ~keyboardUpdateGUI_action.value;});
 
