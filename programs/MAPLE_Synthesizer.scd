@@ -593,7 +593,7 @@ arg obj;
 	.action_({
 
 		File.new(~trace +/+ "synthesizer_files/" ++ ~exportParametersText.value ++ ".txt", "w").write(
-"Freq. (Hz)\tAttack (ms)\tSustain (ms)\tRelease (ms)\tStart Time (ms)\tOn Curve\tOff Curve\tInt. (+)\tMIDI (#)
+"Freq. (Hz)\tAttack (ms)\tSustain (ms)\tRelease (ms)\tStart Time (ms)\tOn Curve\tOff Curve\tMax. Amp.\tMIDI (#)\tSemi. Bend
 "
 ).close;
 
