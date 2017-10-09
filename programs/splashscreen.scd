@@ -5,7 +5,7 @@ s.waitForBoot({ //Ensures it only opens once the server is working completely, a
 	(
     i = Image.new(thisProcess.nowExecutingPath.asString.dirname +/+ "images/splash-small.png"); //make sure this can work when not on my computer
     j = Image.new(thisProcess.nowExecutingPath.asString.dirname +/+ "images/background_from_website.png");
-		t = Window.new("MAPLE Lab Auditory Exploration Suite (Beta)", Rect(
+		t = Window.new("MAESTRO (Beta)", Rect(
 	Window.screenBounds.width/2-400,
 	Window.screenBounds.height/2-100,
 		800,500), TabFileReader.read(~trace +/+  "admin/access.txt").[4].[2].interpret)
@@ -51,7 +51,7 @@ t.view.keyDownAction = { arg view, char, modifiers, unicode, keycode;
 
 //Title
 ~title = StaticText(t,Rect((400-400),413,800,80))
-	.string_("Auditory Exploration Suite")
+	.string_("MAESTRO")
 .font_(Font("Helvetica", 22, true))
 .align_(\top)
 .background_(Color(0,0,0,0))
@@ -145,12 +145,21 @@ on Twitter", Color.white, Color(0.1647, 0.6392, 0.9373,1)]])
 
 //TECHNICAL DETAILS
 		~tech = Button.new(t, Rect(707, 415, 20, 20))
-	.states_([["?", Color.white, Color.gray]])
+	.states_([["?", Color.white, Color.gray], ["?", Color.white, Color.black]])
 	.font_(Font("nil", 10))
-	.mouseDownAction_({
-(basePath +/+  "modules/technical_details.scd").loadPaths; //This line allows all contact buttons to be updated automatically
+		.action_({
+			arg obj;
 
+			if(obj.value == 1, {
+				 (basePath +/+  "modules/technical_details.scd").loadPaths; //This line allows all contact buttons to be updated automatically
+			},{
+				 ~technicalWindow.close;
+			})
 		});
+
+	/*.mouseDownAction_({
+(basePath +/+  "modules/technical_details.scd").loadPaths; //This line allows all contact buttons to be updated automatically
+		});*/
 
 
 

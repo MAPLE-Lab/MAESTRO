@@ -243,8 +243,8 @@ s.waitForBoot({
  var snd, funcs2, b;
 
 
- ~vinbutton = Button(w, Rect(620+500, 417.5-~allShiftUp, 170, 25)) //Pushed off-screen
-			.states_([["            Click to Play", Color.white, Color(0.7569,0.1373,0.1725,1)], ["            Click to Stop", Color.white, Color.black]])
+ ~vinbutton = Button(w, Rect(620+500, -500, 170, 25)) //Pushed off-screen
+			.states_([["            Click to Play", Color.white, Color(0.7569,0.1373,0.1725,0)], ["            Click to Stop", Color.white, Color.clear]])
    .mouseDownAction_(
 
 				{
@@ -924,42 +924,42 @@ x.set(
 /*C8*/(if(obj.value.linlin(0,1,21,108) == 108,{~note_name.string_("C8");}););
 
 
-/*ASHARP0*/(if(obj.value.linlin(0,1,21,108) ==22,{~note_name.string_("A#0");}););
-/*CSHARP1*/(if(obj.value.linlin(0,1,21,108) ==25,{~note_name.string_("C#1");}););
-/*DSHARP1*/(if(obj.value.linlin(0,1,21,108) ==27,{~note_name.string_("D#1");}););
-/*FSHARP1*/(if(obj.value.linlin(0,1,21,108) ==30,{~note_name.string_("F#1");}););
-/*GSHARP1*/(if(obj.value.linlin(0,1,21,108) ==32,{~note_name.string_("G#1");}););
-/*ASHARP1*/(if(obj.value.linlin(0,1,21,108) ==34,{~note_name.string_("A#1");}););
-/*CSHARP2*/(if(obj.value.linlin(0,1,21,108) ==37,{~note_name.string_("C#2");}););
-/*DSHARP2*/(if(obj.value.linlin(0,1,21,108) ==39,{~note_name.string_("D#2");}););
-/*FSHARP2*/(if(obj.value.linlin(0,1,21,108) ==42,{~note_name.string_("F#2");}););
-/*GSHARP2*/(if(obj.value.linlin(0,1,21,108) ==44,{~note_name.string_("G#2");}););
-/*ASHARP2*/(if(obj.value.linlin(0,1,21,108) ==46,{~note_name.string_("A#2");}););
-/*CSHARP3*/(if(obj.value.linlin(0,1,21,108) ==49,{~note_name.string_("C#3");}););
-/*DSHARP3*/(if(obj.value.linlin(0,1,21,108) ==51,{~note_name.string_("D#3");}););
-/*FSHARP3*/(if(obj.value.linlin(0,1,21,108) ==54,{~note_name.string_("F#3");}););
-/*GSHARP3*/(if(obj.value.linlin(0,1,21,108) ==56,{~note_name.string_("G#3");}););
-/*ASHARP3*/(if(obj.value.linlin(0,1,21,108) ==58,{~note_name.string_("A#3");}););
-/*CSHARP4*/(if(obj.value.linlin(0,1,21,108) ==61,{~note_name.string_("C#4");}););
-/*DSHARP4*/(if(obj.value.linlin(0,1,21,108) ==63,{~note_name.string_("D#4");}););
-/*FSHARP4*/(if(obj.value.linlin(0,1,21,108) ==66,{~note_name.string_("F#4");}););
-/*GSHARP4*/(if(obj.value.linlin(0,1,21,108) ==68,{~note_name.string_("G#4");}););
-/*ASHARP4*/(if(obj.value.linlin(0,1,21,108) ==70,{~note_name.string_("A#4");}););
-/*CSHARP5*/(if(obj.value.linlin(0,1,21,108) ==73,{~note_name.string_("C#5");}););
-/*DSHARP5*/(if(obj.value.linlin(0,1,21,108) ==75,{~note_name.string_("D#5");}););
-/*FSHARP5*/(if(obj.value.linlin(0,1,21,108) ==78,{~note_name.string_("F#5");}););
-/*GSHARP5*/(if(obj.value.linlin(0,1,21,108) ==80,{~note_name.string_("G#5");}););
-/*ASHARP5*/(if(obj.value.linlin(0,1,21,108) ==82,{~note_name.string_("A#5");}););
-/*CSHARP6*/(if(obj.value.linlin(0,1,21,108) ==85,{~note_name.string_("C#6");}););
-/*DSHARP6*/(if(obj.value.linlin(0,1,21,108) ==87,{~note_name.string_("D#6");}););
-/*FSHARP6*/(if(obj.value.linlin(0,1,21,108) ==90,{~note_name.string_("F#6");}););
-/*GSHARP6*/(if(obj.value.linlin(0,1,21,108) ==92,{~note_name.string_("G#6");}););
-/*ASHARP6*/(if(obj.value.linlin(0,1,21,108) ==94,{~note_name.string_("A#6");}););
-/*CSHARP7*/(if(obj.value.linlin(0,1,21,108) ==97,{~note_name.string_("C#7");}););
-/*DSHARP7*/(if(obj.value.linlin(0,1,21,108) ==99,{~note_name.string_("D#7");}););
-/*FSHARP7*/(if(obj.value.linlin(0,1,21,108) ==102,{~note_name.string_("F#7");}););
-/*GSHARP7*/(if(obj.value.linlin(0,1,21,108) ==104,{~note_name.string_("G#7");}););
-/*ASHARP7*/(if(obj.value.linlin(0,1,21,108) ==106,{~note_name.string_("A#7");}););
+/*ASHARP0*/(if(obj.value.linlin(0,1,21,108) ==22,{~note_name.string_("Bb0");}););
+/*CSHARP1*/(if(obj.value.linlin(0,1,21,108) ==25,{~note_name.string_("Db1");}););
+/*DSHARP1*/(if(obj.value.linlin(0,1,21,108) ==27,{~note_name.string_("Eb1");}););
+/*FSHARP1*/(if(obj.value.linlin(0,1,21,108) ==30,{~note_name.string_("Gb1");}););
+/*GSHARP1*/(if(obj.value.linlin(0,1,21,108) ==32,{~note_name.string_("Ab1");}););
+/*ASHARP1*/(if(obj.value.linlin(0,1,21,108) ==34,{~note_name.string_("Bb1");}););
+/*CSHARP2*/(if(obj.value.linlin(0,1,21,108) ==37,{~note_name.string_("Db2");}););
+/*DSHARP2*/(if(obj.value.linlin(0,1,21,108) ==39,{~note_name.string_("Eb2");}););
+/*FSHARP2*/(if(obj.value.linlin(0,1,21,108) ==42,{~note_name.string_("Gb2");}););
+/*GSHARP2*/(if(obj.value.linlin(0,1,21,108) ==44,{~note_name.string_("Ab2");}););
+/*ASHARP2*/(if(obj.value.linlin(0,1,21,108) ==46,{~note_name.string_("Bb2");}););
+/*CSHARP3*/(if(obj.value.linlin(0,1,21,108) ==49,{~note_name.string_("Cb3");}););
+/*DSHARP3*/(if(obj.value.linlin(0,1,21,108) ==51,{~note_name.string_("Eb3");}););
+/*FSHARP3*/(if(obj.value.linlin(0,1,21,108) ==54,{~note_name.string_("Gb3");}););
+/*GSHARP3*/(if(obj.value.linlin(0,1,21,108) ==56,{~note_name.string_("Ab3");}););
+/*ASHARP3*/(if(obj.value.linlin(0,1,21,108) ==58,{~note_name.string_("Bb3");}););
+/*CSHARP4*/(if(obj.value.linlin(0,1,21,108) ==61,{~note_name.string_("Db4");}););
+/*DSHARP4*/(if(obj.value.linlin(0,1,21,108) ==63,{~note_name.string_("Eb4");}););
+/*FSHARP4*/(if(obj.value.linlin(0,1,21,108) ==66,{~note_name.string_("Gb4");}););
+/*GSHARP4*/(if(obj.value.linlin(0,1,21,108) ==68,{~note_name.string_("Ab4");}););
+/*ASHARP4*/(if(obj.value.linlin(0,1,21,108) ==70,{~note_name.string_("Bb4");}););
+/*CSHARP5*/(if(obj.value.linlin(0,1,21,108) ==73,{~note_name.string_("Db5");}););
+/*DSHARP5*/(if(obj.value.linlin(0,1,21,108) ==75,{~note_name.string_("Eb5");}););
+/*FSHARP5*/(if(obj.value.linlin(0,1,21,108) ==78,{~note_name.string_("Gb5");}););
+/*GSHARP5*/(if(obj.value.linlin(0,1,21,108) ==80,{~note_name.string_("Ab5");}););
+/*ASHARP5*/(if(obj.value.linlin(0,1,21,108) ==82,{~note_name.string_("Bb5");}););
+/*CSHARP6*/(if(obj.value.linlin(0,1,21,108) ==85,{~note_name.string_("Db6");}););
+/*DSHARP6*/(if(obj.value.linlin(0,1,21,108) ==87,{~note_name.string_("Eb6");}););
+/*FSHARP6*/(if(obj.value.linlin(0,1,21,108) ==90,{~note_name.string_("Gb6");}););
+/*GSHARP6*/(if(obj.value.linlin(0,1,21,108) ==92,{~note_name.string_("Ab6");}););
+/*ASHARP6*/(if(obj.value.linlin(0,1,21,108) ==94,{~note_name.string_("Bb6");}););
+/*CSHARP7*/(if(obj.value.linlin(0,1,21,108) ==97,{~note_name.string_("Db7");}););
+/*DSHARP7*/(if(obj.value.linlin(0,1,21,108) ==99,{~note_name.string_("Eb7");}););
+/*FSHARP7*/(if(obj.value.linlin(0,1,21,108) ==102,{~note_name.string_("Gb7");}););
+/*GSHARP7*/(if(obj.value.linlin(0,1,21,108) ==104,{~note_name.string_("Ab7");}););
+/*ASHARP7*/(if(obj.value.linlin(0,1,21,108) ==106,{~note_name.string_("Bb7");}););
 
 		if(~key_vis.value == 1, {
 if(~button.value == 1, {
@@ -1964,7 +1964,7 @@ arg obj;
 
 
 //Gain Knob/Slider
-~knob = Slider(w, Rect(640+200,70,60,25)); //Placed off-screen, as a knob on the keyboard itself controls this value
+~knob = Slider(w, Rect(640+200,-70,60,25)); //Placed off-screen, as a knob on the keyboard itself controls this value
 	~knob.action_({~freqslider.valueAction_(~fslider.value); //This allows it to refresh real-time
 s.makeBundle(1.0, //sound delay
 			{~dirtyBit = 13; /*~dirtyBit.postln;*/~freqslider.valueAction_(~fslider.value);});});

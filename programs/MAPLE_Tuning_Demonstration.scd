@@ -611,7 +611,7 @@ if(~deviant_move.sign >= 0,
 		// .decimals_(2)
 .align_(\center);
 
-		~centsBoxCover = StaticText(w, ~centsBox.bounds.insetBy(2,2)).align_(\center);
+		~centsBoxCover = StaticText(w, ~centsBox.bounds.insetBy(2,2)).align_(\center).background_(Color.clear);
 
 //Button to reset deviant
 ~reset = Button(w, Rect(250-(200/2)-65-15,200+65+30-140-~allShiftUp,35,30))

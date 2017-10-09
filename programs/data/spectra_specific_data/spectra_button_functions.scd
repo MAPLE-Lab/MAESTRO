@@ -328,25 +328,25 @@
 		~vinbutton.valueAction_(0);
 
 		switch(instrument,
-			"cello", {AppClock.sched(2.4, {if(howLongPlaying > 23, {~stringsAudioButton.valueAction_(0); "Cello audio finished.".postln});})},
+			"cello", {AppClock.sched(2.4, {if(howLongPlaying > 20, {~stringsAudioButton.valueAction_(0); "Cello audio finished.".postln});})},
 			"violin", {AppClock.sched(6, {if(howLongPlaying > 55, {~stringsAudioButton.valueAction_(0); "Violin audio finished.".postln});})},
-			"trumpet", {AppClock.sched(4, {if(howLongPlaying > 39, {~brassAudioButton.valueAction_(0); "Trumpet audio finished.".postln});})},
-			"horn", {AppClock.sched(3, {if(howLongPlaying > 29, {~brassAudioButton.valueAction_(0); "Horn audio finished.".postln});})},
-			"flute", {AppClock.sched(3, {if(howLongPlaying > 29, {~woodwindsAudioButton.valueAction_(0); "Flute audio finished.".postln});})},
-			"clarinet", {AppClock.sched(3, {if(howLongPlaying > 29, {~woodwindsAudioButton.valueAction_(0); "Clarinet audio finished.".postln});})},
-			"marimba", {AppClock.sched(1.2, {if(howLongPlaying > 11, {~percussionAudioButton.valueAction_(0); "Marimba audio finished.".postln});})},
-			"piano", {AppClock.sched(3, {if(howLongPlaying > 29, {~voicesAudioButton.valueAction_(0); "Piano audio finished.".postln});})},
-			"voice_tenor", {AppClock.sched(2.5, {if(howLongPlaying > 24, {~voice_tenorAudioButton.valueAction_(0); "Tenor audio finished.".postln});})},
-			"voice_soprano", {AppClock.sched(3.3, {if(howLongPlaying > 32, {~voicesAudioButton.valueAction_(0); "Soprano audio finished.".postln});})},
-			"viola", {AppClock.sched(3.1, {if(howLongPlaying > 30, {~stringsAudioButton.valueAction_(0); "Viola audio finished.".postln});})},
-			"bass", {AppClock.sched(3.2, {if(howLongPlaying > 31, {~stringsAudioButton.valueAction_(0); "Bass audio finished.".postln});})},
-			"trombone", {AppClock.sched(2.9, {if(howLongPlaying > 28, {~brassAudioButton.valueAction_(0); "Trombone audio finished.".postln});})},
-			"tuba", {AppClock.sched(2.2, {if(howLongPlaying > 21, {~brassAudioButton.valueAction_(0); "Tuba audio finished.".postln});})},
-			"oboe", {AppClock.sched(1.9, {if(howLongPlaying > 18, {~woodwindsAudioButton.valueAction_(0); "Oboe audio finished.".postln});})},
-			"bassoon", {AppClock.sched(3.1, {if(howLongPlaying > 30, {~woodwindsAudioButton.valueAction_(0); "Bassoon audio finished.".postln});})},
-			"xylophone", {AppClock.sched(1.8, {if(howLongPlaying > 17, {~percussionAudioButton.valueAction_(0); "Xylophone audio finished.".postln});})},
-			"vibraphone", {AppClock.sched(3.5, {if(howLongPlaying > 34, {~percussionAudioButton.valueAction_(0); "Vibraphone audio finished.".postln});})},
-			"guitar", {AppClock.sched(3.3, {if(howLongPlaying > 32, {~voicesAudioButton.valueAction_(0); "Guitar audio finished.".postln});})}
+			"trumpet", {AppClock.sched(4, {if(howLongPlaying > 35, {~brassAudioButton.valueAction_(0); "Trumpet audio finished.".postln});})},
+			"horn", {AppClock.sched(3, {if(howLongPlaying > 26, {~brassAudioButton.valueAction_(0); "Horn audio finished.".postln});})},
+			"flute", {AppClock.sched(3, {if(howLongPlaying > 26, {~woodwindsAudioButton.valueAction_(0); "Flute audio finished.".postln});})},
+			"clarinet", {AppClock.sched(3, {if(howLongPlaying > 26, {~woodwindsAudioButton.valueAction_(0); "Clarinet audio finished.".postln});})},
+			"marimba", {AppClock.sched(1.2, {if(howLongPlaying > 9, {~percussionAudioButton.valueAction_(0); "Marimba audio finished.".postln});})},
+			"piano", {AppClock.sched(3, {if(howLongPlaying > 26, {~voicesAudioButton.valueAction_(0); "Piano audio finished.".postln});})},
+			"voice_tenor", {AppClock.sched(2.5, {if(howLongPlaying > 20, {~voice_tenorAudioButton.valueAction_(0); "Tenor audio finished.".postln});})},
+			"voice_soprano", {AppClock.sched(3.3, {if(howLongPlaying > 29, {~voicesAudioButton.valueAction_(0); "Soprano audio finished.".postln});})},
+			"viola", {AppClock.sched(3.1, {if(howLongPlaying > 28, {~stringsAudioButton.valueAction_(0); "Viola audio finished.".postln});})},
+			"bass", {AppClock.sched(3.2, {if(howLongPlaying > 29, {~stringsAudioButton.valueAction_(0); "Bass audio finished.".postln});})},
+			"trombone", {AppClock.sched(2.9, {if(howLongPlaying > 25, {~brassAudioButton.valueAction_(0); "Trombone audio finished.".postln});})},
+			"tuba", {AppClock.sched(2.2, {if(howLongPlaying > 19, {~brassAudioButton.valueAction_(0); "Tuba audio finished.".postln});})},
+			"oboe", {AppClock.sched(1.9, {if(howLongPlaying > 14, {~woodwindsAudioButton.valueAction_(0); "Oboe audio finished.".postln});})},
+			"bassoon", {AppClock.sched(3.1, {if(howLongPlaying > 27, {~woodwindsAudioButton.valueAction_(0); "Bassoon audio finished.".postln});})},
+			"xylophone", {AppClock.sched(1.8, {if(howLongPlaying > 14, {~percussionAudioButton.valueAction_(0); "Xylophone audio finished.".postln});})},
+			"vibraphone", {AppClock.sched(3.5, {if(howLongPlaying > 30, {~percussionAudioButton.valueAction_(0); "Vibraphone audio finished.".postln});})},
+			"guitar", {AppClock.sched(3.3, {if(howLongPlaying > 28, {~voicesAudioButton.valueAction_(0); "Guitar audio finished.".postln});})}
 		);
 
 	}, {

@@ -1,9 +1,9 @@
 (
-d = Window.new(
+~technicalWindow = d = Window.new(
 	"Technical Details",
 	Rect(
 		Window.screenBounds.width/2-150,
-		Window.screenBounds.height/2-150,
+		(Window.screenBounds.height/2-150)-100,
 		300,
 		165-15),
 	TabFileReader.read(~trace +/+  "admin/access.txt").[4].[2].interpret

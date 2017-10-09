@@ -7,7 +7,7 @@
 # The filePath should be the R folder location
 # If you are using a Mac, denote the path using forward slashes (/)
 # If you are using a PC, denote the path using forward slashes (/) or two backward slashes (\\)
-filePath <- "~/Dropbox/MAPLE-Lab-Auditory-Exploration-Suite/programs/R"
+filePath <- "~/Documents/GitHub/MAESTRO/programs/R"
 
 # Use the variables below to customize the analysis
 frequencyResolution <- 4 # 4 is a good value with a frequency resolution of ~20Hz. 5 increases frequency resolution to ~10Hz.

@@ -1,10 +1,10 @@
 ~oscilloscopeButtonFunction = {
-arg obj;
+	arg obj;
 
 		if(obj.value == 1, {
 				~oscilloscope1 = ~w2 = Window.new("Oscilloscope", Rect.new(
 	w.bounds.left+w.bounds.width+5,
-	Window.availableBounds.height-250/*w.bounds.top+325*/,
+			w.bounds.top+(w.bounds.height/2)+10/*+252*//*w.bounds.top+325*/,
 		250,250),TabFileReader.read(~trace +/+  "admin/access.txt").[4].[2].interpret).background_(Color.white).userCanClose_(true).front
 		.acceptsMouseOver_(true);
 
@@ -42,13 +42,14 @@ arg obj;
 
 				~oscilloscope2 = Window.new("Waveform", Rect.new(
 	w.bounds.left+w.bounds.width+5,
-	Window.availableBounds.height-250-250-22-20/*w.bounds.top+10*/,
-		250,250),TabFileReader.read(~trace +/+  "admin/access.txt").[4].[2].interpret).background_(Color.white).userCanClose_(true).front
+	~oscilloscope1.bounds.top-~oscilloscope1.bounds.height-23,
+			250,250),TabFileReader.read(~trace +/+  "admin/access.txt").[4].[2].interpret)
+		.background_(Color.white).userCanClose_(true).front
 		.acceptsMouseOver_(true);
 
 		if(~module_ID == "tuning", {~oscilloscope2.bounds_(Rect.new(
 	w.bounds.left+w.bounds.width+5,
-	Window.availableBounds.height-250-250-22/*w.bounds.top+10*/,
+	~oscilloscope1.bounds.top-~oscilloscope1.bounds.height,
 		250,250))});
 
 		~stethoscope2 = Stethoscope.new(s, 1,view:~oscilloscope2, zoom:0.1) //.scope//nil causes it to open in its own window
@@ -78,7 +79,8 @@ arg obj;
 		},{
 			~oscilloscope1.close;
 			~oscilloscope2.close;
-		});
+		};
+	)
 };
 
 ~oscilloscopeCloseFunction = {

@@ -4,16 +4,16 @@ Window.new(
 	"Inspector",
 	Rect(
 		w.bounds.left-235-10,
-		Window.availableBounds.height-500,
-		235/*+400*/,
-		w.bounds.height + 14 + 210/*400*/),
+		w.bounds.top-202,
+		235,
+		w.bounds.height + 14 + 210),
 	TabFileReader.read(~trace +/+  "admin/access.txt").[4].[2].interpret)
 .front
 .background_(Color.grey(0.85));
 
 if(~module_ID != "spectra", {~inspectorWindow.bounds_(Rect(
 	w.bounds.left-235-10,
-		Window.availableBounds.height-500,
+		w.bounds.top,
 	235/*+400*/,
 	w.bounds.height)
 )});
@@ -22,8 +22,8 @@ if(~module_ID != "spectra", {~inspectorWindow.bounds_(Rect(
 
 ~internalText_WIP = StaticText(~inspectorWindow,Rect(10,15,280,280))
 	.string_("
-WIP Version 2017-09-07-01800
-Towards: Pre-release v0.1.3-beta
+WIP Version 2017-10-09-0400
+Release (pre-release) v0.1.3-beta
 ")
 .font_(Font("Helvetica", 12, false, true))
 .align_(\topLeft)

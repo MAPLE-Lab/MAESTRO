@@ -15,7 +15,7 @@ harmonicMIDI = (log2(harmonicFrequency/440)*12)+69; // MIDI of created harmonic 
 
 	((harmonicMIDI-~fslider.value.linlin(0,1,21,108)-~current_harmonic_MIDINN)).postln;
 
-	if(and(~menu2.item == "1", ~freqslider.value <= 0.5), {~centsBoxCover.string_("NaN").background_(Color.white); "Not applicable.".postln;
+	if(and(~menu2.item == "1", ~freqslider.value <= 0.5), {~centsBoxCover.string_("NaN").background_(Color.red); "Not applicable.".postln;
 	},{
 		~centsBoxCover.string_(" ").background_(Color.clear);
 	~centsBox.value_((harmonicMIDI - ~fslider.value.linlin(0,1,21,108)-~current_harmonic_MIDINN)*100); // Difference in cents
@@ -59,9 +59,11 @@ log2(36)
 
 	/*~deviant_maximum*~freqslider.value.linlin(0,1,-1,1)*100*/
 
-		if(and(~menu2.item == "1", ~freqslider.value <= 0.5), {~centsBoxCover.string_("NaN").background_(Color.white); "Not applicable.".postln;
+	if(and(~menu2.item == "1", ~freqslider.value <= 0.5), {
+		// ~centsBoxCover.string_(" "/*"NaN"*/).background_(Color.clear); "Not applicable.".postln;
+		~centsBox.value_(~fundamental_note*~freqslider.value.linlin(0,1,-1,1)*100);
 	},{
-		~centsBoxCover.string_(" ").background_(Color.clear);
+			// ~centsBoxCover.string_(" ").background_(Color.clear);
 	~centsBox.value_(~deviant_maximum*~freqslider.value.linlin(0,1,-1,1)*100);
 	});
 };
