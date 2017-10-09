@@ -1,1 +1,0 @@
-This text file is included to ensure this empty folder is uploaded to GitHub when no recordings are kept.
