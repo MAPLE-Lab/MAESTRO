@@ -12,7 +12,7 @@
 ~internalText = StaticText(d,Rect(10,10,280,280))
 	.string_("
 
-Software: SuperCollider (3.8dev).
+Software: SuperCollider (3.8dev to 3.10.2).
 
 Instrument audio recordings from: University of Iowa Electronic Music Studios (http://theremin.music.uiowa.edu/MIS.html).
 
