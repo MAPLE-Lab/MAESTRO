@@ -114,7 +114,9 @@ StaticText(w,Rect(10,105,380,25))
 		~stop_UserView.bounds_(Rect(400-(100/2)-92,65-~allShiftUp,1,1)); //Hide the stop button
 	);
 
-
+//Update June 2019 Patch for 3.10.2
+	~fslider = 0.5632183908046; //~freqslider.value = 0.5632183908046; // This makes sure ~fslider exists and starts at Bb4, and that ~freqslider starts with the same value to allow for future updating to work (but this has been commented out as ~freqslider does not yet exist), so this must be added later
+	//End of Update June 2019 Patch for 3.10.2
 //Play Forced sounds button
 ~button = Button(w, Rect(400-(100/2)-92,65-~allShiftUp,100+35,30))
 .states_([
@@ -125,7 +127,12 @@ StaticText(w,Rect(10,105,380,25))
 .action_({
 	arg obj;
 	if(obj.value == 1,
-		{~freqslider.valueAction_(~fslider.value); //This allows it to refresh real-time
+		{//Update June 2019 Patch for 3.10.2
+				~fslider = ~freqslider.value; // This updates ~fslider value to the on-screen value, if the user has moved the slider, as the screen slider is ~freqslider, and then this allows updating for all current ~freqslider.valueAction_(~fslider.value) functions.
+	//End of Update June 2019 Patch for 3.10.2
+
+				~freqslider.valueAction_(~fslider.value); //This allows it to refresh real-time
+
 			x = Synth.new(
 				\sound,
 				[
@@ -388,7 +395,10 @@ x.set(
 				// x.set(menu.action);
 
 			};
+//Updated Section - June 2019 Patch for SuperCollider Version 3.9.3
+			//~button.value.postln;
 
+			//End of Updated Section - June 2019 Patch for SuperCollider Version 3.9.3
 
  funcs2 = [
 				{ //sine
@@ -607,6 +617,28 @@ x.set(
 
  ];
 
+			//Updated Section - June 2019 Patch for SuperCollider Version 3.9.3
+			{ //sine
+			~synth_menu.background_(Color(0.7569-0.1,0.1373-0.1,0.1725-0.1,1));
+~play_UserView.bounds_(Rect(400-(100/2)-92,65-~allShiftUp,192,30));
+					~button.bounds_(Rect(400-(100/2)-92,65-~allShiftUp,100+35,30));
+		//~freqslider.valueAction_(69.value.linlin(21,108,0,1)); //only need to affect slider to affect the number box and true sound value
+
+							~volslider.valueAction_(0.4.value.linlin(0,1,0,1));
+
+					~soundPhaseArrayButton.valueAction_(2).postln;
+					~fNsliderAction.value(intensityArray:[2]).postln;
+
+					if(x.isPlaying, {x.free}); // Must be before the button set to 1
+
+					if(~button.value == 1,
+						{~button.valueAction_(1)});
+
+		~instrumentsCover.bounds_(Rect(10,410+2-~allShiftUp,(790-10+~expandWidth), 120+~lowerButtons))
+					.string_(~readTextFileFunction.value(path:"spectra/spectraPresets/sine.txt")).align_(\topLeft);
+
+	}.value;
+			//End Updated Section - June 2019 Patch for SuperCollider Version 3.9.3
 
  w.front;
 
@@ -1071,6 +1103,11 @@ s.makeBundle(1.0, //sound delay -~knob.value.linlin(0,1,0,0.5)
 
 })
 	.orientation_(\horizontal);
+
+	//Update June 2019 for 3.10.2
+	~freqslider.value = 0.5632183908046; //This ensures that ~freqslider starts with the same value to allow for future updating to work
+	//End of June 2019 Update for 3.10.2
+
 
 //Label for Freq.
 ~freqLabel = StaticText(w,Rect(123,116-~allShiftUp,80,25))
