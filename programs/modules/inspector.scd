@@ -22,8 +22,8 @@ if(~module_ID != "spectra", {~inspectorWindow.bounds_(Rect(
 
 ~internalText_WIP = StaticText(~inspectorWindow,Rect(10,15,280,280))
 	.string_("
-WIP Version 2017-10-09-0400
-Release (pre-release) v0.1.3-beta
+
+Release v1.0
 ")
 .font_(Font("Helvetica", 12, false, true))
 .align_(\topLeft)
