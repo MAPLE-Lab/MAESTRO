@@ -1,1 +1,1 @@
-"Version 0.1.4-beta"
+"Version 1.0"
