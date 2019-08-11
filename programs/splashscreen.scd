@@ -5,7 +5,7 @@ s.waitForBoot({ //Ensures it only opens once the server is working completely, a
 	(
     i = Image.new(thisProcess.nowExecutingPath.asString.dirname +/+ "images/splash-small.png"); //make sure this can work when not on my computer
     j = Image.new(thisProcess.nowExecutingPath.asString.dirname +/+ "images/background_from_website.png");
-		t = Window.new("MAESTRO (Beta)", Rect(
+		t = Window.new("MAESTRO 1.0", Rect(
 	Window.screenBounds.width/2-400,
 	Window.screenBounds.height/2-100,
 		800,500), TabFileReader.read(~trace +/+  "admin/access.txt").[4].[2].interpret)
