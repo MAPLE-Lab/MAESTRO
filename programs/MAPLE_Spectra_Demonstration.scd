@@ -23,7 +23,7 @@ s.freeAll;
 	~expandWidth = 25;
 
 //Creates the new window with title
-w = Window.new("MAPLE Lab Spectra Demonstration (Beta)", Rect.new(
+w = Window.new("MAPLE Lab Spectra Demonstration", Rect.new(
 	Window.screenBounds.width/2-400,
 	Window.screenBounds.height/2-50,
 	800+~expandWidth,570-~allShiftUp),TabFileReader.read(~trace +/+  "admin/access.txt").[4].[2].interpret)
