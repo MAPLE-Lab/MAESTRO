@@ -1,5 +1,5 @@
 //Creates the master window
-w = Window.new("MAPLE Lab Overtone 'Popout' Demonstration (Beta)", Rect.new(
+w = Window.new("MAPLE Lab Overtone 'Popout' Demonstration", Rect.new(
 	~master_window_bounds_array[0],
 	~master_window_bounds_array[1],
 	~master_window_bounds_array[2],
