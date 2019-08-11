@@ -1,4 +1,4 @@
-//To open the MAPLE Lab (Beta) application, highlight the code below (line 3) and press the keys Command and Return/Enter at the same on your keyboard.
+//To open the MAPLE Lab MAESTRO application, highlight the code below (line 3) and press the keys Command and Return/Enter at the same on your keyboard.
 
 (thisProcess.nowExecutingPath.asString.dirname +/+ "programs/splashscreen.scd").loadPaths;
 
