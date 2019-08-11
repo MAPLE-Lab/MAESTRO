@@ -24,7 +24,7 @@ var basePath = thisProcess.nowExecutingPath.asString.dirname;
 (
 //Create the module's master window
 		~master_window_bounds_array = [Window.screenBounds.width/2-250, Window.screenBounds.height/2-50, 500, 570];
-w = Window.new("MAPLE Lab Difference Tones Demonstration (Beta)", Rect.new(
+w = Window.new("MAPLE Lab Difference Tones Demonstration", Rect.new(
 	~master_window_bounds_array[0],
 	~master_window_bounds_array[1],
 	~master_window_bounds_array[2],
