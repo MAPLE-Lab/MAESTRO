@@ -39,6 +39,12 @@ w = Window.new("MAPLE Lab Spectra Demonstration", Rect.new(
 //Dirty bit used in GUI updating sync
 ~dirtyBit = 0;
 
+	//March 2020, v1.1 update: moved Oscilloscope functions before Spectra is loaded
+	(~trace +/+  "data/oscilloscopeButtonFunctions.scd").load; // Load the oscilloscope button functions
+		(~trace +/+  "data/spectra_specific_data/buffer_and_synthdef_create_functions.scd").load; // Load the oscilloscope button functions
+(~trace +/+  "data/readTextFileFunction.scd").load; // Load the text reader function
+
+
 //Spectra
 (
 //Spectra parameters:
@@ -48,7 +54,7 @@ w = Window.new("MAPLE Lab Spectra Demonstration", Rect.new(
 		~temporaryDisableAutoscale = 0;
 
 //Load the spectra now that all the above parameters have been set:
-(basePath +/+  "modules/spectra_screen.scd").load;
+(~trace +/+  "modules/spectra_screen.scd").load;
 );
 
 // Load Spectra-specific functions
@@ -57,9 +63,10 @@ w = Window.new("MAPLE Lab Spectra Demonstration", Rect.new(
 	(basePath +/+  "data/spectra_harmonics_panel_hover_enter.scd").load; // Load the function for updating the information panel below the harmonics panel
 	~lowerButtons = 40; // For Button heights
 	(basePath +/+  "data/spectra_specific_data/spectra_set_to_custom_functions.scd").load; // Any change from a preset goes to Custom name
-		(~trace +/+  "data/oscilloscopeButtonFunctions.scd").load; // Load the oscilloscope button functions
-	(~trace +/+  "data/spectra_specific_data/buffer_and_synthdef_create_functions.scd").load; // Load the oscilloscope button functions
-(~trace +/+  "data/readTextFileFunction.scd").load; // Load the text reader function
+
+
+
+
 
 
 //Label for paragraph
@@ -2036,6 +2043,8 @@ AppClock.sched(0.01,{
 			~scopebutton.valueAction_(1); // Start with the oscilloscopes open
 
 			~key_vis.valueAction_(1); // Start with the keyboard window open
+
+			~spectra_scope.allocBuffers; // March 2020, v1.1: Re-allocate the buffers so that the scope (FreqScopeView) can have lin/log changes and dB changes
     nil;
 });
 );
