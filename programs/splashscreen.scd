@@ -5,7 +5,7 @@ s.waitForBoot({ //Ensures it only opens once the server is working completely, a
 	(
     i = Image.new(thisProcess.nowExecutingPath.asString.dirname +/+ "images/splash-small.png"); //make sure this can work when not on my computer
     j = Image.new(thisProcess.nowExecutingPath.asString.dirname +/+ "images/background_from_website.png");
-		t = Window.new("MAESTRO 1.0", Rect(
+		t = Window.new("MAESTRO 1.1", Rect(
 	Window.screenBounds.width/2-400,
 	Window.screenBounds.height/2-100,
 		800,500), TabFileReader.read(~trace +/+  "admin/access.txt").[4].[2].interpret)
@@ -30,8 +30,8 @@ s.waitForBoot({ //Ensures it only opens once the server is working completely, a
 		// ~w2.close; //still not functioning
 
 ////VERSION:
-~versioncode = StaticText(t,Rect((400-400),430+10,800,80))
-	.string_((basePath +/+  "data/version_code.scd").loadPaths) //Updated post-LOVE 2017
+~versioncode = StaticText(t,Rect((400-400),458,800,80))
+		.string_((basePath +/+  "data/version_code.scd").loadPaths.asString.replace("[ ", "").replace(" ]","")) //Updated post-L.O.V.E. conference 2017
 .font_(Font("Helvetica", 10, false))
 .align_(\top)
 .background_(Color(0,0,0,0))
@@ -50,12 +50,12 @@ t.view.keyDownAction = { arg view, char, modifiers, unicode, keycode;
 */
 
 //Title
-~title = StaticText(t,Rect((400-400),413,800,80))
+~title = StaticText(t,Rect((400-400),342,800,80))
 	.string_("MAESTRO")
-.font_(Font("Helvetica", 22, true))
+.font_(Font("Helvetica", 40, true))
 .align_(\top)
 .background_(Color(0,0,0,0))
-		.stringColor_(Color(0.2510));
+		.stringColor_(Color(0));
 
 
 		//Buttons
@@ -113,7 +113,7 @@ t.view.keyDownAction = { arg view, char, modifiers, unicode, keycode;
 		});
 		});
 
-q = Button.new(t, Rect((400-50), 340, 100, 30))
+q = Button.new(t, Rect((400-50), 417, 100, 30))
 	.states_([["Quit", Color.white, Color(0.2510,0.2510,0.2510,1)]])
 	.font_(Font("nil", 18))
 	.mouseDownAction_({s.quit; t.close; Window.closeAll;
