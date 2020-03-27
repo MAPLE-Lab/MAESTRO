@@ -20,11 +20,25 @@ if(~module_ID != "spectra", {~inspectorWindow.bounds_(Rect(
 
 ~inspectorExists = 1;
 
-~internalText_WIP = StaticText(~inspectorWindow,Rect(10,15,280,280))
-	.string_("
+~basicTextString = (
+	//"Release v1.0"
+	//Version 1.1 Update: Changed this fixed text to one that relies on version_code.scd:
+	(thisProcess.nowExecutingPath.asString.dirname.replace("modules","data") +/+  "/version_code.scd").loadPaths
+	).postln;
 
-Release v1.0
-")
+~internalText_WIP = StaticText(~inspectorWindow,Rect(10,15,280,280))
+	.string_(
+
+	~basicTextString.asString.replace("[ ", "
+
+").replace(" ]", "")
+
+	//The paragraph breaks in the replacement of [ are important for proper positioning of the text in the Inspector window
+	;
+
+
+
+)
 .font_(Font("Helvetica", 12, false, true))
 .align_(\topLeft)
 .background_(Color(1,1,1,0))
