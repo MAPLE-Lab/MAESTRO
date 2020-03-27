@@ -752,6 +752,11 @@ arg obj;
 						~deviant_fill.background_(Color.clear); // Now clear instead of black
 						});
 
+	// March 2020 v1.1 update attempt: Adding white square to indicate which note is being deviated, in previous versions the white square would not appear if the keyboard window was closed then re-opened, and the white square would only re-appear when the ~menu2 was actioned
+					//~menu2.value;
+					//This did not work
+
+
 		},{
 
 ~keyboardWindow.close;
@@ -1374,8 +1379,11 @@ AppClock.sched(0.01,{
 );
 
 (
-AppClock.sched(0.01,{
+AppClock.sched(0.08,{
    // "0.01 seconds after load, the Harmonic is set to 5".postln;
+
+				//Load time increased to 0.08 seconds March 2020 for version 1.1, as 0.01s was too fast and thus it would not load automatically
+
 			~menu2.valueAction_(5);
     nil;
 });
